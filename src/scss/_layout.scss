@@ -1,0 +1,47 @@
+.even {
+  display: flex;
+  & > * {
+    flex: 1;
+  }
+}
+
+
+.split {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > * {
+  }
+}
+
+.ln {
+  background-color: #979797;
+  display: block;
+  height: 2px;
+  width: 100%;
+
+  &.light {
+    background-color: transparentize(#0b0412, 1-0.2);
+  }
+}
+
+#root {
+  display: flex;
+  height: 100%;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1266px;
+}
+
+.title-bar {
+  height: 117px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: normal;
+    letter-spacing: 1.4px;
+  }
+}
