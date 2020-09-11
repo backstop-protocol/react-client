@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="487" height="294" viewBox="0 0 487 294">
+    <defs>
+        <linearGradient id="ehosr7uxja" x1="63.641%" x2="62.074%" y1="2.599%" y2="91.365%">
+            <stop offset="0%" stop-color="#D5F2E2"/>
+            <stop offset="100%" stop-color="#25C068"/>
+            <stop offset="100%" stop-color="#25C068"/>
+        </linearGradient>
+        <linearGradient id="53jk4u894b" x1="93.907%" x2="12.825%" y1="54.358%" y2="54.358%">
+            <stop offset="0%" stop-color="#25C068"/>
+            <stop offset="100%" stop-color="#1EAB5B"/>
+        </linearGradient>
+        <linearGradient id="7svc1oyrlc" x1="67.754%" x2="12.63%" y1="44.397%" y2="44.397%">
+            <stop offset="0%" stop-color="#25C068"/>
+            <stop offset="100%" stop-color="#1EAA5A"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g transform="translate(-461 -103) translate(461 105)">
+                <circle cx="250" cy="145" r="145" stroke="url(#ehosr7uxja)" stroke-width="2.4" opacity=".219"/>
+                <circle cx="250" cy="145" r="124" stroke="url(#ehosr7uxja)" stroke-width="2.4" opacity=".15" transform="rotate(-90 250 145)"/>
+                <circle cx="250.5" cy="145.5" r="104.5" stroke="url(#ehosr7uxja)" stroke-width="2.4" opacity=".15" transform="rotate(-90 250.5 145.5)"/>
+                <path fill="url(#53jk4u894b)" d="M283.79 75H486.4l-16.632 121.414c-1.357 9.905-9.818 17.286-19.815 17.286H259.476c-5.944 0-10.764-4.82-10.764-10.764 0-1.835.47-3.64 1.363-5.242l8.261-14.816c.442-.793.94-1.553 1.49-2.274l14.21-18.619c8.433-11.05 7.806-26.537-1.493-36.87l-7.815-8.682c-5.002-5.558-6.28-13.534-3.262-20.376l4.023-9.126C268.687 79.68 275.864 75 283.79 75z"/>
+                <path fill="url(#7svc1oyrlc)" d="M45.126 75H264.25l-16.632 121.414c-1.357 9.905-9.818 17.286-19.815 17.286H18.62c-5.622 0-10.18-4.558-10.18-10.18 0-1.948.559-3.855 1.61-5.495l9.598-14.97c.301-.47.623-.926.964-1.367l13.63-17.629c8.33-10.774 8.336-25.813.016-36.594l-8.91-11.546c-4.083-5.292-5.086-12.34-2.64-18.56l3.806-9.678C29.522 80.031 36.905 75 45.126 75z" transform="rotate(-180 132.125 144.35)"/>
+                <circle cx="250" cy="146" r="47.8" stroke="#FFF" stroke-width="2.4" opacity=".1"/>
+            </g>
+        </g>
+    </g>
+</svg>

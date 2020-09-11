@@ -1,17 +1,12 @@
 import React, {Component} from "react";
 import Etherium from "../assets/etherium.svg";
-import ConnectButton from "../components/ConnectButton";
 import Sidebar from "../components/Sidebar";
-import GlobalStats from "../components/GlobalStats";
-import BorrowLimit from "../components/BorrowLimit";
+import Header from "../components/Header";
 import EtheriumBox from "../components/EtheriumBox";
 import DaiBox from "../components/DaiBox";
 import * as ApiHelper from "../lib/ApiHelper";
+import {doApiAction} from "../lib/Actions";
 
-import Deposit from "../components/action-panels/Deposit";
-import Withdraw from "../components/action-panels/Withdraw";
-import Borrow from "../components/action-panels/Borrow";
-import Repay from "../components/action-panels/Repay";
 
 export default class Dashboard extends Component {
 
@@ -35,39 +30,28 @@ export default class Dashboard extends Component {
     getUserInfo = async () => {
         let userInfo = await ApiHelper.getUserInfo(this.web3, this.state.user);
         userInfo = ApiHelper.Humanize(userInfo, this.web3);
+        console.log(userInfo);
         this.setState({userInfo});
+    };
+
+    onAction = async (action) => {
+        // await doApiAction(action);
     };
 
     render() {
 
-        const {userInfo} = this.state;
+        const {userInfo, loggedIn} = this.state;
 
         return (
             <div className="App">
                 <Sidebar />
                 <div className="content">
-                    <div className="top-panel">
-                        <div className="container">
-                            <div className="split title-bar">
-                                <h1>#MakerDAO</h1>
-                                <ConnectButton onConnect={this.onConnect} />
-                            </div>
-                            {userInfo &&
-                            <div className="header-stats split">
-                                <GlobalStats userInfo={userInfo} />
-                                <BorrowLimit userInfo={userInfo} />
-                            </div>
-                            }
-                        </div>
-                    </div>
+                    <Header info={(loggedIn && userInfo !== null) && userInfo} onConnect={this.onConnect} />
                     {userInfo &&
                     <div className="container currency-container split">
-                        <EtheriumBox
-                            userInfo={userInfo} title={"ETH Locked"} icon={Etherium}
-                            actions={{ "Do Deposit!" : Deposit, Withdraw }} />
+                        <EtheriumBox userInfo={userInfo} doPanelAction={this.onAction} />
                         <DaiBox
-                            userInfo={userInfo} title={"DAI debt"} icon={Etherium}
-                            actions={{ Borrow, Repay }} />
+                            userInfo={userInfo} title={"DAI debt"} icon={Etherium}  doPanelAction={this.onAction} />
                     </div>}
                 </div>
             </div>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="59" height="59" viewBox="0 0 59 59">
+    <defs>
+        <linearGradient id="vgh8nxitec" x1="50%" x2="50%" y1="0%" y2="100%">
+            <stop offset="0%" stop-opacity="0"/>
+            <stop offset="95%" stop-opacity="0"/>
+            <stop offset="100%" stop-opacity=".04"/>
+        </linearGradient>
+        <linearGradient id="1clq4a23ad" x1="50%" x2="50%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity=".8"/>
+            <stop offset="4.936%" stop-color="#FFF" stop-opacity=".4"/>
+            <stop offset="20%" stop-color="#FFF" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#FFF" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="5i94dzb6da" width="146.8%" height="146.8%" x="-23.4%" y="-23.4%" filterUnits="objectBoundingBox">
+            <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3.5"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0"/>
+        </filter>
+        <circle id="j5unacm2wb" cx="22.44" cy="22.44" r="22.44"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g transform="translate(-993 -374) translate(463 381) translate(537)">
+                        <use fill="#000" filter="url(#5i94dzb6da)" xlink:href="#j5unacm2wb"/>
+                        <circle cx="22.44" cy="22.44" r="22.165" fill="#FFF" stroke="url(#vgh8nxitec)" stroke-linejoin="square" stroke-width=".55"/>
+                        <circle cx="22.44" cy="22.44" r="22.165" stroke="url(#1clq4a23ad)" stroke-linejoin="square" stroke-width=".55"/>
+                    </g>
+                    <path fill="#17AB57" d="M31.376 15.018L29.559 13.2 22.288 20.471 15.018 13.2 13.2 15.018 20.471 22.288 13.2 29.559 15.018 31.376 22.288 24.106 29.559 31.376 31.376 29.559 24.106 22.288z" transform="translate(-993 -374) translate(463 381) translate(537)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

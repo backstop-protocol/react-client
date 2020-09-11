@@ -1,35 +1,43 @@
+@import "colors";
+
 .sidebar {
   padding: 47px 17px;
-  width: 268px;
-  background-color: #ffffff;
-  color: #647686;
+  width: 264px;
+  background-color: $sidebarBg;
+  color: $sidebarColor;
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.24), 0 0 7px 0 rgba(0, 0, 0, 0.12);
   z-index: 5;
 
   .logo {
-    margin-bottom: 38px;
+    margin: 0 auto 38px auto;
+    display: flex;
   }
 
   .migrate-btn {
     margin-top: 32px;
     height: 45px;
     border-radius: 3.2px;
-    background-color: #d8d8d8;
+    background-color: $sidebarBtnBg;
+    color: $sidebarBtnColor;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
     letter-spacing: 0.9px;
-    color: #666666;
     text-transform: uppercase;
 
     cursor: pointer;
     transition: all 0.3s;
 
     &:hover {
-      background-color: #ffffff;
-      color: #333333;
+      background-color: $sidebarBtnHoverBg;
+      color: $sidebarBtnHoverColor;
     }
+  }
+
+  .ln {
+    background-color: $sidebarSeparatorColor;
+    height: 1px;
   }
 
   p {

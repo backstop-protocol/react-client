@@ -157,4 +157,76 @@ export const openMakerDaoCdp = function(web3, user) {
         user);
 };
 
+function toNumber(bignum,web3) {
+    return (web3.utils.fromWei(bignum))*1
+}
 
+export const calcNewBorrowLimitAndLiquidationPrice = function(userInfo,
+                                                                dEth,
+                                                                dDai,
+                                                                web3) {
+    dEth = toNumber(dEth,web3);
+    dDai = toNumber(dDai,web3);
+    const ethDeposit = toNumber(userInfo.bCdpInfo.ethDeposit,web3);
+    const daiDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3);
+
+    const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt,web3);
+    const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3);
+
+    const newMaxDaiDebt = maxDaiDebt * (ethDeposit + dEth) / ethDeposit;
+    const liqRatio = ethDeposit * spotPrice / maxDaiDebt;
+    // (total dai debt) * liqRatio = (total eth deposit) * liquidationPrice
+    const newLiquidationPrice = (daiDebt + dDai) * liqRatio / (ethDeposit + dEth);
+
+    return [web3.utils.toWei(newMaxDaiDebt.toString()), web3.utils.toWei(newLiquidationPrice.toString())]
+};
+
+export const verifyDepositInput = function(userInfo,
+                                             dEth,
+                                             web3) {
+    dEth = toNumber(dEth,web3);
+    if(dEth <= 0) return [false, "Deposit amount must be positive"];
+
+    // equality is also failure, because ETH is needed for gas
+    if(dEth > toNumber(userInfo.userWalletInfo.ethBalance,web3)) return [false, "Amount exceeds wallet balance"];
+
+    return [true,""]
+};
+
+export const verifyWithdrawInput = function(userInfo,
+                                            dEth,
+                                            web3) {
+    const dEthMinus = web3.utils.toBN(dEth).mul(web3.utils.toBN(-1));
+    dEth = toNumber(dEth,web3);
+    if(dEth <= 0) return [false, "Withdraw amount must be positive"];
+    if(dEth > toNumber(userInfo.bCdpInfo.ethDeposit,web3)) return [false, "Amount exceeds CDP deposit"];
+
+    const [maxDebt,newPrice] = module.exports.calcNewBorrowLimitAndLiquidationPrice(userInfo,dEthMinus.toString(10),"0",web3);
+    if(toNumber(maxDebt,web3) < toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds allowed withdrawal"];
+
+    return [true,""]
+};
+
+export const verifyBorrowInput = function(userInfo,
+                                            dDai,
+                                            web3) {
+    dDai = toNumber(dDai,web3);
+    if(dDai <= 0) return [false, "Borrow amount must be positive"];
+    if((toNumber(userInfo.bCdpInfo.daiDebt,web3) + dDai) > toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)) return [false,"Amount exceeds allowed borrowed"];
+
+    return [true,""]
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+export const verifyRepayInput = function(userInfo,
+                                           dDai,
+                                           web3) {
+    dDai = toNumber(dDai,web3);
+    if(dDai <= 0) return [false, "Repay amount must be positive"];
+    if(dDai > toNumber(userInfo.userWalletInfo.daiBalance,web3)) return [false,"Amount exceeds dai balance"];
+    if(dDai > toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds dai debt"];
+    if(dDai > toNumber(userInfo.userWalletInfo.daiAllowance,web3)) return [false,"Must unlock DAI"];
+
+    return [true,""]
+};

@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {numm} from "../lib/Utils";
 import Logo from "../assets/bprotocol.svg";
 
 export default class BorrowLimit extends Component {
