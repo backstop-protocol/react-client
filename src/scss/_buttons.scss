@@ -30,3 +30,20 @@
     color: #ffffff;
   }
 }
+
+.view-button {
+  a {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #25c068;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.8px;
+
+    span {
+      margin-right: 6px;
+    }
+  }
+}

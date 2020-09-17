@@ -135,6 +135,10 @@
 
     &.active {
       height: 254px;
+
+      &.loading {
+        height: 89px;
+      }
     }
   }
 
@@ -142,6 +146,13 @@
     border-top: 1px solid $panelSeparatorColor;
     padding: 0 38px;
     color: $panelColor;
+
+    &.centered {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: space-between;
+    }
 
     h2 {
       font-family: $titleFont;
@@ -157,6 +168,12 @@
       font-size: 16px;
       font-weight: 500;
       letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-left: 18px;
+      }
     }
 
     p {
