@@ -1,0 +1,93 @@
+.tooltip {
+
+  &-container {
+    position: relative;
+    flex: 1;
+  }
+
+  opacity: 0;
+  animation: fadein 0.3s forwards;
+
+  min-width: 30px;
+  top: 60px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 0 10px;
+  background-color: #ffffff;
+  font-size: 14px;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 666;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  white-space: nowrap;
+
+  @media screen and (max-width: 1399px) {
+    font-size: 12px;
+    height: 30px;
+  }
+
+  @media screen and (max-width: 767px) {
+    height: 20px;
+    font-size: 10px;
+    padding: 0 3px;
+  }
+}
+
+.tooltip i {
+  position:absolute;
+  top:100%;
+  left:50%;
+  margin-left:-8px;
+  width:16px;
+  height:8px;
+  overflow:hidden;
+}
+
+.tooltip i::after {
+  content:'';
+  position:absolute;
+  width:8px;
+  height:8px;
+  left:50%;
+  top: -100%;
+  transform:translate(-50%,50%) rotate(45deg);
+  background-color:#ffffff;
+  box-shadow:0 1px 4px rgba(0,0,0,0.25);
+}
+
+// bottom mode
+
+.tooltip.bottom {
+  i {
+    top: auto;
+    bottom: 100%;
+
+    &::after {
+      top: 0;
+    }
+  }
+}
+
+.tooltip.left {
+  margin-left: 14%;
+  @media screen and (max-width: 767px) {
+    margin-left: 19%;
+  }
+
+  i {
+    left: 15%;
+  }
+}
+
+.tooltip.right {
+  margin-right: 25%;
+
+  i {
+    right: 15%;
+  }
+}

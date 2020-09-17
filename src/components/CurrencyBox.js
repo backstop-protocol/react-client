@@ -18,8 +18,6 @@ export default class CurrencyBox extends Component {
             value: null,
             actioning :''
         };
-
-        EventBus.$on('action-completed', this.onCompleted);
     }
 
     showActionPanel = (panel) => {
@@ -31,19 +29,35 @@ export default class CurrencyBox extends Component {
         }
     };
 
+    resetPanel = () => {
+        this.showActionPanel(null);
+        this.setState({completed: false, loading: false, failed: false});
+    };
+
     onCompleted = () => {
-        console.log("Action completed");
-        this.setState({loading: false, completed: true});
+        console.log("Action completed",this.state);
+        this.setState({completed: true, loading: false });
+
+        setTimeout(this.resetPanel, 2500);
+    };
+
+    onFailed = () => {
+        console.log("Action failed",this.state);
+        this.setState({failed: true, loading: false });
+
+        setTimeout(this.resetPanel, 2500);
     };
 
     onPanelAction = async (action, value, actioning) => {
-        this.setState({loading: true, panel: Loading, actioning: actioning, value});
-        await this.props.doPanelAction(action, value);
+        EventBus.$on('action-completed', this.onCompleted);
+        EventBus.$on('action-failed', this.onFailed);
+        this.setState({loading: true, prevPanel: this.state.panel, panel: Loading, actioning: actioning, value});
+        this.props.doPanelAction(action, value);
     };
 
     render() {
 
-        const {userInfo, title, icon, currency, actions, calculateUsd} = this.props;
+        const {userInfo, title, icon, currency, actions, calculateUsd, exceedsMax, currencyValue} = this.props;
         const {panel, actioning, value, loading, completed, failed} = this.state;
 
         let CustomPanel = null;
@@ -51,12 +65,14 @@ export default class CurrencyBox extends Component {
             CustomPanel = panel;
         }
 
+        const containerClass = (panel && (!loading && !completed && !failed)? ' active':'');
+
         const actionPanelContainerClass =
             (panel? ' active':'') + (loading? ' loading':'') +
             (completed? ' completed':'')+ (failed? ' failed':'');
 
         return (
-            <div className="currency-box-container">
+            <div className={'currency-box-container'+containerClass}>
                 <div className="currency-box">
                     <div className={"currency-box-close" + (panel? ' active':'')}>
                         <img src={Close} onClick={() => this.showActionPanel(null)} />
@@ -65,7 +81,7 @@ export default class CurrencyBox extends Component {
                         <div className="currency-icon"><img src={icon} /></div>
                         <div className="currency-title">{title}</div>
                         <div className="currency-value">
-                            <p>{numm(userInfo.bCdpInfo.ethDeposit, 4)} {currency}</p>
+                            <p>{numm(currencyValue, 4)} {currency}</p>
                             <small>{calculateUsd(userInfo)} USD</small>
                         </div>
                     </div>
@@ -76,9 +92,11 @@ export default class CurrencyBox extends Component {
                 </div>
                 <div className={'currency-action-panel-container' + actionPanelContainerClass}>
                     {panel &&
-                    <CustomPanel doPanelAction={this.onPanelAction} actioning={actioning} value={value} currency={currency} />
+                    <CustomPanel doPanelAction={this.onPanelAction} userInfo={userInfo}
+                                 actioning={actioning} value={value} currency={currency} exceedsMax={exceedsMax}
+                                 completed={completed} failed={failed} />
                     }
-                    {(!loading && !completed && !failed) &&
+                    {(!loading && !completed && !failed && panel) &&
                     <div className="currency-action-panel-footer">
                         <div className="even">
                             <div>

@@ -14,7 +14,7 @@ export default class DaiBox extends Component {
         const {userInfo, doPanelAction} = this.props;
 
         return (
-            userInfo && <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} calculateUsd={this.calculateUSD} doPanelAction={doPanelAction}
+            userInfo && <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo.bCdpInfo.daiDebt} calculateUsd={this.calculateUSD} doPanelAction={doPanelAction}
                          actions={{ Borrow, Repay }} />
         )
     }

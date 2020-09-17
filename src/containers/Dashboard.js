@@ -23,7 +23,6 @@ export default class Dashboard extends Component {
 
     onConnect = (web3, user) => {
         this.web3 = web3;
-        console.log(user);
         this.setState({user, loggedIn: true});
         this.getUserInfo();
     };
@@ -37,6 +36,7 @@ export default class Dashboard extends Component {
 
     onAction = async (action, value) => {
         await doApiAction(action, value);
+        this.getUserInfo();
     };
 
     render() {

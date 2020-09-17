@@ -7,6 +7,7 @@
     top: -30px;
     align-items: flex-start;
     box-sizing: border-box;
+
   }
 
   &-box-container {
@@ -23,9 +24,18 @@
     background-origin: border-box;
     background-color: #ffffff;
     background-clip: content-box, border-box;
+    transition: all 0.3s;
+    position: relative;
+    top: 0;
 
     &:last-child {
       margin-right: 0;
+    }
+
+    &.active {
+      top: -38px;
+      box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2), 0 16px 24px 2px rgba(0, 0, 0, 0.14);
+
     }
   }
 
@@ -139,6 +149,16 @@
       &.loading {
         height: 89px;
       }
+
+      &.completed {
+        height: 89px;
+
+      }
+
+      &.failed {
+        height: 89px;
+        background-color: rgba(255, 221, 221, 0.2);
+      }
     }
   }
 
@@ -184,7 +204,7 @@
     }
 
     &-footer {
-      margin-top: 18px;
+      margin-top: 48px;
       padding: 0 38px;
 
       label {
@@ -201,6 +221,7 @@
   &-input {
     display: flex;
     input {
+      width: 100%;
       height: 45px;
       box-sizing: border-box;
       border-radius: 4px;
@@ -223,6 +244,13 @@
       font-family: $titleFont, sans-serif;
       text-transform: uppercase;
       margin-left: 10px;
+
+      transition: all 0.3s;
+
+      &.disabled {
+        color: #aaaaaa;
+        background-color: #dddddd;
+      }
     }
   }
 }

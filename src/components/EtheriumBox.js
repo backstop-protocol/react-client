@@ -7,14 +7,21 @@ import Withdraw from "./action-panels/Withdraw";
 
 export default class EtheriumBox extends Component {
 
-    calculateUSD(userInfo) { return numm(userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice, 4) }
+    calculateUSD(userInfo) {
+        return numm(userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice, 4)
+    }
+
+    exceedsMax(userInfo, val) {
+        return numm(userInfo.userWalletInfo.ethBalance)
+    }
 
     render() {
 
-        const {userInfo, doPanelAction} = this.props;
+        const {userInfo, doPanelAction, onOpenPanel} = this.props;
 
         return (
-            <CurrencyBox userInfo={userInfo} title={"ETH Locked"} currency={"ETH"} icon={Etherium} calculateUsd={this.calculateUSD} doPanelAction={doPanelAction}
+            <CurrencyBox userInfo={userInfo} title={"ETH Locked"} currency={"ETH"} icon={Etherium} currencyValue={userInfo.bCdpInfo.ethDeposit}
+                         calculateUsd={this.calculateUSD} exceedsMax={this.exceedsMax} doPanelAction={doPanelAction}
                           actions={{ Deposit, Withdraw }} />
         )
     }

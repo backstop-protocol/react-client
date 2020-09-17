@@ -51,6 +51,21 @@ export const Humanize = function(result, web3) {
     return result;
 };
 
+function increaseABit(number) {
+    return parseInt(1.2 * number);
+}
+
+export const ApiAction = async function(action, user, web3, gasValue = 0) {
+    const txObject = await action;
+    const gasConsumption = increaseABit(await txObject.estimateGas({ value : gasValue, from : user }));
+    try {
+        return await txObject.send({ gas:gasConsumption, value: gasValue, from:user });
+    }
+    catch (error) {
+        return { error }
+    }
+};
+
 export const getUserInfo = function(web3, user) {
     const infoContract = new web3.eth.Contract(infoAbi,infoAddress);
     return infoContract.methods.getInfo(user,
