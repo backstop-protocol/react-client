@@ -1,0 +1,49 @@
+.connect-button {
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  padding: 0 10px;
+  border: 2px solid transparentize(#25c068, 0);
+  color: #25c068;
+  margin: 0;
+  height: 40px;
+  font-size: 14px;
+  transition: all 0.3s;
+  font-family: "Poppins", sans-serif;
+
+  .btn-inner {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+
+  &:hover {
+    border-color: #979797;
+  }
+
+  &.active {
+    border-color: #000000;
+    background-color: #000000;
+    color: #ffffff;
+  }
+}
+
+.view-button {
+  a {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #25c068;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.8px;
+
+    span {
+      margin-right: 6px;
+    }
+  }
+}

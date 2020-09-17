@@ -1,0 +1,52 @@
+@import "colors";
+
+.sidebar {
+  padding: 47px 17px;
+  width: 264px;
+  background-color: $sidebarBg;
+  color: $sidebarColor;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.24), 0 0 7px 0 rgba(0, 0, 0, 0.12);
+  z-index: 5;
+
+  .logo {
+    margin: 0 auto 38px auto;
+    display: flex;
+  }
+
+  .migrate-btn {
+    margin-top: 32px;
+    height: 45px;
+    border-radius: 3.2px;
+    background-color: $sidebarBtnBg;
+    color: $sidebarBtnColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: $sidebarBtnHoverBg;
+      color: $sidebarBtnHoverColor;
+    }
+  }
+
+  .ln {
+    background-color: $sidebarSeparatorColor;
+    height: 1px;
+  }
+
+  p {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  small {
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,22 @@
+.loading-indicator {
+  animation: rotate infinite 1s;
+  width: 46px;
+}
+
+.result {
+  width: 20px;
+  opacity: 0;
+  animation: fadein 1s forwards;
+}
+
+.warning {
+  background-color: #ff6463;
+  color: #ffffff;
+  font-size: 14px;
+
+  &.tooltip {
+    i::after {
+      background-color: #ff6463;
+    }
+  }
+}
