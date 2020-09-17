@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {numm} from "../lib/Utils";
 import Close from "../assets/close.svg";
+import Loading from "./action-panels/Loading";
 
 export default class CurrencyBox extends Component {
 
@@ -9,6 +10,9 @@ export default class CurrencyBox extends Component {
 
         this.state = {
             panel : null,
+            loading: false,
+            value: null,
+            actioning :''
         }
     }
 
@@ -21,12 +25,16 @@ export default class CurrencyBox extends Component {
         }
     };
 
+    onPanelAction = (action, value, actioning) => {
+        this.props.doPanelAction(action, value);
+        this.setState({loading: true, panel: Loading, actioning: actioning, value});
+    }
+
     render() {
 
-        const {userInfo, title, icon, actions, calculateUsd, doPanelAction} = this.props;
-        const {panel} = this.state;
+        const {userInfo, title, icon, currency, actions, calculateUsd} = this.props;
+        const {panel, actioning, value} = this.state;
 
-        console.log(doPanelAction);
         let CustomPanel = null;
         if (panel) {
             CustomPanel = panel;
@@ -42,7 +50,7 @@ export default class CurrencyBox extends Component {
                         <div className="currency-icon"><img src={icon} /></div>
                         <div className="currency-title">{title}</div>
                         <div className="currency-value">
-                            <p>{numm(userInfo.bCdpInfo.ethDeposit, 4)} ETH</p>
+                            <p>{numm(userInfo.bCdpInfo.ethDeposit, 4)} {currency}</p>
                             <small>{calculateUsd(userInfo)} USD</small>
                         </div>
                     </div>
@@ -53,7 +61,7 @@ export default class CurrencyBox extends Component {
                 </div>
                 <div className={'currency-action-panel-container' + (panel?' active':'')}>
                     {panel &&
-                    <CustomPanel doPanelAction={doPanelAction} />
+                    <CustomPanel doPanelAction={this.onPanelAction} actioning={actioning} value={value} currency={currency} />
                     }
                     <div className="currency-action-panel-footer">
                         <div className="even">

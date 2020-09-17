@@ -63,14 +63,13 @@
   &-icon {
     width: 56px;
     height: 56px;
-    border-radius: 666px;
-    background-color: transparentize(#7986cb,1-0.3);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   &-title {
+    font-family: $titleFont;
     font-size: 22px;
     letter-spacing: 1.1px;
     margin-left: 20px;
@@ -80,6 +79,7 @@
   &-value {
     width: 160px;
     text-align: right;
+    font-family: $titleFont;
 
     p {
       font-size: 24px;
@@ -141,15 +141,22 @@
   &-action-panel {
     border-top: 1px solid $panelSeparatorColor;
     padding: 0 38px;
+    color: $panelColor;
 
     h2 {
+      font-family: $titleFont;
       font-size: 24px;
       letter-spacing: 1.2px;
       font-weight: normal;
       margin-top: 34px;
       margin-bottom: 7px;
-      color: $panelColor;
       text-transform: uppercase;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
     }
 
     p {

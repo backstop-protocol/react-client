@@ -4,9 +4,10 @@ export default class Repay extends Component {
 
     name = "Repay";
     action = "repay";
+    actioning = "Repaying";
 
     doAction = () => {
-        this.props.doPanelAction(this.action, this.input.value)
+        this.props.doPanelAction(this.action, this.input.value, this.actioning)
     };
 
     render() {

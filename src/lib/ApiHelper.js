@@ -18,6 +18,11 @@ const infoAbi = [{"constant":true,"inputs":[],"name":"blockNumber","outputs":[{"
     MCD_DAI = "0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa",
     JAR = "0xbA987bDB501d131f766fEe8180Da5d81b34b69d9";
 
+
+const humanizeExcludeFields = [
+    'userProxy'
+];
+
 export const Humanize = function(result, web3) {
     let onlyNum = true, hasNum = false;
     for (let k in result) {
@@ -32,7 +37,7 @@ export const Humanize = function(result, web3) {
                     res[k] = Humanize(result[k], web3);
                 }
                 else {
-                    if (typeof result[k] === "string" && !isNaN(result[k]*1)) {
+                    if (typeof result[k] === "string" && !isNaN(result[k]*1) && humanizeExcludeFields.indexOf(k) === -1) {
                         res[k] = (result[k].length > 16) ? web3.utils.fromWei(result[k])*1 : result[k]*1;
                     }
                     else {

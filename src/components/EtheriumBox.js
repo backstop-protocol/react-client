@@ -14,7 +14,7 @@ export default class EtheriumBox extends Component {
         const {userInfo, doPanelAction} = this.props;
 
         return (
-            <CurrencyBox userInfo={userInfo} title={"ETH Locked"} icon={Etherium} calculateUsd={this.calculateUSD} doPanelAction={doPanelAction}
+            <CurrencyBox userInfo={userInfo} title={"ETH Locked"} currency={"ETH"} icon={Etherium} calculateUsd={this.calculateUSD} doPanelAction={doPanelAction}
                           actions={{ Deposit, Withdraw }} />
         )
     }

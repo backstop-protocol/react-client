@@ -4,9 +4,10 @@ export default class Deposit extends Component {
 
     name = "Withdraw";
     action = "withdraw";
+    actioning = "Withdrawing";
 
     doAction = () => {
-        this.props.doPanelAction(this.action, this.input.value)
+        this.props.doPanelAction(this.action, this.input.value, this.actioning)
     };
 
     render() {

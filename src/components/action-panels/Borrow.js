@@ -4,10 +4,11 @@ export default class Deposit extends Component {
 
     name = "Borrow";
     action = "borrow";
-    input = null;
+    actioning = "Borrowing";
+
 
     doAction = () => {
-        this.props.doPanelAction(this.action, this.input.value)
+        this.props.doPanelAction(this.action, this.input.value, this.actioning)
     };
 
     render() {

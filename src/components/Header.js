@@ -3,6 +3,7 @@ import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
 import GlobalStats from "./GlobalStats";
 import BorrowLimit from "./BorrowLimit";
+import Logo from '../assets/images/maker-dau.png';
 
 export default class Header extends Component {
     render() {
@@ -13,7 +14,7 @@ export default class Header extends Component {
             <div className="top-panel">
                 <div className="container">
                     <div className="split title-bar">
-                        <h1>#MakerDAO</h1>
+                        <img className="logo" src={Logo} />
                         <ConnectButton onConnect={onConnect} />
                     </div>
                     {info &&

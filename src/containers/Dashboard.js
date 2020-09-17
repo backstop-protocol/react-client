@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import EtheriumBox from "../components/EtheriumBox";
 import DaiBox from "../components/DaiBox";
 import * as ApiHelper from "../lib/ApiHelper";
-import {doApiAction} from "../lib/Actions";
+import {doApiAction, setUserInfo} from "../lib/Actions";
 
 
 export default class Dashboard extends Component {
@@ -23,6 +23,7 @@ export default class Dashboard extends Component {
 
     onConnect = (web3, user) => {
         this.web3 = web3;
+        console.log(user);
         this.setState({user, loggedIn: true});
         this.getUserInfo();
     };
@@ -30,12 +31,12 @@ export default class Dashboard extends Component {
     getUserInfo = async () => {
         let userInfo = await ApiHelper.getUserInfo(this.web3, this.state.user);
         userInfo = ApiHelper.Humanize(userInfo, this.web3);
-        console.log(userInfo);
+        setUserInfo(this.state.user, this.web3, userInfo);
         this.setState({userInfo});
     };
 
-    onAction = async (action) => {
-        // await doApiAction(action);
+    onAction = async (action, value) => {
+        await doApiAction(action, value);
     };
 
     render() {
@@ -50,8 +51,7 @@ export default class Dashboard extends Component {
                     {userInfo &&
                     <div className="container currency-container split">
                         <EtheriumBox userInfo={userInfo} doPanelAction={this.onAction} />
-                        <DaiBox
-                            userInfo={userInfo} title={"DAI debt"} icon={Etherium}  doPanelAction={this.onAction} />
+                        <DaiBox userInfo={userInfo} title={"DAI debt"} icon={Etherium} doPanelAction={this.onAction} />
                     </div>}
                 </div>
             </div>

@@ -1,5 +1,9 @@
 import * as Api from "./ApiHelper";
 
+let userInfo = {};
+let user = null;
+let web3 = null;
+
 function increaseABit(number) {
     return parseInt(1.2 * number);
 }
@@ -18,15 +22,36 @@ async function mineBlock (web3) {
     })
 }
 
+export function setUserInfo(u, w3, info) {
+    console.log(u);
+    user = u;
+    web3 = w3;
+    userInfo = info;
+}
 
-export async function deposit(amountEth, user, userProxy, cdp, web3) {
+export async function deposit(amountEth, user) {
     const depositVal = web3.utils.toWei(amountEth);
-    const txObject = await Api.depositETH(web3, userProxy ,cdp);
-    const gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}));
-    await txObject.send({gas:gasConsumption,value:depositVal,from:user});
+    console.log(userInfo.proxyInfo.userProxy, userInfo);
+    const txObject = await Api.depositETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp);
+    const gasConsumption = increaseABit(await txObject.estimateGas({ value : depositVal, from : user }));
+    await txObject.send({ gas:gasConsumption, value:depositVal, from:user });
     await mineBlock(web3)
 }
 
-export async function doApiAction(action) {
+export async function doApiAction(action, value) {
+    switch (action) {
+        case 'deposit':
+            await deposit(value)
+            break;
+        case 'withdraw':
 
+            break;
+
+        case 'borrow':
+
+            break;
+        case 'repay':
+
+            break;
+    }
 }
