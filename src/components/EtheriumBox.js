@@ -4,6 +4,7 @@ import CurrencyBox from "./CurrencyBox";
 import Etherium from "../assets/etherium.svg";
 import Deposit from "./action-panels/Deposit";
 import Withdraw from "./action-panels/Withdraw";
+import {calcNewBorrowLimitAndLiquidationPrice} from "../lib/ApiHelper";
 
 export default class EtheriumBox extends Component {
 
@@ -13,6 +14,9 @@ export default class EtheriumBox extends Component {
 
     exceedsMax(userInfo, val) {
         return numm(userInfo.userWalletInfo.ethBalance)
+    }
+
+    liquidationPrice(userInfo) {
     }
 
     render() {

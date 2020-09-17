@@ -1,6 +1,7 @@
 import * as Api from "./ApiHelper";
 import EventBus from "./EventBus";
 import {ApiAction} from "./ApiHelper";
+import {calcNewBorrowLimitAndLiquidationPrice} from "./ApiHelper";
 
 let userInfo = {};
 let user = null;
@@ -18,9 +19,19 @@ export function setUserInfo(u, w3, info) {
     userInfo = info;
 }
 
+export function getLiquidationPrice(val) {
+    const currentEth = userInfo;
+    // return calcNewBorrowLimitAndLiquidationPrice(userInfo, userInfo.bCdpInfo. + val, currentDai + val)
+}
+
 export async function deposit(amountEth) {
     const val = web3.utils.toWei(amountEth);
-    return ApiAction(Api.depositETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val);
+    if (userInfo.bCdpInfo.hasCdp) {
+        return ApiAction(Api.depositETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val);
+    }
+    else { // first deposit
+        return ApiAction(Api.firstDeposit(web3, user), user, web3, val);
+    }
 }
 
 export async function withdraw(amountEth) {

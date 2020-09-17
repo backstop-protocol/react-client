@@ -181,10 +181,7 @@ function toNumber(bignum,web3) {
     return (web3.utils.fromWei(bignum))*1
 }
 
-export const calcNewBorrowLimitAndLiquidationPrice = function(userInfo,
-                                                                dEth,
-                                                                dDai,
-                                                                web3) {
+export const calcNewBorrowLimitAndLiquidationPrice = function(userInfo, dEth, dDai, web3) {
     dEth = toNumber(dEth,web3);
     dDai = toNumber(dDai,web3);
     const ethDeposit = toNumber(userInfo.bCdpInfo.ethDeposit,web3);

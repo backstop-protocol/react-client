@@ -3,6 +3,7 @@ import {numm} from "../lib/Utils";
 import EventBus from '../lib/EventBus';
 import Close from "../assets/close.svg";
 import Loading from "./action-panels/Loading";
+import {calcNewBorrowLimitAndLiquidationPrice} from "../lib/ApiHelper";
 
 export default class CurrencyBox extends Component {
 
@@ -64,6 +65,8 @@ export default class CurrencyBox extends Component {
         if (panel) {
             CustomPanel = panel;
         }
+
+        const liquidationPrice = 1;
 
         const containerClass = (panel && (!loading && !completed && !failed)? ' active':'');
 
