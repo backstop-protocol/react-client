@@ -56,9 +56,9 @@ function increaseABit(number) {
 }
 
 export const ApiAction = async function(action, user, web3, gasValue = 0) {
-    const txObject = await action;
-    const gasConsumption = increaseABit(await txObject.estimateGas({ value : gasValue, from : user }));
     try {
+        const txObject = await action;
+        const gasConsumption = increaseABit(await txObject.estimateGas({ value : gasValue, from : user }));
         return await txObject.send({ gas:gasConsumption, value: gasValue, from:user });
     }
     catch (error) {
@@ -206,7 +206,7 @@ export const verifyDepositInput = function(userInfo, dEth, web3) {
 };
 
 export const verifyWithdrawInput = function(userInfo, dEth, web3) {
-    const dEthMinus = web3.utils.toBN(dEth).mul(web3.utils.toBN(-1));
+    const dEthMinus = web3.utils.toBN(web3.utils.toWei(dEth)).mul(web3.utils.toBN(-1));
     // dEth = toNumber(dEth,web3);
     if(dEth <= 0) return [false, "Withdraw amount must be positive"];
     if(dEth > userInfo.bCdpInfo.ethDeposit) return [false, "Amount exceeds CDP deposit"];

@@ -18,6 +18,7 @@ function increaseABit(number) {
 // verification actions
 
 export function getLiquidationPrice(valEth, valDai) {
+    if (!userInfo) return 0;
     const currentEth = userInfo.bCdpInfo.ethDeposit*1, currentDai = userInfo.bCdpInfo.daiDebt*1;
     return calcNewBorrowLimitAndLiquidationPrice(userInfo, currentEth + valEth*1, currentDai + valDai, web3)
 }
