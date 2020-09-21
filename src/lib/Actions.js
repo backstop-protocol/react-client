@@ -1,13 +1,15 @@
 import * as Api from "./ApiHelper";
+import * as B from "./bInterface"
 import EventBus from "./EventBus";
 import {ApiAction} from "./ApiHelper";
-import {calcNewBorrowLimitAndLiquidationPrice} from "./ApiHelper";
-import {verifyWithdrawInput} from "./ApiHelper";
-import {verifyDepositInput} from "./ApiHelper";
-import {verifyBorrowInput} from "./ApiHelper";
-import {verifyRepayInput} from "./ApiHelper";
+import {calcNewBorrowLimitAndLiquidationPrice} from "./bInterface";
+import {verifyWithdrawInput} from "./bInterface";
+import {verifyDepositInput} from "./bInterface";
+import {verifyBorrowInput} from "./bInterface";
+import {verifyRepayInput} from "./bInterface";
 
 let userInfo = {};
+let originalUserInfo = {}
 let user = null;
 let web3 = null;
 
@@ -16,25 +18,29 @@ function increaseABit(number) {
 }
 
 // verification actions
-
 export function getLiquidationPrice(valEth, valDai) {
     if (!userInfo) return 0;
-    const currentEth = userInfo.bCdpInfo.ethDeposit*1, currentDai = userInfo.bCdpInfo.daiDebt*1;
-    return calcNewBorrowLimitAndLiquidationPrice(userInfo, currentEth + valEth*1, currentDai + valDai, web3)
+
+    const retVal = calcNewBorrowLimitAndLiquidationPrice(originalUserInfo, web3.utils.toWei(valEth.toString()), web3.utils.toWei(valDai.toString()), web3);
+    retVal[0] = web3.utils.fromWei(retVal[0]);
+    retVal[1] = web3.utils.fromWei(retVal[1]);
+    return retVal;
 }
 
-export function validateDeposit(val) { return verifyDepositInput(userInfo, val, web3) }
-export function validateWithdraw(val) { return verifyWithdrawInput(userInfo, val, web3) }
-export function validateBorrow(val) { return verifyBorrowInput(userInfo, val, web3) }
-export function validateRepay(val) { return verifyRepayInput(userInfo, val, web3) }
+export function validateDeposit(val) { return verifyDepositInput(originalUserInfo, web3.utils.toWei(val.toString()), web3) }
+export function validateWithdraw(val) { return verifyWithdrawInput(originalUserInfo, web3.utils.toWei(val.toString()), web3) }
+export function validateBorrow(val) { return verifyBorrowInput(originalUserInfo, web3.utils.toWei(val.toString()), web3) }
+export function validateRepay(val) { return verifyRepayInput(originalUserInfo, web3.utils.toWei(val.toString()), web3) }
 
 // meta actions
 
-export function setUserInfo(u, w3, info) {
+export function setUserInfo(u, w3, info, orgInfo) {
     console.log(info);
     user = u;
     web3 = w3;
     userInfo = info;
+    originalUserInfo = orgInfo;
+    console.log(orgInfo)
 }
 
 // concrete actions
@@ -42,30 +48,30 @@ export function setUserInfo(u, w3, info) {
 export async function deposit(amountEth) {
     const val = web3.utils.toWei(amountEth);
     if (userInfo.bCdpInfo.hasCdp) {
-        return ApiAction(Api.depositETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val);
+        return ApiAction(B.depositETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val);
     }
     else { // first deposit
-        return ApiAction(Api.firstDeposit(web3, user), user, web3, val);
+        return ApiAction(B.firstDeposit(web3, user), user, web3, val);
     }
 }
 
 export async function withdraw(amountEth) {
     const val = web3.utils.toWei(amountEth);
-    return ApiAction(Api.withdrawETH(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
+    return ApiAction(B.withdrawETH(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
 }
 
 export async function borrow(amountDai) {
     const val = web3.utils.toWei(amountDai);
-    return ApiAction(Api.generateDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
+    return ApiAction(B.generateDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
 }
 
 export async function unlock() {
-    return await ApiAction(Api.unlockDai(web3,userInfo.proxyInfo.userProxy),  user, web3, 0);
+    return await ApiAction(B.unlockDai(web3,userInfo.proxyInfo.userProxy),  user, web3, 0);
 }
 
 export async function repay(amountDai) {
     const val = web3.utils.toWei(amountDai);
-    return ApiAction(Api.repayDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
+    return ApiAction(B.repayDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
 }
 
 export async function doApiAction(action, value, actionData) {
