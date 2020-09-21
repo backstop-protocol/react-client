@@ -49,11 +49,11 @@ export default class Dashboard extends Component {
                 <Sidebar />
                 <div className="content">
                     <Header info={(loggedIn && userInfo !== null) && userInfo} onConnect={this.onConnect} />
-                    {userInfo &&
+
                     <div className="container currency-container split">
                         <EtheriumBox userInfo={userInfo} onPanelAction={this.onAction} />
                         <DaiBox userInfo={userInfo} title={"DAI debt"} icon={Etherium} onPanelAction={this.onAction} />
-                    </div>}
+                    </div>
                 </div>
             </div>
         );
