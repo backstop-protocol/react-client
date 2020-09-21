@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {validateBorrow} from "../../lib/Actions";
 
 export default class Borrow extends Component {
 
@@ -10,26 +11,39 @@ export default class Borrow extends Component {
         super(props);
 
         this.state = {
-            val : ''
+            val : '',
+            invalid : false,
+            error: '',
         }
     }
+
+    validate = async (val) => {
+        const ok = await validateBorrow(val);
+
+        let error = '';
+        if (!ok[0]) error = ok[1];
+
+        this.setState({invalid: !ok[0], error});
+        return ok;
+    };
 
     doAction = () => {
         const {val} = this.state;
         if (!val*1) return false;
 
-        this.props.doPanelAction(this.action, val, this.actioning)
+        this.props.onPanelAction(this.action, val, this.actioning)
     };
 
     onChange = (e) => {
-        const {userInfo} = this.props;
         const val = e.target.value;
         this.setState({val});
+        this.props.onPanelInput(val);
+        this.validate(val);
     };
 
     render() {
 
-        const {exceeding, val} = this.state;
+        const {invalid, error, val} = this.state;
 
         return (
             <div className="currency-action-panel">
@@ -38,9 +52,13 @@ export default class Borrow extends Component {
                 <div className="currency-input">
                     <div className="tooltip-container">
                         <input type="number" onChange={this.onChange} placeholder="Amount in DAI" />
-
+                        {error &&
+                        <div className="warning tooltip bottom">
+                            <i> </i>
+                            {error}
+                        </div>}
                     </div>
-                    <button className={!(val*1)?'disabled':''} onClick={this.doAction}>{this.name}</button>
+                    <button className={invalid?'disabled':''} onClick={this.doAction}>{this.name}</button>
                 </div>
             </div>
         )

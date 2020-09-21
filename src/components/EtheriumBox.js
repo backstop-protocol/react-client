@@ -21,11 +21,11 @@ export default class EtheriumBox extends Component {
 
     render() {
 
-        const {userInfo, doPanelAction, onOpenPanel} = this.props;
+        const {userInfo, onPanelAction, onOpenPanel} = this.props;
 
         return (
             <CurrencyBox userInfo={userInfo} title={"ETH Locked"} currency={"ETH"} icon={Etherium} currencyValue={userInfo.bCdpInfo.ethDeposit}
-                         calculateUsd={this.calculateUSD} exceedsMax={this.exceedsMax} doPanelAction={doPanelAction}
+                         calculateUsd={this.calculateUSD} exceedsMax={this.exceedsMax} onPanelAction={onPanelAction}
                           actions={{ Deposit, Withdraw }} />
         )
     }

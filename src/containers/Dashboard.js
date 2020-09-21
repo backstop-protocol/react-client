@@ -35,8 +35,9 @@ export default class Dashboard extends Component {
     };
 
     onAction = async (action, value) => {
-        await doApiAction(action, value);
+        const res = await doApiAction(action, value);
         this.getUserInfo();
+        return res;
     };
 
     render() {
@@ -50,8 +51,8 @@ export default class Dashboard extends Component {
                     <Header info={(loggedIn && userInfo !== null) && userInfo} onConnect={this.onConnect} />
                     {userInfo &&
                     <div className="container currency-container split">
-                        <EtheriumBox userInfo={userInfo} doPanelAction={this.onAction} />
-                        <DaiBox userInfo={userInfo} title={"DAI debt"} icon={Etherium} doPanelAction={this.onAction} />
+                        <EtheriumBox userInfo={userInfo} onPanelAction={this.onAction} />
+                        <DaiBox userInfo={userInfo} title={"DAI debt"} icon={Etherium} onPanelAction={this.onAction} />
                     </div>}
                 </div>
             </div>

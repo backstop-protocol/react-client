@@ -3,7 +3,7 @@ import {numm} from "../lib/Utils";
 import EventBus from '../lib/EventBus';
 import Close from "../assets/close.svg";
 import Loading from "./action-panels/Loading";
-import {calcNewBorrowLimitAndLiquidationPrice} from "../lib/ApiHelper";
+import {getLiquidationPrice} from "../lib/Actions";
 
 export default class CurrencyBox extends Component {
 
@@ -49,11 +49,17 @@ export default class CurrencyBox extends Component {
         setTimeout(this.resetPanel, 2500);
     };
 
-    onPanelAction = async (action, value, actioning) => {
-        EventBus.$on('action-completed', this.onCompleted);
-        EventBus.$on('action-failed', this.onFailed);
-        this.setState({loading: true, prevPanel: this.state.panel, panel: Loading, actioning: actioning, value});
-        this.props.doPanelAction(action, value);
+    onPanelAction = async (action, value, actioning, silent = false) => {
+        if (!silent) {
+            EventBus.$on('action-completed', this.onCompleted);
+            EventBus.$on('action-failed', this.onFailed);
+            this.setState({loading: true, prevPanel: this.state.panel, panel: Loading, actioning: actioning, value});
+        }
+        return this.props.onPanelAction(action, value);
+    };
+
+    onPanelInput = async (value) => {
+        this.setState({value})
     };
 
     render() {
@@ -66,7 +72,24 @@ export default class CurrencyBox extends Component {
             CustomPanel = panel;
         }
 
-        const liquidationPrice = 1;
+        let liquidationPrice;
+        if (panel)
+        switch (panel.name) {
+            case 'Deposit':
+                liquidationPrice = getLiquidationPrice(value, 0);
+                break;
+            case 'Withdraw':
+                liquidationPrice = getLiquidationPrice(-value, 0);
+                break;
+            case 'Borrow':
+                liquidationPrice = getLiquidationPrice(0, value);
+                break;
+            case 'Repay':
+                liquidationPrice = getLiquidationPrice(0, -value);
+                break;
+        }
+
+        console.log(liquidationPrice);
 
         const containerClass = (panel && (!loading && !completed && !failed)? ' active':'');
 
@@ -90,12 +113,12 @@ export default class CurrencyBox extends Component {
                     </div>
 
                     <div className="currency-actions">
-                        {!panel && Object.entries(actions).map(([key,value],i) => <button key={i} onClick={() => this.showActionPanel(value)}>{key}</button>)}
+                        {!panel && Object.entries(actions).map(([key,v],i) => <button key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
                     </div>
                 </div>
                 <div className={'currency-action-panel-container' + actionPanelContainerClass}>
                     {panel &&
-                    <CustomPanel doPanelAction={this.onPanelAction} userInfo={userInfo}
+                    <CustomPanel onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
                                  actioning={actioning} value={value} currency={currency} exceedsMax={exceedsMax}
                                  completed={completed} failed={failed} />
                     }
@@ -109,7 +132,7 @@ export default class CurrencyBox extends Component {
                             <div>
                                 <label>Liquidation Price</label>
                                 <div className="value">
-
+                                    {liquidationPrice && parseFloat(liquidationPrice[0]).toFixed(2)+' USD'}
                                 </div>
                             </div>
                             <div>

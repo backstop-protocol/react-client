@@ -20,3 +20,41 @@
     }
   }
 }
+
+.tickbox {
+  width: 37px;
+  height: 14px;
+  border-radius: 666px;
+  background-color: transparentize(#0b0412, 1-0.2);
+  position: relative;
+  transition: all 0.3s;
+
+
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: -3px;
+    height: 20px;
+    width: 20px;
+    border-radius: 666px;
+    background-color: #ffffff;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.22);
+    transition: all 0.3s;
+  }
+
+  &.active {
+    background-color: #8bd5ab;
+    &:after {
+      left: 50%;
+      background-color: #0f874a;
+    }
+  }
+
+  &.loading {
+    &:after {
+      left: 50%;
+      background-color: #0f874a;
+    }
+  }
+}

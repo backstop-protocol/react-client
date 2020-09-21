@@ -11,10 +11,10 @@ export default class DaiBox extends Component {
     calculateUSD(userInfo) { return numm(userInfo.bCdpInfo.daiDebt, 4); }
 
     render() {
-        const {userInfo, doPanelAction} = this.props;
+        const {userInfo, onPanelAction} = this.props;
 
         return (
-            userInfo && <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo.bCdpInfo.daiDebt} calculateUsd={this.calculateUSD} doPanelAction={doPanelAction}
+            userInfo && <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo.bCdpInfo.daiDebt} calculateUsd={this.calculateUSD} onPanelAction={onPanelAction}
                          actions={{ Borrow, Repay }} />
         )
     }
