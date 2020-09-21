@@ -17,12 +17,10 @@ export default class Header extends Component {
                         <img className="logo" src={Logo} />
                         <ConnectButton onConnect={onConnect} />
                     </div>
-                    {info &&
                     <div className="header-stats split">
                         <GlobalStats userInfo={info} />
                         <BorrowLimit userInfo={info} />
                     </div>
-                    }
                 </div>
             </div>
         )

@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {validateDeposit, validateWithdraw} from "../../lib/Actions";
 
 export default class Withdraw extends Component {
 
@@ -10,28 +11,40 @@ export default class Withdraw extends Component {
         super(props);
 
         this.state = {
-            insufficient : false,
-            val : ''
+            val : '',
+            invalid : false,
+            error: '',
         }
     }
 
+    validate = async (val) => {
+        const ok = await validateWithdraw(val);
+
+        let error = '';
+        if (!ok[0]) error = ok[1];
+
+        this.setState({invalid: !ok[0], error});
+        return ok;
+    };
+
 
     doAction = () => {
-        const {insufficient, val} = this.state;
-        if (insufficient || !val*1) return false;
+        const {invalid, val} = this.state;
+        if (invalid || !val*1) return false;
 
-        this.props.doPanelAction(this.action, this.input.value, this.actioning)
+        this.props.onPanelAction(this.action, this.input.value, this.actioning)
     };
 
     onChange = (e) => {
-        const {userInfo} = this.props;
         const val = e.target.value;
-        this.setState({insufficient : (val*1 > userInfo.bCdpInfo.ethDeposit), val });
+        this.setState({val});
+        this.props.onPanelInput(val);
+        this.validate(val);
     };
 
     render() {
 
-        const {insufficient, val} = this.state;
+        const {invalid, val, error} = this.state;
 
         return (
             <div className="currency-action-panel">
@@ -40,13 +53,13 @@ export default class Withdraw extends Component {
                 <div className="currency-input">
                     <div className="tooltip-container">
                         <input type="number" onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
-                        {insufficient &&
+                        {error &&
                         <div className="warning tooltip bottom">
                             <i> </i>
-                            Insufficient funds
+                            {error}
                         </div>}
                     </div>
-                    <button className={(insufficient || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>
+                    <button className={(invalid || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>
                 </div>
             </div>
         )

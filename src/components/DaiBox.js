@@ -8,14 +8,14 @@ import Borrow from "./action-panels/Borrow";
 export default class DaiBox extends Component {
 
 
-    calculateUSD(userInfo) { return numm(userInfo.bCdpInfo.daiDebt, 4); }
+    calculateUSD(userInfo) { return userInfo?numm(userInfo.bCdpInfo.daiDebt, 4):0; }
 
     render() {
-        const {userInfo, doPanelAction} = this.props;
+        const {userInfo, onPanelAction} = this.props;
 
         return (
-            userInfo && <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo.bCdpInfo.daiDebt} calculateUsd={this.calculateUSD} doPanelAction={doPanelAction}
-                         actions={{ Borrow, Repay }} />
+            <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo?userInfo.bCdpInfo.daiDebt:0}
+                                     calculateUsd={this.calculateUSD} onPanelAction={onPanelAction} actions={{ Borrow, Repay }} />
         )
     }
 }

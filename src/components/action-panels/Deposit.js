@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {validateDeposit, validateRepay} from "../../lib/Actions";
 
 export default class Deposit extends Component {
 
@@ -10,28 +11,43 @@ export default class Deposit extends Component {
         super(props);
 
         this.state = {
-            exceeding : false,
-            val : ''
+            invalid : false,
+            val : '',
+            error : '',
         }
     }
 
+    componentDidMount() {
+    }
+
+    validate = async (val) => {
+        const ok = await validateDeposit(val);
+        console.log("ok?", ok);
+
+        let error = '';
+        if (!ok[0]) error = ok[1];
+
+        this.setState({invalid: !ok[0], error});
+        return ok;
+    };
 
     doAction = () => {
-        const {exceeding, val} = this.state;
-        if (exceeding || !val*1) return false;
+        const {invalid, val} = this.state;
+        if (invalid || !val*1) return false;
 
-        this.props.doPanelAction(this.action, this.input.value, this.actioning)
+        this.props.onPanelAction(this.action, this.input.value, this.actioning)
     };
 
     onChange = (e) => {
-        const {userInfo} = this.props;
         const val = e.target.value;
-        this.setState({exceeding : (val*1 > userInfo.userWalletInfo.ethBalance), val });
+        this.setState({val});
+        this.props.onPanelInput(val);
+        this.validate(val);
     };
 
     render() {
 
-        const {exceeding, val} = this.state;
+        const {invalid, val, error} = this.state;
 
         return (
             <div className="currency-action-panel">
@@ -40,13 +56,13 @@ export default class Deposit extends Component {
                     <div className="currency-input">
                         <div className="tooltip-container">
                             <input type="number" onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
-                            {exceeding &&
+                            {error &&
                             <div className="warning tooltip bottom">
                                 <i> </i>
-                                Amount Exceeds your wallet balance
+                                {error}
                             </div>}
                         </div>
-                        <button className={(exceeding || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>
+                        <button className={(invalid || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>
                     </div>
             </div>
         )
