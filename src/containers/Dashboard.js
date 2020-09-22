@@ -8,6 +8,7 @@ import * as ApiHelper from "../lib/ApiHelper";
 import * as B from "../lib/bInterface";
 import {doApiAction, setUserInfo} from "../lib/Actions";
 
+let timeout;
 
 export default class Dashboard extends Component {
 
@@ -47,7 +48,8 @@ export default class Dashboard extends Component {
 
     onShowConnect = () => {
         this.setState({showConnect : true});
-        setTimeout(() => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
             this.setState({showConnect: false});
         },2000);
     };
