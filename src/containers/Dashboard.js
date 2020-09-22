@@ -39,8 +39,8 @@ export default class Dashboard extends Component {
         this.setState({userInfo});
     };
 
-    onAction = async (action, value) => {
-        const res = await doApiAction(action, value);
+    onAction = async (action, value, onHash) => {
+        const res = await doApiAction(action, value, null, onHash);
         this.getUserInfo();
         return res;
     };

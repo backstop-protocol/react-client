@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Logo from "../assets/bprotocol.svg";
 
-export default class BorrowLimit extends Component {
+export default class Sidebar extends Component {
 
 
     render() {

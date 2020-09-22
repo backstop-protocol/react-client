@@ -50,52 +50,52 @@ export function isRepayUnlocked() {
 
 // concrete actions
 
-export async function deposit(amountEth) {
+export async function deposit(amountEth, onHash) {
     const val = web3.utils.toWei(amountEth);
     if (userInfo.bCdpInfo.hasCdp) {
-        return ApiAction(B.depositETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val);
+        return await ApiAction(B.depositETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val, onHash);
     }
     else { // first deposit
-        return ApiAction(B.firstDeposit(web3, user), user, web3, val);
+        return await ApiAction(B.firstDeposit(web3, user), user, web3, val);
     }
 }
 
-export async function withdraw(amountEth) {
+export async function withdraw(amountEth, onHash) {
     const val = web3.utils.toWei(amountEth);
-    return ApiAction(B.withdrawETH(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
+    return await ApiAction(B.withdrawETH(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0, onHash);
 }
 
-export async function borrow(amountDai) {
+export async function borrow(amountDai, onHash) {
     const val = web3.utils.toWei(amountDai);
-    return ApiAction(B.generateDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
+    return await ApiAction(B.generateDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0, onHash);
 }
 
-export async function unlock() {
-    return await ApiAction(B.unlockDai(web3,userInfo.proxyInfo.userProxy),  user, web3, 0);
+export async function unlock(onHash) {
+    return await ApiAction(B.unlockDai(web3,userInfo.proxyInfo.userProxy),  user, web3, 0, onHash);
 }
 
-export async function repay(amountDai) {
+export async function repay(amountDai, onHash) {
     const val = web3.utils.toWei(amountDai);
-    return ApiAction(B.repayDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0);
+    return ApiAction(B.repayDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0, onHash);
 }
 
-export async function doApiAction(action, value, actionData) {
+export async function doApiAction(action, value, actionData, onHash) {
     let res;
     switch (action) {
         case 'unlock':
-            res = await unlock();
+            res = await unlock(onHash);
             break;
         case 'deposit':
-            res = await deposit(value);
+            res = await deposit(value, onHash);
             break;
         case 'withdraw':
-            res = await withdraw(value);
+            res = await withdraw(value, onHash);
             break;
         case 'borrow':
-            res = await borrow(value);
+            res = await borrow(value, onHash);
             break;
         case 'repay':
-            res = await repay(value);
+            res = await repay(value, onHash);
             break;
     }
 

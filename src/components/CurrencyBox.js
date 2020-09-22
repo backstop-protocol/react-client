@@ -17,7 +17,8 @@ export default class CurrencyBox extends Component {
             completed: false,
             failed: false,
             value: 0,
-            actioning :''
+            actioning :'',
+            hash: null
         };
     }
 
@@ -26,7 +27,7 @@ export default class CurrencyBox extends Component {
             this.setState({panel : null})
         }
         else {
-            this.setState({panel, value: 0});
+            this.setState({panel, value: 0, hash: null});
         }
     };
 
@@ -55,7 +56,12 @@ export default class CurrencyBox extends Component {
             EventBus.$on('action-failed', this.onFailed);
             this.setState({loading: true, prevPanel: this.state.panel, panel: Loading, actioning: actioning, value});
         }
-        return this.props.onPanelAction(action, value);
+
+        return this.props.onPanelAction(action, value, this.onHash);
+    };
+
+    onHash = (hash) => {
+        this.setState({hash})
     };
 
     onPanelInput = (value) => {
@@ -72,7 +78,7 @@ export default class CurrencyBox extends Component {
     render() {
 
         const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit} = this.props;
-        const {panel, actioning, value, loading, completed, failed} = this.state;
+        const {panel, actioning, value, loading, completed, failed, hash} = this.state;
 
         let CustomPanel = null;
         if (panel) {
@@ -127,7 +133,7 @@ export default class CurrencyBox extends Component {
                 <div className={'currency-action-panel-container' + actionPanelContainerClass}>
                     {panel &&
                     <CustomPanel onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
-                                 actioning={actioning} value={value} currency={currency}
+                                 actioning={actioning} value={value} currency={currency} hash={hash}
                                  completed={completed} failed={failed} />
                     }
                     {(!loading && !completed && !failed && panel) &&

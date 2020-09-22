@@ -41,13 +41,24 @@ function increaseABit(number) {
     return parseInt(1.2 * number);
 }
 
-export const ApiAction = async function(action, user, web3, gasValue = 0) {
-    try {
-        const txObject = await action;
-        const gasConsumption = increaseABit(await txObject.estimateGas({ value : gasValue, from : user }));
-        return await txObject.send({ gas:gasConsumption, value: gasValue, from:user });
-    }
-    catch (error) {
-        return { error }
-    }
+export const ApiAction = async function(action, user, web3, gasValue = 0, hashCb = null) {
+    console.log(hashCb);
+    return new Promise(async (res, rej) => {
+
+        try {
+            const txObject = await action;
+            const gasConsumption = increaseABit(await txObject.estimateGas({ value : gasValue, from : user }));
+            const transaction = txObject.send({ gas:gasConsumption, value: gasValue, from:user })
+                .once('transactionHash', (hash) => { if (hashCb) hashCb(hash)})
+                .on('error', (error) => { rej(error)})
+                .then((receipt) => {
+                    console.log(receipt);
+                    res(receipt);
+                })
+
+        }
+        catch (error) {
+            return { error }
+        }
+    })
 };

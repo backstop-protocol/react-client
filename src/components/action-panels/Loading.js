@@ -8,7 +8,7 @@ export default class Deposit extends Component {
 
     render() {
 
-        const {actioning, value, currency, completed, failed} = this.props;
+        const {actioning, value, currency, completed, failed, hash} = this.props;
 
         const icon = completed ? VIcon : (failed ? XIcon : BIcon);
         const iconClsName = (completed || failed ? 'result':'loading-indicator');
@@ -21,8 +21,8 @@ export default class Deposit extends Component {
                     <img className={iconClsName} src={icon} />
 
                     <span>{actioning} {value} {currency}... {resultText}</span></h3>
-                {!failed && <div className="view-button">
-                    <a href="#">
+                {(!failed && hash) && <div className="view-button">
+                    <a href={'https://kovan.etherscan.io/tx/'+hash} target="_blank">
                         <span>View</span>
                         <img src={ViewIcon} />
                     </a>
