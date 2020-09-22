@@ -64,7 +64,7 @@ export default class CurrencyBox extends Component {
 
     render() {
 
-        const {userInfo, title, icon, currency, actions, calculateUsd, exceedsMax, currencyValue} = this.props;
+        const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, exceedsMax, currencyValue} = this.props;
         const {panel, actioning, value, loading, completed, failed} = this.state;
 
         let CustomPanel = null;
@@ -89,8 +89,6 @@ export default class CurrencyBox extends Component {
                 break;
         }
 
-        console.log(liquidationPrice);
-
         const containerClass = (panel && (!loading && !completed && !failed)? ' active':'');
 
         const actionPanelContainerClass =
@@ -107,7 +105,7 @@ export default class CurrencyBox extends Component {
                         <div className="currency-icon"><img src={icon} /></div>
                         <div className="currency-title">{title}</div>
                         <div className="currency-value">
-                            <p>{numm(currencyValue, 4)} {currency}</p>
+                            <p>{formatValue(userInfo)} {currency}</p>
                             <small>{calculateUsd(userInfo)} USD</small>
                         </div>
                     </div>
