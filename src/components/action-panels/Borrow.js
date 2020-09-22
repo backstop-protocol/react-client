@@ -37,9 +37,9 @@ export default class Borrow extends Component {
     onChange = (e) => {
         const val = e.target.value;
         const res = this.props.onPanelInput(val);
-        if (res) {
-            this.setState({val});
-            this.validate(val);
+        if (res !== false) {
+            this.setState({val: res});
+            this.validate(res);
         }
     };
 
