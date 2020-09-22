@@ -93,22 +93,27 @@ export default class CurrencyBox extends Component {
 
         let liquidationPrice;
         let valueDir = 1;
+        try {
+
         if (panel)
-        switch (panel.name) {
-            case 'Deposit':
-                liquidationPrice = getLiquidationPrice(value, 0);
-                break;
-            case 'Withdraw':
-                liquidationPrice = getLiquidationPrice(-value, 0);
-                valueDir = -1;
-                break;
-            case 'Borrow':
-                liquidationPrice = getLiquidationPrice(0, value);
-                break;
-            case 'Repay':
-                valueDir = -1;
-                liquidationPrice = getLiquidationPrice(0, -value);
-                break;
+            switch (panel.name) {
+                case 'Deposit':
+                    liquidationPrice = getLiquidationPrice(value, 0);
+                    break;
+                case 'Withdraw':
+                    liquidationPrice = getLiquidationPrice(-value, 0);
+                    valueDir = -1;
+                    break;
+                case 'Borrow':
+                    liquidationPrice = getLiquidationPrice(0, value);
+                    break;
+                case 'Repay':
+                    valueDir = -1;
+                    liquidationPrice = getLiquidationPrice(0, -value);
+                    break;
+            }
+        } catch (e) {
+            console.log(e);
         }
 
         const containerClass = (panel && (!loading && !completed && !failed)? ' active':'');
