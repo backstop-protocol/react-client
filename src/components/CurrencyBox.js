@@ -153,7 +153,7 @@ export default class CurrencyBox extends Component {
                                         </div>
                                         <div className="limit-bar-inner">
                                             <div className="limit-bar-track" style={{width: borrowLimit(userInfo,liquidationPrice[0], value * valueDir)+'%'}}>
-                                                <span>{borrowLimit(userInfo, liquidationPrice[0], liquidationPrice[1])+"%"}</span>
+                                                <span>{borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+"%"}</span>
                                             </div>
                                         </div>
                                         </div>
