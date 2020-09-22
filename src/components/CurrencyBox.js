@@ -141,7 +141,21 @@ export default class CurrencyBox extends Component {
                                 <label>Borrow Limit</label>
                                 <div className="value">
                                     {liquidationPrice &&
-                                    parseFloat(liquidationPrice[1]).toFixed(2)+' USD'}
+                                    <div>
+                                        <div className="limit-bar mini">
+                                        <div className="values">
+                                            <label>{userInfo?numm(userInfo.bCdpInfo.daiDebt):0} DAI</label>
+                                            <label>{numm(liquidationPrice[0])} DAI</label>
+                                        </div>
+                                        <div className="limit-bar-inner">
+                                            <div className="limit-bar-track" style={{width: parseFloat(userInfo.bCdpInfo.daiDebt / liquidationPrice[0] * 100).toFixed(2)+'%'}}>
+                                                <span>{(userInfo?numm(userInfo.bCdpInfo.daiDebt / liquidationPrice[0] * 100):0)+"%"}</span>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                    </div>
+                                    }
                                 </div>
                             </div>
                         </div>

@@ -20,6 +20,8 @@ export default class Deposit extends Component {
     componentDidMount() {
     }
 
+
+
     validate = async (val) => {
         const ok = await validateDeposit(val);
 
