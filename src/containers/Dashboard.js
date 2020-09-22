@@ -38,6 +38,7 @@ export default class Dashboard extends Component {
 
         const ok = (this.web3.utils.toBN(userInfo.userWalletInfo.daiAllowance).toString(16) === "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
         setUserInfo(this.state.user, this.web3, userInfo, orgInfo);
+        console.log(userInfo);
         this.setState({userInfo});
     };
 
@@ -68,7 +69,7 @@ export default class Dashboard extends Component {
 
         return (
             <div className="App">
-                <Sidebar />
+                <Sidebar userInfo={userInfo} />
                 <div className="content">
                     <Header info={(loggedIn && userInfo !== null) && userInfo} onConnect={this.onConnect} showConnect={showConnect} />
 

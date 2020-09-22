@@ -35,6 +35,18 @@
 
   }
 
+  .cdp-convert {
+    margin: 0 20px;
+    font-size: 14px;
+
+    p {
+      margin: 20px 0;
+      font-size: 14px;
+      line-height: 1.29;
+      letter-spacing: 0.88px;
+    }
+  }
+
   &-footer {
     justify-self: flex-end;
     text-align: center;
@@ -61,7 +73,6 @@
   }
 
   .migrate-btn {
-    margin-top: 32px;
     height: 45px;
     border-radius: 3.2px;
     background-color: $sidebarBtnBg;

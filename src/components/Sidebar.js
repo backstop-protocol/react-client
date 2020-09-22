@@ -14,12 +14,15 @@ export default class Sidebar extends Component {
 
         const {userInfo} = this.props;
 
+        if (userInfo) console.log(userInfo.makerdaoCdpInfo)
+
         return (
             <div className="sidebar">
                 <img className="logo" alt="Logo" src={Logo} />
                 <div className="ln"> </div>
                 <div className="sidebar-content">
-                    {(userInfo && userInfo.makerdaoCdpInfo.hasCdp === true) &&
+                    {(userInfo && userInfo.makerdaoCdpInfo.hasCdp) &&
+                        <div>
                         <div className="cdp-convert">
                             <div className="migrate-btn">Migrate</div>
                             <p>Import your CDP<br />from MakerDAO system <br/>to B.Protocol</p>
@@ -33,6 +36,9 @@ export default class Sidebar extends Component {
                                     <p>{userInfo.makerdaoCdpInfo.daiDebt} DAI</p>
                                 </div>
                             </div>
+
+                        </div>
+                        <div className="ln"> </div>
                         </div>
                     }
                     <div className="products">
