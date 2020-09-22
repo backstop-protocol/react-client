@@ -33,6 +33,8 @@ export default class Dashboard extends Component {
         const orgInfo = userInfo;
         userInfo = ApiHelper.Humanize(userInfo, this.web3);
         console.log(userInfo);
+
+        const ok = (this.web3.utils.toBN(userInfo.userWalletInfo.daiAllowance).toString(16) === "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
         setUserInfo(this.state.user, this.web3, userInfo, orgInfo);
         this.setState({userInfo});
     };

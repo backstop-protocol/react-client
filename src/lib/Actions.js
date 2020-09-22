@@ -7,6 +7,7 @@ import {verifyWithdrawInput} from "./bInterface";
 import {verifyDepositInput} from "./bInterface";
 import {verifyBorrowInput} from "./bInterface";
 import {verifyRepayInput} from "./bInterface";
+import {repayUnlocked} from "./ApiHelper";
 
 let userInfo = {};
 let originalUserInfo = {}
@@ -41,6 +42,10 @@ export function setUserInfo(u, w3, info, orgInfo) {
     web3 = w3;
     userInfo = info;
     originalUserInfo = orgInfo;
+}
+
+export function isRepayUnlocked() {
+    return repayUnlocked(web3, userInfo);
 }
 
 // concrete actions

@@ -1,7 +1,7 @@
 const B = require('./bInterface.js');
 
 const humanizeExcludeFields = [
-    'userProxy'
+    'userProxy','daiAllowance'
 ];
 
 export const Humanize = function(result, web3) {
@@ -32,6 +32,10 @@ export const Humanize = function(result, web3) {
 
     return result;
 };
+
+export function repayUnlocked(web3, userInfo) {
+    return (web3.utils.toBN(userInfo.userWalletInfo.daiAllowance).toString(16) === "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+}
 
 function increaseABit(number) {
     return parseInt(1.2 * number);

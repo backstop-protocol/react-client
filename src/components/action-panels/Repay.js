@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {validateRepay} from "../../lib/Actions";
+import {isRepayUnlocked, validateRepay} from "../../lib/Actions";
 import EventBus from "../../lib/EventBus";
 
 export default class Repay extends Component {
@@ -47,8 +47,8 @@ export default class Repay extends Component {
 
     doAction = async () => {
         const {val, locked, invalid} = this.state;
-        if (!val*1 || locked || invalid) return false;
-
+        console.log("!!!!", val, !isRepayUnlocked(), invalid);
+        if (!val*1 || !isRepayUnlocked() || invalid) return false;
         const res = await this.props.onPanelAction(this.action, val, this.actioning)
     };
 
@@ -62,14 +62,17 @@ export default class Repay extends Component {
     };
 
     onUnlock = async () => {
+        if (!this.locked) return false;
         this.setState({unlocking: true});
         const res = await this.props.onPanelAction(this.unlockAction, null, "unlocking", true);
-
     };
 
     render() {
 
-        const {invalid, error, val, locked, unlocking} = this.state;
+        const {invalid, error, val, unlocking} = this.state;
+        const {userInfo} = this.props;
+
+        const locked = !isRepayUnlocked();
 
         return (
             <div className="currency-action-panel">
