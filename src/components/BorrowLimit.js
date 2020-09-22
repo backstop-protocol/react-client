@@ -12,7 +12,7 @@ export default class BorrowLimit extends Component {
             <div className="borrow-limit">
                 <h3>Borrow Limit</h3>
                 <div className="limit-bar">
-                    <label>0 DAI</label>
+                    <label>{userInfo?numm(userInfo.bCdpInfo.daiDebt):0} DAI</label>
                     <div className="limit-bar-inner">
                         <div className="limit-bar-track" style={{width: (userInfo?(userInfo.bCdpInfo.daiDebt / userInfo.bCdpInfo.maxDaiDebt * 100):0)+"%"}}>
                             <span>{(userInfo?numm(userInfo.bCdpInfo.daiDebt / userInfo.bCdpInfo.maxDaiDebt * 100):0)+"%"}</span>
