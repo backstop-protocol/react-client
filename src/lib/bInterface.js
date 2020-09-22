@@ -31,7 +31,7 @@ const JAR = "0xbA987bDB501d131f766fEe8180Da5d81b34b69d9"
 
 
 
-export const getUserInfo = function(web3, user) {
+module.exports.getUserInfo = function(web3, user) {
   const infoContract = new web3.eth.Contract(infoAbi,infoAddress)
   return infoContract.methods.getInfo(user,
                                       ETH_ILK,
@@ -45,7 +45,7 @@ export const getUserInfo = function(web3, user) {
                                       MCD_DAI).call({gasLimit:10e6})
 }
 
-export const firstDeposit = function(web3, user) {
+module.exports.firstDeposit = function(web3, user) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
   return actionProxyContract.methods.openLockETHAndGiveToProxy(PROXY_REGISTRY,
                                                                BCDP_MANGER,
@@ -54,7 +54,7 @@ export const firstDeposit = function(web3, user) {
                                                                user)
 }
 
-export const depositETH = function(web3, userProxy, cdp) {
+module.exports.depositETH = function(web3, userProxy, cdp) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.lockETHViaCdp(BCDP_MANGER,
@@ -65,7 +65,7 @@ export const depositETH = function(web3, userProxy, cdp) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const withdrawETH = function(web3, userProxy, cdp, wad) {
+module.exports.withdrawETH = function(web3, userProxy, cdp, wad) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.freeETH(BCDP_MANGER,
@@ -77,7 +77,7 @@ export const withdrawETH = function(web3, userProxy, cdp, wad) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const generateDai = function(web3, userProxy, cdp, wad) {
+module.exports.generateDai = function(web3, userProxy, cdp, wad) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.draw(BCDP_MANGER,
@@ -90,12 +90,12 @@ export const generateDai = function(web3, userProxy, cdp, wad) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const unlockDai = function(web3, userProxy) {
+module.exports.unlockDai = function(web3, userProxy) {
   const daiContract = new web3.eth.Contract(daiAbi,MCD_DAI)
   return daiContract.methods.approve(userProxy,"0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 }
 
-export const repayDai = function(web3, userProxy, cdp, wad) {
+module.exports.repayDai = function(web3, userProxy, cdp, wad) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.safeWipe(BCDP_MANGER,
@@ -108,7 +108,19 @@ export const repayDai = function(web3, userProxy, cdp, wad) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const migrateFresh = function(web3, userProxy, makerDaoCdp) {
+module.exports.repayAllDai = function(web3, userProxy, cdp) {
+  const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
+
+  const data = actionProxyContract.methods.safeWipeAll(BCDP_MANGER,
+                                                       MCD_JOIN_DAI,
+                                                       cdp,
+                                                       userProxy).encodeABI()
+
+  const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
+  return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
+}
+
+module.exports.migrateFresh = function(web3, userProxy, makerDaoCdp) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.openAndImportFromManager(CDP_MANAGER,
@@ -120,7 +132,7 @@ export const migrateFresh = function(web3, userProxy, makerDaoCdp) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const migrateToExisting = function(web3, userProxy, makerDaoCdp, bCdp) {
+module.exports.migrateToExisting = function(web3, userProxy, makerDaoCdp, bCdp) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.shiftManager(CDP_MANAGER,
@@ -133,7 +145,7 @@ export const migrateToExisting = function(web3, userProxy, makerDaoCdp, bCdp) {
 }
 
 // this will be used only for testings
-export const openMakerDaoCdp = function(web3, user) {
+module.exports.openMakerDaoCdp = function(web3, user) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
   return actionProxyContract.methods.openLockETHAndGiveToProxy(PROXY_REGISTRY,
                                                                CDP_MANAGER,
@@ -150,36 +162,36 @@ export const openMakerDaoCdp = function(web3, user) {
 ////////////////////////////////////////////////////////////////////////////////
 
 function toNumber(bignum,web3) {
-  return Number(web3.utils.fromWei(bignum.toString(10)))
+  return Number(web3.utils.fromWei(bignum))
 }
 
-export const calcNewBorrowLimitAndLiquidationPrice = function(userInfo,
-                                                                dEth,
-                                                                dDai,
-                                                                web3) {
+function calcNewBorrowAndLPrice(userInfo,
+                                dEth,
+                                dDai,
+                                web3) {
   dEth = toNumber(dEth,web3)
   dDai = toNumber(dDai,web3)
-
   const ethDeposit = toNumber(userInfo.bCdpInfo.ethDeposit,web3)
   const daiDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3)
-
-  if(ethDeposit == 0) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
 
   const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)
   const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3)
 
+  if(ethDeposit == 0) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
+
   const newMaxDaiDebt = maxDaiDebt * (ethDeposit + dEth) / ethDeposit
   const liqRatio = ethDeposit * spotPrice / maxDaiDebt
-
   // (total dai debt) * liqRatio = (total eth deposit) * liquidationPrice
   const newLiquidationPrice = (daiDebt + dDai) * liqRatio / (ethDeposit + dEth)
-  console.log("YYYYYYYYYYY",dEth,ethDeposit)
+
   return [web3.utils.toWei(newMaxDaiDebt.toString()), web3.utils.toWei(newLiquidationPrice.toString())]
 }
 
+module.exports.calcNewBorrowLimitAndLiquidationPrice = calcNewBorrowAndLPrice
+
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyDepositInput = function(userInfo,
+module.exports.verifyDepositInput = function(userInfo,
                                              dEth,
                                              web3) {
   dEth = toNumber(dEth,web3)
@@ -193,17 +205,15 @@ export const verifyDepositInput = function(userInfo,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyWithdrawInput = function(userInfo,
+module.exports.verifyWithdrawInput = function(userInfo,
                                               dEth,
                                               web3) {
-                                                console.log("XXXXXXXXXXXX",userInfo)
   const dEthMinus = web3.utils.toBN(dEth).mul(web3.utils.toBN(-1))
   dEth = toNumber(dEth,web3)
   if(dEth <= 0) return [false, "Withdraw amount must be positive"]
   if(dEth > toNumber(userInfo.bCdpInfo.ethDeposit,web3)) return [false, "Amount exceeds CDP deposit"]
 
-  const [maxDebt,newPrice] = calcNewBorrowLimitAndLiquidationPrice(userInfo,dEthMinus.toString(10),"0",web3)
-  console.log("XXXXXXXXX",{maxDebt},{newPrice},dEthMinus.toString(10))
+  const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,dEthMinus.toString(10),"0",web3)
   if(toNumber(maxDebt,web3) < toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds allowed withdrawal"]
 
   return [true,""]
@@ -211,19 +221,24 @@ export const verifyWithdrawInput = function(userInfo,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyBorrowInput = function(userInfo,
+module.exports.verifyBorrowInput = function(userInfo,
                                             dDai,
                                             web3) {
   dDai = toNumber(dDai,web3)
   if(dDai <= 0) return [false, "Borrow amount must be positive"]
-  if((toNumber(userInfo.bCdpInfo.daiDebt,web3) + dDai) > toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)) return [false,"Amount exceeds allowed borrowed"]
+
+  const newDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3) + dDai
+  const dust = toNumber(userInfo.miscInfo.dustInWei,web3)
+
+  if(newDebt > toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)) return [false,"Amount exceeds allowed borrowed"]
+  if(newDebt < dust) return [false,"A Vault requires a minimum of " + dust.toString() + " Dai to be generated"]
 
   return [true,""]
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyRepayInput = function(userInfo,
+module.exports.verifyRepayInput = function(userInfo,
                                            dDai,
                                            web3) {
   dDai = toNumber(dDai,web3)
@@ -231,6 +246,12 @@ export const verifyRepayInput = function(userInfo,
   if(dDai > toNumber(userInfo.userWalletInfo.daiBalance,web3)) return [false,"Amount exceeds dai balance"]
   if(dDai > toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds dai debt"]
   if(dDai > toNumber(userInfo.userWalletInfo.daiAllowance,web3)) return [false,"Must unlock DAI"]
+
+  const newDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3) - dDai
+  const dust = toNumber(userInfo.miscInfo.dustInWei, web3)
+  const maxRepay = toNumber(userInfo.bCdpInfo.daiDebt,web3) - dust
+
+  if(dust >= newDebt && newDebt > 1) return [false,"You can repay all your outstanding debt or a maximum of " + maxRepay.toString() + " Dai"]
 
   return [true,""]
 }
