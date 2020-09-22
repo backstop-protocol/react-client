@@ -148,3 +148,54 @@
     }
   }
 }
+
+.connect-container {
+  position: relative;
+}
+
+.connect-wallet {
+  top: 60px;
+  left: -100%;
+  position: absolute;
+  width: 250px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
+
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  img {
+    width: 122px;
+  }
+
+  i {
+    position:absolute;
+    top:-8px;
+    left:50%;
+    margin-left:-8px;
+    width:16px;
+    height:8px;
+    overflow:hidden;
+  }
+
+  i::after {
+    content:'';
+    position:absolute;
+    width:8px;
+    height:8px;
+    left:50%;
+    top: 0;
+    transform:translate(-50%,50%) rotate(45deg);
+    background-color:#ffffff;
+    box-shadow:0 1px 4px rgba(0,0,0,0.25);
+  }
+
+}

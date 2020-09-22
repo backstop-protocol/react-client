@@ -18,6 +18,7 @@ export default class Dashboard extends Component {
         this.state = {
             user: null,
             userInfo : null,
+            showConnect: false,
             loggedIn: false
         }
     }
@@ -32,7 +33,6 @@ export default class Dashboard extends Component {
         let userInfo = await B.getUserInfo(this.web3, this.state.user);
         const orgInfo = userInfo;
         userInfo = ApiHelper.Humanize(userInfo, this.web3);
-        console.log(userInfo);
 
         const ok = (this.web3.utils.toBN(userInfo.userWalletInfo.daiAllowance).toString(16) === "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
         setUserInfo(this.state.user, this.web3, userInfo, orgInfo);
@@ -45,18 +45,25 @@ export default class Dashboard extends Component {
         return res;
     };
 
+    onShowConnect = () => {
+        this.setState({showConnect : true});
+        setTimeout(() => {
+            this.setState({showConnect: false});
+        },2000);
+    };
+
     render() {
 
-        const {userInfo, loggedIn} = this.state;
+        const {userInfo, loggedIn, showConnect} = this.state;
 
         return (
             <div className="App">
                 <Sidebar />
                 <div className="content">
-                    <Header info={(loggedIn && userInfo !== null) && userInfo} onConnect={this.onConnect} />
+                    <Header info={(loggedIn && userInfo !== null) && userInfo} onConnect={this.onConnect} showConnect={showConnect} />
 
                     <div className="container currency-container split">
-                        <EtheriumBox userInfo={userInfo} onPanelAction={this.onAction} />
+                        <EtheriumBox userInfo={userInfo} onPanelAction={this.onAction} showConnect={this.onShowConnect} />
                         <DaiBox userInfo={userInfo} title={"DAI debt"} icon={Etherium} onPanelAction={this.onAction} />
                     </div>
                 </div>

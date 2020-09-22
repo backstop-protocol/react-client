@@ -14,10 +14,10 @@ export default class EtheriumBox extends Component {
 
     render() {
 
-        const {userInfo, onPanelAction, onOpenPanel} = this.props;
+        const {userInfo, onPanelAction, onOpenPanel, showConnect} = this.props;
 
         return (
-            <CurrencyBox userInfo={userInfo} title={"ETH Locked"} currency={"ETH"} icon={Etherium} currencyValue={userInfo?userInfo.bCdpInfo.ethDeposit:0}
+            <CurrencyBox userInfo={userInfo} title={"ETH Locked"} currency={"ETH"} icon={Etherium} currencyValue={userInfo?userInfo.bCdpInfo.ethDeposit:0} showConnect={showConnect}
                          formatValue={this.formatValue} calculateUsd={this.calculateUSD} borrowLimit={this.borrowLimit} onPanelAction={onPanelAction}
                           actions={{ Deposit, Withdraw }} />
         )

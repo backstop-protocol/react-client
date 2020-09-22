@@ -23,6 +23,12 @@ export default class CurrencyBox extends Component {
     }
 
     showActionPanel = (panel) => {
+
+        if (!this.props.userInfo) {
+            if (this.props.showConnect) this.props.showConnect();
+            return false;
+        }
+
         if (this.state.panel && panel && panel.name === this.state.panel.name) {
             this.setState({panel : null})
         }

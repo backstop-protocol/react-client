@@ -13,10 +13,10 @@ export default class DaiBox extends Component {
     borrowLimit(userInfo, value, value2) { return userInfo?numm((userInfo.bCdpInfo.daiDebt+value2) / userInfo.bCdpInfo.maxDaiDebt*100, 2, 100) : 0 }
 
     render() {
-        const {userInfo, onPanelAction} = this.props;
+        const {userInfo, onPanelAction, showConnect} = this.props;
 
         return (
-            <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo?userInfo.bCdpInfo.daiDebt:0}
+            <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo?userInfo.bCdpInfo.daiDebt:0} showConnect={showConnect}
                          formatValue={this.formatValue} calculateUsd={this.calculateUSD} borrowLimit={this.borrowLimit} onPanelAction={onPanelAction}
                          actions={{ Borrow, Repay }} />
         )
