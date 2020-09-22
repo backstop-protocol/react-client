@@ -1,4 +1,4 @@
-const B = require('./bInterface.js')
+const B = require('./bInterface.js');
 
 const humanizeExcludeFields = [
     'userProxy'
