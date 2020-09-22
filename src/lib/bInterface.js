@@ -163,13 +163,13 @@ module.exports.calcNewBorrowLimitAndLiquidationPrice = function(userInfo,
   const ethDeposit = toNumber(userInfo.bCdpInfo.ethDeposit,web3)
   const daiDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3)
 
+  if(ethDeposit == 0) return [web3.utils.toWei("0"), web3.utils.toWei("0")]  
+
   const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)
   const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3)
 
   const newMaxDaiDebt = maxDaiDebt * (ethDeposit + dEth) / ethDeposit
   const liqRatio = ethDeposit * spotPrice / maxDaiDebt
-
-  if(ethDeposit == 0 && dEth == 0) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
 
   // (total dai debt) * liqRatio = (total eth deposit) * liquidationPrice
   const newLiquidationPrice = (daiDebt + dDai) * liqRatio / (ethDeposit + dEth)
