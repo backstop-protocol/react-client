@@ -64,7 +64,7 @@ export default class Dashboard extends Component {
 
                     <div className="container currency-container split">
                         <EtheriumBox userInfo={userInfo} onPanelAction={this.onAction} showConnect={this.onShowConnect} />
-                        <DaiBox userInfo={userInfo} title={"DAI debt"} icon={Etherium} onPanelAction={this.onAction} />
+                        <DaiBox userInfo={userInfo} title={"DAI debt"} icon={Etherium} onPanelAction={this.onAction} showConnect={this.onShowConnect} />
                     </div>
                 </div>
             </div>
