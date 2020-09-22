@@ -48,6 +48,7 @@ export default class Dashboard extends Component {
             return res;
         } catch (error) {
             EventBus.$emit('action-failed', null, action);
+            EventBus.$emit('app-error', null, action);
             console.log(error);
             return false;
         }

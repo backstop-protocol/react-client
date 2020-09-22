@@ -58,3 +58,21 @@
     }
   }
 }
+
+.app-error {
+  display: flex;
+  color: #8c0000;
+  background-color: #ffdddd;
+  font-size: 12px;
+  align-items: center;
+  justify-content: center;
+  height: 27px;
+
+  &-container {
+    position: fixed;
+    top: 0;
+    z-index: 666;
+    width: 100%;
+  }
+
+}
