@@ -4,6 +4,9 @@ import Github from "../assets/github.svg";
 import Twitter from "../assets/twitter-icon.svg";
 import Linkedin from "../assets/linkedin.svg";
 import Discord from "../assets/discord.svg";
+import AAVELogo from "../assets/aav-ewhite-logo.svg";
+import CompoundLogo from "../assets/compound-logo.svg";
+import MakerLogo from "../assets/logo-maker-white.svg";
 
 export default class Sidebar extends Component {
 
@@ -16,22 +19,35 @@ export default class Sidebar extends Component {
                 <img className="logo" alt="Logo" src={Logo} />
                 <div className="ln"> </div>
                 <div className="sidebar-content">
-                {(userInfo && userInfo.makerdaoCdpInfo.hasCdp === true) &&
-                    <div className="cdp-convert">
-                        <div className="migrate-btn">Migrate</div>
-                        <p>Import your CDP<br />from MakerDAO system <br/>to B.Protocol</p>
-                        <div className="even">
-                            <div>
-                                <small>ETH Locked</small>
-                                <p>{userInfo.makerdaoCdpInfo.ethDeposit} ETH</p>
-                            </div>
-                            <div>
-                                <small>DAI Debt</small>
-                                <p>{userInfo.makerdaoCdpInfo.daiDebt} DAI</p>
+                    {(userInfo && userInfo.makerdaoCdpInfo.hasCdp === true) &&
+                        <div className="cdp-convert">
+                            <div className="migrate-btn">Migrate</div>
+                            <p>Import your CDP<br />from MakerDAO system <br/>to B.Protocol</p>
+                            <div className="even">
+                                <div>
+                                    <small>ETH Locked</small>
+                                    <p>{userInfo.makerdaoCdpInfo.ethDeposit} ETH</p>
+                                </div>
+                                <div>
+                                    <small>DAI Debt</small>
+                                    <p>{userInfo.makerdaoCdpInfo.daiDebt} DAI</p>
+                                </div>
                             </div>
                         </div>
+                    }
+                    <div className="products">
+                        <div className="product selected">
+                            <img src={MakerLogo} />
+                        </div>
+                        <div className="product">
+                            <img src={CompoundLogo} /><small>(Coming soon)</small>
+                        </div>
+                        <div className="product">
+                            <img src={AAVELogo} /><small>(Coming soon)</small>
+                        </div>
                     </div>
-                }
+                    <div className="ln"> </div>
+
                 </div>
                 <div className="sidebar-footer">
                     <h3>BProtocol community</h3>
