@@ -16,7 +16,7 @@ export default class CurrencyBox extends Component {
             loading: false,
             completed: false,
             failed: false,
-            value: null,
+            value: 0,
             actioning :''
         };
     }

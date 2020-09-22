@@ -21,6 +21,8 @@ function increaseABit(number) {
 export function getLiquidationPrice(valEth, valDai) {
     if (!userInfo) return 0;
 
+    console.log(valEth, valDai);
+
     const retVal = calcNewBorrowLimitAndLiquidationPrice(originalUserInfo, web3.utils.toWei(valEth.toString()), web3.utils.toWei(valDai.toString()), web3);
     retVal[0] = web3.utils.fromWei(retVal[0]);
     retVal[1] = web3.utils.fromWei(retVal[1]);
@@ -35,12 +37,10 @@ export function validateRepay(val) { return verifyRepayInput(originalUserInfo, w
 // meta actions
 
 export function setUserInfo(u, w3, info, orgInfo) {
-    console.log(info);
     user = u;
     web3 = w3;
     userInfo = info;
     originalUserInfo = orgInfo;
-    console.log(orgInfo)
 }
 
 // concrete actions
