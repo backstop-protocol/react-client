@@ -76,7 +76,13 @@ export async function unlock(onHash) {
 
 export async function repay(amountDai, onHash) {
     const val = web3.utils.toWei(amountDai);
-    return ApiAction(B.repayDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0, onHash);
+    if(Number(userInfo.bCdpInfo.daiDebt) <= Number(amountDai) + 1) {
+        return await ApiAction(B.repayAllDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, 0, onHash);
+    }
+    else {
+        return await ApiAction(B.repayDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0, onHash);
+    }
+
 }
 
 export async function doApiAction(action, value, actionData, onHash) {

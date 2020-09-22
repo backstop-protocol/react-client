@@ -16,7 +16,7 @@ const daiAbi =
 [{"inputs":[{"internalType":"uint256","name":"chainId_","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"src","type":"address"},{"indexed":true,"internalType":"address","name":"guy","type":"address"},{"indexed":false,"internalType":"uint256","name":"wad","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":true,"inputs":[{"indexed":true,"internalType":"bytes4","name":"sig","type":"bytes4"},{"indexed":true,"internalType":"address","name":"usr","type":"address"},{"indexed":true,"internalType":"bytes32","name":"arg1","type":"bytes32"},{"indexed":true,"internalType":"bytes32","name":"arg2","type":"bytes32"},{"indexed":false,"internalType":"bytes","name":"data","type":"bytes"}],"name":"LogNote","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"src","type":"address"},{"indexed":true,"internalType":"address","name":"dst","type":"address"},{"indexed":false,"internalType":"uint256","name":"wad","type":"uint256"}],"name":"Transfer","type":"event"},{"constant":true,"inputs":[],"name":"DOMAIN_SEPARATOR","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"PERMIT_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"usr","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"usr","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"burn","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"guy","type":"address"}],"name":"deny","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"usr","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"src","type":"address"},{"internalType":"address","name":"dst","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"move","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"nonces","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"holder","type":"address"},{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"uint256","name":"expiry","type":"uint256"},{"internalType":"bool","name":"allowed","type":"bool"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"permit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"usr","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"pull","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"usr","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"push","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"guy","type":"address"}],"name":"rely","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"dst","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"src","type":"address"},{"internalType":"address","name":"dst","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"version","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"wards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
 
 const ETH_ILK = "0x4554482d41000000000000000000000000000000000000000000000000000000"
-const BCDP_MANGER = "0x1285CB76139a7a3e37E7661aA56127cB9d601bDa"
+const BCDP_MANGER = "0x94d5d549939f8749b93788889815B9A828eB819d"
 const CDP_MANAGER = "0x1476483dD8C35F25e568113C5f70249D3976ba21"
 const GET_CDPS = "0x592301a23d37c591C5856f28726AF820AF8e7014"
 const MCD_VAT = "0xbA987bDB501d131f766fEe8180Da5d81b34b69d9"
@@ -31,7 +31,7 @@ const JAR = "0xbA987bDB501d131f766fEe8180Da5d81b34b69d9"
 
 
 
-export const getUserInfo = function(web3, user) {
+module.exports.getUserInfo = function(web3, user) {
   const infoContract = new web3.eth.Contract(infoAbi,infoAddress)
   return infoContract.methods.getInfo(user,
                                       ETH_ILK,
@@ -45,7 +45,7 @@ export const getUserInfo = function(web3, user) {
                                       MCD_DAI).call({gasLimit:10e6})
 }
 
-export const firstDeposit = function(web3, user) {
+module.exports.firstDeposit = function(web3, user) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
   return actionProxyContract.methods.openLockETHAndGiveToProxy(PROXY_REGISTRY,
                                                                BCDP_MANGER,
@@ -54,7 +54,7 @@ export const firstDeposit = function(web3, user) {
                                                                user)
 }
 
-export const depositETH = function(web3, userProxy, cdp) {
+module.exports.depositETH = function(web3, userProxy, cdp) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.lockETHViaCdp(BCDP_MANGER,
@@ -65,7 +65,7 @@ export const depositETH = function(web3, userProxy, cdp) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const withdrawETH = function(web3, userProxy, cdp, wad) {
+module.exports.withdrawETH = function(web3, userProxy, cdp, wad) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.freeETH(BCDP_MANGER,
@@ -77,7 +77,7 @@ export const withdrawETH = function(web3, userProxy, cdp, wad) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const generateDai = function(web3, userProxy, cdp, wad) {
+module.exports.generateDai = function(web3, userProxy, cdp, wad) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.draw(BCDP_MANGER,
@@ -90,12 +90,12 @@ export const generateDai = function(web3, userProxy, cdp, wad) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const unlockDai = function(web3, userProxy) {
+module.exports.unlockDai = function(web3, userProxy) {
   const daiContract = new web3.eth.Contract(daiAbi,MCD_DAI)
   return daiContract.methods.approve(userProxy,"0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 }
 
-export const repayDai = function(web3, userProxy, cdp, wad) {
+module.exports.repayDai = function(web3, userProxy, cdp, wad) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.safeWipe(BCDP_MANGER,
@@ -108,7 +108,19 @@ export const repayDai = function(web3, userProxy, cdp, wad) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const migrateFresh = function(web3, userProxy, makerDaoCdp) {
+module.exports.repayAllDai = function(web3, userProxy, cdp) {
+  const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
+
+  const data = actionProxyContract.methods.safeWipeAll(BCDP_MANGER,
+                                                       MCD_JOIN_DAI,
+                                                       cdp,
+                                                       userProxy).encodeABI()
+
+  const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
+  return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
+}
+
+module.exports.migrateFresh = function(web3, userProxy, makerDaoCdp) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.openAndImportFromManager(CDP_MANAGER,
@@ -120,7 +132,7 @@ export const migrateFresh = function(web3, userProxy, makerDaoCdp) {
   return proxyContract.methods['execute(address,bytes)'](actionProxyAddress,data)
 }
 
-export const migrateToExisting = function(web3, userProxy, makerDaoCdp, bCdp) {
+module.exports.migrateToExisting = function(web3, userProxy, makerDaoCdp, bCdp) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
 
   const data = actionProxyContract.methods.shiftManager(CDP_MANAGER,
@@ -133,7 +145,7 @@ export const migrateToExisting = function(web3, userProxy, makerDaoCdp, bCdp) {
 }
 
 // this will be used only for testings
-export const openMakerDaoCdp = function(web3, user) {
+module.exports.openMakerDaoCdp = function(web3, user) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,actionProxyAddress)
   return actionProxyContract.methods.openLockETHAndGiveToProxy(PROXY_REGISTRY,
                                                                CDP_MANAGER,
@@ -150,36 +162,36 @@ export const openMakerDaoCdp = function(web3, user) {
 ////////////////////////////////////////////////////////////////////////////////
 
 function toNumber(bignum,web3) {
-  return Number(web3.utils.fromWei(bignum.toString(10)))
+  return Number(web3.utils.fromWei(bignum))
 }
 
-export const calcNewBorrowLimitAndLiquidationPrice = function(userInfo,
-                                                                dEth,
-                                                                dDai,
-                                                                web3) {
+function calcNewBorrowAndLPrice(userInfo,
+                                dEth,
+                                dDai,
+                                web3) {
   dEth = toNumber(dEth,web3)
   dDai = toNumber(dDai,web3)
-
   const ethDeposit = toNumber(userInfo.bCdpInfo.ethDeposit,web3)
   const daiDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3)
-
-  if(ethDeposit == 0) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
 
   const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)
   const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3)
 
+  if(ethDeposit == 0) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
+
   const newMaxDaiDebt = maxDaiDebt * (ethDeposit + dEth) / ethDeposit
   const liqRatio = ethDeposit * spotPrice / maxDaiDebt
-
   // (total dai debt) * liqRatio = (total eth deposit) * liquidationPrice
   const newLiquidationPrice = (daiDebt + dDai) * liqRatio / (ethDeposit + dEth)
-  console.log("YYYYYYYYYYY",dEth,ethDeposit)
+
   return [web3.utils.toWei(newMaxDaiDebt.toString()), web3.utils.toWei(newLiquidationPrice.toString())]
 }
 
+module.exports.calcNewBorrowLimitAndLiquidationPrice = calcNewBorrowAndLPrice
+
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyDepositInput = function(userInfo,
+module.exports.verifyDepositInput = function(userInfo,
                                              dEth,
                                              web3) {
   dEth = toNumber(dEth,web3)
@@ -193,17 +205,15 @@ export const verifyDepositInput = function(userInfo,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyWithdrawInput = function(userInfo,
+module.exports.verifyWithdrawInput = function(userInfo,
                                               dEth,
                                               web3) {
-                                                console.log("XXXXXXXXXXXX",userInfo)
   const dEthMinus = web3.utils.toBN(dEth).mul(web3.utils.toBN(-1))
   dEth = toNumber(dEth,web3)
   if(dEth <= 0) return [false, "Withdraw amount must be positive"]
   if(dEth > toNumber(userInfo.bCdpInfo.ethDeposit,web3)) return [false, "Amount exceeds CDP deposit"]
 
-  const [maxDebt,newPrice] = calcNewBorrowLimitAndLiquidationPrice(userInfo,dEthMinus.toString(10),"0",web3)
-  console.log("XXXXXXXXX",{maxDebt},{newPrice},dEthMinus.toString(10))
+  const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,dEthMinus.toString(10),"0",web3)
   if(toNumber(maxDebt,web3) < toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds allowed withdrawal"]
 
   return [true,""]
@@ -211,19 +221,24 @@ export const verifyWithdrawInput = function(userInfo,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyBorrowInput = function(userInfo,
+module.exports.verifyBorrowInput = function(userInfo,
                                             dDai,
                                             web3) {
   dDai = toNumber(dDai,web3)
   if(dDai <= 0) return [false, "Borrow amount must be positive"]
-  if((toNumber(userInfo.bCdpInfo.daiDebt,web3) + dDai) > toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)) return [false,"Amount exceeds allowed borrowed"]
+
+  const newDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3) + dDai
+  const dust = toNumber(userInfo.miscInfo.dustInWei,web3)
+
+  if(newDebt > toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)) return [false,"Amount exceeds allowed borrowed"]
+  if(newDebt < dust) return [false,"A Vault requires a minimum of " + dust.toString() + " Dai to be generated"]
 
   return [true,""]
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyRepayInput = function(userInfo,
+module.exports.verifyRepayInput = function(userInfo,
                                            dDai,
                                            web3) {
   dDai = toNumber(dDai,web3)
@@ -231,6 +246,12 @@ export const verifyRepayInput = function(userInfo,
   if(dDai > toNumber(userInfo.userWalletInfo.daiBalance,web3)) return [false,"Amount exceeds dai balance"]
   if(dDai > toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds dai debt"]
   if(dDai > toNumber(userInfo.userWalletInfo.daiAllowance,web3)) return [false,"Must unlock DAI"]
+
+  const newDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3) - dDai
+  const dust = toNumber(userInfo.miscInfo.dustInWei, web3)
+  const maxRepay = toNumber(userInfo.bCdpInfo.daiDebt,web3) - dust
+
+  if(dust >= newDebt && newDebt > 1) return [false,"You can repay all your outstanding debt or a maximum of " + maxRepay.toString() + " Dai"]
 
   return [true,""]
 }
