@@ -62,6 +62,17 @@ export default class Repay extends Component {
         }
     };
 
+    setMax = () => {
+        const {userInfo} = this.props,
+            val = (Math.floor(userInfo.bCdpInfo.daiDebt*1000)/1000).toString();
+console.log(val);
+        const res = this.props.onPanelInput(val);
+        if (res !== false) {
+            this.setState({val: res});
+            this.validate(res);
+        }
+    };
+
     onUnlock = async () => {
         if (isRepayUnlocked()) return false;
         this.setState({unlocking: true});
@@ -81,6 +92,7 @@ export default class Repay extends Component {
                 <p>How much DAI would you like to Repay?</p>
                 <div className="currency-input">
                     <div className="tooltip-container">
+                        <div className="set-max" onClick={this.setMax}>Set Max</div>
                         <input type="text" value={val} onChange={this.onChange} placeholder="Amount in DAI" />
                         {error &&
                         <div className="warning tooltip bottom">
