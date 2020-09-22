@@ -60,7 +60,6 @@ export default class CurrencyBox extends Component {
 
     onPanelInput = (value) => {
         if (value === "" || isNaN(value*1)) {
-            console.log(value, "?")
             return false;
         }
         this.setState({value});
@@ -135,7 +134,7 @@ export default class CurrencyBox extends Component {
                             <div>
                                 <label>Liquidation Price</label>
                                 <div className="value">
-                                    {liquidationPrice && parseFloat(liquidationPrice[0]).toFixed(2)+' USD'}
+                                    {liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)+' USD'}
                                 </div>
                             </div>
                             <div>
