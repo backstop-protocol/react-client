@@ -142,6 +142,8 @@
     box-sizing: border-box;
     transition: all 0.4s;
     overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
 
     &.active {
       height: 254px;
@@ -166,6 +168,11 @@
     border-top: 1px solid $panelSeparatorColor;
     padding: 0 38px;
     color: $panelColor;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
 
     &.centered {
       display: flex;
@@ -179,7 +186,6 @@
       font-size: 24px;
       letter-spacing: 1.2px;
       font-weight: normal;
-      margin-top: 34px;
       margin-bottom: 7px;
       text-transform: uppercase;
     }
@@ -204,8 +210,7 @@
     }
 
     &-footer {
-      margin-top: 28px;
-      padding: 0 38px;
+      padding: 25px 38px;
 
       label {
         font-size: 12px;

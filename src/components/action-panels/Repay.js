@@ -62,7 +62,7 @@ export default class Repay extends Component {
     };
 
     onUnlock = async () => {
-        if (!this.locked) return false;
+        if (isRepayUnlocked()) return false;
         this.setState({unlocking: true});
         const res = await this.props.onPanelAction(this.unlockAction, null, "unlocking", true);
     };
