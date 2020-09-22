@@ -41,6 +41,7 @@ export default class Deposit extends Component {
 
     onChange = (e) => {
         const val = e.target.value;
+        console.log(val);
         const res = this.props.onPanelInput(val);
         if (res !== false) {
             this.setState({val: res});
@@ -58,7 +59,7 @@ export default class Deposit extends Component {
                 <p>How much ETH would you like to deposit?</p>
                     <div className="currency-input">
                         <div className="tooltip-container">
-                            <input type="number" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
+                            <input type="text" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
                             {error &&
                             <div className="warning tooltip bottom">
                                 <i> </i>

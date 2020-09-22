@@ -59,9 +59,10 @@ export default class CurrencyBox extends Component {
     };
 
     onPanelInput = (value) => {
+        console.log(value,":)))");
         if (value === '') value = '0';
         value = value.replace(/^(0)+([0-9]+)/, '$2');
-        if (!value.match(/^-?\d+\.?\d*$/)) {
+            if (!value.match(/^-?\d+\.?\d*$/)) {
             return false;
         }
         this.setState({value});

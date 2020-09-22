@@ -53,7 +53,7 @@ export default class Borrow extends Component {
                 <p>How much DAI would you like to Borrow?</p>
                 <div className="currency-input">
                     <div className="tooltip-container">
-                        <input type="number" value={val} onChange={this.onChange} placeholder="Amount in DAI" />
+                        <input type="text" value={val} onChange={this.onChange} placeholder="Amount in DAI" />
                         {error &&
                         <div className="warning tooltip bottom">
                             <i> </i>
