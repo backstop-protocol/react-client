@@ -33,7 +33,7 @@ export default class Repay extends Component {
         let error = '';
         if (!ok[0]) error = ok[1];
 
-        this.setState({invalid: ok[0], error});
+        this.setState({invalid: !ok[0], error});
         return ok;
     };
 
