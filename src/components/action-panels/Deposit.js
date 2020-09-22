@@ -56,7 +56,7 @@ export default class Deposit extends Component {
                 <p>How much ETH would you like to deposit?</p>
                     <div className="currency-input">
                         <div className="tooltip-container">
-                            <input type="number" onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
+                            <input type="number" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
                             {error &&
                             <div className="warning tooltip bottom">
                                 <i> </i>

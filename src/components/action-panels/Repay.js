@@ -77,7 +77,7 @@ export default class Repay extends Component {
                 <p>How much DAI would you like to Repay?</p>
                 <div className="currency-input">
                     <div className="tooltip-container">
-                        <input type="number" onChange={this.onChange} placeholder="Amount in DAI" />
+                        <input type="number" value={val} onChange={this.onChange} placeholder="Amount in DAI" />
                         {error &&
                         <div className="warning tooltip bottom">
                             <i> </i>

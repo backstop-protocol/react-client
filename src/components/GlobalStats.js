@@ -15,13 +15,13 @@ export default class GlobalStats extends Component {
                     <div className="left">
                         <h2>Jar Balance</h2>
                         <div className="value">
-                            ${userInfo?userInfo.userRatingInfo.userRating:0}
+                            {userInfo?userInfo.userRatingInfo.jarSize:0}
                         </div>
                     </div>
                     <div className="right">
                         <h2>User Rating</h2>
                         <div className="value">
-                            {userInfo?userInfo.userRatingInfo.jarSize:0}
+                            ${userInfo?userInfo.userRatingInfo.userRating:0}
                         </div>
                     </div>
                 </div>

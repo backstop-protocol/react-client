@@ -59,7 +59,7 @@ export default class CurrencyBox extends Component {
     };
 
     onPanelInput = (value) => {
-        if (value === "" || isNaN(value*1)) {
+        if (!value.match(/^-?\d+\.?\d*$/)) {
             return false;
         }
         this.setState({value});
@@ -140,7 +140,8 @@ export default class CurrencyBox extends Component {
                             <div>
                                 <label>Borrow Limit</label>
                                 <div className="value">
-
+                                    {liquidationPrice &&
+                                    parseFloat(liquidationPrice[1]).toFixed(2)+' USD'}
                                 </div>
                             </div>
                         </div>
