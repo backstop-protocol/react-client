@@ -58,8 +58,13 @@ export default class CurrencyBox extends Component {
         return this.props.onPanelAction(action, value);
     };
 
-    onPanelInput = async (value) => {
-        this.setState({value})
+    onPanelInput = (value) => {
+        if (value === "" || isNaN(value*1)) {
+            console.log(value, "?")
+            return false;
+        }
+        this.setState({value});
+        return true;
     };
 
     render() {

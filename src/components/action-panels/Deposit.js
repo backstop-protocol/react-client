@@ -22,7 +22,6 @@ export default class Deposit extends Component {
 
     validate = async (val) => {
         const ok = await validateDeposit(val);
-        console.log("ok?", ok);
 
         let error = '';
         if (!ok[0]) error = ok[1];
@@ -40,9 +39,11 @@ export default class Deposit extends Component {
 
     onChange = (e) => {
         const val = e.target.value;
-        this.setState({val});
-        this.props.onPanelInput(val);
-        this.validate(val);
+        const res = this.props.onPanelInput(val);
+        if (res) {
+            this.setState({val});
+            this.validate(val);
+        }
     };
 
     render() {

@@ -50,14 +50,15 @@ export default class Repay extends Component {
         if (!val*1 || locked || invalid) return false;
 
         const res = await this.props.onPanelAction(this.action, val, this.actioning)
-        console.log(res);
     };
 
     onChange = (e) => {
         const val = e.target.value;
-        this.setState({val});
-        this.props.onPanelInput(val);
-        this.validate(val);
+        const res = this.props.onPanelInput(val);
+        if (res) {
+            this.setState({val});
+            this.validate(val);
+        }
     };
 
     onUnlock = async () => {
