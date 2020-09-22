@@ -28,11 +28,12 @@ export default class Repay extends Component {
 
     validate = async (val) => {
         const ok = await validateRepay(val);
+        console.log(ok);
 
         let error = '';
         if (!ok[0]) error = ok[1];
 
-        this.setState({invalid: !ok[0], error});
+        this.setState({invalid: ok[0], error});
         return ok;
     };
 
@@ -46,7 +47,7 @@ export default class Repay extends Component {
     };
 
     doAction = async () => {
-        const {val, locked, invalid} = this.state;
+        const {val, invalid} = this.state;
         console.log("!!!!", val, !isRepayUnlocked(), invalid);
         if (!val*1 || !isRepayUnlocked() || invalid) return false;
         const res = await this.props.onPanelAction(this.action, val, this.actioning)

@@ -42,23 +42,27 @@ function increaseABit(number) {
 }
 
 export const ApiAction = async function(action, user, web3, gasValue = 0, hashCb = null) {
-    console.log(hashCb);
     return new Promise(async (res, rej) => {
 
         try {
             const txObject = await action;
-            const gasConsumption = increaseABit(await txObject.estimateGas({ value : gasValue, from : user }));
+            const gasEstimate = await txObject.estimateGas({ value : gasValue, from : user });
+            console.log("345345", gasEstimate)
+            const gasConsumption = increaseABit(gasEstimate);
             const transaction = txObject.send({ gas:gasConsumption, value: gasValue, from:user })
                 .once('transactionHash', (hash) => { if (hashCb) hashCb(hash)})
-                .on('error', (error) => { rej(error)})
+                .on('error', (error) => { console.log("hmmm?", error); rej(error)} )
                 .then((receipt) => {
-                    console.log(receipt);
                     res(receipt);
+                })
+                .catch((error) => {
+                    console.log("oh nooo")
+                    rej(error);
                 })
 
         }
         catch (error) {
-            return { error }
+            rej(error);
         }
     })
 };

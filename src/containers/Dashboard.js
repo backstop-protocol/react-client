@@ -7,6 +7,7 @@ import DaiBox from "../components/DaiBox";
 import * as ApiHelper from "../lib/ApiHelper";
 import * as B from "../lib/bInterface";
 import {doApiAction, setUserInfo} from "../lib/Actions";
+import EventBus from "../lib/EventBus";
 
 let timeout;
 
@@ -41,9 +42,15 @@ export default class Dashboard extends Component {
     };
 
     onAction = async (action, value, onHash) => {
-        const res = await doApiAction(action, value, null, onHash);
-        this.getUserInfo();
-        return res;
+        try {
+            const res = await doApiAction(action, value, null, onHash);
+            this.getUserInfo();
+            return res;
+        } catch (error) {
+            EventBus.$emit('action-failed', null, action);
+            console.log(error);
+            return false;
+        }
     };
 
     onShowConnect = () => {
