@@ -64,8 +64,7 @@ export default class Repay extends Component {
 
     setMax = () => {
         const {userInfo} = this.props,
-            val = (Math.floor(userInfo.bCdpInfo.daiDebt*1000)/1000).toString();
-console.log(val);
+        val = (Math.floor(userInfo.bCdpInfo.daiDebt*1000)/1000).toString();
         const res = this.props.onPanelInput(val);
         if (res !== false) {
             this.setState({val: res});
