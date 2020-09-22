@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import EtheriumBox from "../components/EtheriumBox";
 import DaiBox from "../components/DaiBox";
 import * as ApiHelper from "../lib/ApiHelper";
+import * as B from "../lib/bInterface";
 import {doApiAction, setUserInfo} from "../lib/Actions";
 
 
@@ -28,9 +29,10 @@ export default class Dashboard extends Component {
     };
 
     getUserInfo = async () => {
-        let userInfo = await ApiHelper.getUserInfo(this.web3, this.state.user);
+        let userInfo = await B.getUserInfo(this.web3, this.state.user);
+        const orgInfo = userInfo;
         userInfo = ApiHelper.Humanize(userInfo, this.web3);
-        setUserInfo(this.state.user, this.web3, userInfo);
+        setUserInfo(this.state.user, this.web3, userInfo, orgInfo);
         this.setState({userInfo});
     };
 

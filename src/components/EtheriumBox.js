@@ -4,7 +4,7 @@ import CurrencyBox from "./CurrencyBox";
 import Etherium from "../assets/etherium.svg";
 import Deposit from "./action-panels/Deposit";
 import Withdraw from "./action-panels/Withdraw";
-import {calcNewBorrowLimitAndLiquidationPrice} from "../lib/ApiHelper";
+import {calcNewBorrowLimitAndLiquidationPrice} from "../lib/bInterface";
 
 export default class EtheriumBox extends Component {
 
