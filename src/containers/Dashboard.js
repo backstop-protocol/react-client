@@ -32,6 +32,7 @@ export default class Dashboard extends Component {
         let userInfo = await B.getUserInfo(this.web3, this.state.user);
         const orgInfo = userInfo;
         userInfo = ApiHelper.Humanize(userInfo, this.web3);
+        console.log(userInfo);
         setUserInfo(this.state.user, this.web3, userInfo, orgInfo);
         this.setState({userInfo});
     };

@@ -26,7 +26,7 @@ export default class CurrencyBox extends Component {
             this.setState({panel : null})
         }
         else {
-            this.setState({panel});
+            this.setState({panel, value: 0});
         }
     };
 
@@ -69,7 +69,7 @@ export default class CurrencyBox extends Component {
 
     render() {
 
-        const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, exceedsMax, currencyValue} = this.props;
+        const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit} = this.props;
         const {panel, actioning, value, loading, completed, failed} = this.state;
 
         let CustomPanel = null;
@@ -78,6 +78,7 @@ export default class CurrencyBox extends Component {
         }
 
         let liquidationPrice;
+        let valueDir = 1;
         if (panel)
         switch (panel.name) {
             case 'Deposit':
@@ -85,11 +86,13 @@ export default class CurrencyBox extends Component {
                 break;
             case 'Withdraw':
                 liquidationPrice = getLiquidationPrice(-value, 0);
+                valueDir = -1;
                 break;
             case 'Borrow':
                 liquidationPrice = getLiquidationPrice(0, value);
                 break;
             case 'Repay':
+                valueDir = -1;
                 liquidationPrice = getLiquidationPrice(0, -value);
                 break;
         }
@@ -122,7 +125,7 @@ export default class CurrencyBox extends Component {
                 <div className={'currency-action-panel-container' + actionPanelContainerClass}>
                     {panel &&
                     <CustomPanel onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
-                                 actioning={actioning} value={value} currency={currency} exceedsMax={exceedsMax}
+                                 actioning={actioning} value={value} currency={currency}
                                  completed={completed} failed={failed} />
                     }
                     {(!loading && !completed && !failed && panel) &&
@@ -149,12 +152,11 @@ export default class CurrencyBox extends Component {
                                             <label>{numm(liquidationPrice[0])} DAI</label>
                                         </div>
                                         <div className="limit-bar-inner">
-                                            <div className="limit-bar-track" style={{width: parseFloat(userInfo.bCdpInfo.daiDebt / liquidationPrice[0] * 100).toFixed(2)+'%'}}>
-                                                <span>{(userInfo?numm(userInfo.bCdpInfo.daiDebt / liquidationPrice[0] * 100):0)+"%"}</span>
+                                            <div className="limit-bar-track" style={{width: borrowLimit(userInfo,liquidationPrice[0], value * valueDir)+'%'}}>
+                                                <span>{borrowLimit(userInfo, liquidationPrice[0], liquidationPrice[1])+"%"}</span>
                                             </div>
                                         </div>
                                         </div>
-
                                     </div>
                                     }
                                 </div>
