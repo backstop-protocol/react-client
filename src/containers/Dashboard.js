@@ -8,6 +8,7 @@ import * as ApiHelper from "../lib/ApiHelper";
 import * as B from "../lib/bInterface";
 import {doApiAction, setUserInfo} from "../lib/Actions";
 import EventBus from "../lib/EventBus";
+import ModalContainer from "../components/ModalContainer";
 
 let timeout;
 
@@ -69,6 +70,9 @@ export default class Dashboard extends Component {
 
         return (
             <div className="App">
+                <ModalContainer>
+
+                </ModalContainer>
                 <Sidebar userInfo={userInfo} />
                 <div className="content">
                     <Header info={(loggedIn && userInfo !== null) && userInfo} onConnect={this.onConnect} showConnect={showConnect} />

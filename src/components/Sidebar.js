@@ -7,14 +7,21 @@ import Discord from "../assets/discord.svg";
 import AAVELogo from "../assets/aav-ewhite-logo.svg";
 import CompoundLogo from "../assets/compound-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
+import EventBus from "../lib/EventBus";
+import MigrationModal from "./modals/MigrationModal";
 
 export default class Sidebar extends Component {
+
+    showMigratePopup() {
+        EventBus.$emit('show-modal', MigrationModal);
+    }
+
 
     render() {
 
         const {userInfo} = this.props;
 
-        if (userInfo) console.log(userInfo.makerdaoCdpInfo)
+        if (userInfo) console.log(userInfo.makerdaoCdpInfo);
 
         return (
             <div className="sidebar">
@@ -24,7 +31,7 @@ export default class Sidebar extends Component {
                     {(userInfo && userInfo.makerdaoCdpInfo.hasCdp) &&
                         <div>
                         <div className="cdp-convert">
-                            <div className="migrate-btn">Migrate</div>
+                            <div className="migrate-btn" onClick={this.showMigratePopup}>Migrate</div>
                             <p>Import your CDP<br />from MakerDAO system <br/>to B.Protocol</p>
                             <div className="even">
                                 <div>
