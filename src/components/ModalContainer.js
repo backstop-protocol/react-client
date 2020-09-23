@@ -13,7 +13,8 @@ export default class ModalContainer extends Component {
     }
 
     componentDidMount() {
-        EventBus.$on('show-modal', this.showModalBox.bind(this))
+        EventBus.$on('show-modal', this.showModalBox.bind(this));
+        EventBus.$on('close-modal', this.closeModalBox.bind(this));
     }
 
     showModalBox(component) {
@@ -27,7 +28,6 @@ export default class ModalContainer extends Component {
     render() {
         const {component} = this.state;
         const cls = component !== null ? 'modal-container active' : 'modal-container';
-        const ModalComponent = component;
 
         return (
             <div className={cls}>
@@ -37,7 +37,7 @@ export default class ModalContainer extends Component {
                             <img src={XIcon} />
                         </div>
                         <div>
-                            <ModalComponent />
+                            {component}
                         </div>
                     </div>
                 }

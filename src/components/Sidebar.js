@@ -14,7 +14,7 @@ import {numm} from "../lib/Utils";
 export default class Sidebar extends Component {
 
     showMigratePopup() {
-        EventBus.$emit('show-modal', MigrationModal);
+        EventBus.$emit('show-modal', <MigrationModal />);
     }
 
 
@@ -22,7 +22,6 @@ export default class Sidebar extends Component {
 
         const {userInfo} = this.props;
 
-        if (userInfo) console.log(userInfo.makerdaoCdpInfo);
 
         return (
             <div className="sidebar">

@@ -23,7 +23,9 @@ export default class Dashboard extends Component {
             userInfo : null,
             showConnect: false,
             loggedIn: false
-        }
+        };
+
+        EventBus.$on('run-action', this.runAction.bind(this));
     }
 
     onConnect = (web3, user) => {
@@ -46,7 +48,22 @@ export default class Dashboard extends Component {
     onAction = async (action, value, onHash) => {
         try {
             const res = await doApiAction(action, value, null, onHash);
+            await this.getUserInfo();
+            return res;
+        } catch (error) {
+            EventBus.$emit('action-failed', null, action);
+            EventBus.$emit('app-error', null, action);
+            console.log(error);
+            return false;
+        }
+    };
+
+    runAction = async(action, value, callback) => {
+        if (!this.state.userInfo) return;
+        try {
+            const res = await action();
             this.getUserInfo();
+            if (callback) callback(res);
             return res;
         } catch (error) {
             EventBus.$emit('action-failed', null, action);
