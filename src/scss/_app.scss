@@ -25,10 +25,20 @@
 
   .header-stats {
 
+    // column display stuff
+    @media screen and (max-width: 1023px) {
+      flex-direction: column;
+    }
+
+
     h3 {
       font-size: 16px;
       font-weight: 500;
       font-stretch: normal;
+
+      @media screen and (max-width: 1600px) {
+        font-size: 13px;
+      }
     }
 
     label {
@@ -36,11 +46,36 @@
       font-weight: bold;
       font-stretch: normal;
       font-style: italic;
+
+      @media screen and (max-width: 1600px) {
+        font-size: 17px;
+      }
+    }
+
+    .image-container {
+      .background-image {
+        width: 487px;
+
+        @media screen and (max-width: 1600px) {
+          width: 414px;
+        }
+      }
     }
 
     .borrow-limit {
       margin-left: 50px;
       flex: 1;
+
+      @media screen and (max-width: 1023px) {
+        margin-left: 0;
+        width: 100%;
+        padding: 0 30px;
+
+        h3 {
+          margin-top: 10px;
+          text-align: center;
+        }
+      }
     }
   }
 
@@ -113,6 +148,10 @@
       font-weight: bold;
       font-stretch: normal;
       font-style: italic;
+
+      @media screen and (max-width: 1600px) {
+        font-size: 17px;
+      }
     }
   }
 

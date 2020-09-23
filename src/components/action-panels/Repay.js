@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {isRepayUnlocked, validateRepay} from "../../lib/Actions";
 import EventBus from "../../lib/EventBus";
+import LoadingRing from "../LoadingRing";
 
 export default class Repay extends Component {
 
@@ -103,7 +104,9 @@ export default class Repay extends Component {
                 </div>
                 <div className="currency-secondary-input">
                     <h3>Unlock DAI to continue</h3>
-                    <div className={'tickbox'+(unlocking ? ' loading' : (locked? '':' active'))} onClick={this.onUnlock}> </div>
+                    <div className={'tickbox'+(unlocking ? ' loading' : (locked? '':' active'))} onClick={this.onUnlock}>
+                        {unlocking && <LoadingRing />}
+                    </div>
                 </div>
             </div>
         )

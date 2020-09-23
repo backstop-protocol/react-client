@@ -52,7 +52,7 @@ export default class GlobalStats extends Component {
                     </div>
                 </div>
                 <div className="image-container">
-                    <img src={BackgroundImg} />
+                    <img src={BackgroundImg} className="background-image" />
                     <img src={DollarIcon} className="floating centered" />
                 </div>
             </div>
