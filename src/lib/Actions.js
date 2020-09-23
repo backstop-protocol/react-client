@@ -55,7 +55,7 @@ export async function migrateMakerDao() {
         return await ApiAction(B.migrateToExisting(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp, userInfo.bCdpInfo.cdp), user, web3, 0);
     }
     else { // first deposit
-        return await ApiAction(B.migrateFresh(web3, user, userInfo.makerdaoCdpInfo.cdp), user, web3, 0);
+        return await ApiAction(B.migrateFresh(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp), user, web3, 0);
     }
 }
 

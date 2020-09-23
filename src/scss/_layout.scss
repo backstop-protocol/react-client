@@ -33,6 +33,10 @@
 .container {
   margin: 0 auto;
   max-width: 1266px;
+
+  @media screen and (max-width: 1600px) {
+    max-width: 1188px;
+  }
 }
 
 .title-bar {
