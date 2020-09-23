@@ -9,6 +9,7 @@ import CompoundLogo from "../assets/compound-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
 import EventBus from "../lib/EventBus";
 import MigrationModal from "./modals/MigrationModal";
+import {numm} from "../lib/Utils";
 
 export default class Sidebar extends Component {
 
@@ -36,11 +37,11 @@ export default class Sidebar extends Component {
                             <div className="even">
                                 <div>
                                     <small>ETH Locked</small>
-                                    <p>{userInfo.makerdaoCdpInfo.ethDeposit} ETH</p>
+                                    <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
                                 </div>
                                 <div>
                                     <small>DAI Debt</small>
-                                    <p>{userInfo.makerdaoCdpInfo.daiDebt} DAI</p>
+                                    <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
                                 </div>
                             </div>
 
