@@ -20,9 +20,10 @@ export default class Deposit extends Component {
     componentDidMount() {
     }
 
+
+
     validate = async (val) => {
         const ok = await validateDeposit(val);
-        console.log("ok?", ok);
 
         let error = '';
         if (!ok[0]) error = ok[1];
@@ -40,9 +41,12 @@ export default class Deposit extends Component {
 
     onChange = (e) => {
         const val = e.target.value;
-        this.setState({val});
-        this.props.onPanelInput(val);
-        this.validate(val);
+        console.log(val);
+        const res = this.props.onPanelInput(val);
+        if (res !== false) {
+            this.setState({val: res});
+            this.validate(res);
+        }
     };
 
     render() {
@@ -55,7 +59,7 @@ export default class Deposit extends Component {
                 <p>How much ETH would you like to deposit?</p>
                     <div className="currency-input">
                         <div className="tooltip-container">
-                            <input type="number" onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
+                            <input type="text" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
                             {error &&
                             <div className="warning tooltip bottom">
                                 <i> </i>

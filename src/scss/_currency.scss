@@ -76,6 +76,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
   }
 
   &-title {
@@ -142,6 +147,8 @@
     box-sizing: border-box;
     transition: all 0.4s;
     overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
 
     &.active {
       height: 254px;
@@ -166,12 +173,19 @@
     border-top: 1px solid $panelSeparatorColor;
     padding: 0 38px;
     color: $panelColor;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
 
     &.centered {
       display: flex;
       height: 100%;
       align-items: center;
       justify-content: space-between;
+      flex-direction: row;
+
     }
 
     h2 {
@@ -179,15 +193,14 @@
       font-size: 24px;
       letter-spacing: 1.2px;
       font-weight: normal;
-      margin-top: 34px;
       margin-bottom: 7px;
       text-transform: uppercase;
     }
 
     h3 {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 500;
-      letter-spacing: 0.8px;
+      letter-spacing: normal;
       display: flex;
       align-items: center;
 
@@ -198,14 +211,13 @@
 
     p {
       font-family: $bodyFont, sans-serif;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 14px;
       margin-bottom: 10px;
     }
 
     &-footer {
-      margin-top: 48px;
-      padding: 0 38px;
+      padding: 25px 38px;
 
       label {
         font-size: 12px;
@@ -221,6 +233,7 @@
   &-input {
     display: flex;
     input {
+      outline: none;
       width: 100%;
       height: 45px;
       box-sizing: border-box;
@@ -260,5 +273,16 @@
     justify-content: space-between;
     margin-right: 120px;
   }
+
+}
+
+.set-max {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.4px;
+  cursor: pointer;
 }
 

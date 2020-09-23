@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {validateRepay} from "../../lib/Actions";
+import {isRepayUnlocked, validateRepay} from "../../lib/Actions";
 import EventBus from "../../lib/EventBus";
 
 export default class Repay extends Component {
@@ -28,6 +28,7 @@ export default class Repay extends Component {
 
     validate = async (val) => {
         const ok = await validateRepay(val);
+        console.log(ok);
 
         let error = '';
         if (!ok[0]) error = ok[1];
@@ -46,29 +47,43 @@ export default class Repay extends Component {
     };
 
     doAction = async () => {
-        const {val, locked, invalid} = this.state;
-        if (!val*1 || locked || invalid) return false;
-
+        const {val, invalid} = this.state;
+        console.log("!!!!", val, !isRepayUnlocked(), invalid);
+        if (!val*1 || !isRepayUnlocked() || invalid) return false;
         const res = await this.props.onPanelAction(this.action, val, this.actioning)
-        console.log(res);
     };
 
     onChange = (e) => {
         const val = e.target.value;
-        this.setState({val});
-        this.props.onPanelInput(val);
-        this.validate(val);
+        const res = this.props.onPanelInput(val);
+        if (res !== false) {
+            this.setState({val: res});
+            this.validate(res);
+        }
+    };
+
+    setMax = () => {
+        const {userInfo} = this.props,
+        val = (Math.floor(userInfo.bCdpInfo.daiDebt*1000)/1000).toString();
+        const res = this.props.onPanelInput(val);
+        if (res !== false) {
+            this.setState({val: res});
+            this.validate(res);
+        }
     };
 
     onUnlock = async () => {
+        if (isRepayUnlocked()) return false;
         this.setState({unlocking: true});
         const res = await this.props.onPanelAction(this.unlockAction, null, "unlocking", true);
-
     };
 
     render() {
 
-        const {invalid, error, val, locked, unlocking} = this.state;
+        const {invalid, error, val, unlocking} = this.state;
+        const {userInfo} = this.props;
+
+        const locked = !isRepayUnlocked();
 
         return (
             <div className="currency-action-panel">
@@ -76,7 +91,8 @@ export default class Repay extends Component {
                 <p>How much DAI would you like to Repay?</p>
                 <div className="currency-input">
                     <div className="tooltip-container">
-                        <input type="number" onChange={this.onChange} placeholder="Amount in DAI" />
+                        <div className="set-max" onClick={this.setMax}>Set Max</div>
+                        <input type="text" value={val} onChange={this.onChange} placeholder="Amount in DAI" />
                         {error &&
                         <div className="warning tooltip bottom">
                             <i> </i>

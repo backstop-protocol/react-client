@@ -37,9 +37,11 @@ export default class Withdraw extends Component {
 
     onChange = (e) => {
         const val = e.target.value;
-        this.setState({val});
-        this.props.onPanelInput(val);
-        this.validate(val);
+        const res = this.props.onPanelInput(val);
+        if (res !== false) {
+            this.setState({val: res});
+            this.validate(res);
+        }
     };
 
     render() {
@@ -52,7 +54,7 @@ export default class Withdraw extends Component {
                 <p>How much ETH would you like to withdraw?</p>
                 <div className="currency-input">
                     <div className="tooltip-container">
-                        <input type="number" onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
+                        <input type="text" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
                         {error &&
                         <div className="warning tooltip bottom">
                             <i> </i>

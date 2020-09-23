@@ -1,12 +1,71 @@
 @import "colors";
 
 .sidebar {
-  padding: 47px 17px;
+  padding: 47px 0;
   width: 264px;
   background-color: $sidebarBg;
   color: $sidebarColor;
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.24), 0 0 7px 0 rgba(0, 0, 0, 0.12);
   z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+
+  &-content {
+    flex: 1;
+
+    .product {
+      padding: 0 20px;
+      display: flex;
+      height: 25px;
+      align-items: center;
+      margin-bottom: 30px;
+      border-left: 7px transparent solid;
+
+      &.selected {
+        border-left-color: #25c068;
+
+      }
+
+      small {
+        font-size: 13px;
+        margin-left: 10px;
+      }
+    }
+
+  }
+
+  .cdp-convert {
+    margin: 0 20px;
+    font-size: 14px;
+
+    p {
+      margin: 20px 0;
+      font-size: 14px;
+      line-height: 1.29;
+      letter-spacing: 0.88px;
+    }
+  }
+
+  &-footer {
+    justify-self: flex-end;
+    text-align: center;
+
+    h3 {
+      font-weight: 300;
+      font-size: 16px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    p.credits {
+      font-size: 14px;
+    }
+  }
 
   .logo {
     margin: 0 auto 38px auto;
@@ -14,7 +73,6 @@
   }
 
   .migrate-btn {
-    margin-top: 32px;
     height: 45px;
     border-radius: 3.2px;
     background-color: $sidebarBtnBg;
@@ -36,6 +94,7 @@
   }
 
   .ln {
+    margin: 30px 20px;
     background-color: $sidebarSeparatorColor;
     height: 1px;
   }

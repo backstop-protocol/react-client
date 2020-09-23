@@ -36,9 +36,11 @@ export default class Borrow extends Component {
 
     onChange = (e) => {
         const val = e.target.value;
-        this.setState({val});
-        this.props.onPanelInput(val);
-        this.validate(val);
+        const res = this.props.onPanelInput(val);
+        if (res !== false) {
+            this.setState({val: res});
+            this.validate(res);
+        }
     };
 
     render() {
@@ -51,7 +53,7 @@ export default class Borrow extends Component {
                 <p>How much DAI would you like to Borrow?</p>
                 <div className="currency-input">
                     <div className="tooltip-container">
-                        <input type="number" onChange={this.onChange} placeholder="Amount in DAI" />
+                        <input type="text" value={val} onChange={this.onChange} placeholder="Amount in DAI" />
                         {error &&
                         <div className="warning tooltip bottom">
                             <i> </i>
