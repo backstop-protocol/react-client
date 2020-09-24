@@ -47,3 +47,23 @@
     }
   }
 }
+
+.migration-btn {
+  cursor: pointer;
+  border: 0;
+  border-radius: 6px;
+  width: 200px;
+  height: 59px;
+  background-color: $btnBg;
+  color: $btnColor;
+  letter-spacing: 0.83px;
+  font-size: 16px;
+  font-family: $titleFont, sans-serif;
+  text-transform: uppercase;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: darken($btnBg, 20);
+    color: darken($btnColor, 20);
+  }
+}

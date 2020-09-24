@@ -8,6 +8,7 @@ import * as ApiHelper from "../lib/ApiHelper";
 import * as B from "../lib/bInterface";
 import {doApiAction, setUserInfo} from "../lib/Actions";
 import EventBus from "../lib/EventBus";
+import ModalContainer from "../components/ModalContainer";
 
 let timeout;
 
@@ -22,7 +23,9 @@ export default class Dashboard extends Component {
             userInfo : null,
             showConnect: false,
             loggedIn: false
-        }
+        };
+
+        EventBus.$on('run-action', this.runAction.bind(this));
     }
 
     onConnect = (web3, user) => {
@@ -45,7 +48,24 @@ export default class Dashboard extends Component {
     onAction = async (action, value, onHash) => {
         try {
             const res = await doApiAction(action, value, null, onHash);
+            await this.getUserInfo();
+            setTimeout(this.getUserInfo,15 * 1000);
+            setTimeout(this.getUserInfo,30 * 1000);
+            return res;
+        } catch (error) {
+            EventBus.$emit('action-failed', null, action);
+            EventBus.$emit('app-error', null, action);
+            console.log(error);
+            return false;
+        }
+    };
+
+    runAction = async(action, value, callback) => {
+        if (!this.state.userInfo) return;
+        try {
+            const res = await action();
             this.getUserInfo();
+            if (callback) callback(res);
             return res;
         } catch (error) {
             EventBus.$emit('action-failed', null, action);
@@ -69,6 +89,9 @@ export default class Dashboard extends Component {
 
         return (
             <div className="App">
+                <ModalContainer>
+
+                </ModalContainer>
                 <Sidebar userInfo={userInfo} />
                 <div className="content">
                     <Header info={(loggedIn && userInfo !== null) && userInfo} onConnect={this.onConnect} showConnect={showConnect} />

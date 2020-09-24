@@ -50,6 +50,15 @@ export function isRepayUnlocked() {
 
 // concrete actions
 
+export async function migrateMakerDao() {
+    if (userInfo.bCdpInfo.hasCdp) {
+        return await ApiAction(B.migrateToExisting(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp, userInfo.bCdpInfo.cdp), user, web3, 0);
+    }
+    else { // first deposit
+        return await ApiAction(B.migrateFresh(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp), user, web3, 0);
+    }
+}
+
 export async function deposit(amountEth, onHash) {
     const val = web3.utils.toWei(amountEth);
     if (userInfo.bCdpInfo.hasCdp) {

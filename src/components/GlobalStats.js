@@ -1,13 +1,17 @@
 import React, {Component} from "react";
 import BackgroundImg from '../assets/maker-dao-background.svg';
 import DollarIcon from '../assets/dollar-icon.svg';
+import Pulser from "./Pulser";
+import Ticker from "./Ticker";
 
 export default class GlobalStats extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            lastRating: null,
             currentRating: null,
+            ratingProgress: null,
             ratingInterval : null
         }
     }
@@ -17,17 +21,25 @@ export default class GlobalStats extends Component {
         if (!userInfo) return;
 
         if (!this.state.currentRating) {
-            // clearInterval(this.state.ratingInterval);
-            // const interval = setInterval(this.updateUserRating, userInfo.userRatingInfo.userRatingProgressPerSec * 1000);
+            this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / 30000});
+            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / 3000000).toFixed(4)});
 
-            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / 1000).toFixed(3)});
+            clearInterval(this.state.ratingInterval);
+            const interval = setInterval(this.updateUserRating, 3000);
         }
 
-
+        const currRating = parseFloat(userInfo.userRatingInfo.userRating / 10000).toFixed(4);
+        if (this.state.lastRating !== currRating) {
+            this.setState({lastRating: currRating});
+            this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / 300000});
+            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / 300000).toFixed(4)});
+        }
     }
 
     updateUserRating = () => {
-        this.setState({currentRating: this.state.currentRating + 1});
+        const currentRating = this.state.currentRating;
+        const nextRating = parseFloat(currentRating * 1 + this.state.ratingProgress * 3);
+        this.setState({currentRating: nextRating.toFixed(4)});
     };
 
     render() {
@@ -41,18 +53,18 @@ export default class GlobalStats extends Component {
                     <div className="left">
                         <h2>Jar Balance</h2>
                         <div className="value">
-                            ${userInfo?userInfo.userRatingInfo.jarSize:0}
+                            $<Ticker value={userInfo?userInfo.userRatingInfo.jarBalance === 0 ? 10000 : userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice :0} />
                         </div>
                     </div>
                     <div className="right">
                         <h2>User Rating</h2>
                         <div className="value">
-                            {userInfo?currentRating:0}
+                            <Ticker value={userInfo?currentRating:0} />
                         </div>
                     </div>
                 </div>
                 <div className="image-container">
-                    <img src={BackgroundImg} />
+                    <Pulser />
                     <img src={DollarIcon} className="floating centered" />
                 </div>
             </div>

@@ -41,7 +41,6 @@ export default class Deposit extends Component {
 
     onChange = (e) => {
         const val = e.target.value;
-        console.log(val);
         const res = this.props.onPanelInput(val);
         if (res !== false) {
             this.setState({val: res});

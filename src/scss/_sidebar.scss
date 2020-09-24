@@ -1,4 +1,6 @@
 @import "colors";
+@import "fonts";
+
 
 .sidebar {
   padding: 47px 0;
@@ -11,6 +13,10 @@
   flex-direction: column;
   align-self: stretch;
 
+  @media screen and (max-width: 1600px) {
+    width: 227px;
+  }
+
   &-content {
     flex: 1;
 
@@ -22,14 +28,32 @@
       margin-bottom: 30px;
       border-left: 7px transparent solid;
 
+      img {
+
+        width: 90px;
+        height: 20px;
+        object-fit: contain;
+        object-position: 0 50%;
+
+
+      }
+
       &.selected {
         border-left-color: #25c068;
 
       }
 
       small {
+        font-family: $titleFont;
+        letter-spacing: 0.46px;
         font-size: 13px;
         margin-left: 10px;
+        font-weight: normal;
+
+        @media screen and (max-width: 1600px) {
+          font-size: 12px;
+          margin-left: 6px;
+        }
       }
     }
 
@@ -44,6 +68,10 @@
       font-size: 14px;
       line-height: 1.29;
       letter-spacing: 0.88px;
+
+      @media screen and (max-width: 1600px) {
+        font-size: 12px;
+      }
     }
   }
 
