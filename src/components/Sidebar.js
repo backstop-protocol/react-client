@@ -63,7 +63,7 @@ export default class Sidebar extends Component {
 
                 </div>
                 <div className="sidebar-footer">
-                    <h3>BProtocol community</h3>
+                    <h3>B.Protocol community</h3>
                     <div className="social-icons">
                         <a href="https://github.com/backstop-protocol" target="_blank"><img src={Github} /></a>
                         <a href="https://twitter.com/bprotocoleth" target="_blank"><img src={Twitter} /></a>
