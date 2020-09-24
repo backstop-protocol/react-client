@@ -177,14 +177,14 @@ function calcNewBorrowAndLPrice(userInfo,
   const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)
   const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3)
 
-  if(ethDeposit == 0) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
+  if((ethDeposit == 0) || (ethDeposit + dEth == 0)) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
 
   const newMaxDaiDebt = maxDaiDebt * (ethDeposit + dEth) / ethDeposit
   const liqRatio = ethDeposit * spotPrice / maxDaiDebt
   // (total dai debt) * liqRatio = (total eth deposit) * liquidationPrice
   const newLiquidationPrice = (daiDebt + dDai) * liqRatio / (ethDeposit + dEth)
 
-  return [web3.utils.toWei(newMaxDaiDebt.toString()), web3.utils.toWei(newLiquidationPrice.toString())]
+  return [web3.utils.toWei(newMaxDaiDebt.toFixed(17).toString()), web3.utils.toWei(newLiquidationPrice.toFixed(17).toString())]
 }
 
 export const calcNewBorrowLimitAndLiquidationPrice = calcNewBorrowAndLPrice
@@ -252,6 +252,16 @@ export const verifyRepayInput = function(userInfo,
   const maxRepay = toNumber(userInfo.bCdpInfo.daiDebt,web3) - dust
 
   if(dust >= newDebt && newDebt > 1) return [false,"You can repay all your outstanding debt or a maximum of " + maxRepay.toString() + " Dai"]
+  if(dust >= newDebt) {
+    if(web3.utils.toBN(userInfo.bCdpInfo.daiDebt).gt(web3.utils.toBN(userInfo.userWalletInfo.daiBalance))) {
+      return [false, "Dai balance is not enough to repay your entire debt"]
+    }
+
+    if(web3.utils.toBN(userInfo.bCdpInfo.daiDebt).gt(web3.utils.toBN(userInfo.userWalletInfo.daiAllowance))) {
+      return [false, "Dai allowance is not enough to repay your entire debt"]
+    }
+  }
+
 
   return [true,""]
 }
