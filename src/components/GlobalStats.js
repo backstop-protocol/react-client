@@ -9,7 +9,6 @@ export default class GlobalStats extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lastRating: null,
             currentRating: null,
             ratingProgress: null,
             ratingInterval : null
@@ -28,10 +27,9 @@ export default class GlobalStats extends Component {
             const interval = setInterval(this.updateUserRating, 3000);
         }
 
-        const currRating = parseFloat(userInfo.userRatingInfo.userRating / 10000).toFixed(4);
-        if (this.state.lastRating !== currRating) {
-            this.setState({lastRating: currRating});
-            this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / 300000});
+        const currRatingProgress = parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / 300000;
+        if (this.state.ratingProgress !== currRatingProgress) {
+            this.setState({ratingProgress: currRatingProgress});
             this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / 300000).toFixed(4)});
         }
     }
