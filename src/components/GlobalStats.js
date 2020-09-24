@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import BackgroundImg from '../assets/maker-dao-background.svg';
 import DollarIcon from '../assets/dollar-icon.svg';
+import SVG from 'react-inlinesvg';
+import Pulser from "./Pulser";
 
 export default class GlobalStats extends Component {
 
@@ -52,7 +54,7 @@ export default class GlobalStats extends Component {
                     </div>
                 </div>
                 <div className="image-container">
-                    <img src={BackgroundImg} className="background-image" />
+                    <Pulser />
                     <img src={DollarIcon} className="floating centered" />
                 </div>
             </div>
