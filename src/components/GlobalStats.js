@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import BackgroundImg from '../assets/maker-dao-background.svg';
 import DollarIcon from '../assets/dollar-icon.svg';
-import SVG from 'react-inlinesvg';
 import Pulser from "./Pulser";
+import Ticker from "./Ticker";
 
 export default class GlobalStats extends Component {
 
@@ -19,8 +19,8 @@ export default class GlobalStats extends Component {
         if (!userInfo) return;
 
         if (!this.state.currentRating) {
-            // clearInterval(this.state.ratingInterval);
-            // const interval = setInterval(this.updateUserRating, userInfo.userRatingInfo.userRatingProgressPerSec * 1000);
+            clearInterval(this.state.ratingInterval);
+            const interval = setInterval(this.updateUserRating, userInfo.userRatingInfo.userRatingProgressPerSec * 1000);
 
             this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / 1000).toFixed(3)});
         }
@@ -29,7 +29,7 @@ export default class GlobalStats extends Component {
     }
 
     updateUserRating = () => {
-        this.setState({currentRating: this.state.currentRating + 1});
+        this.setState({currentRating: parseFloat(this.state.currentRating*1 + .001).toFixed(3)});
     };
 
     render() {
@@ -43,13 +43,13 @@ export default class GlobalStats extends Component {
                     <div className="left">
                         <h2>Jar Balance</h2>
                         <div className="value">
-                            ${userInfo?userInfo.userRatingInfo.jarSize:0}
+                            $<Ticker value={userInfo?userInfo.userRatingInfo.jarSize:0} />
                         </div>
                     </div>
                     <div className="right">
                         <h2>User Rating</h2>
                         <div className="value">
-                            {userInfo?currentRating:0}
+                            <Ticker value={userInfo?currentRating:0} />
                         </div>
                     </div>
                 </div>

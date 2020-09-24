@@ -15,7 +15,6 @@ export default class AppError extends Component {
     componentDidMount() {
         EventBus.$on('app-error',() => {
             this.setState({error: true});
-            console.log("oi")
             setTimeout(() => {
                 this.setState({error: false});
             }, 3000)

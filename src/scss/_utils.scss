@@ -138,3 +138,20 @@
     &:nth-child(7) { animation-delay: 1s; }
   }
 }
+
+span.ticker {
+  & > span {
+    display: inline-block;
+    width: 23px;
+    text-align: center;
+
+    &.in {
+      opacity: 0;
+      animation: dropin 0.3s forwards;
+    }
+
+    &.dot {
+      width: 10px;
+    }
+  }
+}

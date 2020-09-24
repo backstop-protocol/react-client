@@ -71,7 +71,6 @@ export default class CurrencyBox extends Component {
     };
 
     onPanelInput = (value) => {
-        console.log(value,":)))");
         if (value === '') value = '0';
         value = value.replace(/^(0)+([0-9]+)/, '$2');
             if (!value.match(/^-?\d+\.?\d*$/)) {
@@ -84,18 +83,19 @@ export default class CurrencyBox extends Component {
     render() {
 
         const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit} = this.props;
-        const {panel, actioning, value, loading, completed, failed, hash} = this.state;
+        let {panel, actioning, value, loading, completed, failed, hash} = this.state;
 
         let CustomPanel = null;
         if (panel) {
             CustomPanel = panel;
+            panel = new panel();
         }
 
         let liquidationPrice;
         let valueDir = 1;
         try {
 
-        if (panel)
+        if (panel) {
             switch (panel.name) {
                 case 'Deposit':
                     liquidationPrice = getLiquidationPrice(value, 0);
@@ -111,6 +111,7 @@ export default class CurrencyBox extends Component {
                     valueDir = -1;
                     liquidationPrice = getLiquidationPrice(0, -value);
                     break;
+            }
             }
         } catch (e) {
             console.log(e);
