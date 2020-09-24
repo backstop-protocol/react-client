@@ -6,7 +6,7 @@ export default class Ticker extends Component {
         super(props);
 
         this.state = {
-            value : null,
+            value : '0',
             changes : [],
         }
     }
@@ -20,6 +20,7 @@ export default class Ticker extends Component {
                     if (notold[c] !== old[c]) changes.push(c);
                 }
             }
+            if (this.props.value !== '0' && this.props.value !== '')
             this.setState({value : this.props.value, changes});
             setTimeout(() => this.setState({changes: []}), 200);
         }
