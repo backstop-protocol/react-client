@@ -44,16 +44,19 @@ export default class CurrencyBox extends Component {
 
     onCompleted = () => {
         console.log("Action completed",this.state);
-        this.setState({completed: true, loading: false });
+        if (this.state.loading) {
+            this.setState({completed: true, loading: false });
+            setTimeout(this.resetPanel, 2500);
+        }
 
-        setTimeout(this.resetPanel, 2500);
     };
 
     onFailed = () => {
         console.log("Action failed",this.state);
-        this.setState({failed: true, loading: false });
-
-        setTimeout(this.resetPanel, 2500);
+        if (this.state.loading) {
+            this.setState({failed: true, loading: false});
+            setTimeout(this.resetPanel, 2500);
+        }
     };
 
     onPanelAction = async (action, value, actioning, silent = false) => {
@@ -127,7 +130,7 @@ export default class CurrencyBox extends Component {
             <div className={'currency-box-container'+containerClass}>
                 <div className="currency-box">
                     <div className={"currency-box-close" + (panel? ' active':'')}>
-                        <img src={Close} onClick={() => this.showActionPanel(null)} />
+                        <img src={Close} onClick={() => this.resetPanel()} />
                     </div>
                     <div className="currency-meta">
                         <div className="currency-icon"><img src={icon} /></div>

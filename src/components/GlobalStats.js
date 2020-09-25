@@ -3,6 +3,8 @@ import InfoIcon from '../assets/i-icon.svg';
 import DollarIcon from '../assets/dollar-icon.svg';
 import Pulser from "./Pulser";
 import Ticker from "./Ticker";
+import Tooltip from "./Tooltip";
+import {numm} from "../lib/Utils";
 
 export default class GlobalStats extends Component {
 
@@ -49,13 +51,27 @@ export default class GlobalStats extends Component {
             <div className="global-stats even">
                 <div className="stats">
                     <div className="left">
-                        <h2>Jar Balance <img className="info-icon" src={InfoIcon} /></h2>
+                        <h2>
+                            Jar Balance
+                            <span className="tooltip-container">
+                                <Tooltip>Jar Balance</Tooltip>
+                                <img className="info-icon" src={InfoIcon} />
+                            </span>
+                        </h2>
                         <div className="value">
                             $<Ticker value={userInfo?userInfo.userRatingInfo.jarBalance === 0 ? 10000 : userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice :0} />
                         </div>
                     </div>
                     <div className="right">
-                        <h2>User Rating <img className="info-icon" src={InfoIcon} /></h2>
+                        <h2>User Rating
+                            <span className="tooltip-container">
+                                <Tooltip>
+                                    <small>Total Rating</small>
+                                    <h3>{numm(userInfo?userInfo.userRatingInfo.totalRating / 3000000:0,2)}</h3>
+                                </Tooltip>
+                                <img className="info-icon" src={InfoIcon} />
+                            </span>
+                        </h2>
                         <div className="value">
                             <Ticker value={userInfo?currentRating:0} primary={2} />
                         </div>

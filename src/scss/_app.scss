@@ -127,8 +127,31 @@
           font-size: 13px;
         }
 
-        img {
+        .tooltip-container {
           margin-left: 8px;
+
+          &:hover {
+            .tooltip {
+              display: flex;
+            }
+          }
+        }
+
+        .tooltip {
+          text-align: center;
+          display: none;
+          top: -95px;
+          width: 103px;
+          height: 78px;
+          transition: all 0.2s;
+
+          h3 {
+            font-size: 25px;
+            font-weight: 600;
+          }
+        }
+
+        img {
           width: 17px;
         }
       }

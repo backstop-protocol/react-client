@@ -29,6 +29,7 @@ export default class Dashboard extends Component {
     }
 
     onConnect = (web3, user) => {
+        this.onHideConnect();
         this.web3 = web3;
         this.setState({user, loggedIn: true});
         this.getUserInfo();
@@ -78,9 +79,11 @@ export default class Dashboard extends Component {
     onShowConnect = () => {
         this.setState({showConnect : true});
         clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            this.setState({showConnect: false});
-        },2000);
+        timeout = setTimeout(this.onHideConnect,2000);
+    };
+
+    onHideConnect = () => {
+        this.setState({showConnect: false});
     };
 
     render() {

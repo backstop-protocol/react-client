@@ -182,6 +182,8 @@
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 
     &.active {
       height: 254px;
@@ -218,7 +220,6 @@
       align-items: center;
       justify-content: space-between;
       flex-direction: row;
-
     }
 
     h2 {
@@ -228,6 +229,10 @@
       font-weight: normal;
       margin-bottom: 7px;
       text-transform: uppercase;
+
+      @media screen and (max-width: 1600px) {
+        font-size: 20px;
+      }
     }
 
     h3 {
@@ -247,6 +252,10 @@
       font-weight: 500;
       font-size: 14px;
       margin-bottom: 10px;
+
+      @media screen and (max-width: 1600px) {
+        font-size: 12px;
+      }
     }
 
     &-footer {
@@ -257,6 +266,7 @@
       }
 
       .value {
+        font-family: $titleFont;
         font-size: 16px;
         font-weight: bold;
       }
