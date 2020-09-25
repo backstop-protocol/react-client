@@ -49,6 +49,10 @@
 .title-bar {
   height: 117px;
 
+  @media screen and (max-width: 1600px) {
+    height: 86px;
+  }
+
   h1 {
     font-size: 28px;
     font-weight: normal;

@@ -139,7 +139,7 @@ export default class CurrencyBox extends Component {
                     </div>
 
                     <div className="currency-actions">
-                        {!panel && Object.entries(actions).map(([key,v],i) => <button key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
+                        {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
                     </div>
                 </div>
                 <div className={'currency-action-panel-container' + actionPanelContainerClass}>

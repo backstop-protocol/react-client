@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import BackgroundImg from '../assets/maker-dao-background.svg';
+import InfoIcon from '../assets/i-icon.svg';
 import DollarIcon from '../assets/dollar-icon.svg';
 import Pulser from "./Pulser";
 import Ticker from "./Ticker";
@@ -41,21 +41,21 @@ export default class GlobalStats extends Component {
             <div className="global-stats even">
                 <div className="stats">
                     <div className="left">
-                        <h2>Jar Balance</h2>
+                        <h2>Jar Balance <img className="info-icon" src={InfoIcon} /></h2>
                         <div className="value">
                             $<Ticker value={userInfo?userInfo.userRatingInfo.jarSize:0} />
                         </div>
                     </div>
                     <div className="right">
-                        <h2>User Rating</h2>
+                        <h2>User Rating <img className="info-icon" src={InfoIcon} /></h2>
                         <div className="value">
-                            <Ticker value={userInfo?currentRating:0} />
+                            <Ticker value={userInfo?currentRating:0} primary={2} />
                         </div>
                     </div>
                 </div>
                 <div className="image-container">
                     <Pulser />
-                    <img src={DollarIcon} className="floating centered" />
+                    <img src={DollarIcon} className="dollar-icon floating centered" />
                 </div>
             </div>
         )
