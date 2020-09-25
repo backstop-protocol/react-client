@@ -95,6 +95,9 @@ export default class CurrencyBox extends Component {
         }
 
         let liquidationPrice;
+        let walletBalance;
+        const ethBalance = userInfo ? parseFloat(userInfo.userWalletInfo.ethBalance).toFixed(4).toString() + " ETH" : "0 ETH";
+        const daiBalance = userInfo ? parseFloat(userInfo.userWalletInfo.daiBalance).toFixed(2).toString() + " DAI" : "0 DAI";
         let valueDir = 1;
         try {
 
@@ -102,17 +105,21 @@ export default class CurrencyBox extends Component {
             switch (panel.name) {
                 case 'Deposit':
                     liquidationPrice = getLiquidationPrice(value, 0);
+                    walletBalance = ethBalance;
                     break;
                 case 'Withdraw':
                     liquidationPrice = getLiquidationPrice(-value, 0);
+                    walletBalance = ethBalance;
                     valueDir = -1;
                     break;
                 case 'Borrow':
                     liquidationPrice = getLiquidationPrice(0, value);
+                    walletBalance = daiBalance;
                     break;
                 case 'Repay':
                     valueDir = -1;
                     liquidationPrice = getLiquidationPrice(0, -value);
+                    walletBalance = daiBalance;
                     break;
             }
             }
@@ -156,7 +163,7 @@ export default class CurrencyBox extends Component {
                         <div className="even">
                             <div>
                                 <label>Current Wallet Balance</label>
-                                <div className="value">{parseFloat(userInfo.userWalletInfo.ethBalance).toFixed(4)} ETH</div>
+                                <div className="value">{walletBalance}</div>
                             </div>
                             <div>
                                 <label>Liquidation Price</label>
