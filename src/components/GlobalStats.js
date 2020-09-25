@@ -10,6 +10,7 @@ export default class GlobalStats extends Component {
         super(props);
         this.state = {
             currentRating: null,
+            ratingProgress: null,
             ratingInterval : null
         }
     }
@@ -19,17 +20,24 @@ export default class GlobalStats extends Component {
         if (!userInfo) return;
 
         if (!this.state.currentRating) {
-            clearInterval(this.state.ratingInterval);
-            const interval = setInterval(this.updateUserRating, userInfo.userRatingInfo.userRatingProgressPerSec * 1000);
+            this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / 30000});
+            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / 3000000).toFixed(4)});
 
-            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / 1000).toFixed(3)});
+            clearInterval(this.state.ratingInterval);
+            const interval = setInterval(this.updateUserRating, 3000);
         }
 
-
+        const currRatingProgress = parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / 300000;
+        if (this.state.ratingProgress !== currRatingProgress) {
+            this.setState({ratingProgress: currRatingProgress});
+            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / 300000).toFixed(4)});
+        }
     }
 
     updateUserRating = () => {
-        this.setState({currentRating: parseFloat(this.state.currentRating*1 + .001).toFixed(3)});
+        const currentRating = this.state.currentRating;
+        const nextRating = parseFloat(currentRating * 1 + this.state.ratingProgress * 3);
+        this.setState({currentRating: nextRating.toFixed(4)});
     };
 
     render() {
@@ -43,7 +51,7 @@ export default class GlobalStats extends Component {
                     <div className="left">
                         <h2>Jar Balance <img className="info-icon" src={InfoIcon} /></h2>
                         <div className="value">
-                            $<Ticker value={userInfo?userInfo.userRatingInfo.jarSize:0} />
+                            $<Ticker value={userInfo?userInfo.userRatingInfo.jarBalance === 0 ? 10000 : userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice :0} />
                         </div>
                     </div>
                     <div className="right">
