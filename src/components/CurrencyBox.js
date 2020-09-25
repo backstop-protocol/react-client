@@ -44,16 +44,19 @@ export default class CurrencyBox extends Component {
 
     onCompleted = () => {
         console.log("Action completed",this.state);
-        this.setState({completed: true, loading: false });
+        if (this.state.loading) {
+            this.setState({completed: true, loading: false });
+            setTimeout(this.resetPanel, 2500);
+        }
 
-        setTimeout(this.resetPanel, 2500);
     };
 
     onFailed = () => {
         console.log("Action failed",this.state);
-        this.setState({failed: true, loading: false });
-
-        setTimeout(this.resetPanel, 2500);
+        if (this.state.loading) {
+            this.setState({failed: true, loading: false});
+            setTimeout(this.resetPanel, 2500);
+        }
     };
 
     onPanelAction = async (action, value, actioning, silent = false) => {
@@ -92,6 +95,9 @@ export default class CurrencyBox extends Component {
         }
 
         let liquidationPrice;
+        let walletBalance;
+        const ethBalance = userInfo ? parseFloat(userInfo.userWalletInfo.ethBalance).toFixed(4).toString() + " ETH" : "0 ETH";
+        const daiBalance = userInfo ? parseFloat(userInfo.userWalletInfo.daiBalance).toFixed(2).toString() + " DAI" : "0 DAI";
         let valueDir = 1;
         try {
 
@@ -99,17 +105,21 @@ export default class CurrencyBox extends Component {
             switch (panel.name) {
                 case 'Deposit':
                     liquidationPrice = getLiquidationPrice(value, 0);
+                    walletBalance = ethBalance;
                     break;
                 case 'Withdraw':
                     liquidationPrice = getLiquidationPrice(-value, 0);
+                    walletBalance = ethBalance;
                     valueDir = -1;
                     break;
                 case 'Borrow':
                     liquidationPrice = getLiquidationPrice(0, value);
+                    walletBalance = daiBalance;
                     break;
                 case 'Repay':
                     valueDir = -1;
                     liquidationPrice = getLiquidationPrice(0, -value);
+                    walletBalance = daiBalance;
                     break;
             }
             }
@@ -127,7 +137,7 @@ export default class CurrencyBox extends Component {
             <div className={'currency-box-container'+containerClass}>
                 <div className="currency-box">
                     <div className={"currency-box-close" + (panel? ' active':'')}>
-                        <img src={Close} onClick={() => this.showActionPanel(null)} />
+                        <img src={Close} onClick={() => this.resetPanel()} />
                     </div>
                     <div className="currency-meta">
                         <div className="currency-icon"><img src={icon} /></div>
@@ -139,7 +149,7 @@ export default class CurrencyBox extends Component {
                     </div>
 
                     <div className="currency-actions">
-                        {!panel && Object.entries(actions).map(([key,v],i) => <button key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
+                        {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
                     </div>
                 </div>
                 <div className={'currency-action-panel-container' + actionPanelContainerClass}>
@@ -153,7 +163,7 @@ export default class CurrencyBox extends Component {
                         <div className="even">
                             <div>
                                 <label>Current Wallet Balance</label>
-                                <div className="value">{parseFloat(userInfo.userWalletInfo.ethBalance).toFixed(4)} ETH</div>
+                                <div className="value">{walletBalance}</div>
                             </div>
                             <div>
                                 <label>Liquidation Price</label>

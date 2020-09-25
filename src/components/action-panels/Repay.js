@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {isRepayUnlocked, validateRepay} from "../../lib/Actions";
 import EventBus from "../../lib/EventBus";
 import LoadingRing from "../LoadingRing";
+import Tooltip from "../Tooltip";
 
 export default class Repay extends Component {
 
@@ -92,11 +93,7 @@ export default class Repay extends Component {
                     <div className="tooltip-container">
                         <div className="set-max" onClick={this.setMax}>Set Max</div>
                         <input type="text" value={val} onChange={this.onChange} placeholder="Amount in DAI" />
-                        {error &&
-                        <div className="warning tooltip bottom">
-                            <i> </i>
-                            {error}
-                        </div>}
+                        {error && <Tooltip bottom={true} className={'warning'}>{error}</Tooltip>}
                     </div>
                     <button className={(invalid || locked || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>
                 </div>

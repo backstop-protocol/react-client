@@ -40,7 +40,7 @@
   }
 
   20% {
-    transform: scale(1.2);
+    transform: scale(1.1);
     opacity: 0;
   }
 
@@ -54,6 +54,40 @@
 
   50% {
     transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+}
+
+@keyframes frag {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  20% {
+    transform: translate(7px, -7px);
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 0;
+  }
+
+  31% {
+    transform: translate(-10px, 10px);
+  }
+  32% {
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate(0,0);
     opacity: 1;
   }
 

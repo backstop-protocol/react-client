@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {validateBorrow} from "../../lib/Actions";
+import Tooltip from "../Tooltip";
 
 export default class Borrow extends Component {
 
@@ -54,11 +55,7 @@ export default class Borrow extends Component {
                 <div className="currency-input">
                     <div className="tooltip-container">
                         <input type="text" value={val} onChange={this.onChange} placeholder="Amount in DAI" />
-                        {error &&
-                        <div className="warning tooltip bottom">
-                            <i> </i>
-                            {error}
-                        </div>}
+                        {error && <Tooltip bottom={true} className={'warning'}>{error}</Tooltip>}
                     </div>
                     <button className={invalid?'disabled':''} onClick={this.doAction}>{this.name}</button>
                 </div>

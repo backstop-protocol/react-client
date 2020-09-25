@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {validateDeposit, validateWithdraw} from "../../lib/Actions";
+import Tooltip from "../Tooltip";
 
 export default class Withdraw extends Component {
 
@@ -55,11 +56,7 @@ export default class Withdraw extends Component {
                 <div className="currency-input">
                     <div className="tooltip-container">
                         <input type="text" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
-                        {error &&
-                        <div className="warning tooltip bottom">
-                            <i> </i>
-                            {error}
-                        </div>}
+                        {error && <Tooltip bottom={true} className={'warning'}>{error}</Tooltip>}
                     </div>
                     <button className={(invalid || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>
                 </div>

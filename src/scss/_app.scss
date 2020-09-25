@@ -14,12 +14,20 @@
   .top-panel {
     width: 100%;
     background-image: linear-gradient(-182deg, $jumboBgStart 83%, $jumboBgEnd 115%), linear-gradient(to bottom, $jumboBg, $jumboBg);
-    min-height: 462px;
+    height: 462px;
+
+    @media screen and (max-width: 1600px) {
+      height: 412px;
+    }
 
     .logo {
       width: 178px;
       height: 57px;
       object-fit: contain;
+
+      @media screen and (max-width: 1600px) {
+        width: 132px;
+      }
     }
   }
 
@@ -60,6 +68,26 @@
           width: 414px;
         }
       }
+
+      svg {
+        .box1 {
+          @media screen and (max-width: 1600px) {
+            transform: translate(3px,0);
+          }
+        }
+        .box2 {
+          @media screen and (max-width: 1600px) {
+            transform: translate(261px, 288.5px) rotate(-180deg);
+          }
+        }
+      }
+
+      .dollar-icon {
+        @media screen and (max-width: 1600px) {
+          margin-top: 1px;
+          width: 36px;
+        }
+      }
     }
 
     .borrow-limit {
@@ -93,10 +121,48 @@
         color: $statsTitleColor;
         font-size: 15px;
         font-weight: normal;
+        display: flex;
+
+        @media screen and (max-width: 1600px) {
+          font-size: 13px;
+        }
+
+        .tooltip-container {
+          margin-left: 8px;
+
+          &:hover {
+            .tooltip {
+              display: flex;
+            }
+          }
+        }
+
+        .tooltip {
+          text-align: center;
+          display: none;
+          top: -95px;
+          width: 103px;
+          height: 78px;
+          transition: all 0.2s;
+
+          h3 {
+            font-size: 25px;
+            font-weight: 600;
+          }
+        }
+
+        img {
+          width: 17px;
+        }
       }
 
       .value {
+        font-family: $titleFont;
         font-size: 40px;
+
+        @media screen and (max-width: 1600px) {
+          font-size: 34px;
+        }
       }
 
       > * {
@@ -202,6 +268,7 @@
   flex-direction: column;
   border-radius: 5px;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 
   align-items: center;
   justify-content: center;

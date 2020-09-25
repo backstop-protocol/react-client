@@ -22,18 +22,21 @@ export default class Ticker extends Component {
             }
             if (this.props.value !== '0' && this.props.value !== '')
             this.setState({value : this.props.value, changes});
-            setTimeout(() => this.setState({changes: []}), 200);
+            setTimeout(() => this.setState({changes: []}), 300);
         }
 
     }
 
     render() {
         let {value, changes} = this.state;
-        value = value ? value.toString().split('') : [];
+        let {primary} = this.props;
+        primary = primary ? primary : 6666;
+
+        value = value ? value.toString().split('') : ['0'];
 
         return (
             <span className="ticker">
-                {value.map((n, index) => <span key={index} className={n==='.'?'dot':'' + (changes.indexOf(index)>-1?' in':'')}>{n}</span>)}
+                {value.map((n, index) => <span key={index} className={n==='.'?' dot':'' + (n==='1'?' one':'') + (index<primary?' primary':'') + (changes.indexOf(index)>-1?' in':'')}>{n}</span>)}
             </span>
         )
     }

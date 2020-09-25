@@ -1,6 +1,10 @@
+@import "fonts";
+
 .loading-indicator {
-  animation: rotate infinite 1s;
   width: 46px;
+
+
+
 }
 
 .result {
@@ -128,6 +132,11 @@
   height: 315px;
   object-fit: contain;
 
+  @media screen and (max-width: 1600px) {
+    width: 414px;
+    height: 250px;
+  }
+
   circle {
     animation: pulse 4s infinite;
     transform-origin: center;
@@ -142,8 +151,20 @@
 span.ticker {
   & > span {
     display: inline-block;
-    width: 23px;
-    text-align: center;
+    width: 24px;
+    text-align: right;
+    font-family: $titleFont;
+    transition: all 0.2s;
+    color: transparentize(#ffffff, 0.5);
+
+    &.primary {
+      color: #ffffff;
+    }
+
+    @media screen and (max-width: 1600px) {
+      font-size: 34px;
+      width: 20.5px;
+    }
 
     &.in {
       opacity: 0;
@@ -152,6 +173,9 @@ span.ticker {
 
     &.dot {
       width: 10px;
+    }
+    &.one {
+      width: 12px;
     }
   }
 }
