@@ -60,6 +60,10 @@
 
   }
 
+  .cdp-convert-info {
+    animation: fadein 0.3s forwards;
+  }
+
   .cdp-convert {
     margin: 0 20px;
     font-size: 14px;
@@ -122,9 +126,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 11px;
     letter-spacing: 0.9px;
-    text-transform: uppercase;
+    //text-transform: uppercase;
 
     cursor: pointer;
     transition: all 0.3s;

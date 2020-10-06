@@ -33,6 +33,17 @@
   }
 }
 
+@keyframes dropout {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-30px);
+  }
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1);
