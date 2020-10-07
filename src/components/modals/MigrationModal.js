@@ -5,15 +5,11 @@ import { migrateMakerDao } from "../../lib/Actions";
 
 export default class MigrationModal extends Component {
     onMigrate = async () => {
-        try {
-            EventBus.$emit('migration-started');
-            EventBus.$emit('close-modal');
-            await migrateMakerDao();
+        EventBus.$emit("migration-started");
+        EventBus.$emit('close-modal');
+        EventBus.$emit('run-action', migrateMakerDao, null, () => {
             EventBus.$emit('migration-completed');
-        }
-        catch (e) {
-            EventBus.$emit('migration-failed');
-        }
+        });
     };
 
     render() {
