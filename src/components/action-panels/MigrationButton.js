@@ -13,11 +13,12 @@ const MigrationStatus = {
 }
 
 export default class MigrationButton extends Component {
-
-
     constructor(props) {
         super(props);
         this.state = { status: MigrationStatus.none };
+    }
+
+    componentDidMount() {
         EventBus.$on('migration-started', () => {
             this.setState({
                 status: MigrationStatus.pending
@@ -40,7 +41,7 @@ export default class MigrationButton extends Component {
     }
 
     render() {
-        const { status, isCompleted } = this.state;
+        const { status } = this.state;
         let text = "", icon = null;
 
         switch (status) {
