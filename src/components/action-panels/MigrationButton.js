@@ -66,9 +66,10 @@ export default class MigrationButton extends Component {
         }
 
         let extraClass = status !== MigrationStatus.none ? 'currency-action-panel' : '';
+        let disabledCls = status === MigrationStatus.pending ? "disabled" : "";
 
         return (
-            <div className="migrate-btn" onClick={this.showMigratePopup}>
+            <div className={`migrate-btn ${disabledCls}`} onClick={this.showMigratePopup}>
                 <div className={`centered ${extraClass}`}>
                     <h3>
                         {icon && <img className="result" src={icon} />}

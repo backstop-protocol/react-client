@@ -7,9 +7,14 @@ export default class MigrationModal extends Component {
     onMigrate = async () => {
         EventBus.$emit("migration-started");
         EventBus.$emit("close-modal");
-        await migrateMakerDao();
-        EventBus.$emit("migration-completed");
-        EventBus.$emit("get-user-info");
+        try {
+            await migrateMakerDao();
+            EventBus.$emit("migration-completed");
+            EventBus.$emit("get-user-info");
+        }
+        catch (e) {
+            EventBus.$emit("migration-failed");
+        }
     };
 
     render() {

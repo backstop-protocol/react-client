@@ -137,6 +137,14 @@
       background-color: $sidebarBtnHoverBg;
       color: $sidebarBtnHoverColor;
     }
+
+    &.disabled {
+      cursor: default;
+      &:hover {
+        background-color: $sidebarBtnBg;
+        color: $sidebarBtnColor;
+      }
+    }
   }
 
   .ln {
