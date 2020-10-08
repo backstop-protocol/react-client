@@ -1,13 +1,13 @@
 import * as Api from "./ApiHelper";
 import * as B from "./bInterface"
 import EventBus from "./EventBus";
-import {ApiAction} from "./ApiHelper";
-import {calcNewBorrowLimitAndLiquidationPrice} from "./bInterface";
-import {verifyWithdrawInput} from "./bInterface";
-import {verifyDepositInput} from "./bInterface";
-import {verifyBorrowInput} from "./bInterface";
-import {verifyRepayInput} from "./bInterface";
-import {repayUnlocked} from "./ApiHelper";
+import { ApiAction } from "./ApiHelper";
+import { calcNewBorrowLimitAndLiquidationPrice } from "./bInterface";
+import { verifyWithdrawInput } from "./bInterface";
+import { verifyDepositInput } from "./bInterface";
+import { verifyBorrowInput } from "./bInterface";
+import { verifyRepayInput } from "./bInterface";
+import { repayUnlocked } from "./ApiHelper";
 
 let userInfo = {};
 let originalUserInfo = {}
@@ -55,7 +55,12 @@ export async function migrateMakerDao() {
         return await ApiAction(B.migrateToExisting(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp, userInfo.bCdpInfo.cdp), user, web3, 0);
     }
     else { // first deposit
-        return await ApiAction(B.migrateFresh(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp), user, web3, 0);
+        return await ApiAction(
+            B.migrateFresh(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp),
+            user,
+            web3,
+            0
+        );
     }
 }
 
@@ -71,25 +76,25 @@ export async function deposit(amountEth, onHash) {
 
 export async function withdraw(amountEth, onHash) {
     const val = web3.utils.toWei(amountEth);
-    return await ApiAction(B.withdrawETH(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0, onHash);
+    return await ApiAction(B.withdrawETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
 }
 
 export async function borrow(amountDai, onHash) {
     const val = web3.utils.toWei(amountDai);
-    return await ApiAction(B.generateDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0, onHash);
+    return await ApiAction(B.generateDai(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
 }
 
 export async function unlock(onHash) {
-    return await ApiAction(B.unlockDai(web3,userInfo.proxyInfo.userProxy),  user, web3, 0, onHash);
+    return await ApiAction(B.unlockDai(web3, userInfo.proxyInfo.userProxy), user, web3, 0, onHash);
 }
 
 export async function repay(amountDai, onHash) {
     const val = web3.utils.toWei(amountDai);
-    if(Number(userInfo.bCdpInfo.daiDebt) <= Number(amountDai) + 1) {
-        return await ApiAction(B.repayAllDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, 0, onHash);
+    if (Number(userInfo.bCdpInfo.daiDebt) <= Number(amountDai) + 1) {
+        return await ApiAction(B.repayAllDai(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, 0, onHash);
     }
     else {
-        return await ApiAction(B.repayDai(web3,userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp,val), user, web3, 0, onHash);
+        return await ApiAction(B.repayDai(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
     }
 
 }

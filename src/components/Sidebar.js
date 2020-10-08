@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Logo from "../assets/bprotocol.svg";
 import Github from "../assets/github.svg";
 import Twitter from "../assets/twitter-icon.svg";
@@ -9,19 +9,15 @@ import CompoundLogo from "../assets/compound-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
 import EventBus from "../lib/EventBus";
 import MigrationModal from "./modals/MigrationModal";
-import {numm} from "../lib/Utils";
+import { numm } from "../lib/Utils";
+import MigrationButton from "./action-panels/MigrationButton";
 
 export default class Sidebar extends Component {
-
-    showMigratePopup() {
-        EventBus.$emit('show-modal', <MigrationModal />);
-    }
 
 
     render() {
 
-        const {userInfo} = this.props;
-
+        const { userInfo } = this.props;
 
         return (
             <div className="sidebar">
@@ -30,22 +26,23 @@ export default class Sidebar extends Component {
                 <div className="sidebar-content">
                     {(userInfo && userInfo.makerdaoCdpInfo.hasCdp) &&
                         <div>
-                        <div className="cdp-convert">
-                            <div className="migrate-btn" onClick={this.showMigratePopup}>Migrate</div>
-                            <p>Import your CDP<br />from MakerDAO system <br/>to B.Protocol</p>
-                            <div className="even">
+                            <div className="cdp-convert">
+                                <MigrationButton />
                                 <div>
-                                    <small>ETH Locked</small>
-                                    <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
-                                </div>
-                                <div>
-                                    <small>DAI Debt</small>
-                                    <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
+                                    <p>Import your CDP<br />from MakerDAO system <br />to B.Protocol</p>
+                                    <div className="even">
+                                        <div>
+                                            <small>ETH Locked</small>
+                                            <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
+                                        </div>
+                                        <div>
+                                            <small>DAI Debt</small>
+                                            <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div className="ln"> </div>
+                            <div className="ln"> </div>
                         </div>
                     }
                     <div className="products">

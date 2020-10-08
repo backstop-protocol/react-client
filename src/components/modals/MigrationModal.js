@@ -1,15 +1,23 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import MigrationDrawing from "../../assets/images/maker-migration.png";
 import EventBus from "../../lib/EventBus";
-import {migrateMakerDao} from "../../lib/Actions";
+import { migrateMakerDao } from "../../lib/Actions";
 
 export default class MigrationModal extends Component {
+    onMigrate = async () => {
+        EventBus.$emit("migration-started");
+        EventBus.$emit("close-modal");
+        try {
+            await migrateMakerDao();
+            EventBus.$emit("migration-completed");
 
-    onMigrate = () => {
-        EventBus.$emit('run-action', migrateMakerDao, null, () => {
-            EventBus.$emit('migration-completed');
-            EventBus.$emit('close-modal');
-        });
+            setTimeout(() => {
+                EventBus.$emit("get-user-info");
+            }, 1500);
+        }
+        catch (e) {
+            EventBus.$emit("migration-failed");
+        }
     };
 
     render() {
@@ -20,7 +28,9 @@ export default class MigrationModal extends Component {
                 <div className="migration-drawing">
                     <img src={MigrationDrawing} />
                 </div>
-                <button className="migration-btn" onClick={this.onMigrate}>Migrate</button>
+                <button className="migration-btn" onClick={this.onMigrate}>
+                    Migrate
+                </button>
             </div>
         )
     }
