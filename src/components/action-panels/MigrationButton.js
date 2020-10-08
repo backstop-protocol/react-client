@@ -16,6 +16,7 @@ export default class MigrationButton extends Component {
     constructor(props) {
         super(props);
         this.state = { status: MigrationStatus.none };
+        this.showMigratePopup = this.showMigratePopup.bind(this);
     }
 
     componentDidMount() {
@@ -28,6 +29,12 @@ export default class MigrationButton extends Component {
             this.setState({
                 status: MigrationStatus.failed
             });
+
+            setTimeout(() => {
+                this.setState({
+                    status: MigrationStatus.none
+                })
+            }, 1500);
         });
         EventBus.$on('migration-completed', () => {
             this.setState({
@@ -37,7 +44,9 @@ export default class MigrationButton extends Component {
     }
 
     showMigratePopup() {
-        EventBus.$emit('show-modal', <MigrationModal />);
+        if (this.state.status === MigrationStatus.none) {
+            EventBus.$emit('show-modal', <MigrationModal />);
+        }
     }
 
     render() {
@@ -66,10 +75,10 @@ export default class MigrationButton extends Component {
         }
 
         let extraClass = status !== MigrationStatus.none ? 'currency-action-panel' : '';
-        let disabledCls = status === MigrationStatus.pending ? "disabled" : "";
+        let btnContainerCls = status !== MigrationStatus.none ? "disabled" : "";
 
         return (
-            <div className={`migrate-btn ${disabledCls}`} onClick={this.showMigratePopup}>
+            <div className={`migrate-btn ${btnContainerCls}`} onClick={this.showMigratePopup}>
                 <div className={`centered ${extraClass}`}>
                     <h3>
                         {icon && <img className="result" src={icon} />}

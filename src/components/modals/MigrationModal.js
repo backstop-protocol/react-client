@@ -10,7 +10,10 @@ export default class MigrationModal extends Component {
         try {
             await migrateMakerDao();
             EventBus.$emit("migration-completed");
-            EventBus.$emit("get-user-info");
+
+            setTimeout(() => {
+                EventBus.$emit("get-user-info");
+            }, 1500);
         }
         catch (e) {
             EventBus.$emit("migration-failed");
