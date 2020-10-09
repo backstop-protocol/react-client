@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import Logo from '../assets/bprotocol.svg';
-import Github from '../assets/github.svg';
-import Twitter from '../assets/twitter-icon.svg';
-import Linkedin from '../assets/linkedin.svg';
-import Discord from '../assets/discord.svg';
-import AAVELogo from '../assets/aav-ewhite-logo.svg';
-import CompoundLogo from '../assets/compound-logo.svg';
-import MakerLogo from '../assets/logo-maker-white.svg';
-import EventBus from '../lib/EventBus';
-import MigrationModal from './modals/MigrationModal';
-import { numm } from '../lib/Utils';
-import MigrationButton from './action-panels/MigrationButton';
+import React, { Component } from "react";
+import Logo from "../assets/bprotocol.svg";
+import Github from "../assets/github.svg";
+import Twitter from "../assets/twitter-icon.svg";
+import Linkedin from "../assets/linkedin.svg";
+import Discord from "../assets/discord.svg";
+import AAVELogo from "../assets/aav-ewhite-logo.svg";
+import CompoundLogo from "../assets/compound-logo.svg";
+import MakerLogo from "../assets/logo-maker-white.svg";
+import EventBus from "../lib/EventBus";
+import MigrationModal from "./modals/MigrationModal";
+import { numm } from "../lib/Utils";
+import MigrationButton from "./action-panels/MigrationButton";
 
 export default class Sidebar extends Component {
   state = {
@@ -22,8 +22,8 @@ export default class Sidebar extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.history.location === '/faq') {
-      this.setState({ selectedItem: 'faq' });
+    if (prevProps.history.location === "/faq") {
+      this.setState({ selectedItem: "faq" });
     }
   }
 
@@ -31,8 +31,8 @@ export default class Sidebar extends Component {
     const { userInfo, history } = this.props;
     const { selectedItem } = this.state;
 
-    console.log('pathname', history.location.pathname);
-    console.log('selectedItem', selectedItem);
+    console.log("pathname", history.location.pathname);
+    console.log("selectedItem", selectedItem);
 
     return (
       <div className="sidebar">
@@ -68,14 +68,14 @@ export default class Sidebar extends Component {
           <div className="products">
             <div
               className={`product ${
-                selectedItem === 'maker' &&
-                history.location.pathname === '/testnet' &&
-                'selected'
+                selectedItem === "maker" &&
+                history.location.pathname === "/testnet" &&
+                "selected"
               }`}
             >
               <img
                 src={MakerLogo}
-                onClick={() => this.handleItemSelect('maker', 'testnet')}
+                onClick={() => this.handleItemSelect("maker", "testnet")}
               />
             </div>
             <div className="product">
@@ -90,42 +90,42 @@ export default class Sidebar extends Component {
           <div className="ln"> </div>
           <div
             className={`product ${
-              selectedItem === 'terms' &&
-              history.location.pathname === '/terms' &&
-              'selected'
+              selectedItem === "terms" &&
+              history.location.pathname === "/terms" &&
+              "selected"
             }`}
           >
             <p
               className="menu-item"
-              onClick={() => this.handleItemSelect('terms', 'terms')}
+              onClick={() => this.handleItemSelect("terms", "terms")}
             >
               Terms of use
             </p>
           </div>
           <div
             className={`product ${
-              selectedItem === 'risk' &&
-              history.location.pathname === '/risk' &&
-              'selected'
+              selectedItem === "risk" &&
+              history.location.pathname === "/risk" &&
+              "selected"
             }`}
           >
             <p
               className="menu-item"
-              onClick={() => this.handleItemSelect('risk', 'risk')}
+              onClick={() => this.handleItemSelect("risk", "risk")}
             >
               Risks
             </p>
           </div>
           <div
             className={`product ${
-              selectedItem === 'faq' &&
-              history.location.pathname === '/faq' &&
-              'selected'
+              selectedItem === "faq" &&
+              history.location.pathname === "/faq" &&
+              "selected"
             }`}
           >
             <p
               className="menu-item"
-              onClick={() => this.handleItemSelect('faq', 'faq')}
+              onClick={() => this.handleItemSelect("faq", "faq")}
             >
               FAQ
             </p>

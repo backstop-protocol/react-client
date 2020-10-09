@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import Etherium from '../assets/etherium.svg';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
-import EtheriumBox from '../components/EtheriumBox';
-import DaiBox from '../components/DaiBox';
-import * as ApiHelper from '../lib/ApiHelper';
-import * as B from '../lib/bInterface';
-import { doApiAction, setUserInfo } from '../lib/Actions';
-import EventBus from '../lib/EventBus';
-import ModalContainer from '../components/ModalContainer';
+import React, { Component } from "react";
+import Etherium from "../assets/etherium.svg";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import EtheriumBox from "../components/EtheriumBox";
+import DaiBox from "../components/DaiBox";
+import * as ApiHelper from "../lib/ApiHelper";
+import * as B from "../lib/bInterface";
+import { doApiAction, setUserInfo } from "../lib/Actions";
+import EventBus from "../lib/EventBus";
+import ModalContainer from "../components/ModalContainer";
 
 let timeout;
 
@@ -26,7 +26,7 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    EventBus.$on('get-user-info', this.getUserInfo.bind(this));
+    EventBus.$on("get-user-info", this.getUserInfo.bind(this));
   }
 
   onConnect = (web3, user) => {
@@ -55,8 +55,8 @@ export default class Dashboard extends Component {
       setTimeout(this.getUserInfo, 30 * 1000);
       return res;
     } catch (error) {
-      EventBus.$emit('action-failed', null, action);
-      EventBus.$emit('app-error', null, action);
+      EventBus.$emit("action-failed", null, action);
+      EventBus.$emit("app-error", null, action);
       console.log(error);
       return false;
     }
@@ -101,7 +101,7 @@ export default class Dashboard extends Component {
             />
             <DaiBox
               userInfo={userInfo}
-              title={'DAI debt'}
+              title={"DAI debt"}
               icon={Etherium}
               onPanelAction={this.onAction}
               showConnect={this.onShowConnect}

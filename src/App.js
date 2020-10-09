@@ -1,14 +1,14 @@
-import React from 'react';
-import './style.scss';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Dashboard from './containers/Dashboard';
-import AppError from './components/AppError';
-import FAQ from './containers/FAQ';
-import TermsOfUse from './containers/T&C';
-import Risk from './containers/Risk';
+import React from "react";
+import "./style.scss";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Dashboard from "./containers/Dashboard";
+import AppError from "./components/AppError";
+import FAQ from "./containers/FAQ";
+import TermsOfUse from "./containers/T&C";
+import Risk from "./containers/Risk";
 
 function App() {
-  const [current, setCurrent] = React.useState('maker');
+  const [current, setCurrent] = React.useState("maker");
   const handleItemChange = (item) => {
     setCurrent(item);
   };

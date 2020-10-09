@@ -1,5 +1,5 @@
-@import 'colors';
-@import 'fonts';
+@import "colors";
+@import "fonts";
 
 .App {
   display: flex;
@@ -273,7 +273,7 @@
       width: 100%;
     }
     label {
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
       font-weight: normal;
     }
     .limit-bar-inner {
@@ -333,7 +333,7 @@
   }
 
   i::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 8px;
     height: 8px;
