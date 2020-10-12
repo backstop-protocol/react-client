@@ -18,11 +18,15 @@ export default class Sidebar extends Component {
   };
   handleItemSelect = (selectedItem, location) => {
     this.setState({ selectedItem: selectedItem });
-    this.props.history.push(location);
+    if(location !=="testnet")
+      this.props.history.push(`/testnet/${location}`);
+    else {
+      this.props.history.push(`/testnet`);
+    }
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.history.location === "/faq") {
+    if (prevProps.history.location === "/testnet/faq") {
       this.setState({ selectedItem: "faq" });
     }
   }
@@ -91,7 +95,7 @@ export default class Sidebar extends Component {
           <div
             className={`product ${
               selectedItem === "terms" &&
-              history.location.pathname === "/terms" &&
+              history.location.pathname === "/testnet/terms" &&
               "selected"
             }`}
           >
@@ -105,7 +109,7 @@ export default class Sidebar extends Component {
           <div
             className={`product ${
               selectedItem === "risk" &&
-              history.location.pathname === "/risk" &&
+              history.location.pathname === "/testnet/risk" &&
               "selected"
             }`}
           >
@@ -119,7 +123,7 @@ export default class Sidebar extends Component {
           <div
             className={`product ${
               selectedItem === "faq" &&
-              history.location.pathname === "/faq" &&
+              history.location.pathname === "/testnet/faq" &&
               "selected"
             }`}
           >

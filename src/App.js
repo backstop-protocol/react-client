@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Dashboard from "./containers/Dashboard";
 import AppError from "./components/AppError";
 import FAQ from "./containers/FAQ";
-import TermsOfUse from "./containers/T&C";
+import TermsOfUse from "./containers/Terms";
 import Risk from "./containers/Risk";
 
 function App() {
@@ -18,9 +18,9 @@ function App() {
       <AppError />
       <Router>
         <Route exact path="/testnet" component={Dashboard} />
-        <Route exact path="/faq" component={FAQ} />
-        <Route exact path="/terms" component={TermsOfUse} />
-        <Route exact path="/risk" component={Risk} />
+        <Route exact path="/testnet/faq" component={FAQ} />
+        <Route exact path="/testnet/terms" component={TermsOfUse} />
+        <Route exact path="/testnet/risk" component={Risk} />
       </Router>
     </div>
   );

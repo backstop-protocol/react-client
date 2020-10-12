@@ -117,12 +117,27 @@
         $jumboBgEnd 115%
       ),
       linear-gradient(to bottom, $jumboBg, $jumboBg);
-    height: 172px;
+    min-height: 172px;
 
     .item-header-title {
       padding: 78px 91px 55px 132px;
       font-size: 38px;
     }
+  }
+  .risk-header {
+    padding: 78px 91px 10px 132px;
+    font-size: 38px;
+  }
+  .item-header-small-text {
+    width: 50%;
+    padding: 2px 91px 18px 132px;
+    font-size: 14px;
+  }
+  .item-header-icon-container {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 10px 0;
   }
   .item-page-content {
     flex: 1;
@@ -146,6 +161,13 @@
         padding-left: 0.75rem;
       }
     }
+  }
+
+  .risk-item-content-text {
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.7px;
+    padding-bottom: 1rem;
   }
 
   .global-stats {

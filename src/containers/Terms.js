@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 import Sidebar from '../components/Sidebar';
+import TermsOfUseContent from '../components/TermsOfUseContent';
 
-export default class TandC extends Component {
+
+export default class Terms extends Component {
   render() {
     const { handleItemChange, history } = this.props;
     return (
@@ -15,6 +17,9 @@ export default class TandC extends Component {
         <div className="item-page-content">
           <div className="menu-item-header">
             <h1 className="item-header-title">Terms of use</h1>
+          </div>
+          <div className="faq-content-container">
+            <TermsOfUseContent />
           </div>
         </div>
       </div>
