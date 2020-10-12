@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: column;
   align-self: stretch;
+  // max-height: 100vh;
 
   @media screen and (max-width: 1600px) {
     width: 227px;
@@ -27,7 +28,6 @@
       align-items: center;
       margin-bottom: 30px;
       border-left: 7px transparent solid;
-      cursor: pointer;
 
       img {
         width: 90px;
@@ -53,6 +53,10 @@
         }
       }
     }
+  }
+
+  .link-accesible {
+    cursor: pointer;
   }
 
   .cdp-convert-info {

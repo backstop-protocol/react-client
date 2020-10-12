@@ -18,8 +18,7 @@ export default class Sidebar extends Component {
   };
   handleItemSelect = (selectedItem, location) => {
     this.setState({ selectedItem: selectedItem });
-    if(location !=="testnet")
-      this.props.history.push(`/testnet/${location}`);
+    if (location !== "testnet") this.props.history.push(`/${location}`);
     else {
       this.props.history.push(`/testnet`);
     }
@@ -34,9 +33,6 @@ export default class Sidebar extends Component {
   render() {
     const { userInfo, history } = this.props;
     const { selectedItem } = this.state;
-
-    console.log("pathname", history.location.pathname);
-    console.log("selectedItem", selectedItem);
 
     return (
       <div className="sidebar">
@@ -71,16 +67,14 @@ export default class Sidebar extends Component {
           )}
           <div className="products">
             <div
-              className={`product ${
+              className={`product link-accesible ${
                 selectedItem === "maker" &&
                 history.location.pathname === "/testnet" &&
                 "selected"
               }`}
+              onClick={() => this.handleItemSelect("maker", "testnet")}
             >
-              <img
-                src={MakerLogo}
-                onClick={() => this.handleItemSelect("maker", "testnet")}
-              />
+              <img src={MakerLogo} />
             </div>
             <div className="product">
               <img src={CompoundLogo} />
@@ -93,46 +87,34 @@ export default class Sidebar extends Component {
           </div>
           <div className="ln"> </div>
           <div
-            className={`product ${
+            className={`product link-accesible ${
               selectedItem === "terms" &&
-              history.location.pathname === "/testnet/terms" &&
+              history.location.pathname === "/terms" &&
               "selected"
             }`}
+            onClick={() => this.handleItemSelect("terms", "terms")}
           >
-            <p
-              className="menu-item"
-              onClick={() => this.handleItemSelect("terms", "terms")}
-            >
-              Terms of use
-            </p>
+            <p className="menu-item">Terms of use</p>
           </div>
           <div
-            className={`product ${
+            className={`product link-accesible ${
               selectedItem === "risk" &&
-              history.location.pathname === "/testnet/risk" &&
+              history.location.pathname === "/risk" &&
               "selected"
             }`}
+            onClick={() => this.handleItemSelect("risk", "risk")}
           >
-            <p
-              className="menu-item"
-              onClick={() => this.handleItemSelect("risk", "risk")}
-            >
-              Risks
-            </p>
+            <p className="menu-item">Risks</p>
           </div>
           <div
-            className={`product ${
+            className={`product link-accesible ${
               selectedItem === "faq" &&
-              history.location.pathname === "/testnet/faq" &&
+              history.location.pathname === "/faq" &&
               "selected"
             }`}
+            onClick={() => this.handleItemSelect("faq", "faq")}
           >
-            <p
-              className="menu-item"
-              onClick={() => this.handleItemSelect("faq", "faq")}
-            >
-              FAQ
-            </p>
+            <p className="menu-item">FAQ</p>
           </div>
         </div>
         <div className="sidebar-footer">

@@ -26,10 +26,22 @@ export default class Risk extends Component {
               <br />
               Whitepapers
               <div className="item-header-icon-container">
-                <img src={require("../assets/b-protocol-icon-risk.svg")} />
-                <img src={require("../assets/logo-maker-white-risk.svg")} />
-                <img src={require("../assets/compound-logo-a-1-risk.svg")} />
-                <img src={require("../assets/aav-ewhite-logo-risk.svg")} />
+                <img
+                  src={require("../assets/b-protocol-icon-risk.svg")}
+                  height="18"
+                />
+                <img
+                  src={require("../assets/logo-maker-white-risk.svg")}
+                  height="18"
+                />
+                <img
+                  src={require("../assets/compound-logo-a-1-risk.svg")}
+                  height="18"
+                />
+                <img
+                  src={require("../assets/aav-ewhite-logo-risk.svg")}
+                  height="18"
+                />
               </div>
             </p>
           </div>

@@ -117,7 +117,7 @@
         $jumboBgEnd 115%
       ),
       linear-gradient(to bottom, $jumboBg, $jumboBg);
-    min-height: 172px;
+    min-height: 215px;
 
     .item-header-title {
       padding: 78px 91px 55px 132px;
@@ -125,13 +125,13 @@
     }
   }
   .risk-header {
-    padding: 78px 91px 10px 132px;
-    font-size: 38px;
+    padding: 8px 91px 0px 132px;
+    font-size: 34px;
   }
   .item-header-small-text {
     width: 50%;
-    padding: 2px 91px 18px 132px;
-    font-size: 14px;
+    padding: 2px 91px 8px 132px;
+    font-size: 12px;
   }
   .item-header-icon-container {
     display: flex;
@@ -142,6 +142,7 @@
   .item-page-content {
     flex: 1;
     width: calc(100% - 227px);
+    // height: 100vh;
   }
 
   .faq-content-container {
