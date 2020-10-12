@@ -14,7 +14,7 @@ export default class Risk extends Component {
           initialState="risk"
         />
         <div className="item-page-content">
-          <div className="menu-item-header">
+          <div className="menu-item-header" style={{ height: "276px" }}>
             <h1 className="risk-header">Risk</h1>
             <p className="item-header-small-text">
               Interacting with lending platforms does not come without risks,
@@ -45,7 +45,10 @@ export default class Risk extends Component {
               </div>
             </p>
           </div>
-          <div className="faq-content-container">
+          <div
+            className="faq-content-container"
+            style={{ height: "calc(100vh - 276px) " }}
+          >
             <RiskContent />
           </div>
         </div>

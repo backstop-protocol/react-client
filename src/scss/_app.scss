@@ -117,10 +117,10 @@
         $jumboBgEnd 115%
       ),
       linear-gradient(to bottom, $jumboBg, $jumboBg);
-    height: 256px;
+    // height: 276px;
 
     .item-header-title {
-      padding: 118px 91px 55px 132px;
+      padding: 78px 91px 55px 132px;
       font-size: 38px;
     }
   }
@@ -130,7 +130,7 @@
   }
   .item-header-small-text {
     width: 50%;
-    padding: 2px 91px 8px 132px;
+    padding: 12px 91px 8px 132px;
     font-size: 14px;
   }
   .item-header-icon-container {
@@ -150,7 +150,7 @@
     line-height: 2rem;
 
     overflow-y: scroll;
-    height: calc(100vh - 256px);
+    // height: calc(100vh - 276px);
     .item-content-text {
       font-size: 12px;
       line-height: 20px;
