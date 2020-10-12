@@ -28,19 +28,19 @@ export default class Risk extends Component {
               <div className="item-header-icon-container">
                 <img
                   src={require("../assets/b-protocol-icon-risk.svg")}
-                  height="18"
+                  height="20"
                 />
                 <img
                   src={require("../assets/logo-maker-white-risk.svg")}
-                  height="18"
+                  height="20"
                 />
                 <img
                   src={require("../assets/compound-logo-a-1-risk.svg")}
-                  height="18"
+                  height="20"
                 />
                 <img
                   src={require("../assets/aav-ewhite-logo-risk.svg")}
-                  height="18"
+                  height="20"
                 />
               </div>
             </p>

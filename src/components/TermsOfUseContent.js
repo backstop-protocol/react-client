@@ -157,7 +157,7 @@ const TermsOfUseContent = () => {
         Personal Information (as such term is defined in our Privacy Policy)
         with regard to such User.
       </p>
-      <h4>5. Contacting us via the Site </h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>5. Contacting us via the Site </h4>
       <p className="item-content-text">
         In order to contact us, please email us at: [insert email address]
       </p>
@@ -173,7 +173,9 @@ const TermsOfUseContent = () => {
         to SFL in accordance with the Privacy Policy. If you intend to access or
         use the Site you must first read and agree to the Privacy Policy.{" "}
       </p>
-      <h4>7. Intellectual Property Rights </h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>
+        7. Intellectual Property Rights{" "}
+      </h4>
       <p className="item-content-text">
         The Site, the Interface and SFL’s proprietary assets and any and all
         intellectual property rights pertaining thereto, including, but not
@@ -202,7 +204,7 @@ const TermsOfUseContent = () => {
         with respect to any SFL current or future products, technologies or
         platform that incorporate any Feedback.
       </p>
-      <h4>8. Trademarks and Tradenames</h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>8. Trademarks and Tradenames</h4>
       <p className="item-content-text">
         SFL’s marks and logos and all other proprietary identifiers used by SFL
         in connection with the Site and the Interface (“SFL Trademarks”) are all
@@ -214,7 +216,9 @@ const TermsOfUseContent = () => {
         or interest may be asserted by you with respect thereto and therefore
         you will avoid using any of those marks, except as permitted herein.
       </p>
-      <h4>9. Linking to SFL’s Site and links to Third Party Sites </h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>
+        9. Linking to SFL’s Site and links to Third Party Sites{" "}
+      </h4>
       <p className="item-content-text">
         We welcome links to any page on our Site. You are free to establish a
         hypertext link to the Site so long as the link does not state or imply
@@ -249,7 +253,7 @@ const TermsOfUseContent = () => {
         and platform, inter alia, in order to know what kind of information
         about you is being collected.
       </p>
-      <h4>10. Availability </h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>10. Availability </h4>
       <p className="item-content-text">
         The Site’s and the Interface’s availability and functionality depends on
         various factors, such as communication networks. SFL does not warrant or
@@ -257,7 +261,7 @@ const TermsOfUseContent = () => {
         available at all times without disruption or interruption, or that it
         will be immune from unauthorized access or error-free.
       </p>
-      <h4>11. Changes to The Site</h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>11. Changes to The Site</h4>
       <p className="item-content-text">
         SFL reserves the right to modify, correct, amend, enhance, improve, make
         any other changes to, or discontinue, temporarily or permanently this
@@ -270,7 +274,9 @@ const TermsOfUseContent = () => {
         agree that SFL is not responsible for any errors or malfunctions that
         may occur in connection with the performance of such changes.{" "}
       </p>
-      <h4>12. Disclaimers and No Warranties</h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>
+        12. Disclaimers and No Warranties
+      </h4>
       <p className="item-content-text">
         TO THE FULLEST EXTENT LEGALLY PERMISSIBLE, THE SITE AND THE INTERFACE
         ARE PROVIDED ON AN <strong>“AS IS”</strong>,{" "}
@@ -323,7 +329,7 @@ const TermsOfUseContent = () => {
         AND LIMITATIONS MAY NOT APPLY.
         <br />
       </p>
-      <h4>13. Limitation of Liability</h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>13. Limitation of Liability</h4>
       <p className="item-content-text">
         TO THE MAXIMUM EXTENT LEGALLY PERMISSIBLE, IN NO EVENT SHALL SFL,
         INCLUDING SFL’S REPRESENTATIVES BE LIABLE FOR ANY DAMAGES WHATSOEVER,
@@ -357,7 +363,7 @@ const TermsOfUseContent = () => {
         LIMITATIONS AS SET FORTH HEREIN, THE FULL EXTENT OF THE ABOVE EXCLUSIONS
         AND LIMITATIONS MAY NOT APPLY.
       </p>
-      <h4>14. Release of Claims</h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>14. Release of Claims</h4>
       <p className="item-content-text">
         You expressly agree that you assume all risks in connection with your
         access and use of the Interface and your interaction with the Protocol.
@@ -371,7 +377,7 @@ const TermsOfUseContent = () => {
         release and that, if known by him or her, would have materially affected
         his or her settlement with the debtor or released party.”
       </p>
-      <h4>15. Indemnification </h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>15. Indemnification </h4>
       <p className="item-content-text">
         You agree to defend, indemnify and hold harmless SFL, including SFL
         Representatives from and against any and all claims, damages,
@@ -395,7 +401,7 @@ const TermsOfUseContent = () => {
         subject to an indemnification by you without first obtaining our prior
         express written approval.
       </p>
-      <h4>16. Amendments to the Terms </h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>16. Amendments to the Terms </h4>
       <p className="item-content-text">
         SFL may, at its sole discretion, change the Terms from time to time,
         including any other policies incorporated thereto, so please re-visit
@@ -436,7 +442,7 @@ const TermsOfUseContent = () => {
         Liability, Indemnification and General sections will survive the
         termination of the Terms.
       </p>
-      <h4>18. General </h4>
+      <h4 style={{ paddingLeft: "0.75rem" }}>18. General </h4>
       <p className="item-content-text">
         (a) These Terms constitute the entire terms and conditions between you
         and SFL relating to the subject matter herein and supersedes any and all
