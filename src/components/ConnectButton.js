@@ -47,18 +47,15 @@ export default class ConnectButton extends Component {
     const { loggedIn, accounts } = this.state;
 
     return (
-      <div
-        onClick={this.connect}
-        // className={"connect-button btn-inner" + (loggedIn ? " active" : "")}
-      >
+      <div onClick={this.connect}>
         {loggedIn ? (
-          <div
-            className={"connect-button btn-inner" + (loggedIn ? " active" : "")}
-          >
-            <span title={accounts}>{accounts}</span>
+          <div className={"connect-button" + (loggedIn ? " active" : "")}>
+            <div className="btn-inner">
+              <span title={accounts}>{accounts}</span>
+            </div>
           </div>
         ) : (
-          <div className={" terms-wrapper"}>
+          <div className={"terms-wrapper"}>
             <div className="term-text-btn">
               <span>
                 By using bprotocol, you agree to the{" "}
@@ -74,13 +71,12 @@ export default class ConnectButton extends Component {
                 </a>
               </span>
             </div>
+
             <div
-              className={
-                "connect-button btn-inner terms-wrapper" +
-                (loggedIn ? " active" : "")
-              }
+              className={"connect-button" + (loggedIn ? " active" : "")}
+              style={{ height: 40 }}
             >
-              <span>Connect</span>
+              <span className="btn-inner">Connect</span>
             </div>
           </div>
         )}
