@@ -2,7 +2,6 @@
 @import "fonts";
 
 .App {
-
   display: flex;
   width: 100%;
   min-height: 100%;
@@ -13,7 +12,12 @@
 
   .top-panel {
     width: 100%;
-    background-image: linear-gradient(-182deg, $jumboBgStart 83%, $jumboBgEnd 115%), linear-gradient(to bottom, $jumboBg, $jumboBg);
+    background-image: linear-gradient(
+        -182deg,
+        $jumboBgStart 83%,
+        $jumboBgEnd 115%
+      ),
+      linear-gradient(to bottom, $jumboBg, $jumboBg);
     height: 462px;
 
     @media screen and (max-width: 1600px) {
@@ -32,12 +36,10 @@
   }
 
   .header-stats {
-
     // column display stuff
     @media screen and (max-width: 1023px) {
       flex-direction: column;
     }
-
 
     h3 {
       font-size: 16px;
@@ -72,7 +74,7 @@
       svg {
         .box1 {
           @media screen and (max-width: 1600px) {
-            transform: translate(3px,0);
+            transform: translate(3px, 0);
           }
         }
         .box2 {
@@ -105,6 +107,68 @@
         }
       }
     }
+  }
+
+  .menu-item-header {
+    width: 100%;
+    background-image: linear-gradient(
+        -182deg,
+        $jumboBgStart 83%,
+        $jumboBgEnd 115%
+      ),
+      linear-gradient(to bottom, $jumboBg, $jumboBg);
+    // height: 276px;
+
+    .item-header-title {
+      padding: 78px 91px 55px 132px;
+      font-size: 38px;
+    }
+  }
+  .risk-header {
+    padding: 18px 91px 4px 132px;
+    font-size: 34px;
+  }
+  .item-header-small-text {
+    width: 50%;
+    padding: 12px 91px 8px 132px;
+    font-size: 14px;
+  }
+  .item-header-icon-container {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 10px 0;
+  }
+  .item-page-content {
+    flex: 1;
+    width: calc(100% - 227px);
+    // height: 100vh;
+  }
+
+  .faq-content-container {
+    padding: 2rem 16% 0rem 12%;
+    line-height: 2rem;
+
+    overflow-y: scroll;
+    // height: calc(100vh - 276px);
+    .item-content-text {
+      font-size: 12px;
+      line-height: 20px;
+      letter-spacing: 0.7px;
+      padding-bottom: 1rem;
+      padding-left: 0.75rem;
+
+      .item-sub-text {
+        padding-left: 0.75rem;
+      }
+    }
+  }
+
+  .risk-item-content-text {
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.7px;
+    padding-bottom: 1rem;
   }
 
   .global-stats {
@@ -180,7 +244,6 @@
       left: calc(50% - 12px);
       top: calc(50% - 24px);
     }
-
   }
 }
 
@@ -283,25 +346,24 @@
   }
 
   i {
-    position:absolute;
-    top:-8px;
-    left:50%;
-    margin-left:-8px;
-    width:16px;
-    height:8px;
-    overflow:hidden;
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    margin-left: -8px;
+    width: 16px;
+    height: 8px;
+    overflow: hidden;
   }
 
   i::after {
-    content:'';
-    position:absolute;
-    width:8px;
-    height:8px;
-    left:50%;
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    left: 50%;
     top: 0;
-    transform:translate(-50%,50%) rotate(45deg);
-    background-color:#ffffff;
-    box-shadow:0 1px 4px rgba(0,0,0,0.25);
+    transform: translate(-50%, 50%) rotate(45deg);
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   }
-
 }
