@@ -27,6 +27,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
     max-width: 200px;
   }
 
@@ -38,6 +39,26 @@
     border-color: #000000;
     background-color: #000000;
     color: #ffffff;
+  }
+}
+
+.terms-wrapper {
+  display: flex;
+  // max-width: 200px;
+  height: 40px;
+
+  .term-text-btn {
+    font-size: 11px;
+    line-height: 14px;
+    color: #647686;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 200px;
+
+    padding: 0 10px;
+    background-color: #d6f2e3;
+    border-radius: 6px;
   }
 }
 
