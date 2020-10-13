@@ -18,17 +18,9 @@ export default class Sidebar extends Component {
   };
   handleItemSelect = (selectedItem, location) => {
     this.setState({ selectedItem: selectedItem });
-    if (location !== "testnet") this.props.history.push(`/${location}`);
-    else {
-      this.props.history.push(`/testnet`);
-    }
-  };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.history.location === "/testnet/faq") {
-      this.setState({ selectedItem: "faq" });
-    }
-  }
+    this.props.history.push(`/${location}`);
+  };
 
   render() {
     const { userInfo, history } = this.props;
@@ -69,10 +61,10 @@ export default class Sidebar extends Component {
             <div
               className={`product link-accesible ${
                 selectedItem === "maker" &&
-                history.location.pathname === "/testnet" &&
+                history.location.pathname === "/" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("maker", "testnet")}
+              onClick={() => this.handleItemSelect("maker", "")}
             >
               <img src={MakerLogo} />
             </div>
