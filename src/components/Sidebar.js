@@ -118,11 +118,8 @@ export default class Sidebar extends Component {
             <a href="https://twitter.com/bprotocoleth" target="_blank">
               <img src={Twitter} />
             </a>
-            <a
-              href="https://www.linkedin.com/company/67182876/admin/"
-              target="_blank"
-            >
-              <img src={Linkedin} />
+            <a href="https://medium.com/b-protocol" target="_blank">
+              <img src={require("../assets/medium-icon.svg")} />
             </a>
             <a href="https://discord.gg/3RmqN2K" target="_blank">
               <img src={Discord} />
