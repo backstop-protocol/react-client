@@ -61,7 +61,7 @@ export default class ConnectButton extends Component {
           <div className={" terms-wrapper"}>
             <div className="term-text-btn">
               <span>
-                By using bprotocol, you agree to the
+                By using bprotocol, you agree to the{" "}
                 <a
                   href="/terms"
                   style={{
