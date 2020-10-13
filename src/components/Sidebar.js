@@ -13,63 +13,124 @@ import { numm } from "../lib/Utils";
 import MigrationButton from "./action-panels/MigrationButton";
 
 export default class Sidebar extends Component {
+  state = {
+    selectedItem: this.props.initialState,
+  };
+  handleItemSelect = (selectedItem, location) => {
+    this.setState({ selectedItem: selectedItem });
 
+    this.props.history.push(`/${location}`);
+  };
 
-    render() {
+  render() {
+    const { userInfo, history } = this.props;
+    const { selectedItem } = this.state;
 
-        const { userInfo } = this.props;
-
-        return (
-            <div className="sidebar">
-                <img className="logo" alt="Logo" src={Logo} />
-                <div className="ln"> </div>
-                <div className="sidebar-content">
-                    {(userInfo && userInfo.makerdaoCdpInfo.hasCdp) &&
-                        <div>
-                            <div className="cdp-convert">
-                                <MigrationButton />
-                                <div>
-                                    <p>Import your CDP<br />from MakerDAO system <br />to B.Protocol</p>
-                                    <div className="even">
-                                        <div>
-                                            <small>ETH Locked</small>
-                                            <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
-                                        </div>
-                                        <div>
-                                            <small>DAI Debt</small>
-                                            <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="ln"> </div>
-                        </div>
-                    }
-                    <div className="products">
-                        <div className="product selected">
-                            <img src={MakerLogo} />
-                        </div>
-                        <div className="product">
-                            <img src={CompoundLogo} /><small>(Coming soon)</small>
-                        </div>
-                        <div className="product">
-                            <img src={AAVELogo} /><small>(Coming soon)</small>
-                        </div>
+    return (
+      <div className="sidebar">
+        <img className="logo" alt="Logo" src={Logo} />
+        <div className="ln"> </div>
+        <div className="sidebar-content">
+          {userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
+            <div>
+              <div className="cdp-convert">
+                <MigrationButton />
+                <div>
+                  <p>
+                    Import your CDP
+                    <br />
+                    from MakerDAO system <br />
+                    to B.Protocol
+                  </p>
+                  <div className="even">
+                    <div>
+                      <small>ETH Locked</small>
+                      <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
                     </div>
-                    <div className="ln"> </div>
-
-                </div>
-                <div className="sidebar-footer">
-                    <h3>B.Protocol community</h3>
-                    <div className="social-icons">
-                        <a href="https://github.com/backstop-protocol" target="_blank"><img src={Github} /></a>
-                        <a href="https://twitter.com/bprotocoleth" target="_blank"><img src={Twitter} /></a>
-                        <a href="https://www.linkedin.com/company/67182876/admin/" target="_blank"><img src={Linkedin} /></a>
-                        <a href="https://discord.gg/3RmqN2K" target="_blank"><img src={Discord} /></a>
+                    <div>
+                      <small>DAI Debt</small>
+                      <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
                     </div>
-                    <p className="credits">&copy; 2020 B.Protocol</p>
+                  </div>
                 </div>
+              </div>
+              <div className="ln"> </div>
             </div>
-        )
-    }
+          )}
+          <div className="products">
+            <div
+              className={`product link-accesible ${
+                selectedItem === "maker" &&
+                history.location.pathname === "/" &&
+                "selected"
+              }`}
+              onClick={() => this.handleItemSelect("maker", "")}
+            >
+              <img src={MakerLogo} />
+            </div>
+            <div className="product">
+              <img src={CompoundLogo} />
+              <small>(Coming soon)</small>
+            </div>
+            <div className="product">
+              <img src={AAVELogo} />
+              <small>(Coming soon)</small>
+            </div>
+          </div>
+          <div className="ln"> </div>
+          <div
+            className={`product link-accesible ${
+              selectedItem === "terms" &&
+              history.location.pathname === "/terms" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("terms", "terms")}
+          >
+            <p className="menu-item">Terms of use</p>
+          </div>
+          <div
+            className={`product link-accesible ${
+              selectedItem === "risk" &&
+              history.location.pathname === "/risk" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("risk", "risk")}
+          >
+            <p className="menu-item">Risks</p>
+          </div>
+          <div
+            className={`product link-accesible ${
+              selectedItem === "faq" &&
+              history.location.pathname === "/faq" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("faq", "faq")}
+          >
+            <p className="menu-item">FAQ</p>
+          </div>
+        </div>
+        <div className="sidebar-footer">
+          <h3>B.Protocol community</h3>
+          <div className="social-icons">
+            <a href="https://github.com/backstop-protocol" target="_blank">
+              <img src={Github} />
+            </a>
+            <a href="https://twitter.com/bprotocoleth" target="_blank">
+              <img src={Twitter} />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/67182876/admin/"
+              target="_blank"
+            >
+              <img src={Linkedin} />
+            </a>
+            <a href="https://discord.gg/3RmqN2K" target="_blank">
+              <img src={Discord} />
+            </a>
+          </div>
+          <p className="credits">&copy; 2020 B.Protocol</p>
+        </div>
+      </div>
+    );
+  }
 }
