@@ -74,11 +74,18 @@ export default class Dashboard extends Component {
 
   render() {
     const { userInfo, loggedIn, showConnect } = this.state;
+    const { current, handleItemChange, history } = this.props;
 
     return (
       <div className="App">
         <ModalContainer></ModalContainer>
-        <Sidebar userInfo={userInfo} />
+        <Sidebar
+          userInfo={userInfo}
+          current={current}
+          handleItemChange={handleItemChange}
+          history={history}
+          initialState="maker"
+        />
         <div className="content">
           <Header
             info={loggedIn && userInfo !== null && userInfo}

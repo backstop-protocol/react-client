@@ -13,8 +13,18 @@ import { numm } from "../lib/Utils";
 import MigrationButton from "./action-panels/MigrationButton";
 
 export default class Sidebar extends Component {
+  state = {
+    selectedItem: this.props.initialState,
+  };
+  handleItemSelect = (selectedItem, location) => {
+    this.setState({ selectedItem: selectedItem });
+
+    this.props.history.push(`/${location}`);
+  };
+
   render() {
-    const { userInfo } = this.props;
+    const { userInfo, history } = this.props;
+    const { selectedItem } = this.state;
 
     return (
       <div className="sidebar">
@@ -48,7 +58,14 @@ export default class Sidebar extends Component {
             </div>
           )}
           <div className="products">
-            <div className="product selected">
+            <div
+              className={`product link-accesible ${
+                selectedItem === "maker" &&
+                history.location.pathname === "/" &&
+                "selected"
+              }`}
+              onClick={() => this.handleItemSelect("maker", "")}
+            >
               <img src={MakerLogo} />
             </div>
             <div className="product">
@@ -61,6 +78,36 @@ export default class Sidebar extends Component {
             </div>
           </div>
           <div className="ln"> </div>
+          <div
+            className={`product link-accesible ${
+              selectedItem === "terms" &&
+              history.location.pathname === "/terms" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("terms", "terms")}
+          >
+            <p className="menu-item">Terms of use</p>
+          </div>
+          <div
+            className={`product link-accesible ${
+              selectedItem === "risk" &&
+              history.location.pathname === "/risk" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("risk", "risk")}
+          >
+            <p className="menu-item">Risks</p>
+          </div>
+          <div
+            className={`product link-accesible ${
+              selectedItem === "faq" &&
+              history.location.pathname === "/faq" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("faq", "faq")}
+          >
+            <p className="menu-item">FAQ</p>
+          </div>
         </div>
         <div className="sidebar-footer">
           <h3>B.Protocol community</h3>
