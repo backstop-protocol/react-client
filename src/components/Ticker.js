@@ -5,7 +5,7 @@ export default class Ticker extends Component {
     super(props);
 
     this.state = {
-      value: "0",
+      value: "4609.6158",
 
       changes: [],
     };
@@ -48,7 +48,13 @@ export default class Ticker extends Component {
               n === "."
                 ? " dot"
                 : "" +
-                  (n === "1" ? " one" : "") +
+                  // (value.length > 7
+                  //   ? n === "1"
+                  //     ? "one-small"
+                  //     : ""
+                  //   : n === "1"
+                  //   ? " one"
+                  //   : "") +
                   (value.length > 7
                     ? index < primary
                       ? " primary-small"

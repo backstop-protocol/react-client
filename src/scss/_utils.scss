@@ -175,6 +175,11 @@ span.ticker {
       width: 15.5px;
       animation: dropin 0.3s forwards;
     }
+    &.one-small {
+      width: 12px;
+      font-size: 24px;
+      width: 15.5px;
+    }
 
     @media screen and (max-width: 1600px) {
       font-size: 32px;
