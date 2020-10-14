@@ -49,7 +49,7 @@ export default class Ticker extends Component {
                 ? " dot"
                 : "" +
                   (n === "1" ? " one" : "") +
-                  (value.length > 6
+                  (value.length > 7
                     ? index < primary
                       ? " primary-small"
                       : "dot-small"

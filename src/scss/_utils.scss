@@ -166,13 +166,13 @@ span.ticker {
     }
     &.primary-small {
       color: #ffffff;
-      font-size: 18px;
+      font-size: 24px;
       width: 12px;
     }
     &.dot-small {
       opacity: 0;
-      font-size: 18px;
-      width: 11.5px;
+      font-size: 24px;
+      // width: 15.5px;
       animation: dropin 0.3s forwards;
     }
 
