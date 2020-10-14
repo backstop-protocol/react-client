@@ -61,9 +61,8 @@ export default class Ticker extends Component {
                       : "dot-small"
                     : index < primary
                     ? " primary"
-                    : "")
-              // (index < primary ? " primary" : "") +
-              // (changes.indexOf(index) > -1 ? " in" : "")
+                    : "") +
+                  (changes.indexOf(index) > -1 ? " in" : "")
             }
           >
             {n}
