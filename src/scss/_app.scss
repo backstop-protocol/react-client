@@ -93,13 +93,8 @@
     }
 
     .borrow-limit {
+      margin-left: 50px;
       flex: 1;
-      margin-left: 103px;
-
-      @media screen and (max-width: 1600px) {
-        margin-left: 153px;
-        margin-right: 18px;
-      }
 
       @media screen and (max-width: 1023px) {
         margin-left: 0;
@@ -210,7 +205,7 @@
           text-align: center;
           display: none;
           top: -95px;
-          width: 103px;
+          min-width: 103px;
           height: 78px;
           transition: all 0.2s;
 
@@ -230,7 +225,7 @@
         font-size: 40px;
 
         @media screen and (max-width: 1600px) {
-          font-size: 32px;
+          font-size: 34px;
         }
       }
 
@@ -246,8 +241,7 @@
 
     img.floating {
       position: absolute;
-      // left: calc(50% - 12px);
-      left: calc(50% - 19px);
+      left: calc(50% - 12px);
       top: calc(50% - 24px);
     }
   }
