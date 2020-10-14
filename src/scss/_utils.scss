@@ -156,7 +156,7 @@ span.ticker {
   & > span {
     display: inline-block;
     width: 24px;
-    text-align: right;
+    text-align: left;
     font-family: $titleFont;
     transition: all 0.2s;
     color: transparentize(#ffffff, 0.5);
@@ -174,14 +174,17 @@ span.ticker {
       width: 15.5px;
     }
     &.one-small {
-      width: 12px;
       font-size: 24px;
-      width: 15.5px;
+      width: 12px;
     }
 
+    // &.small-dot {
+    //   width: 10px;
+    // }
+
     @media screen and (max-width: 1600px) {
-      font-size: 32px;
-      width: 20.5px;
+      font-size: 40px;
+      width: 25px;
     }
 
     &.in {
@@ -193,7 +196,7 @@ span.ticker {
       width: 10px;
     }
     &.one {
-      width: 12px;
+      width: 15px;
     }
   }
 }

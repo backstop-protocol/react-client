@@ -37,8 +37,6 @@ export default class Ticker extends Component {
 
     value = value ? value.toString().split("") : ["0"];
 
-    console.log("length.........", value.length);
-
     return (
       <span className="ticker">
         {value.map((n, index) => (
@@ -46,22 +44,36 @@ export default class Ticker extends Component {
             key={index}
             className={
               n === "."
-                ? " dot"
+                ? "dot"
                 : "" +
-                  // (value.length > 7
-                  //   ? n === "1"
-                  //     ? "one-small"
-                  //     : ""
-                  //   : n === "1"
-                  //   ? " one"
-                  //   : "") +
+                  //   (value.length > 7
+                  //     ? n === "1"
+                  //       ? "one-small"
+                  //       : ""
+                  //     : n === "1"
+                  //     ? " one"
+                  //     : "") +
+
+                  //   (value.length > 7
+                  //     ? index < primary
+                  //       ? " primary-small"
+
+                  //        "dot-small"
+                  //     : index < primary
+
+                  //        " primary"
+                  //     : "") +
                   (value.length > 7
                     ? index < primary
-                      ? " primary-small"
+                      ? n === "1"
+                        ? "primary-small one-small"
+                        : "primary-small"
+                      : n === "1"
+                      ? "dot-small one-small"
                       : "dot-small"
-                    : index < primary
-                    ? " primary"
-                    : "") +
+                    : n === "1"
+                    ? "primary one"
+                    : "primary") +
                   (changes.indexOf(index) > -1 ? " in" : "")
             }
           >
