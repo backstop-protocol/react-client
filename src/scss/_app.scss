@@ -93,8 +93,13 @@
     }
 
     .borrow-limit {
-      margin-left: 50px;
       flex: 1;
+      margin-left: 103px;
+
+      @media screen and (max-width: 1600px) {
+        margin-left: 153px;
+        margin-right: 18px;
+      }
 
       @media screen and (max-width: 1023px) {
         margin-left: 0;
