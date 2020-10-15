@@ -192,6 +192,7 @@
         font-size: 15px;
         font-weight: normal;
         display: flex;
+       
 
         @media screen and (max-width: 1600px) {
           font-size: 13px;
@@ -233,10 +234,10 @@
 
       .value {
         font-family: $titleFont;
-        font-size: 40px;
+        font-size: 42px;
 
         @media screen and (max-width: 1600px) {
-          font-size: 34px;
+          font-size: 31px;
         }
         @media screen and (max-width: 1366px) {
           font-size: 30px;

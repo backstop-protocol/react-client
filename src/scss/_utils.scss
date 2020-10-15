@@ -155,7 +155,7 @@
 span.ticker {
   & > span {
     display: inline-block;
-    width: 24px;
+    width: 26px;
     text-align: left;
     font-family: $titleFont;
     transition: all 0.2s;
@@ -168,14 +168,14 @@ span.ticker {
     }
 
     @media screen and (max-width: 1600px) {
-      font-size: 35px;
-      width: 20px;
+      font-size: 32px;
+      width: 18.5px;
       padding-left: 2px;
       font-weight: normal;
     }
     @media screen and(max-width:1366px) {
-      font-size: 32px;
-      max-width:18.5px
+      font-size: 31px;
+      max-width:18px
     }
 
     &.in {
@@ -195,16 +195,23 @@ span.ticker {
     }
     &.one {
       width: 15px;
+      @media screen and(max-width:1600px) {
+        
+        max-width: 11px;
+      }
+      @media screen and(max-width:1366px) {
+        max-width:12px
+      }
     }
     &.s-primary {
-      font-size: 26px;
-      width: 16px;
+      font-size: 27.5px;
+      width: 16.25px;
       color: #fff;
 
       
       @media screen and(max-width:1600px) {
-        font-size: 23px;
-        max-width: 12.5px;
+        font-size: 24px;
+        max-width: 12.75px;
       }
 
       @media screen and(max-width:1366px) {
@@ -214,11 +221,11 @@ span.ticker {
     
     }
     &.s-one {
-      font-size: 26px;
-      width: 13px;
+      font-size: 27.5px;
+      width: 13.25px;
       @media screen and(max-width:1600px) {
-        font-size: 23px;
-        max-width: 9px;
+        font-size: 24px;
+        max-width: 9.25px;
       }
       @media screen and(max-width:1366px) {
         font-size: 20px;
@@ -226,11 +233,11 @@ span.ticker {
       }
     }
     &.small {
-      font-size: 26px;
-      width: 16px;
+      font-size: 27.5px;
+      width: 16.25px;
       @media screen and(max-width:1600px) {
-        font-size: 23px;
-        max-width: 12.5px;
+        font-size: 24px;
+        max-width: 12.75px;
       }
       @media screen and(max-width:1366px) {
         font-size: 20px;
@@ -238,11 +245,11 @@ span.ticker {
       }
     }
     &.fade-small-one{
-      font-size: 26px;
-      width: 10px;
+      font-size: 27.5px;
+      width: 10.25px;
       @media screen and(max-width:1600px) {
-        font-size: 23px;
-        max-width: 8px;
+        font-size: 24px;
+        max-width: 8.25px;
       }
       @media screen and(max-width:1366px) {
         font-size: 20px;
