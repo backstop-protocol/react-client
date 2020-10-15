@@ -196,6 +196,9 @@
         @media screen and (max-width: 1600px) {
           font-size: 13px;
         }
+        @media screen and (max-width: 1366px) {
+          font-size: 12.5px;
+        }
 
         .tooltip-container {
           margin-left: 8px;
@@ -231,7 +234,10 @@
         font-size: 40px;
 
         @media screen and (max-width: 1600px) {
-          font-size: 36px;
+          font-size: 34px;
+        }
+        @media screen and (max-width: 1366px) {
+          font-size: 30px;
         }
       }
 
@@ -246,6 +252,9 @@
 
         @media screen and (max-width: 1600px) {
           padding-left: 28px;
+        }
+        @media screen and (max-width: 1366px) {
+          padding-left: 30px;
         }
       }
     }

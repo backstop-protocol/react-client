@@ -166,9 +166,14 @@ span.ticker {
     }
 
     @media screen and (max-width: 1600px) {
-      font-size: 38px;
-      width: 24px;
+      font-size: 35px;
+      width: 20px;
       padding-left: 2px;
+      font-weight: normal;
+    }
+    @media screen and(max-width:1366px) {
+      font-size: 32px;
+      max-width:18.5px
     }
 
     &.in {
@@ -178,6 +183,13 @@ span.ticker {
 
     &.dot {
       width: 10px;
+      @media screen and(max-width:1600px) {
+        
+        max-width: 7px;
+      }
+      @media screen and(max-width:1366px) {
+        max-width:6px
+      }
     }
     &.one {
       width: 15px;
@@ -187,25 +199,40 @@ span.ticker {
       width: 16px;
       color: #fff;
 
+      
       @media screen and(max-width:1600px) {
-        font-size: 22px;
-        max-width: 12.5px;
+        font-size: 21px;
+        max-width: 12px;
       }
+
+      @media screen and(max-width:1366px) {
+        font-size: 20px;
+        max-width:11px
+      }
+    
     }
     &.s-one {
       font-size: 26px;
       width: 13px;
       @media screen and(max-width:1600px) {
-        font-size: 22px;
-        max-width: 10px;
+        font-size: 21px;
+        max-width: 9px;
+      }
+      @media screen and(max-width:1366px) {
+        font-size: 20px;
+        max-width:9px
       }
     }
     &.small {
       font-size: 26px;
       width: 16px;
       @media screen and(max-width:1600px) {
-        font-size: 22px;
-        max-width: 12.5px;
+        font-size: 21px;
+        max-width: 12px;
+      }
+      @media screen and(max-width:1366px) {
+        font-size: 20px;
+        max-width:11px
       }
     }
   }
