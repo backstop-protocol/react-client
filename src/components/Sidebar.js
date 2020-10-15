@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import Logo from "../assets/bprotocol.svg";
 import Github from "../assets/github.svg";
 import Twitter from "../assets/twitter-icon.svg";
-import Linkedin from "../assets/linkedin.svg";
+// import Linkedin from "../assets/linkedin.svg";
 import Discord from "../assets/discord.svg";
 import AAVELogo from "../assets/aav-ewhite-logo.svg";
 import CompoundLogo from "../assets/compound-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
-import EventBus from "../lib/EventBus";
-import MigrationModal from "./modals/MigrationModal";
+// import EventBus from "../lib/EventBus";
+// import MigrationModal from "./modals/MigrationModal";
 import { numm } from "../lib/Utils";
 import MigrationButton from "./action-panels/MigrationButton";
 
@@ -66,14 +66,14 @@ export default class Sidebar extends Component {
               }`}
               onClick={() => this.handleItemSelect("maker", "")}
             >
-              <img src={MakerLogo} />
+              <img src={MakerLogo} alt="_maker-logo" />
             </div>
             <div className="product">
-              <img src={CompoundLogo} />
+              <img src={CompoundLogo} alt="_compound-logo" />
               <small>(Coming soon)</small>
             </div>
             <div className="product">
-              <img src={AAVELogo} />
+              <img src={AAVELogo} alt="_aave-logo" />
               <small>(Coming soon)</small>
             </div>
           </div>
@@ -112,17 +112,36 @@ export default class Sidebar extends Component {
         <div className="sidebar-footer">
           <h3>B.Protocol community</h3>
           <div className="social-icons">
-            <a href="https://github.com/backstop-protocol" target="_blank">
-              <img src={Github} />
+            <a
+              href="https://github.com/backstop-protocol"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={Github} alt="_github-logo" />
             </a>
-            <a href="https://twitter.com/bprotocoleth" target="_blank">
-              <img src={Twitter} />
+            <a
+              href="https://twitter.com/bprotocoleth"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={Twitter} alt="_twitter-logo" />
             </a>
-            <a href="https://medium.com/b-protocol" target="_blank">
-              <img src={require("../assets/medium-icon.svg")} />
+            <a
+              href="https://medium.com/b-protocol"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={require("../assets/medium-icon.svg")}
+                alt="_medium-logo"
+              />
             </a>
-            <a href="https://discord.gg/3RmqN2K" target="_blank">
-              <img src={Discord} />
+            <a
+              href="https://discord.gg/3RmqN2K"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={Discord} alt="_discord-logo" />
             </a>
           </div>
           <p className="credits">&copy; 2020 B.Protocol</p>

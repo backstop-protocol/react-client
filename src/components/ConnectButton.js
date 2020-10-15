@@ -3,9 +3,9 @@ import Web3 from "web3";
 import React, { Component } from "react";
 let web3;
 
-function increaseABit(number) {
-  return parseInt(1.1 * Number(number));
-}
+// function increaseABit(number) {
+//   return parseInt(1.1 * Number(number));
+// }
 
 export default class ConnectButton extends Component {
   constructor(props) {

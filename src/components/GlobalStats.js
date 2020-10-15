@@ -24,7 +24,7 @@ export default class GlobalStats extends Component {
 
     if (!this.state.currentRating) {
       clearInterval(this.state.ratingInterval);
-      const interval = setInterval(this.updateUserRating, 3000);
+      // const interval = setInterval(this.updateUserRating, 3000);
 
       this.setState({
         ratingProgress:
@@ -43,7 +43,7 @@ export default class GlobalStats extends Component {
       ratingFactor;
     if (this.state.ratingProgress !== currRatingProgress) {
       clearInterval(this.state.ratingInterval);
-      const interval = setInterval(this.updateUserRating, 3000);
+      // const interval = setInterval(this.updateUserRating, 3000);
 
       this.setState({ ratingProgress: currRatingProgress });
       this.setState({
@@ -74,7 +74,7 @@ export default class GlobalStats extends Component {
               Jar Balance
               <span className="tooltip-container">
                 <Tooltip>Jar Balance</Tooltip>
-                <img className="info-icon" src={InfoIcon} />
+                <img className="info-icon" src={InfoIcon} alt="info-icon" />
               </span>
             </h2>
             <div className="value">
@@ -106,7 +106,7 @@ export default class GlobalStats extends Component {
                     )}
                   </h3>
                 </Tooltip>
-                <img className="info-icon" src={InfoIcon} />
+                <img className="info-icon" src={InfoIcon} alt="info-icon" />
               </span>
             </h2>
             <div className="value">
@@ -116,7 +116,11 @@ export default class GlobalStats extends Component {
         </div>
         <div className="image-container">
           <Pulser />
-          <img src={DollarIcon} className="dollar-icon floating centered" />
+          <img
+            src={DollarIcon}
+            className="dollar-icon floating centered"
+            alt="dollar-icon"
+          />
         </div>
       </div>
     );

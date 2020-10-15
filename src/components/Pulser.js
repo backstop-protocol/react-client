@@ -117,9 +117,9 @@ export default function Pulser() {
           y1="2.599%"
           y2="91.365%"
         >
-          <stop offset="0%" stop-color="#D5F2E2" />
-          <stop offset="100%" stop-color="#25C068" />
-          <stop offset="100%" stop-color="#25C068" />
+          <stop offset="0%" stopColor="#D5F2E2" />
+          <stop offset="100%" stopColor="#25C068" />
+          <stop offset="100%" stopColor="#25C068" />
         </linearGradient>
         <linearGradient
           id="vyjvxxoteb"
@@ -128,8 +128,8 @@ export default function Pulser() {
           y1="54.358%"
           y2="54.358%"
         >
-          <stop offset="0%" stop-color="#25C068" />
-          <stop offset="100%" stop-color="#1EAB5B" />
+          <stop offset="0%" stopColor="#25C068" />
+          <stop offset="100%" stopColor="#1EAB5B" />
         </linearGradient>
         <linearGradient
           id="upjd922wpc"
@@ -138,11 +138,11 @@ export default function Pulser() {
           y1="44.397%"
           y2="44.397%"
         >
-          <stop offset="0%" stop-color="#25C068" />
-          <stop offset="100%" stop-color="#1EAA5A" />
+          <stop offset="0%" stopColor="#25C068" />
+          <stop offset="100%" stopColor="#1EAA5A" />
         </linearGradient>
       </defs>
-      <g fill="none" fill-rule="evenodd">
+      <g fill="none" fillRule="evenodd">
         <g>
           <g transform="translate(-461 -103) translate(461 105)">
             <circle
@@ -150,7 +150,7 @@ export default function Pulser() {
               cy="145"
               r="145"
               stroke="url(#hzj59t4zpa)"
-              stroke-width="2.4"
+              strokeWidth="2.4"
               opacity=".219"
             />
             <circle
@@ -158,7 +158,7 @@ export default function Pulser() {
               cy="145"
               r="124"
               stroke="url(#hzj59t4zpa)"
-              stroke-width="2.4"
+              strokeWidth="2.4"
               opacity=".15"
               transform="rotate(-90 280 145)"
             />
@@ -167,7 +167,7 @@ export default function Pulser() {
               cy="145.5"
               r="104.5"
               stroke="url(#hzj59t4zpa)"
-              stroke-width="2.4"
+              strokeWidth="2.4"
               opacity=".15"
               transform="rotate(-90 280.5 145.5)"
             />
@@ -185,7 +185,7 @@ export default function Pulser() {
               cy="146"
               r="71.8"
               stroke="rgba(255,255,255,0.15)"
-              stroke-width="2.4"
+              strokeWidth="2.4"
               opacity=".1"
             />
             <circle
@@ -193,7 +193,7 @@ export default function Pulser() {
               cy="146"
               r="47.8"
               stroke="rgba(255,255,255,0.25)"
-              stroke-width="2.4"
+              strokeWidth="2.4"
               opacity=".1"
             />
           </g>
