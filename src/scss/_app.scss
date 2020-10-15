@@ -93,8 +93,13 @@
     }
 
     .borrow-limit {
-      margin-left: 50px;
+      margin-left: 103px;
+      margin-right: 18px;
       flex: 1;
+
+      @media screen and (max-width: 1600px) {
+        margin-left: 153px;
+      }
 
       @media screen and (max-width: 1023px) {
         margin-left: 0;
@@ -180,15 +185,22 @@
       display: flex;
       align-items: center;
       color: $statsColor;
+      // padding-left: 28px;
 
       h2 {
         color: $statsTitleColor;
         font-size: 15px;
         font-weight: normal;
         display: flex;
+       
 
         @media screen and (max-width: 1600px) {
           font-size: 13px;
+          padding-left: 2px;
+        }
+        @media screen and (max-width: 1366px) {
+          font-size: 12.5px;
+          padding-left: 3px;
         }
 
         .tooltip-container {
@@ -205,7 +217,7 @@
           text-align: center;
           display: none;
           top: -95px;
-          width: 103px;
+          min-width: 103px;
           height: 78px;
           transition: all 0.2s;
 
@@ -222,10 +234,13 @@
 
       .value {
         font-family: $titleFont;
-        font-size: 40px;
+        font-size: 42px;
 
         @media screen and (max-width: 1600px) {
-          font-size: 34px;
+          font-size: 31px;
+        }
+        @media screen and (max-width: 1366px) {
+          font-size: 30px;
         }
       }
 
@@ -234,14 +249,22 @@
         height: 146px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: start;
         justify-content: center;
+        padding-left: 48px;
+
+        @media screen and (max-width: 1600px) {
+          padding-left: 32px;
+        }
+        @media screen and (max-width: 1366px) {
+          padding-left: 32px;
+        }
       }
     }
 
     img.floating {
       position: absolute;
-      left: calc(50% - 12px);
+      left: calc(50% - 19px);
       top: calc(50% - 24px);
     }
   }

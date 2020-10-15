@@ -28,7 +28,7 @@ export default class GlobalStats extends Component {
             const interval = setInterval(this.updateUserRating, 3000);
 
             this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor});
-            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor).toFixed(4)});
+            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor).toFixed(7)});
         }
 
         const currRatingProgress = parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor;
@@ -37,14 +37,14 @@ export default class GlobalStats extends Component {
             const interval = setInterval(this.updateUserRating, 3000);
 
             this.setState({ratingProgress: currRatingProgress});
-            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor).toFixed(4)});
+            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor).toFixed(7)});
         }
     }
 
     updateUserRating = () => {
         const currentRating = this.state.currentRating;
         const nextRating = parseFloat(currentRating * 1 + this.state.ratingProgress * 3);
-        this.setState({currentRating: nextRating.toFixed(4)});
+        this.setState({currentRating: nextRating.toFixed(7)});
     };
 
     render() {
@@ -90,3 +90,5 @@ export default class GlobalStats extends Component {
         )
     }
 }
+
+

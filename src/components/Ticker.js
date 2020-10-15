@@ -35,9 +35,31 @@ export default class Ticker extends Component {
         value = value ? value.toString().split('') : ['0'];
 
         return (
-            <span className="ticker">
-                {value.map((n, index) => <span key={index} className={n==='.'?' dot':'' + (n==='1'?' one':'') + (index<primary?' primary':'') + (changes.indexOf(index)>-1?' in':'')}>{n}</span>)}
-            </span>
-        )
+          <span className="ticker">
+            {value.map((n, index) => (
+              <span
+                key={index}
+                className={
+                  n === "."
+                    ? "dot"
+                    : "" +
+                      (n === "1" ? (value.length > 7 ? "s-one" : " one") : "") +
+                      (value.length > 7
+                        ? index < primary
+                          ? " s-primary"
+                          : n === "1"
+                          ? "s-one small fade-small-one"
+                          : "small"
+                        : index < primary
+                        ? " primary"
+                        : "") +
+                      (changes.indexOf(index) > -1 ? " in" : "")
+                }
+              >
+                {n}
+              </span>
+            ))}
+          </span>
+        );
     }
 }
