@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { numm } from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
 import GlobalStats from "./GlobalStats";
 import BorrowLimit from "./BorrowLimit";
@@ -13,14 +14,14 @@ export default class Header extends Component {
       <div className="top-panel">
         <div className="container">
           <div className="split title-bar">
-            <img className="logo" src={Logo} alt="_icon" />
+            <img className="logo" src={Logo} />
             <div className="connect-container">
               <ConnectButton onConnect={onConnect} />
               {showConnect && (
                 <div className="connect-wallet">
                   <i> </i>
                   <h3>Click to connect your wallet</h3>
-                  <img src={ConnectWallet} alt="connect-wallet" />
+                  <img src={ConnectWallet} />
                 </div>
               )}
             </div>

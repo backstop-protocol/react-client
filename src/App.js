@@ -8,6 +8,11 @@ import TermsOfUse from "./containers/Terms";
 import Risk from "./containers/Risk";
 
 function App() {
+  const [current, setCurrent] = React.useState("maker");
+  const handleItemChange = (item) => {
+    setCurrent(item);
+  };
+
   return (
     <div className="App">
       <AppError />
