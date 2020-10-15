@@ -51,7 +51,7 @@ export default class Ticker extends Component {
                     ? index < primary
                       ? " s-primary"
                       : n === "1"
-                      ? "s-one small"
+                      ? "s-one small fade-small-one"
                       : "small"
                     : index < primary
                     ? " primary"

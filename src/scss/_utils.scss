@@ -161,6 +161,8 @@ span.ticker {
     transition: all 0.2s;
     color: transparentize(#ffffff, 0.5);
 
+    
+
     &.primary {
       color: #ffffff;
     }
@@ -185,7 +187,7 @@ span.ticker {
       width: 10px;
       @media screen and(max-width:1600px) {
         
-        max-width: 7px;
+        max-width: 6.5px;
       }
       @media screen and(max-width:1366px) {
         max-width:6px
@@ -201,13 +203,13 @@ span.ticker {
 
       
       @media screen and(max-width:1600px) {
-        font-size: 21px;
-        max-width: 12px;
+        font-size: 23px;
+        max-width: 12.5px;
       }
 
       @media screen and(max-width:1366px) {
         font-size: 20px;
-        max-width:11px
+        max-width:10.5px
       }
     
     }
@@ -215,24 +217,36 @@ span.ticker {
       font-size: 26px;
       width: 13px;
       @media screen and(max-width:1600px) {
-        font-size: 21px;
+        font-size: 23px;
         max-width: 9px;
       }
       @media screen and(max-width:1366px) {
         font-size: 20px;
-        max-width:9px
+        max-width:7.5px
       }
     }
     &.small {
       font-size: 26px;
       width: 16px;
       @media screen and(max-width:1600px) {
-        font-size: 21px;
-        max-width: 12px;
+        font-size: 23px;
+        max-width: 12.5px;
       }
       @media screen and(max-width:1366px) {
         font-size: 20px;
-        max-width:11px
+        max-width:10.5px
+      }
+    }
+    &.fade-small-one{
+      font-size: 26px;
+      width: 10px;
+      @media screen and(max-width:1600px) {
+        font-size: 23px;
+        max-width: 8px;
+      }
+      @media screen and(max-width:1366px) {
+        font-size: 20px;
+        max-width: 8.5px;
       }
     }
   }
