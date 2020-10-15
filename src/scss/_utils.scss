@@ -164,27 +164,11 @@ span.ticker {
     &.primary {
       color: #ffffff;
     }
-    &.primary-small {
-      color: #ffffff;
-      font-size: 24px;
-      width: 15.5px;
-    }
-    &.dot-small {
-      font-size: 24px;
-      width: 15.5px;
-    }
-    &.one-small {
-      font-size: 24px;
-      width: 12px;
-    }
-
-    // &.small-dot {
-    //   width: 10px;
-    // }
 
     @media screen and (max-width: 1600px) {
-      font-size: 40px;
-      width: 25px;
+      font-size: 38px;
+      width: 24px;
+      padding-left: 2px;
     }
 
     &.in {
@@ -197,6 +181,32 @@ span.ticker {
     }
     &.one {
       width: 15px;
+    }
+    &.s-primary {
+      font-size: 26px;
+      width: 16px;
+      color: #fff;
+
+      @media screen and(max-width:1600px) {
+        font-size: 22px;
+        max-width: 12.5px;
+      }
+    }
+    &.s-one {
+      font-size: 26px;
+      width: 13px;
+      @media screen and(max-width:1600px) {
+        font-size: 22px;
+        max-width: 10px;
+      }
+    }
+    &.small {
+      font-size: 26px;
+      width: 16px;
+      @media screen and(max-width:1600px) {
+        font-size: 22px;
+        max-width: 12.5px;
+      }
     }
   }
 }

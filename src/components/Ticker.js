@@ -46,34 +46,16 @@ export default class Ticker extends Component {
               n === "."
                 ? "dot"
                 : "" +
-                  //   (value.length > 7
-                  //     ? n === "1"
-                  //       ? "one-small"
-                  //       : ""
-                  //     : n === "1"
-                  //     ? " one"
-                  //     : "") +
-
-                  //   (value.length > 7
-                  //     ? index < primary
-                  //       ? " primary-small"
-
-                  //        "dot-small"
-                  //     : index < primary
-
-                  //        " primary"
-                  //     : "") +
+                  (n === "1" ? (value.length > 7 ? "s-one" : " one") : "") +
                   (value.length > 7
                     ? index < primary
-                      ? n === "1"
-                        ? "primary-small one-small"
-                        : "primary-small"
+                      ? " s-primary"
                       : n === "1"
-                      ? "dot-small one-small"
-                      : "dot-small"
-                    : n === "1"
-                    ? "primary one"
-                    : "primary") +
+                      ? "s-one small"
+                      : "small"
+                    : index < primary
+                    ? " primary"
+                    : "") +
                   (changes.indexOf(index) > -1 ? " in" : "")
             }
           >

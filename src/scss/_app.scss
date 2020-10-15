@@ -231,7 +231,7 @@
         font-size: 40px;
 
         @media screen and (max-width: 1600px) {
-          font-size: 40px;
+          font-size: 36px;
         }
       }
 
@@ -242,7 +242,11 @@
         flex-direction: column;
         align-items: start;
         justify-content: center;
-        padding-left: 28px;
+        padding-left: 48px;
+
+        @media screen and (max-width: 1600px) {
+          padding-left: 28px;
+        }
       }
     }
 
