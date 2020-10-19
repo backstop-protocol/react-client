@@ -37,18 +37,18 @@ export default class Sidebar extends Component {
                 <MigrationButton />
                 <div>
                   <p>
-                    Import your CDP
+                    Import your Vault 
                     <br />
                     from MakerDAO system <br />
                     to B.Protocol
                   </p>
                   <div className="even">
                     <div>
-                      <small>ETH Locked</small>
+                      <small><b><u>ETH Locked</u></b></small>
                       <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
                     </div>
                     <div>
-                      <small>DAI Debt</small>
+                      <small><b><u>DAI Debt</u></b></small>
                       <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
                     </div>
                   </div>

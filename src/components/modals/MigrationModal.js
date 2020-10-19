@@ -24,12 +24,16 @@ export default class MigrationModal extends Component {
 
         return (
             <div className="migrate">
-                <h2>Migrate your CDP</h2>
+                <h2>Import your Vault</h2>
+                <div><br></br>By importing your MakerDAO Vault you give priority to B.Protocol in the liquidation process</div>
+                <div>The Vault remains under your full control, and will start accumulate user rating</div>
+                <div><br></br>Read the <a href="/risk" target="_blank">risks</a> of using B.Protocol</div>
+                <div><b>B.Protocol does not protect you from liquidations</b></div>
                 <div className="migration-drawing">
                     <img src={MigrationDrawing} />
                 </div>
                 <button className="migration-btn" onClick={this.onMigrate}>
-                    Migrate
+                    Import
                 </button>
             </div>
         )
