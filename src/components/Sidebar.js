@@ -80,13 +80,13 @@ export default class Sidebar extends Component {
           <div className="ln"> </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "terms" &&
-              history.location.pathname === "testnet/terms" &&
+              selectedItem === "faq" &&
+              history.location.pathname === "/testnet/faq" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("terms", "testnet/terms")}
+            onClick={() => this.handleItemSelect("faq", "testnet/faq")}
           >
-            <p className="menu-item">Terms of use</p>
+            <p className="menu-item">FAQ</p>
           </div>
           <div
             className={`product link-accesible ${
@@ -100,14 +100,16 @@ export default class Sidebar extends Component {
           </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "faq" &&
-              history.location.pathname === "/testnet/faq" &&
+              selectedItem === "terms" &&
+              history.location.pathname === "testnet/terms" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("faq", "testnet/faq")}
+            onClick={() => this.handleItemSelect("terms", "testnet/terms")}
           >
-            <p className="menu-item">FAQ</p>
+            <p className="menu-item">Terms of Use</p>
           </div>
+
+
         </div>
         <div className="sidebar-footer">
           <h3>B.Protocol community</h3>

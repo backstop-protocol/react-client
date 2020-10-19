@@ -15,7 +15,7 @@ export default class Terms extends Component {
         />
         <div className="item-page-content">
           <div className="menu-item-header" style={{ height: "176px" }}>
-            <h1 className="item-header-title">Terms of use</h1>
+            <h1 className="item-header-title">Terms of Use</h1>
           </div>
           <div
             className="faq-content-container"

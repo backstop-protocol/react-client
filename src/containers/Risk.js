@@ -15,7 +15,7 @@ export default class Risk extends Component {
         />
         <div className="item-page-content">
           <div className="menu-item-header" style={{ height: "276px" }}>
-            <h1 className="risk-header">Risk</h1>
+            <h1 className="risk-header">Risks</h1>
             <p className="item-header-small-text">
               Interacting with lending platforms does not come without risks,
               and while B.Protocol design does not add additional risk, the user
