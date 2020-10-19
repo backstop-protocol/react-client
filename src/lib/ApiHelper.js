@@ -1,4 +1,11 @@
 const B = require('./bInterface.js');
+
+
+const humanizeMustFields = [
+    "ethDeposit", "daiDebt", "maxDaiDebt", "minEthDeposit","userRating","userRatingProgressPerSec","totalRating","totalRatingProgressPerSec","jarBalance",
+    "ethBalance", "daiBalance"
+]
+
 const humanizeExcludeFields = [
     'userProxy', 'daiAllowance'
 ];
@@ -18,7 +25,7 @@ export const Humanize = function (result, web3) {
                 }
                 else {
                     if (typeof result[k] === "string" && !isNaN(result[k] * 1) && humanizeExcludeFields.indexOf(k) === -1) {
-                        res[k] = (result[k].length > 16) ? web3.utils.fromWei(result[k]) * 1 : result[k] * 1;
+                        res[k] = (result[k].length > 16 || humanizeMustFields.includes(k)) ? web3.utils.fromWei(result[k]) * 1 : result[k] * 1;
                     }
                     else {
                         res[k] = result[k];
