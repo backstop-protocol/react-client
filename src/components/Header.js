@@ -18,9 +18,9 @@ export default class Header extends Component {
                         <img className="logo" src={Logo} />
                         <div className="connect-container">
                             <ConnectButton onConnect={onConnect} />
-                            {showConnect && <div className="connect-wallet">
+                            {(showConnect || false)&& <div className="connect-wallet">
                                 <i> </i>
-                                <h3>Click to connect your wallet</h3>
+                                <h3>Connect your wallet</h3>
                                 <img src={ConnectWallet} />
                             </div>}
                         </div>
