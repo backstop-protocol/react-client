@@ -39,7 +39,7 @@ export default class ConnectButton extends Component {
     const user = accounts[0];
 
     if (this.props.onConnect) {
-      this.props.onConnect(web3, user);
+      this.props.onConnect(web3, web3.utils.toChecksumAddress(user));
     }
   };
 
