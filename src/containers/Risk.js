@@ -24,27 +24,27 @@ export default class Risk extends Component {
               security guarantees B.Protocol provides.
               <br />
               <br />
-              Whitepapers
+              <u>Whitepapers:</u>
               <div className="item-header-icon-container">
-                <a href="#">
+                <a href="https://medium.com/b-protocol/b-protocol-b6dd4e3bf9c0" target="_blank">
                   <img
                     src={require("../assets/b-protocol-icon-risk.svg")}
                     height="20"
                   />
                 </a>
-                <a href="#">
+                <a href="https://makerdao.com/en/whitepaper/" target="_blank">
                   <img
                     src={require("../assets/logo-maker-white-risk.svg")}
                     height="20"
                   />
                 </a>
-                <a href="#">
+                <a href="https://compound.finance/documents/Compound.Whitepaper.pdf" target="_blank">
                   <img
                     src={require("../assets/compound-logo-a-1-risk.svg")}
                     height="20"
                   />
                 </a>
-                <a href="#">
+                <a href="https://github.com/aave/aave-protocol/blob/master/docs/Aave_Protocol_Whitepaper_v1_0.pdf" target="_blank">
                   <img
                     src={require("../assets/aav-ewhite-logo-risk.svg")}
                     height="20"
