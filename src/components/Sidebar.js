@@ -61,10 +61,10 @@ export default class Sidebar extends Component {
             <div
               className={`product link-accesible ${
                 selectedItem === "maker" &&
-                history.location.pathname === "/" &&
+                history.location.pathname === "/testnet" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("maker", "")}
+              onClick={() => this.handleItemSelect("maker", "testnet")}
             >
               <img src={MakerLogo} />
             </div>
@@ -81,30 +81,30 @@ export default class Sidebar extends Component {
           <div
             className={`product link-accesible ${
               selectedItem === "terms" &&
-              history.location.pathname === "/terms" &&
+              history.location.pathname === "testnet/terms" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("terms", "terms")}
+            onClick={() => this.handleItemSelect("terms", "testnet/terms")}
           >
             <p className="menu-item">Terms of use</p>
           </div>
           <div
             className={`product link-accesible ${
               selectedItem === "risk" &&
-              history.location.pathname === "/risk" &&
+              history.location.pathname === "/testnet/risk" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("risk", "risk")}
+            onClick={() => this.handleItemSelect("risk", "testnet/risk")}
           >
             <p className="menu-item">Risks</p>
           </div>
           <div
             className={`product link-accesible ${
               selectedItem === "faq" &&
-              history.location.pathname === "/faq" &&
+              history.location.pathname === "/testnet/faq" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("faq", "faq")}
+            onClick={() => this.handleItemSelect("faq", "testnet/faq")}
           >
             <p className="menu-item">FAQ</p>
           </div>
