@@ -94,6 +94,7 @@ export default class Dashboard extends Component {
             info={loggedIn && userInfo !== null && userInfo}
             onConnect={this.onConnect}
             showConnect={showConnect}
+            history={history}
           />
 
           <div className="container currency-container split">

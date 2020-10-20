@@ -17,6 +17,7 @@ export default class ConnectButton extends Component {
   }
 
   connect = () => {
+
     if (this.state.loggedIn) return false;
 
     web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
@@ -63,11 +64,12 @@ export default class ConnectButton extends Component {
               <span>
                 By using bprotocol, you agree to the{" "}
                 <a
-                  href="/terms"
+                  onClick={() => this.props.history.push(`/testnet/terms`)}
                   style={{
                     color: "#119349",
                     fontStyle: "italic",
                     textDecoration: "none",
+                    cursor: "pointer"
                   }}
                 >
                   Terms and Conditions
@@ -75,7 +77,7 @@ export default class ConnectButton extends Component {
               </span>
             </div>
 
-            <div
+            <div onClick={this.connect}
               className={"connect-button" + (loggedIn ? " active" : "")}
               style={{ height: 40 }}
             >

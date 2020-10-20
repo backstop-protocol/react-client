@@ -15,6 +15,7 @@ import MigrationButton from "./action-panels/MigrationButton";
 export default class Sidebar extends Component {
   state = {
     selectedItem: this.props.initialState,
+    showSideBar: true
   };
   handleItemSelect = (selectedItem, location) => {
     this.setState({ selectedItem: selectedItem });
@@ -22,12 +23,22 @@ export default class Sidebar extends Component {
     this.props.history.push(`/${location}`);
   };
 
+  componentDidMount() {
+      window.addEventListener("resize", this.resize.bind(this));
+      this.resize();
+  }
+
+  resize() {
+      this.setState({showSideBar : window.innerWidth >= 1050})
+      console.log(window.innerWidth);
+  }
+
   render() {
     const { userInfo, history } = this.props;
     const { selectedItem } = this.state;
 
     return (
-      <div className="sidebar">
+      <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
         <div className="ln"> </div>
         <div className="sidebar-content">
