@@ -1,6 +1,8 @@
 import Web3 from "web3";
 // import * as ApiHelper from "../lib/ApiHelper";
 import React, { Component } from "react";
+import EventBus from '../lib/EventBus';
+
 let web3;
 
 function increaseABit(number) {
@@ -17,13 +19,17 @@ export default class ConnectButton extends Component {
   }
 
   connect = () => {
-
+    if(typeof window.ethereum == 'undefined') {
+        // error bus
+        EventBus.$emit("app-error","Meta Mask is not connected");
+        return false;
+    }
     if (this.state.loggedIn) return false;
 
     web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
     window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
-    
+
     window.ethereum
       .request({ method: "eth_requestAccounts" })
       .then(this.handleAccountsChanged)
@@ -31,9 +37,9 @@ export default class ConnectButton extends Component {
         if (err.code === 4001) {
           // EIP-1193 userRejectedRequest error
           // If this happens, the user rejected the connection request.
-          console.log("Please connect to MetaMask.");
+          EventBus.$emit("app-error","Please connect to Meta Mask");
         } else {
-          console.error(err);
+          EventBus.$emit("app-error",err);
         }
       });
   };
@@ -51,7 +57,7 @@ export default class ConnectButton extends Component {
     const { loggedIn, accounts } = this.state;
 
     return (
-      <div onClick={this.connect}>
+      <div>
         {loggedIn ? (
           <div className={"connect-button" + (loggedIn ? " active" : "")}>
             <div className="btn-inner">

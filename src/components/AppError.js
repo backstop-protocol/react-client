@@ -8,13 +8,15 @@ export default class AppError extends Component {
         super(props);
 
         this.state = {
-            error: false
+            error: false,
+            errorMessage : ""
         }
     }
 
     componentDidMount() {
-        EventBus.$on('app-error',() => {
-            this.setState({error: true});
+        EventBus.$on('app-error',(err) => {
+            console.log("SSSS")
+            this.setState({error: true, errorMessage: err || "A MetaMask error has occured"});
             setTimeout(() => {
                 this.setState({error: false});
             }, 3000)
@@ -28,7 +30,7 @@ export default class AppError extends Component {
 
         return (
             <div className="app-error-container">
-                {error && <div className="app-error">A MetaMask error has occured</div>}
+                {error && <div className="app-error">{this.state.errorMessage}</div>}
             </div>
         )
     }
