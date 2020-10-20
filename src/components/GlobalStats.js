@@ -10,6 +10,8 @@ const ratingFactor = 24 * 60 * 60 * 1000;
 const ratingProgressTime = 3000;
 
 function toNDecimals(number, n) {
+
+    if(!number) return 0;
     for(let i = 0 ; i < 20 ; i++) {
         const s = parseFloat(number).toFixed(i);
         if(s.length > n) return parseFloat(s);
@@ -34,12 +36,12 @@ export default class GlobalStats extends Component {
         const {userInfo} = this.props;
         if (!userInfo) return;
 
-        if (!this.state.currentRating) {
+        if (this.state.currentRating === null) {
             clearInterval(this.state.ratingInterval);
             const interval = setInterval(this.updateUserRating, ratingProgressTime);
 
-            this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor});
             this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor)});
+            this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor});
         }
 
         const currRatingProgress = parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor;

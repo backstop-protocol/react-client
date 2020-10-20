@@ -14,6 +14,7 @@ let timeout;
 
 export default class Dashboard extends Component {
   web3 = null;
+  networkType = null;
 
   constructor(props) {
     super(props);
@@ -29,20 +30,22 @@ export default class Dashboard extends Component {
     EventBus.$on("get-user-info", this.getUserInfo.bind(this));
   }
 
-  onConnect = (web3, user) => {
+  onConnect = async (web3, user) => {
     this.onHideConnect();
     this.web3 = web3;
+    this.networkType = await web3.eth.net.getId()
     this.setState({ user, loggedIn: true });
-    this.getUserInfo();
+
+    await this.getUserInfo();
   };
 
   getUserInfo = async () => {
-    let userInfo = await B.getUserInfo(this.web3, this.state.user);
+    let userInfo = await B.getUserInfo(this.web3, this.networkType, this.state.user);
     const orgInfo = userInfo;
     userInfo = ApiHelper.Humanize(userInfo, this.web3);
 
     //const ok = (this.web3.utils.toBN(userInfo.userWalletInfo.daiAllowance).toString(16) === "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
-    setUserInfo(this.state.user, this.web3, userInfo, orgInfo);
+    setUserInfo(this.state.user, this.web3, this.networkType, userInfo, orgInfo);
     console.log(userInfo);
     this.setState({ userInfo });
   };

@@ -20,6 +20,9 @@ export default class ConnectButton extends Component {
     if (this.state.loggedIn) return false;
 
     web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+
+    window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
+    
     window.ethereum
       .request({ method: "eth_requestAccounts" })
       .then(this.handleAccountsChanged)

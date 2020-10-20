@@ -13,6 +13,7 @@ let userInfo = {};
 let originalUserInfo = {}
 let user = null;
 let web3 = null;
+let networkId = null;
 
 function increaseABit(number) {
     return parseInt(1.2 * number);
@@ -37,9 +38,10 @@ export function validateRepay(val) { return verifyRepayInput(originalUserInfo, w
 
 // meta actions
 
-export function setUserInfo(u, w3, info, orgInfo) {
+export function setUserInfo(u, w3, networkId, info, orgInfo) {
     user = u;
     web3 = w3;
+    networkId = networkId;
     userInfo = info;
     originalUserInfo = orgInfo;
 }
@@ -52,11 +54,11 @@ export function isRepayUnlocked() {
 
 export async function migrateMakerDao() {
     if (userInfo.bCdpInfo.hasCdp) {
-        return await ApiAction(B.migrateToExisting(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp, userInfo.bCdpInfo.cdp), user, web3, 0);
+        return await ApiAction(B.migrateToExisting(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp, userInfo.bCdpInfo.cdp), user, web3, 0);
     }
     else { // first deposit
         return await ApiAction(
-            B.migrateFresh(web3, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp),
+            B.migrateFresh(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp),
             user,
             web3,
             0
@@ -67,34 +69,34 @@ export async function migrateMakerDao() {
 export async function deposit(amountEth, onHash) {
     const val = web3.utils.toWei(amountEth);
     if (userInfo.bCdpInfo.hasCdp) {
-        return await ApiAction(B.depositETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val, onHash);
+        return await ApiAction(B.depositETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val, onHash);
     }
     else { // first deposit
-        return await ApiAction(B.firstDeposit(web3, user), user, web3, val);
+        return await ApiAction(B.firstDeposit(web3, networkId, user), user, web3, val);
     }
 }
 
 export async function withdraw(amountEth, onHash) {
     const val = web3.utils.toWei(amountEth);
-    return await ApiAction(B.withdrawETH(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
+    return await ApiAction(B.withdrawETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
 }
 
 export async function borrow(amountDai, onHash) {
     const val = web3.utils.toWei(amountDai);
-    return await ApiAction(B.generateDai(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
+    return await ApiAction(B.generateDai(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
 }
 
 export async function unlock(onHash) {
-    return await ApiAction(B.unlockDai(web3, userInfo.proxyInfo.userProxy), user, web3, 0, onHash);
+    return await ApiAction(B.unlockDai(web3, networkId, userInfo.proxyInfo.userProxy), user, web3, 0, onHash);
 }
 
 export async function repay(amountDai, onHash) {
     const val = web3.utils.toWei(amountDai);
     if (Number(userInfo.bCdpInfo.daiDebt) <= Number(amountDai) + 1) {
-        return await ApiAction(B.repayAllDai(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, 0, onHash);
+        return await ApiAction(B.repayAllDai(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, 0, onHash);
     }
     else {
-        return await ApiAction(B.repayDai(web3, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
+        return await ApiAction(B.repayDai(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
     }
 
 }
