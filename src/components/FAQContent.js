@@ -3,7 +3,7 @@ import React from 'react';
 const FAQContent = () => {
   return (
     <p>
-      <h4>1. What is B.protocol (in under 280 characters)</h4>
+      <h4>1. What is B.protocol?</h4>
       <p className="item-content-text">
         <strong>A. </strong> B.Protocol makes lending platforms more stable by
         incentivizing liquidity providers (keepers) to commit on liquidation of
@@ -11,36 +11,35 @@ const FAQContent = () => {
         back to the users of the platform.
       </p>
 
-      <h4>2. How do I use B.protocol?</h4>
+      <h4>2. As a lending platform user, what should I do with B.Protocol?</h4>
       <p className="item-content-text">
-        <strong>A.</strong> Head over to bprotocol.org/XXXX to connect your
+        <strong>A. </strong> B.Protocol provides you an alternative interface to MakerDAO (and soon Compound Aave),
+        which enables you to share liquidation proceeds, and accumulate user rating.
+      </p>
+
+      <h4>3. How do I use B.protocol?</h4>
+      <p className="item-content-text">
+        <strong>A.</strong> Head over to bprotocol.org/app and connect your
         wallet -<br />
         <span className="item-sub-text">
           <strong>i. </strong> If you are already a user of MakerDAO - you can
-          transfer your funds to B.Protocol seamlessly, using the “Migrate”
+          import your Vault to B.Protocol seamlessly, using the “Import”
           button on the upper left corner.
         </span>
         <br />
-        <strong>B.</strong> Deposit ETH. <br />
-        <strong>C.</strong> Earn your share of the liquidation proceeds on
-        MakerDAO.
+        <strong>B.</strong>Manage your vault (Deposit ETH, borrow DAI etc) via B.Protocol interface. <br />
+        <strong>C.</strong>Accumulate user rating and share the liquidation proceeds after 6 months period.
       </p>
-      <h4>3. Why should I use B.Protocol?</h4>
-      <p className="item-content-text">
-        <strong>A. </strong> B.Protocol lets you use MakerDAO just as you are
-        used to (and soon other decentralized lending platforms), while enabling
-        you to have a share
-      </p>
+
       <h4>4. What is the B.Protocol Rating Score?</h4>
       <p className="item-content-text">
         <strong>A.</strong> Rating Score is the way for B.Protocol to calculate
-        your part in the liquidation proceeds of the platform. A user’s Rating
-        Score is determined by A. Rating Score is the way for B.Protocol to
-        calculate your part in the liquidation proceeds of the platform. A
-        user’s Rating Score is determined by the amount of DAI s/he borrowed and
-        the time that elapsed before returning the loan. For example, if a user
-        has a debt of 500 DAI for a period of 7 days, then his/her score is
-        added with 3,500 points.
+        your part in the liquidation proceeds of the platform, and your weight in the protocol upgrade vote (both will occur in month of April 2021).
+        A user’s Rating
+        Score is determined by the amount of DAI position (debt) you hold over time.
+        If a user has a debt of 1000 DAI for a period of 7 days he will get approximately 7 points.
+        <b>The score is non transferable</b> and not even an ERC20 token. Hence it cannot be traded, and can never be traded.
+        While we technically cannot prevent a future governance from tokenizing it, we will not actively support any outcome that will violate the applicable regulatory frameworks.
       </p>
       <h4>5. What is the JAR Balance?</h4>
       <p className="item-content-text">
@@ -49,7 +48,7 @@ const FAQContent = () => {
         automatically being sent to the JAR, while the other 50% is kept by the
         liquidators. This distribution balance will hold for the first JAR
         distribution, which will take place 6 months after the launch of
-        B.Protocol on mainnet (aimed at mid-April 2021). After that, the
+        B.Protocol on mainnet (at end of April 2021). After that, the
         community will be able to vote on a new distribution model.
       </p>
       <h4>
@@ -65,9 +64,8 @@ const FAQContent = () => {
       <h4>7. Who’s behind the development of B.Protocol?</h4>
       <p className="item-content-text">
         <strong>A.</strong> B.Protocol is being developed by Smart Future Labs
-        LTD, an Israeli based LTD company, founded by Yaron Velner, ex-CTO and
-        Co-Founder of KyberNetwork, who was also part of the wBTC protocol dev
-        team and Smart Pool, the first XXXX. Yaron holds a PhD in Computer
+        LTD, an Israeli based LTD company, founded by Yaron Velner, ex-CTO of KyberNetwork, who was also part of the wBTC protocol dev
+        team and Smart Pool, the first decentralized mining pool over Ethereum. Yaron holds a PhD in Computer
         Science from Tel Aviv University.{' '}
       </p>
       <h4>
@@ -76,10 +74,8 @@ const FAQContent = () => {
       </h4>
       <p className="item-content-text">
         <strong>A. </strong>True. No pre-mining to anyone. Not VCs, Not devs, No
-        one. B. Protocol has a real use case and a real revenue-creating model
-        for its users, on both sides - Liquidators as well as platform users. We
-        do hope the community will keep the development of the protocol at SFL
-        hands, but we are aware that it is not in our hands to decide about it.
+        one. B. Protocol has a real use case and a real added value
+        for its users, on both sides - Liquidators as well as platform users.
       </p>
     </p>
   );

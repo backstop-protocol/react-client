@@ -51,13 +51,14 @@ const RiskContent = () => {
       </p>
       <h4>Smart contract and software risks</h4>
       <p className="risk-item-content-text">
-        B.Protocol smart contracts were audited by Solidified - TODO link where
-        ready.
+        B.Protocol smart contracts were <a href="https://github.com/solidified-platform/audits/blob/master/Audit%20Report%20-%20Backstop%20Protocol%20%5B02.10.2020%5D.pdf" target="_blank">audited</a> by Solidified.
         <br />
-        The audit was focused on verifying the security of user funds, however
-        security audits do not eliminate risks completely. Please only supply
+        The audit was focused on verifying the security of user funds.
+        The user incentive code was not part of the scope of the external audit, and was only reviewed internally by the team.
+        However, it was verified by Solidified that user deposited funds are safe w.r.t any (possibly even malicious) such code.
+        Security audits do not eliminate risks completely. Please only supply
         funds that you can afford and willing to lose.
-      </p>
+        </p>
       <h4>User Rating and rewards</h4>
       <p className="risk-item-content-text">
         The protocol was designed with intention to keep user funds safe, and
