@@ -24,6 +24,13 @@ export default class ConnectButton extends Component {
         EventBus.$emit("app-error","Meta Mask is not connected");
         return false;
     }
+
+    if(parseInt(window.ethereum.networkType) !== parseInt(0x2a)
+       && parseInt(window.ethereum.networkType) !== parseInt(0x1)) {
+         EventBus.$emit("app-error","Only Mainnet and Kovan testnet are supported");
+         return false;
+    }
+
     if (this.state.loggedIn) return false;
 
     web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
