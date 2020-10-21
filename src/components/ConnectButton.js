@@ -70,7 +70,7 @@ export default class ConnectButton extends Component {
               <span>
                 By using bprotocol, you agree to the{" "}
                 <a
-                  onClick={() => this.props.history.push(`/testnet/terms`)}
+                  onClick={() => this.props.history.push(`/app/terms`)}
                   style={{
                     color: "#119349",
                     fontStyle: "italic",

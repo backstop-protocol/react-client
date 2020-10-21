@@ -8,7 +8,7 @@ import FragLoader from "../FragLoader";
 export default class Loading extends Component {
 
     render() {
-
+        const kovan = parseInt(window.ethereum.chainId) === parseInt("0x2A")
         const { actioning, value, currency, completed, failed, hash } = this.props;
 
         const icon = completed ? VIcon : (failed ? XIcon : BIcon);
@@ -22,7 +22,7 @@ export default class Loading extends Component {
 
                     <span>{actioning} {value} {currency}... {resultText}</span></h3>
                 {(!failed && hash) && <div className="view-button">
-                    <a href={'https://kovan.etherscan.io/tx/' + hash} target="_blank">
+                    <a href={'https://' + (kovan ? 'kovan.' : '') + 'etherscan.io/tx/' + hash} target="_blank">
                         <span>View</span>
                         <img src={ViewIcon} />
                     </a>

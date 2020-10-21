@@ -38,10 +38,10 @@ export function validateRepay(val) { return verifyRepayInput(originalUserInfo, w
 
 // meta actions
 
-export function setUserInfo(u, w3, networkId, info, orgInfo) {
+export function setUserInfo(u, w3, id, info, orgInfo) {
     user = u;
     web3 = w3;
-    networkId = networkId;
+    networkId = id;
     userInfo = info;
     originalUserInfo = orgInfo;
 }

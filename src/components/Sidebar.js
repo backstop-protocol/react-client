@@ -72,10 +72,10 @@ export default class Sidebar extends Component {
             <div
               className={`product link-accesible ${
                 selectedItem === "maker" &&
-                history.location.pathname === "/testnet" &&
+                history.location.pathname === "/app" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("maker", "testnet")}
+              onClick={() => this.handleItemSelect("maker", "app")}
             >
               <img src={MakerLogo} />
             </div>
@@ -92,30 +92,30 @@ export default class Sidebar extends Component {
           <div
             className={`product link-accesible ${
               selectedItem === "faq" &&
-              history.location.pathname === "/testnet/faq" &&
+              history.location.pathname === "/app/faq" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("faq", "testnet/faq")}
+            onClick={() => this.handleItemSelect("faq", "app/faq")}
           >
             <p className="menu-item">FAQ</p>
           </div>
           <div
             className={`product link-accesible ${
               selectedItem === "risk" &&
-              history.location.pathname === "/testnet/risk" &&
+              history.location.pathname === "/app/risk" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("risk", "testnet/risk")}
+            onClick={() => this.handleItemSelect("risk", "app/risk")}
           >
             <p className="menu-item">Risks</p>
           </div>
           <div
             className={`product link-accesible ${
               selectedItem === "terms" &&
-              history.location.pathname === "testnet/terms" &&
+              history.location.pathname === "app/terms" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("terms", "testnet/terms")}
+            onClick={() => this.handleItemSelect("terms", "app/terms")}
           >
             <p className="menu-item">Terms of Use</p>
           </div>
