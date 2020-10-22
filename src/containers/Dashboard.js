@@ -54,7 +54,8 @@ export default class Dashboard extends Component {
     try {
       const res = await doApiAction(action, value, null, onHash);
       await this.getUserInfo();
-      setTimeout(this.getUserInfo, 15 * 1000);
+      setTimeout(this.getUserInfo, 5 * 1000);
+      setTimeout(this.getUserInfo, 17 * 1000);      
       setTimeout(this.getUserInfo, 30 * 1000);
       return res;
     } catch (error) {

@@ -19,11 +19,15 @@ export default class MigrationModal extends Component {
 
             setTimeout(() => {
                 EventBus.$emit("get-user-info");
-            }, 15000);
+            }, 5000);
 
             setTimeout(() => {
                 EventBus.$emit("get-user-info");
-            }, 30000);
+            }, 19000);
+
+            setTimeout(() => {
+                EventBus.$emit("get-user-info");
+            }, 30000);            
         }
         catch (e) {
             EventBus.$emit("migration-failed");
