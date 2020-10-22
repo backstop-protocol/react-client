@@ -5,6 +5,14 @@ import Close from "../assets/close.svg";
 import Loading from "./action-panels/Loading";
 import {getLiquidationPrice} from "../lib/Actions";
 
+function chop4(number) {
+    return Math.floor(parseFloat(number) * 10000) / 10000
+}
+
+function chop2(number) {
+    return Math.floor(parseFloat(number) * 100) / 100
+}
+
 export default class CurrencyBox extends Component {
 
     constructor(props) {
@@ -96,8 +104,8 @@ export default class CurrencyBox extends Component {
 
         let liquidationPrice;
         let walletBalance;
-        const ethBalance = userInfo ? parseFloat(userInfo.userWalletInfo.ethBalance).toFixed(4).toString() + " ETH" : "0 ETH";
-        const daiBalance = userInfo ? parseFloat(userInfo.userWalletInfo.daiBalance).toFixed(2).toString() + " DAI" : "0 DAI";
+        const ethBalance = userInfo ? chop4(userInfo.userWalletInfo.ethBalance).toString() + " ETH" : "0 ETH";
+        const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance).toString() + " DAI" : "0 DAI";
         let valueDir = 1;
         try {
 
