@@ -279,7 +279,7 @@ export const verifyRepayInput = function(userInfo,
   const dust = toNumber(userInfo.miscInfo.dustInWei, web3)
   const maxRepay = toNumber(userInfo.bCdpInfo.daiDebt,web3) - dust
 
-  if(dust >= newDebt && newDebt > 1) return [false,"You can repay all your outstanding debt or a maximum of " + maxRepay.toString() + " Dai"]
+  if(dust > newDebt && newDebt > 1) return [false,"You can repay all your outstanding debt or a maximum of " + maxRepay.toString() + " Dai"]
   if(dust >= newDebt) {
     if(web3.utils.toBN(userInfo.bCdpInfo.daiDebt).gt(web3.utils.toBN(userInfo.userWalletInfo.daiBalance))) {
       return [false, "Dai balance is not enough to repay your entire debt"]
