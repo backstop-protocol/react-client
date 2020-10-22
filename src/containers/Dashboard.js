@@ -59,7 +59,10 @@ export default class Dashboard extends Component {
       return res;
     } catch (error) {
       EventBus.$emit("action-failed", null, action);
-      EventBus.$emit("app-error", null, action);
+      let errorMsg = null;
+      if(action.toString() === "repay")
+          errorMsg = "Repay is expected to fail, likely because your DAI balance is too low (by 0.000001 DAI or less)";
+      EventBus.$emit("app-error", errorMsg, action);
       console.log(error);
       return false;
     }
