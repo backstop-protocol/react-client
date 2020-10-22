@@ -42,6 +42,7 @@ export default class GlobalStats extends Component {
 
             this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor)});
             this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor});
+            this.setState({ratingInterval : interval});
         }
 
         const currRatingProgress = parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor;
