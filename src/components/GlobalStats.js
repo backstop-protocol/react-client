@@ -78,7 +78,7 @@ export default class GlobalStats extends Component {
                             </span>
                         </h2>
                         <div className="value">
-                            $<Ticker value={userInfo?(userInfo.userRatingInfo.jarBalance === 0 ? 10000 : userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice) :10000} />
+                            $<Ticker value={userInfo?(userInfo.userRatingInfo.jarBalance === 0 ? 10000 : parseFloat(userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice).toFixed(0)) :10000} />
                         </div>
                     </div>
                     <div className="right">
