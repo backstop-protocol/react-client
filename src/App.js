@@ -17,10 +17,10 @@ function App() {
     <div className="App">
       <AppError />
       <Router>
-        <Route exact path="/" component={Dashboard} />
-        <Route exact path="/faq" component={FAQ} />
-        <Route exact path="/terms" component={TermsOfUse} />
-        <Route exact path="/risk" component={Risk} />
+        <Route exact path="/app" component={Dashboard} />
+        <Route exact path="/app/faq" component={FAQ} />
+        <Route exact path="/app/terms" component={TermsOfUse} />
+        <Route exact path="/app/risk" component={Risk} />
       </Router>
     </div>
   );

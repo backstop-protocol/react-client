@@ -42,13 +42,16 @@ export default class Repay extends Component {
         if (action === "unlock") {
             this.setState({
                 unlocking: false,
-                locked: false
+                locked: false,
+                invalid: false,
+                error: ''
             })
         }
     };
 
     doAction = async () => {
         const {val, invalid} = this.state;
+        await this.validate(val);        
         if (!val*1 || !isRepayUnlocked() || invalid) return false;
         const res = await this.props.onPanelAction(this.action, val, this.actioning)
     };

@@ -9,7 +9,7 @@ import ConnectWallet from '../assets/connect-your-wallet.svg';
 export default class Header extends Component {
     render() {
 
-        const {info, onConnect, showConnect} = this.props;
+        const {info, onConnect, showConnect, history} = this.props;
 
         return (
             <div className="top-panel">
@@ -17,10 +17,10 @@ export default class Header extends Component {
                     <div className="split title-bar">
                         <img className="logo" src={Logo} />
                         <div className="connect-container">
-                            <ConnectButton onConnect={onConnect} />
-                            {showConnect && <div className="connect-wallet">
+                            <ConnectButton onConnect={onConnect} history={history} />
+                            {(showConnect || false)&& <div className="connect-wallet">
                                 <i> </i>
-                                <h3>Click to connect your wallet</h3>
+                                <h3>Connect your wallet</h3>
                                 <img src={ConnectWallet} />
                             </div>}
                         </div>

@@ -6,7 +6,20 @@ import Ticker from "./Ticker";
 import Tooltip from "./Tooltip";
 import {numm} from "../lib/Utils";
 
-const ratingFactor = 300000;
+const ratingFactor = 24 * 60 * 60 * 1000;
+const ratingProgressTime = 3000;
+
+function toNDecimals(number, n) {
+
+    if(!number) return 0;
+    for(let i = 0 ; i < 20 ; i++) {
+        const s = parseFloat(number).toFixed(i);
+        if(s.length > n) return parseFloat(s);
+    }
+
+    return n;
+}
+
 
 export default class GlobalStats extends Component {
 
@@ -23,28 +36,22 @@ export default class GlobalStats extends Component {
         const {userInfo} = this.props;
         if (!userInfo) return;
 
-        if (!this.state.currentRating) {
-            clearInterval(this.state.ratingInterval);
-            const interval = setInterval(this.updateUserRating, 3000);
-
-            this.setState({ratingProgress: parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor});
-            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor).toFixed(7)});
-        }
-
         const currRatingProgress = parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor;
         if (this.state.ratingProgress !== currRatingProgress) {
             clearInterval(this.state.ratingInterval);
-            const interval = setInterval(this.updateUserRating, 3000);
+            const interval = setInterval(this.updateUserRating, ratingProgressTime);
+            console.log("new interval", interval)
+            this.setState({ratingInterval : interval});
 
             this.setState({ratingProgress: currRatingProgress});
-            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor).toFixed(7)});
+            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor)});
         }
     }
 
     updateUserRating = () => {
         const currentRating = this.state.currentRating;
-        const nextRating = parseFloat(currentRating * 1 + this.state.ratingProgress * 3);
-        this.setState({currentRating: nextRating.toFixed(7)});
+        const nextRating = parseFloat(currentRating * 1 + 2 * this.state.ratingProgress * ratingProgressTime / 1000);
+        this.setState({currentRating: nextRating});
     };
 
     render() {
@@ -64,7 +71,7 @@ export default class GlobalStats extends Component {
                             </span>
                         </h2>
                         <div className="value">
-                            $<Ticker value={userInfo?(userInfo.userRatingInfo.jarBalance === 0 ? 10000 : userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice) :10000} />
+                            $<Ticker value={userInfo?(userInfo.userRatingInfo.jarBalance === 0 ? 10000 : parseFloat(userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice).toFixed(0)) :10000} />
                         </div>
                     </div>
                     <div className="right">
@@ -78,7 +85,7 @@ export default class GlobalStats extends Component {
                             </span>
                         </h2>
                         <div className="value">
-                            <Ticker value={userInfo?currentRating:0} primary={5} />
+                            <Ticker value={toNDecimals(userInfo?currentRating:0,10)} primary={5} />
                         </div>
                     </div>
                 </div>
@@ -90,5 +97,3 @@ export default class GlobalStats extends Component {
         )
     }
 }
-
-

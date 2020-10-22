@@ -65,12 +65,12 @@ export default class MigrationButton extends Component {
                 break;
 
             case MigrationStatus.pending:
-                text = "Migrating";
+                text = "Importing";
                 break;
 
             default:
             case MigrationStatus.none:
-                text = "Migrate";
+                text = "Import";
                 break;
         }
 

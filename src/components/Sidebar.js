@@ -15,6 +15,7 @@ import MigrationButton from "./action-panels/MigrationButton";
 export default class Sidebar extends Component {
   state = {
     selectedItem: this.props.initialState,
+    showSideBar: true
   };
   handleItemSelect = (selectedItem, location) => {
     this.setState({ selectedItem: selectedItem });
@@ -22,12 +23,22 @@ export default class Sidebar extends Component {
     this.props.history.push(`/${location}`);
   };
 
+  componentDidMount() {
+      window.addEventListener("resize", this.resize.bind(this));
+      this.resize();
+  }
+
+  resize() {
+      this.setState({showSideBar : window.innerWidth >= 1050})
+      console.log(window.innerWidth);
+  }
+
   render() {
     const { userInfo, history } = this.props;
     const { selectedItem } = this.state;
 
     return (
-      <div className="sidebar">
+      <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
         <div className="ln"> </div>
         <div className="sidebar-content">
@@ -37,18 +48,18 @@ export default class Sidebar extends Component {
                 <MigrationButton />
                 <div>
                   <p>
-                    Import your CDP
+                    Import your Vault 
                     <br />
                     from MakerDAO system <br />
                     to B.Protocol
                   </p>
                   <div className="even">
                     <div>
-                      <small>ETH Locked</small>
+                      <small><b><u>ETH Locked</u></b></small>
                       <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
                     </div>
                     <div>
-                      <small>DAI Debt</small>
+                      <small><b><u>DAI Debt</u></b></small>
                       <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
                     </div>
                   </div>
@@ -61,10 +72,10 @@ export default class Sidebar extends Component {
             <div
               className={`product link-accesible ${
                 selectedItem === "maker" &&
-                history.location.pathname === "/" &&
+                history.location.pathname === "/app" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("maker", "")}
+              onClick={() => this.handleItemSelect("maker", "app")}
             >
               <img src={MakerLogo} />
             </div>
@@ -80,34 +91,36 @@ export default class Sidebar extends Component {
           <div className="ln"> </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "terms" &&
-              history.location.pathname === "/terms" &&
+              selectedItem === "faq" &&
+              history.location.pathname === "/app/faq" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("terms", "terms")}
+            onClick={() => this.handleItemSelect("faq", "app/faq")}
           >
-            <p className="menu-item">Terms of use</p>
+            <p className="menu-item">FAQ</p>
           </div>
           <div
             className={`product link-accesible ${
               selectedItem === "risk" &&
-              history.location.pathname === "/risk" &&
+              history.location.pathname === "/app/risk" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("risk", "risk")}
+            onClick={() => this.handleItemSelect("risk", "app/risk")}
           >
             <p className="menu-item">Risks</p>
           </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "faq" &&
-              history.location.pathname === "/faq" &&
+              selectedItem === "terms" &&
+              history.location.pathname === "app/terms" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("faq", "faq")}
+            onClick={() => this.handleItemSelect("terms", "app/terms")}
           >
-            <p className="menu-item">FAQ</p>
+            <p className="menu-item">Terms of Use</p>
           </div>
+
+
         </div>
         <div className="sidebar-footer">
           <h3>B.Protocol community</h3>

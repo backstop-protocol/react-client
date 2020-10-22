@@ -8,7 +8,7 @@
     align-items: flex-start;
     box-sizing: border-box;
 
-    @media screen and (max-width: 1365px) {
+    @media screen and (max-width: 1250px) {
       flex-direction: column;
     }
 
@@ -327,4 +327,3 @@
   letter-spacing: -0.4px;
   cursor: pointer;
 }
-

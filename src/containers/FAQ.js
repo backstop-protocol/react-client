@@ -15,7 +15,7 @@ export default class FAQ extends Component {
         />
         <div className="item-page-content">
           <div className="menu-item-header" style={{ height: "176px" }}>
-            <h1 className="item-header-title">FAQ</h1>
+            <h1 className="item-header-title">Frequently Asked Questions</h1>
           </div>
           {/* <p dangerouslySetInnerHTML={{ __html: Content.faq }}></p> */}
           <div

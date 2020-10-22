@@ -1,6 +1,8 @@
 import Web3 from "web3";
 // import * as ApiHelper from "../lib/ApiHelper";
 import React, { Component } from "react";
+import EventBus from '../lib/EventBus';
+
 let web3;
 
 function increaseABit(number) {
@@ -16,10 +18,27 @@ export default class ConnectButton extends Component {
     };
   }
 
-  connect = () => {
+  connect = async () => {
+    if(typeof window.ethereum == 'undefined') {
+        // error bus
+        EventBus.$emit("app-error","Meta Mask is not connected");
+        return false;
+    }
+
     if (this.state.loggedIn) return false;
 
     web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+
+    const networkType = await web3.eth.net.getId();
+    if(parseInt(networkType) !== parseInt(0x2a)
+       && parseInt(networkType) !== parseInt(0x1)) {
+         console.log(networkType)
+         EventBus.$emit("app-error","Only Mainnet and Kovan testnet are supported");
+         return false;
+    }
+
+    window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
+
     window.ethereum
       .request({ method: "eth_requestAccounts" })
       .then(this.handleAccountsChanged)
@@ -27,9 +46,9 @@ export default class ConnectButton extends Component {
         if (err.code === 4001) {
           // EIP-1193 userRejectedRequest error
           // If this happens, the user rejected the connection request.
-          console.log("Please connect to MetaMask.");
+          EventBus.$emit("app-error","Please connect to Meta Mask");
         } else {
-          console.error(err);
+          EventBus.$emit("app-error",err);
         }
       });
   };
@@ -39,7 +58,7 @@ export default class ConnectButton extends Component {
     const user = accounts[0];
 
     if (this.props.onConnect) {
-      this.props.onConnect(web3, user);
+      this.props.onConnect(web3, web3.utils.toChecksumAddress(user));
     }
   };
 
@@ -47,7 +66,7 @@ export default class ConnectButton extends Component {
     const { loggedIn, accounts } = this.state;
 
     return (
-      <div onClick={this.connect}>
+      <div>
         {loggedIn ? (
           <div className={"connect-button" + (loggedIn ? " active" : "")}>
             <div className="btn-inner">
@@ -60,11 +79,12 @@ export default class ConnectButton extends Component {
               <span>
                 By using bprotocol, you agree to the{" "}
                 <a
-                  href="/terms"
+                  onClick={() => this.props.history.push(`/app/terms`)}
                   style={{
                     color: "#119349",
                     fontStyle: "italic",
                     textDecoration: "none",
+                    cursor: "pointer"
                   }}
                 >
                   Terms and Conditions
@@ -72,7 +92,7 @@ export default class ConnectButton extends Component {
               </span>
             </div>
 
-            <div
+            <div onClick={this.connect}
               className={"connect-button" + (loggedIn ? " active" : "")}
               style={{ height: 40 }}
             >
