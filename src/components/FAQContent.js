@@ -17,7 +17,12 @@ const FAQContent = () => {
         which enables you to share liquidation proceeds, and accumulate user rating.
       </p>
 
-      <h4>3. How do I use B.protocol?</h4>
+      <h4>3. Were the smart contracts audited?</h4>
+      <p className="item-content-text">
+        <strong>A. </strong> Yes. B.Protocol smart contracts were <a href="https://github.com/solidified-platform/audits/blob/master/Audit%20Report%20-%20Backstop%20Protocol%20%5B02.10.2020%5D.pdf" target="_blank">audited</a> by Solidified.
+      </p>
+
+      <h4>4. How do I use B.protocol?</h4>
       <p className="item-content-text">
         <strong>A.</strong> Head over to bprotocol.org/app and connect your
         wallet -<br />
@@ -31,7 +36,7 @@ const FAQContent = () => {
         <strong>C.</strong>Accumulate user rating and share the liquidation proceeds after 6 months period.
       </p>
 
-      <h4>4. What is the B.Protocol Rating Score?</h4>
+      <h4>5. What is the B.Protocol Rating Score?</h4>
       <p className="item-content-text">
         <strong>A.</strong> Rating Score is the way for B.Protocol to calculate
         your part in the liquidation proceeds of the platform, and your weight in the protocol upgrade vote (both will occur in month of April 2021).
@@ -41,7 +46,7 @@ const FAQContent = () => {
         <b>The score is non transferable</b> and not even an ERC20 token. Hence it cannot be traded, and can never be traded.
         While we technically cannot prevent a future governance from tokenizing it, we will not actively support any outcome that will violate the applicable regulatory frameworks.
       </p>
-      <h4>5. What is the JAR Balance?</h4>
+      <h4>6. What is the JAR Balance?</h4>
       <p className="item-content-text">
         <strong>A.</strong> The JAR is where the users’ liquidation proceeds are
         being accumulated. 50% of the total liquidation proceeds are
@@ -52,7 +57,7 @@ const FAQContent = () => {
         community will be able to vote on a new distribution model.
       </p>
       <h4>
-        6. Will the Rating Score cover all lending platforms I’m using with
+        7. Will the Rating Score cover all lending platforms I’m using with
         B.Protocol or just MakerDAO?
       </h4>
       <p className="item-content-text">
@@ -61,7 +66,7 @@ const FAQContent = () => {
         distributed among them accordingly. Once B.Protocol control is handed
         over to the community new models can be offered by the community.
       </p>
-      <h4>7. Who’s behind the development of B.Protocol?</h4>
+      <h4>8. Who’s behind the development of B.Protocol?</h4>
       <p className="item-content-text">
         <strong>A.</strong> B.Protocol is being developed by Smart Future Labs
         LTD, an Israeli based LTD company, founded by Yaron Velner, ex-CTO of KyberNetwork, who was also part of the wBTC protocol dev
@@ -69,7 +74,7 @@ const FAQContent = () => {
         Science from Tel Aviv University.{' '}
       </p>
       <h4>
-        8. Is it true B.Protocol devs not keeping any Rating Score for
+        9. Is it true B.Protocol devs not keeping any Rating Score for
         themselves?
       </h4>
       <p className="item-content-text">
