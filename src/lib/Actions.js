@@ -72,7 +72,7 @@ export async function deposit(amountEth, onHash) {
         return await ApiAction(B.depositETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val, onHash);
     }
     else { // first deposit
-        return await ApiAction(B.firstDeposit(web3, networkId, user), user, web3, val);
+        return await ApiAction(B.firstDeposit(web3, networkId, user), user, web3, val, onHash);
     }
 }
 
