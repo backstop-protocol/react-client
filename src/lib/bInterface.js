@@ -205,6 +205,10 @@ function calcNewBorrowAndLPrice(userInfo,
   const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)
   const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3)
 
+  if(ethDeposit == 0 && dEth > 0) {
+    const newMaxDaiDebt = spotPrice * dEth / 1.5; // todo - read 1.5 from the blockchain
+    return [web3.utils.toWei(newMaxDaiDebt.toFixed(17).toString()), web3.utils.toWei("0")]
+  }
   if((ethDeposit == 0) || (ethDeposit + dEth == 0)) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
 
   const newMaxDaiDebt = maxDaiDebt * (ethDeposit + dEth) / ethDeposit
