@@ -18,7 +18,7 @@ const ETH_ILK = "0x4554482d41000000000000000000000000000000000000000000000000000
 const mainnetAddresses =
 {
      "INFO_ADDRESS" : "0x468960199c8045DEDcf6Aeb33e28Dc57346Ad3FF",
-     "ACTION_PROXY_ADDRESS" : "0x4Bcad4920be1Ca53F27656DB49D31b23f9725ab0",
+     "ACTION_PROXY_ADDRESS" : "0x351626387B5bb5408f97F8fD6B2EC415Efc9E6a1",
      "JAR" : "0x3C36cCf03dAB88c1b1AC1eb9C3Fb5dB0b6763cFF",
      "BCDP_MANGER" : "0x3f30c2381CD8B917Dd96EB2f1A4F96D91324BBed",
 
@@ -36,7 +36,7 @@ const mainnetAddresses =
 const kovanAddresses =
 {
     "INFO_ADDRESS" : "0x8e34f2EbcaEDD5f0F4265e4ED1015ab178358d0B",
-    "ACTION_PROXY_ADDRESS" : "0x4671A2923bE5272F8FAeD175d2cA3cF1BFE4C54f",
+    "ACTION_PROXY_ADDRESS" : "0x3e934104D787a1eAD9A87d5ED0070182c70FEB01",
     "JAR" : "0x92E3B48d3C86A1c809a2a5334a4ad3c9d0bf3758",
     "BCDP_MANGER" : "0x0470000Ff279d3951F0Fb4893443C25EA4E0ec69",
 
@@ -205,6 +205,10 @@ function calcNewBorrowAndLPrice(userInfo,
   const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)
   const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3)
 
+  if(ethDeposit == 0 && dEth > 0) {
+    const newMaxDaiDebt = spotPrice * dEth / 1.5; // todo - read 1.5 from the blockchain
+    return [web3.utils.toWei(newMaxDaiDebt.toFixed(17).toString()), web3.utils.toWei("0")]
+  }
   if((ethDeposit == 0) || (ethDeposit + dEth == 0)) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
 
   const newMaxDaiDebt = maxDaiDebt * (ethDeposit + dEth) / ethDeposit
