@@ -58,7 +58,8 @@ export default class GlobalStats extends Component {
 
         const {userInfo} = this.props;
         const {currentRating} = this.state;
-
+        const defaultJarAmount = 10000
+        
         return (
             <div className="global-stats even">
                 <div className="stats">
@@ -66,12 +67,12 @@ export default class GlobalStats extends Component {
                         <h2>
                             Jar Balance
                             <span className="tooltip-container">
-                                <Tooltip>Jar Balance</Tooltip>
+                                <Tooltip>{userInfo ? parseFloat(userInfo.userRatingInfo.jarBalance).toFixed(1) : 0 } ETH</Tooltip>
                                 <img className="info-icon" src={InfoIcon} />
                             </span>
                         </h2>
                         <div className="value">
-                            $<Ticker value={userInfo?(userInfo.userRatingInfo.jarBalance === 0 ? 10000 : parseFloat(userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice).toFixed(0)) :10000} />
+                            $<Ticker value={userInfo?(userInfo.userRatingInfo.jarBalance === 0 ? defaultJarAmount : parseFloat(userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice).toFixed(0)) :defaultJarAmount} />
                         </div>
                     </div>
                     <div className="right">
