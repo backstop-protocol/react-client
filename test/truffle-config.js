@@ -24,12 +24,6 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
-require('babel-register') // should already exist in Truffle webpack box
-require('babel-polyfill') // added to appease zeppelin-solidity
-require('babel-node-modules')([ // added so that we can include zeppelin-solidity test JS
-  './bInterface.js' // module that has ES6 style files I wish to include
-])
-
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
