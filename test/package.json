@@ -1,0 +1,31 @@
+{
+  "name": "cdp-js-helper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bInterface.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/backstop-protocol/cdp-js-helper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/backstop-protocol/cdp-js-helper/issues"
+  },
+  "homepage": "https://github.com/backstop-protocol/cdp-js-helper#readme",
+  "dependencies": {
+    "babel-node-modules": "0.0.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "esm": "^3.2.25",
+    "ganache-cli": "6.10.1",
+    "truffle": "5.1.49",
+    "web3": "^1.3.0"
+  }
+}
