@@ -172,6 +172,19 @@ export const migrateToExisting = function(web3, networkId, userProxy, makerDaoCd
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
 }
 
+// migrate from b protocol back to makerdao, with a new cdp number
+export const exportFresh = function(web3, networkId, userProxy, bCdp) {
+  const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
+
+  const data = actionProxyContract.methods.openAndImportFromManager(getAddress("BCDP_MANGER",networkId),
+                                                                    getAddress("CDP_MANAGER",networkId),
+                                                                    bCdp,
+                                                                    ETH_ILK).encodeABI()
+
+  const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
+  return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
+}
+
 // this will be used only for testings
 export const openMakerDaoCdp = function(web3, networkId, user) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
