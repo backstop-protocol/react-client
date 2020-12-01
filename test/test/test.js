@@ -482,6 +482,54 @@ contract('B Interface', function (accounts) {
     //assert.equal(userInfoAfter.bCdpInfo.ethDeposit.toString(10),web3.utils.toWei("4").toString(10),"user eth balance is expected to be 2")
     assert.equal(userInfoAfterAll.bCdpInfo.daiDebt.toString(10),web3.utils.toWei("0").toString(10),"user debt should be 0 after repayAll")
   })
+
+  it('export to makerdao', async function () {
+    const user = accounts[5]
+
+    const depositVal = web3.utils.toWei("3") // 2 ETH
+    const txObject = B.firstDeposit(web3,networkId,user)
+    //console.log({txObject})
+    let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
+    console.log({gasConsumption})
+    await txObject.send({gas:gasConsumption,value:depositVal,from:user})
+    await mineBlock()
+
+    let userInfo = await B.getUserInfo(web3,networkId,user)
+    const cdp = userInfo.bCdpInfo.cdp
+    console.log({cdp})
+
+    const withdrawalVal = web3.utils.toWei("550")
+    const txObject2 = B.generateDai(web3,networkId,userInfo.proxyInfo.userProxy,cdp,withdrawalVal)
+    const gasConsumption2 = increaseABit(await txObject2.estimateGas({from:user}))
+    console.log({gasConsumption2})
+    await txObject2.send({gas:gasConsumption2,from:user})
+    await mineBlock()
+
+    console.log("query user info again")
+    userInfo = await B.getUserInfo(web3,networkId,user)
+    assert.equal(userInfo.bCdpInfo.daiDebt.toString(10),web3.utils.toWei("550").toString(10),"user debt should be 550")
+    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10),web3.utils.toWei("3").toString(10),"user depost should be 3")
+    assert(userInfo.bCdpInfo.hasCdp, "user should have a B cdp")
+    assert(! userInfo.makerdaoCdpInfo.hasCdp, "user should not have a makerdao cdp")
+
+    console.log("export to makerdao")
+    const proxy = userInfo.proxyInfo.userProxy
+    const txObject3 = B.exportFresh(web3,networkId,proxy,cdp)
+    const gasConsumption3 = increaseABit(await txObject3.estimateGas({from:user}))
+    console.log({gasConsumption2})
+    await txObject3.send({gas:gasConsumption3,from:user})
+    await mineBlock()
+
+    console.log("query user info again")
+    userInfo = await B.getUserInfo(web3,networkId,user)
+
+    assert.equal(userInfo.makerdaoCdpInfo.daiDebt.toString(10),web3.utils.toWei("550").toString(10),"user debt should be 550")
+    assert.equal(userInfo.makerdaoCdpInfo.ethDeposit.toString(10),web3.utils.toWei("3").toString(10),"user depost should be 3")
+    assert(userInfo.makerdaoCdpInfo.hasCdp, "user should have a maker cdp")
+
+    assert.equal(userInfo.bCdpInfo.daiDebt.toString(10),web3.utils.toWei("0").toString(10),"user debt should be 550")
+    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10),web3.utils.toWei("0").toString(10),"user depost should be 3")
+  })
 })
 
 function increaseABit(number) {
