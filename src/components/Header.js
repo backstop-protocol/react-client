@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {toJS} from 'mobx'
 import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
 import GlobalStats from "./GlobalStats";

@@ -1,11 +1,7 @@
-import { makeAutoObservable, configure } from "mobx"
+import { makeAutoObservable } from "mobx"
 import * as B from "../lib/bInterface"
 import * as ApiHelper from "../lib/ApiHelper";
 import Web3 from "web3";
-
-configure({
-    useProxies: "never"
-})
 
 /**
  * Main Store is desigend for general purpose app data
@@ -14,7 +10,7 @@ class MainStore {
 
     originalInfoResponse = null
     generalInfo = null
-    jarBalanceEth = 0 //  default
+    jarBalanceEth = '--,---' //  default
     jarBalanceUsd = 10000 // dafult
 
     constructor (){
@@ -32,7 +28,7 @@ class MainStore {
            
             this.jarBalanceEth = parseFloat(info.userRatingInfo.jarBalance).toFixed(1);
             this.jarBalanceUsd = parseFloat(info.userRatingInfo.jarBalance * info.miscInfo.spotPrice).toFixed(0)
-            
+
         }catch (err){
             console.error('failed to fatch general stats')
         }
