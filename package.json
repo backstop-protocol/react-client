@@ -9,6 +9,8 @@
     "@testing-library/user-event": "^7.1.2",
     "detect-browser": "^5.1.1",
     "esm": "^3.2.25",
+    "mobx": "^6.0.4",
+    "mobx-react-lite": "^3.1.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
@@ -16,6 +18,7 @@
     "web3": "^1.2.11"
   },
   "scripts": {
+    "dev": "react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
