@@ -3,8 +3,8 @@ import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
 import GlobalStats from "./GlobalStats";
 import BorrowLimit from "./BorrowLimit";
-import Logo from '../assets/logo-maker-black.svg';
-import ConnectWallet from '../assets/connect-your-wallet.svg';
+import Logo from "../assets/logo-maker-black.svg";
+import ConnectWallet from "../assets/connect-your-wallet.svg";
 
 export default class Header extends Component {
     render() {

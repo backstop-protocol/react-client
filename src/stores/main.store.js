@@ -10,7 +10,7 @@ class MainStore {
 
     originalInfoResponse = null
     generalInfo = null
-    jarBalanceEth = '--,---' //  default
+    jarBalanceEth = "--,---" //  default
     jarBalanceUsd = 10000 // dafult
 
     constructor (){
@@ -20,8 +20,8 @@ class MainStore {
 
     async fetchData () {
         try{
-            const web3 = new Web3('https://bp-api.bprotocol.workers.dev')
-            let info = await B.getUserInfo(web3, '1', '0x0000000000000000000000000000000000000000')
+            const web3 = new Web3("https://bp-api.bprotocol.workers.dev")
+            let info = await B.getUserInfo(web3, "1", "0x0000000000000000000000000000000000000000")
 
             this.originalInfoResponse = info
             info = ApiHelper.Humanize(info, web3);
@@ -30,7 +30,7 @@ class MainStore {
             this.jarBalanceUsd = parseFloat(info.userRatingInfo.jarBalance * info.miscInfo.spotPrice).toFixed(0)
 
         }catch (err){
-            console.error('failed to fatch general stats')
+            console.error("failed to fatch general stats")
         }
     }
 }
