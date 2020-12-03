@@ -5,7 +5,7 @@ import Pulser from "./Pulser";
 import Ticker from "./Ticker";
 import Tooltip from "./Tooltip";
 import {numm} from "../lib/Utils";
-import mainStore from"../stores/main.store"
+import mainStore from "../stores/main.store"
 import {Observer} from "mobx-react-lite"
 
 const ratingFactor = 24 * 60 * 60 * 1000;
