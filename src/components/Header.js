@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Observer} from 'mobx-react-lite'
 import {toJS} from 'mobx'
 import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
@@ -7,7 +6,6 @@ import GlobalStats from "./GlobalStats";
 import BorrowLimit from "./BorrowLimit";
 import Logo from '../assets/logo-maker-black.svg';
 import ConnectWallet from '../assets/connect-your-wallet.svg';
-import mainStore from'../stores/main.store'
 
 export default class Header extends Component {
     render() {
@@ -29,9 +27,7 @@ export default class Header extends Component {
                         </div>
                     </div>
                     <div className="header-stats split">
-                        <Observer>
-                            {() => <GlobalStats userInfo={ toJS(mainStore.generalInfo) } /> }     
-                        </Observer>
+                        <GlobalStats userInfo={info} />
                         <BorrowLimit userInfo={info} />
                     </div>
                 </div>

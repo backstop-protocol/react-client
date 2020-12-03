@@ -5,6 +5,8 @@ import Pulser from "./Pulser";
 import Ticker from "./Ticker";
 import Tooltip from "./Tooltip";
 import {numm} from "../lib/Utils";
+import mainStore from'../stores/main.store'
+import {Observer} from 'mobx-react-lite'
 
 const ratingFactor = 24 * 60 * 60 * 1000;
 const ratingProgressTime = 3000;
@@ -58,8 +60,7 @@ export default class GlobalStats extends Component {
 
         const {userInfo} = this.props;
         const {currentRating} = this.state;
-        const defaultJarAmount = 10000
-        
+
         return (
             <div className="global-stats even">
                 <div className="stats">
@@ -67,12 +68,21 @@ export default class GlobalStats extends Component {
                         <h2>
                             Jar Balance
                             <span className="tooltip-container">
-                                <Tooltip>{userInfo ? parseFloat(userInfo.userRatingInfo.jarBalance).toFixed(1) : 0 } ETH</Tooltip>
+                                <Observer>
+                                    {() => 
+                                        <Tooltip>{mainStore.jarBalanceEth} ETH</Tooltip> 
+                                    }     
+                                </Observer>
                                 <img className="info-icon" src={InfoIcon} />
                             </span>
                         </h2>
                         <div className="value">
-                            $<Ticker value={userInfo?(userInfo.userRatingInfo.jarBalance === 0 ? defaultJarAmount : parseFloat(userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice).toFixed(0)) :defaultJarAmount} />
+                            $
+                            <Observer>
+                                {() =>
+                                    <Ticker value={ mainStore.jarBalanceUsd} />
+                                }
+                            </Observer>
                         </div>
                     </div>
                     <div className="right">
