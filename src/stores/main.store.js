@@ -12,6 +12,9 @@ class MainStore {
     generalInfo = null
     jarBalanceEth = "--,---" //  default
     jarBalanceUsd = 10000 // dafult
+    tvlUsd = 0
+    tvlGraphData = [1, 2, 3, 4, 5, 6, 16, 26, 46, 106, 1016, ]
+    userIsConnected = false
 
     constructor (){
         makeAutoObservable(this)
@@ -20,7 +23,9 @@ class MainStore {
 
     async fetchData () {
         try{
-            const web3 = new Web3("https://bp-api.bprotocol.workers.dev")
+            // const web3 = new Web3("https://bp-api.bprotocol.workers.dev")
+            const web3 = new Web3("https://tight-bush-91a4.b-protocol.workers.dev")
+            // const web3 = new Web3("http://api.bprotocol.org")
             let info = await B.getUserInfo(web3, "1", "0x0000000000000000000000000000000000000000")
 
             this.originalInfoResponse = info

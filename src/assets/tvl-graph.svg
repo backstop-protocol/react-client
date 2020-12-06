@@ -1,0 +1,21 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="147" height="88" viewBox="0 0 147 88">
+    <defs>
+        <linearGradient id="tprnub37ha" x1="8.511%" x2="100%" y1="58.793%" y2="42.712%">
+            <stop offset="0%" stop-color="#23BB65"/>
+            <stop offset="100%" stop-color="#FBB936"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g stroke="#B9DFCA" stroke-linecap="square" stroke-width=".92" opacity=".594">
+                        <path d="M132.94.46L132.94 86.02M121.9.46L121.9 86.02M110.86.46L110.86 86.02M99.82.46L99.82 86.02M88.78.46L88.78 86.02M77.74.46L77.74 86.02M66.7.46L66.7 86.02M55.66.46L55.66 86.02M44.62.46L44.62 86.02M33.58.46L33.58 86.02M22.54.46L22.54 86.02M11.5.46L11.5 86.02M.46.46L.46 86.02" opacity=".5" transform="translate(-1313 -182) translate(984 164) translate(331.2 18.4) translate(6.44)"/>
+                    </g>
+                    <path stroke="url(#tprnub37ha)" stroke-width="3.68" d="M0 72.68L3.541 68.04 8.812 68.04 13.822 68.04 18.117 65.835 26.408 55.258 48.443 55.258 53.627 47.341 71.312 49.163 79.115 37.741 83.332 28.304 97.61 32.42 110.44 21.565 137.82 16.214 142.6 12.88" transform="translate(-1313 -182) translate(984 164) translate(331.2 18.4)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
