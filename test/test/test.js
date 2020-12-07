@@ -530,6 +530,56 @@ contract('B Interface', function (accounts) {
     assert.equal(userInfo.bCdpInfo.daiDebt.toString(10),web3.utils.toWei("0").toString(10),"user debt should be 550")
     assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10),web3.utils.toWei("0").toString(10),"user depost should be 3")
   })
+
+  it('read getStats ', async function () {
+    // read current status returnd from get stats 
+    const statsBefore = await B.getStats(web3, networkId)
+    // deposit eth creating a new CDP 
+    const user = accounts[6]
+    console.log("query user info")
+    let userInfo = await B.getUserInfo(web3,networkId,user)
+    assert(! userInfo.bCdpInfo.hasCdp, "user is not expected to have a cdp")
+    assert(! userInfo.proxyInfo.hasProxy, "user is not expected to have a proxy")
+
+    const depositVal = web3.utils.toWei("6") // 2 ETH
+
+    const depositVal = web3.utils.toWei("2") // 2 ETH
+    let txObject = B.firstDeposit(web3,networkId,user)
+    //console.log({txObject})
+    let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
+    console.log({gasConsumption})
+    await txObject.send({gas:gasConsumption,value:depositVal,from:user})
+    await mineBlock()
+    // .on('confirmation', function(confirmationNumber, receipt)
+
+
+    console.log("query user info")
+    userInfo = await B.getUserInfo(web3,networkId,user)
+    //console.log(userInfo);
+    const cdp = userInfo.bCdpInfo.cdp
+    console.log({cdp})
+
+    const withrawVal = web3.utils.toWei("600") // 600 dai
+    console.log("proxy",userInfo.proxyInfo.userProxy)
+
+    txObject = B.generateDai(web3,networkId,userInfo.proxyInfo.userProxy,cdp,withrawVal)
+    //console.log({txObject})
+    gasConsumption = increaseABit(await txObject.estimateGas({value:0,from:user}))
+    console.log({gasConsumption})
+    await txObject.send({gas:gasConsumption,value:0,from:user})
+    await mineBlock()
+
+    const statsAfter = await B.getStats(web3, networkId)
+
+    console.log('statsBefore')
+    console.log(statsBefore)
+    console.log('statsAfter')
+    console.log(statsAfter)
+
+    assert.equal(statsAfter.cdpi.toString(10), web3.utils.toBN(statsBefore.cdpi).add(web3.utils.toBN('1')).toString(10), 'expected cdpi to be increasd by 1')
+    assert.equal(statsAfter.eth.toString(10), web3.utils.toBN(statsBefore.eth).add(web3.utils.toBN(depositVal)).toString(10), 'expected eth to be increasd by 2 eth')
+    assert(web3.utils.toBN(statsAfter.dai).gt(web3.utils.toBN(statsBefore.dai)), 'expected daiAfter to be grater then  dai before')
+  })
 })
 
 function increaseABit(number) {
