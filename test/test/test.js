@@ -542,6 +542,8 @@ contract('B Interface', function (accounts) {
     assert(! userInfo.proxyInfo.hasProxy, "user is not expected to have a proxy")
 
     const depositVal = web3.utils.toWei("6") // 2 ETH
+
+    const depositVal = web3.utils.toWei("2") // 2 ETH
     let txObject = B.firstDeposit(web3,networkId,user)
     //console.log({txObject})
     let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
@@ -549,6 +551,7 @@ contract('B Interface', function (accounts) {
     await txObject.send({gas:gasConsumption,value:depositVal,from:user})
     await mineBlock()
     // .on('confirmation', function(confirmationNumber, receipt)
+
 
     console.log("query user info")
     userInfo = await B.getUserInfo(web3,networkId,user)
@@ -568,8 +571,11 @@ contract('B Interface', function (accounts) {
 
     const statsAfter = await B.getStats(web3, networkId)
 
-    // console.log(statsBefore)
-    // console.log(statsAfter)
+    console.log(statsBefore)
+    console.log('statsBefore')
+    console.log('statsAfter')
+    console.log(statsAfter)
+    
     assert.equal(statsAfter.cdpi.toString(10), web3.utils.toBN(statsBefore.cdpi).add(web3.utils.toBN('1')).toString(10), 'expected cdpi to be increasd by 1')
     assert.equal(statsAfter.eth.toString(10), web3.utils.toBN(statsBefore.eth).add(web3.utils.toBN(depositVal)).toString(10), 'expected eth to be increasd by 2 eth')
     assert(web3.utils.toBN(statsAfter.dai).gt(web3.utils.toBN(statsBefore.dai)), 'expected daiAfter to be grater then  dai before')
