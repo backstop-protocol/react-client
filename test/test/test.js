@@ -571,11 +571,11 @@ contract('B Interface', function (accounts) {
 
     const statsAfter = await B.getStats(web3, networkId)
 
-    console.log(statsBefore)
     console.log('statsBefore')
+    console.log(statsBefore)
     console.log('statsAfter')
     console.log(statsAfter)
-    
+
     assert.equal(statsAfter.cdpi.toString(10), web3.utils.toBN(statsBefore.cdpi).add(web3.utils.toBN('1')).toString(10), 'expected cdpi to be increasd by 1')
     assert.equal(statsAfter.eth.toString(10), web3.utils.toBN(statsBefore.eth).add(web3.utils.toBN(depositVal)).toString(10), 'expected eth to be increasd by 2 eth')
     assert(web3.utils.toBN(statsAfter.dai).gt(web3.utils.toBN(statsBefore.dai)), 'expected daiAfter to be grater then  dai before')
