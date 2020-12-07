@@ -531,7 +531,7 @@ contract('B Interface', function (accounts) {
     assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10),web3.utils.toWei("0").toString(10),"user depost should be 3")
   })
 
-  it.only('read getStats ', async function () {
+  it('read getStats ', async function () {
     // read current status returnd from get stats 
     const statsBefore = await B.getStats(web3, networkId)
     // deposit eth creating a new CDP 
