@@ -2,8 +2,6 @@ import { makeAutoObservable } from "mobx"
 import * as B from "../lib/bInterface"
 import * as ApiHelper from "../lib/ApiHelper";
 import Web3 from "web3";
-import { Promise } from "q";
-import { inferredPredicate } from "@babel/types";
 const BP_API = "https://bp-api.bprotocol.workers.dev"
 
 const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -37,7 +35,6 @@ class MainStore {
         try{
             const web3 = new Web3(BP_API)
             let info = await B.getUserInfo(web3, "1", "0x0000000000000000000000000000000000000000")
-
             this.originalInfoResponse = info
             info = ApiHelper.Humanize(info, web3);
             this.spotPrice = info.miscInfo.spotPrice
