@@ -148,7 +148,6 @@ export default class Tvl extends Component {
                                 { ()=> 
                                     <TvlAmount>
                                         ${mainStore.tvlUsd} <Triangle/>
-                                        {/* $100 <Triangle/> */}
                                     </TvlAmount>
                                 }
                             </Observer>
