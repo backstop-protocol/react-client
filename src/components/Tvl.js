@@ -120,8 +120,11 @@ const TvlGraphImg = styled.img`
 `
 
 const ToolTipLine = styled.div`
-      padding: 5px;
-      font-family: Poppins;
+    min-width: 160px;
+    padding: 5px;
+    font-family: Poppins;
+    display: flex;
+    justify-content: space-between;
 `
 
 export default class Tvl extends Component {
@@ -137,9 +140,15 @@ export default class Tvl extends Component {
                                     <Observer>
                                         { ()=>                
                                             <Tooltip>
-                                                <ToolTipLine >ETH Deposits: { (mainStore.tvlEth / 1000).toFixed(2) }K </ToolTipLine>
-                                                <ToolTipLine >Dai Debt: { (mainStore.tvlDai / 1000000).toFixed(2)}M</ToolTipLine>
-                                                <ToolTipLine >Number of Vaults: {mainStore.cdpi}</ToolTipLine>        
+                                                <ToolTipLine> 
+                                                    <div> ETH deposits: </div> <div> { (mainStore.tvlEth / 1000).toFixed(2) }K </div>
+                                                </ToolTipLine>
+                                                <ToolTipLine> 
+                                                    <div> DAI debt: </div> <div> { (mainStore.tvlDai / 1000000).toFixed(2)}M </div>
+                                                </ToolTipLine>
+                                                <ToolTipLine> 
+                                                    <div> Number of Vaults: </div> <div> {mainStore.cdpi} </div>
+                                                </ToolTipLine>        
                                             </Tooltip>
                                         }
                                     </Observer>
