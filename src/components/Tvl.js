@@ -144,10 +144,10 @@ export default class Tvl extends Component {
                                                     <div> ETH deposits: </div> <div> { (mainStore.tvlEth / 1000).toFixed(2) }K </div>
                                                 </ToolTipLine>
                                                 <ToolTipLine> 
-                                                    <div> DAI debt: </div> <div> { (mainStore.tvlDai / 1000000).toFixed(2)}M </div>
+                                                    <div> DAI debt: </div> <div> { (mainStore.tvlDai / 1000000).toFixed(2) }M </div>
                                                 </ToolTipLine>
                                                 <ToolTipLine> 
-                                                    <div> Number of Vaults: </div> <div> {mainStore.cdpi} </div>
+                                                    <div> Number of Vaults: </div> <div> { mainStore.cdpi } </div>
                                                 </ToolTipLine>        
                                             </Tooltip>
                                         }
