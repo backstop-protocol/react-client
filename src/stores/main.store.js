@@ -50,7 +50,7 @@ class MainStore {
             const web3 = new Web3(BP_API)
             let info = await B.getStats(web3, "1")
             this.tvlEth = parseFloat(web3.utils.fromWei(info.eth)).toFixed(1)
-            const tvlUsd = parseFloat(this.tvlEth * this.spotPrice).toFixed(0)
+            const tvlUsd = parseFloat(this.tvlEth * this.spotPrice).toFixed(1)
             this.tvlUsd = toCommmSepratedString(tvlUsd)
             this.tvlDai = parseFloat(web3.utils.fromWei(info.dai)).toFixed(1)
             this.cdpi = info.cdpi

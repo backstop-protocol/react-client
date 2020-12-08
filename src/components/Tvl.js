@@ -8,22 +8,23 @@ import mainStore from "../stores/main.store"
 
 const TvlBox = styled.div`
     background-image: url("${require("../assets/tvl-bg.svg")}");
-    background-size: cover; /* Resize the background image to cover the entire container */
     background-repeat: no-repeat; /* Do not repeat the image */
-    width: 567px;
-    height: 144px;
-    padding: 20px 33.3px 24.7px 58px;
+    background-size: contain;
+    min-width: 566px;
+    height: 146px;
+    padding: 20px 33.3px 10px 58px;
 
     @media ${device.largeLaptop} {
-        width: 505px;
-        height: 128px;
+        min-width: 505px;
+        height: 116px;
         padding: 18px 30px 23px 53px;
     }
 
     @media ${device.laptop} {
-        width: 466px;
-        height: 118px;
+        min-width: 466px;
+        height: 103px;
         padding: 17px 28px 21px 49px;
+        margin-top -6px;
     } 
 `
 
@@ -34,17 +35,18 @@ const TvlTitle = styled.h2`
     line-height: 1.04;
     letter-spacing: -0.29px;
     color: #17ab57;
-
+    margin-top: 15px;
     @media ${device.largeLaptop} {
+        margin-top: 6px;
         font-size: 13px;
     }
 
     @media ${device.laptop} {
+        margin-top: 0;
         font-size: 12px;
     }
     .tooltip-container {
         margin-left: 8px;
-
         &:hover {
           .tooltip {
             display: flex;
@@ -75,7 +77,7 @@ const TvlAmount = styled.div`
     font-family: grotesk-display, sans-serif;
     font-weight: 550;
     font-style: normal;
-    font-size: 41px;
+    font-size: 42px;
     color: #0b0412;
 
     @media ${device.largeLaptop} {
@@ -90,9 +92,7 @@ const TvlAmount = styled.div`
 const Triangle = styled.div`
     display: inline-block;
     position: relative;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
+    transform: translateY(-80%);
     width: 14px;
     height: 12px;
     background-image: url("${require("../assets/triangle.svg")}");
@@ -105,15 +105,17 @@ const Triangle = styled.div`
 
 const TvlGraphImg = styled.img`
     display: block;
-    width: 200px;
-    height: 100px;
-
+    width: 100%;
+    height: 104px;
+    margin-left: 15px;    
     @media ${device.largeLaptop} {
-        height: 90px;
+        height: 85px;
+        margin-left: 10px;    
     }
 
     @media ${device.laptop} {
-        height: 85px;
+        height: 65px;
+        margin-left: 0; 
     }
 `
 
@@ -127,7 +129,7 @@ export default class Tvl extends Component {
        return (
            <div>
                <TvlBox>
-                   <Flex justifyBetween>
+                   <Flex justifyStart>
                        <FlexItem>
                             <TvlTitle>
                                 Total value locked
@@ -152,7 +154,7 @@ export default class Tvl extends Component {
                                 }
                             </Observer>
                        </FlexItem>
-                       <FlexItem>
+                       <FlexItem grow>
                             <TvlGraphImg src={require("../assets/tvl-graph.svg")}/>
                        </FlexItem>
                    </Flex>
