@@ -41,6 +41,27 @@
   }
 }
 
+.react-tooltip-custom{
+  font-size: 14px;
+  border-radius: 4px;
+  z-index: 666;
+  box-sizing: border-box;
+  color: #000000;
+  opacity: 1!important;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  padding: 0 10px;
+
+  @media screen and (max-width: 1399px) {
+    font-size: 12px;
+  }
+
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    padding: 0 3px;
+  }
+}
+
 .tooltip i {
   position:absolute;
   top:100%;

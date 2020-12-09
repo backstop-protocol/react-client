@@ -1,7 +1,8 @@
 import { makeAutoObservable } from "mobx"
 import * as B from "../lib/bInterface"
-import * as ApiHelper from "../lib/ApiHelper";
-import Web3 from "web3";
+import * as ApiHelper from "../lib/ApiHelper"
+import Web3 from "web3"
+import axios from "axios"
 const BP_API = "https://bp-api.bprotocol.workers.dev"
 
 const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -20,15 +21,20 @@ class MainStore {
     tvlDai = "--,---"
     cdpi = 0
     spotPrice = null
+    makerPriceFeedPrice = ""
+    makerPriceFeedPriceNextPrice = ""
+    defiexploreLastUpdate = ""
+    ethMarketPrice = ""
 
     constructor (){
         makeAutoObservable(this)
-        this.fetchGneralDappData()
+        this.fetchGeneralDappData()
     }
 
-    async fetchGneralDappData () {
+    async fetchGeneralDappData () {
         await this.fetchJar()
-        this.fetchTvl() // tvl requires the spot price
+        await this.fetchTvl() // tvl requires the spot price
+        await this.fetchPrices()
     }
 
     async fetchJar () {
@@ -57,6 +63,25 @@ class MainStore {
         }catch (err){
             console.error("failed to fatch TVL")
         }
+    }
+
+    async fetchPrices () {
+        try{
+            const dataPromises = [
+                axios.get('https://defiexplore.com/api/stats/globalInfo'),
+                axios.get('https://api.coinmarketcap.com/data-api/v3/topsearch/rank')
+            ]
+            let [{data: data1}, {data: data2}] = await Promise.all(dataPromises)
+            data1 = data1['tokenData']['ETH-A']
+            this.makerPriceFeedPrice = data1.price
+            this.makerPriceFeedPriceNextPrice = data1.futurePrice
+            this.defiexploreLastUpdate = data1.updatedAt  
+            this.coinMarketCapLastUpdate = data2.status.timestamp
+            data2 = data2['data']['cryptoTopSearchRanks'].filter(c=> c.symbol === 'ETH')[0]
+            this.ethMarketPrice = data2.priceChange.price.toFixed(2)    
+        }catch (err){
+            console.error(err)
+        } 
     }
 }
 
