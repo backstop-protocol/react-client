@@ -28,14 +28,13 @@ class MainStore {
 
     constructor (){
         makeAutoObservable(this)
-        this.fetchGneralDappData()
+        this.fetchGeneralDappData()
     }
 
-    async fetchGneralDappData () {
+    async fetchGeneralDappData () {
         await this.fetchJar()
         await this.fetchTvl() // tvl requires the spot price
-        this.fetchPrices()
-
+        await this.fetchPrices()
     }
 
     async fetchJar () {
@@ -73,17 +72,13 @@ class MainStore {
                 axios.get('https://api.coinmarketcap.com/data-api/v3/topsearch/rank')
             ]
             let [{data: data1}, {data: data2}] = await Promise.all(dataPromises)
-            debugger
             data1 = data1['tokenData']['ETH-A']
             this.makerPriceFeedPrice = data1.price
             this.makerPriceFeedPriceNextPrice = data1.futurePrice
-            this.defiexploreLastUpdate = data1.updatedAt
-            debugger
+            this.defiexploreLastUpdate = data1.updatedAt  
             this.coinMarketCapLastUpdate = data2.status.timestamp
             data2 = data2['data']['cryptoTopSearchRanks'].filter(c=> c.symbol === 'ETH')[0]
-            this.ethMarketPrice = data2.priceChange.price.toFixed(2)
-            
-            console.log(data2)
+            this.ethMarketPrice = data2.priceChange.price.toFixed(2)    
         }catch (err){
             console.error(err)
         } 

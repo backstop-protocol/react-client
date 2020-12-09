@@ -8,7 +8,7 @@ import mainStore from "../stores/main.store"
 import {observer} from "mobx-react"
 import moment from "moment"
 
-const  chop4 = number =>  Math.floor(parseFloat(number) * 10000) / 10000
+const chop4 = number => Math.floor(parseFloat(number) * 10000) / 10000
 
 const chop2 = number => Math.floor(parseFloat(number) * 100) / 100
 
