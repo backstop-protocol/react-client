@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Observer} from "mobx-react-lite"
+import {Observer} from "mobx-react"
 import styled from 'styled-components';
 import Tooltip from "./Tooltip";
 import Flex, {FlexItem} from "styled-flex-component";
