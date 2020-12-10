@@ -150,7 +150,7 @@ export default class CurrencyBox extends Component {
                     <div className="currency-meta">
                         <div className="currency-icon"><img src={icon} /></div>
                         <div className="currency-title">{title}</div>
-                        <div className="currency-value">
+                        <div className="currency-value nowrap">
                             <p>{formatValue(userInfo)} {currency}</p>
                             <small>{calculateUsd(userInfo)} USD</small>
                         </div>
@@ -186,7 +186,7 @@ export default class CurrencyBox extends Component {
                                     <div>
                                         <div className="limit-bar mini">
                                         <div className="values">
-                                            <label>{userInfo?numm(userInfo.bCdpInfo.daiDebt):0} DAI</label>
+                                            <label>{/* Empty label is here to preserve orginal flex layout  */}</label> 
                                             <label>{numm(liquidationPrice[0])} DAI</label>
                                         </div>
                                         <div className="limit-bar-inner">
