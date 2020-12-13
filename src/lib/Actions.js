@@ -68,7 +68,7 @@ export async function migrateMakerDao() {
 
 export async function exportBackToMakerDao(onHash) {
     try{
-        const exportCdpBackToMakerDao = B.exportFresh(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, onHash)
+        const exportCdpBackToMakerDao = B.exportFresh(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp)
         // wrapping the transactions with an async transaction validator
         return await ApiAction(exportCdpBackToMakerDao, user, web3, 0, onHash)
     } catch (err){
