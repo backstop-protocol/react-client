@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const FAQContent = () => {
   return (
@@ -81,6 +82,14 @@ const FAQContent = () => {
         <strong>A. </strong>True. No pre-mining to anyone. Not VCs, Not devs, No
         one. B. Protocol has a real use case and a real added value
         for its users, on both sides - Liquidators as well as platform users.
+      </p>
+      <h4>
+      10. B.Protocol is great, but what if I want to export my Vault back to MakerDAO CDP manager (Oasis)?
+      </h4>
+      <p className="item-content-text">
+        <strong>A. </strong>You can export your Vault back to MakerDAO at any time, 
+        and still maintain your accumulated score. 
+        Simply go <Link to="/app?export=true">here</Link> and click the export button.
       </p>
     </p>
   );
