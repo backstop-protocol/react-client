@@ -66,6 +66,17 @@ export async function migrateMakerDao() {
     }
 }
 
+export async function exportBackToMakerDao(onHash) {
+    try{
+        const exportCdpBackToMakerDao = B.exportFresh(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp)
+        // wrapping the transactions with an async transaction validator
+        return await ApiAction(exportCdpBackToMakerDao, user, web3, 0, onHash)
+    } catch (err){
+        console.error('exportBackToMakerDao function failed: failed to export user CDP back to maker ')
+        throw(err)
+    }
+}
+
 export async function deposit(amountEth, onHash) {
     const val = web3.utils.toWei(amountEth);
     if (userInfo.bCdpInfo.hasCdp) {
