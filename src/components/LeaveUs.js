@@ -53,7 +53,6 @@ const LeavUs = observer(props => {
     const history = useHistory()
 
     const reset = ()=> {
-        debugger
         setTimeout(()=> {
             setDone(false)
             setTxErr(false)
