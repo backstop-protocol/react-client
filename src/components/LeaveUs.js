@@ -6,12 +6,6 @@ import {exportBackToMakerDao} from '../lib/Actions'
 import Loading from "./action-panels/Loading";
 import { useHistory } from "react-router-dom";
 
-/* 
-    TODO: 
-        clean up code
-        add spaces between the loader and the transaction link 
-*/
-
 const ExportBtn = styled.div`
     height: 72px;
     min-width: 300px;   
@@ -59,6 +53,7 @@ const LeavUs = observer(props => {
     const history = useHistory()
 
     const reset = ()=> {
+        debugger
         setTimeout(()=> {
             setDone(false)
             setTxErr(false)
