@@ -353,6 +353,19 @@ contract('B Interface', function (accounts) {
     assert(succ3, "verifyDepositInput should pass")
     assert.equal(msg3,"")
 
+    // creating a userInfo mock to mock vault liqudation flag
+    // should deny all operations during vault liqudation 
+    // all verifications using this mock set to rueshould fail
+    const setLiqudationMock = (userInfo, status) => userInfo.bCdpInfo.bitten = status 
+
+    // vault is being liqudated
+    console.log('deposit while vault is being liqudated')
+    setLiqudationMock(userInfo, true)
+    const [succ3a,msg3a] = B.verifyDepositInput(userInfo, balanceMinusOne.toString(10),web3)
+    assert(! succ3a, "verifyDepositInput should fail")
+    assert.equal(msg3a,"vault is being liqudated")
+    setLiqudationMock(userInfo, false)
+
     // verify withdraw ETH
     const [succ4,msg4] = B.verifyWithdrawInput(userInfo,web3.utils.toWei("-1"),web3)
     assert(! succ4, "verifyWithdrawInput should failed")
@@ -369,6 +382,14 @@ contract('B Interface', function (accounts) {
     const [succ7,msg7] = B.verifyWithdrawInput(userInfo,web3.utils.toWei("0.1"),web3)
     assert(succ7, "verifyWithdrawInput should pass")
 
+    // witdraw while vault is being liqudated
+    console.log('witdraw while vault is being liqudated')
+    setLiqudationMock(userInfo, true)
+    const [succ7a,msg7a] = B.verifyWithdrawInput(userInfo,web3.utils.toWei("0.1"),web3)
+    assert(! succ7a, "verifyDepositInput should fail")
+    assert.equal(msg7a,"vault is being liqudated")
+    setLiqudationMock(userInfo, false)
+
     // verify borrow dai
     const [succ8,msg8] = B.verifyBorrowInput(userInfo, web3.utils.toWei("-1"),web3)
     assert(! succ8, "verifyBorrowInput should fail")
@@ -380,6 +401,14 @@ contract('B Interface', function (accounts) {
 
     const [succ10,msg10] = B.verifyBorrowInput(userInfo, web3.utils.toWei("100"),web3)
     assert(succ10, "verifyBorrowInput should pass")
+
+    // borrow while vault is being liqudated
+    console.log('borrow while vault is being liqudated')
+    setLiqudationMock(userInfo, true)
+    const [succ10a,msg10a] = B.verifyBorrowInput(userInfo, web3.utils.toWei("100"),web3)
+    assert(! succ10a, "verifyDepositInput should fail")
+    assert.equal(msg10a,"vault is being liqudated")
+    setLiqudationMock(userInfo, false)
 
     // verify repay dai
     const [succ11,msg11] = B.verifyRepayInput(userInfo,web3.utils.toWei("-1"),web3)
@@ -426,6 +455,14 @@ contract('B Interface', function (accounts) {
 
     const [succ15,msg15] = B.verifyRepayInput(userInfo,web3.utils.toWei("40.0031"),web3)
     assert(succ15, "verifyRepayInput should pass")
+
+    // repay while vault is being liqudated
+    console.log('repay while vault is being liqudated')
+    setLiqudationMock(userInfo, true)
+    const [succ15a,msg15a] = B.verifyRepayInput(userInfo,web3.utils.toWei("40.0031"),web3)
+    assert(! succ15a, "verifyDepositInput should fail")
+    assert.equal(msg15a,"vault is being liqudated")
+    setLiqudationMock(userInfo, false)
 
     // leave under 1 dai - should pass
     userInfo.userWalletInfo.daiAllowance = web3.utils.toWei("50.99999")

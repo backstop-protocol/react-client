@@ -257,6 +257,9 @@ export const calcNewBorrowLimitAndLiquidationPrice = calcNewBorrowAndLPrice
 
 ////////////////////////////////////////////////////////////////////////////////
 
+const liqudationMsg = "vault is being liqudated"
+const checkForActiveLiqudation = ({bCdpInfo: {bitten}}) => bitten ? [false,liqudationMsg] : [true,""]
+
 export const verifyDepositInput = function(userInfo,
                                              dEth,
                                              web3) {
@@ -266,7 +269,7 @@ export const verifyDepositInput = function(userInfo,
   // equality is also failure, because ETH is needed for gas
   if(dEth > toNumber(userInfo.userWalletInfo.ethBalance,web3)) return [false, "Amount exceeds wallet balance"]
 
-  return [true,""]
+  return checkForActiveLiqudation(userInfo)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -282,7 +285,7 @@ export const verifyWithdrawInput = function(userInfo,
   const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,dEthMinus.toString(10),"0",web3)
   if(toNumber(maxDebt,web3) < toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds allowed withdrawal"]
 
-  return [true,""]
+  return checkForActiveLiqudation(userInfo)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -299,7 +302,7 @@ export const verifyBorrowInput = function(userInfo,
   if(newDebt > toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)) return [false,"Amount exceeds allowed borrowed"]
   if(newDebt < dust) return [false,"A Vault requires a minimum of " + dust.toString() + " Dai to be generated"]
 
-  return [true,""]
+  return checkForActiveLiqudation(userInfo)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -329,5 +332,5 @@ export const verifyRepayInput = function(userInfo,
   }
 
 
-  return [true,""]
+  return checkForActiveLiqudation(userInfo)
 }
