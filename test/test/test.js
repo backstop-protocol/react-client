@@ -374,7 +374,7 @@ contract('B Interface', function (accounts) {
     const [succ5,msg5] = B.verifyWithdrawInput(userInfo,web3.utils.toWei("5.001"),web3)
     assert(! succ5, "verifyWithdrawInput should failed")
     assert.equal(msg5,"Amount exceeds CDP deposit")
-  
+
     const [succ6,msg6] = B.verifyWithdrawInput(userInfo,web3.utils.toWei("4.9"),web3)
     assert(! succ6, "verifyWithdrawInput should failed")
     assert.equal(msg6,"Amount exceeds allowed withdrawal")
@@ -470,7 +470,6 @@ contract('B Interface', function (accounts) {
     const [succ16,msg16] = B.verifyRepayInput(userInfo,web3.utils.toWei("49.0031"),web3)
 
     assert(succ16, "verifyRepayInput should pass", msg16)
-
   })
 
   it('repayAllDai', async function () {
