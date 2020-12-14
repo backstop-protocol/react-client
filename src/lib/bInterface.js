@@ -257,9 +257,15 @@ export const calcNewBorrowLimitAndLiquidationPrice = calcNewBorrowAndLPrice
 
 ////////////////////////////////////////////////////////////////////////////////
 
+const liqudationMsg = "vault is being liqudated"
+const activeLiqudation = ({bCdpInfo: {bitten}}) => bitten ? [false, liqudationMsg] : false
+
 export const verifyDepositInput = function(userInfo,
                                              dEth,
                                              web3) {
+  if(activeLiqudation(userInfo)){
+    return activeLiqudation(userInfo)
+  }
   dEth = toNumber(dEth,web3)
   if(dEth <= 0) return [false, "Deposit amount must be positive"]
 
@@ -274,6 +280,9 @@ export const verifyDepositInput = function(userInfo,
 export const verifyWithdrawInput = function(userInfo,
                                               dEth,
                                               web3) {
+  if(activeLiqudation(userInfo)){
+    return activeLiqudation(userInfo)
+  }
   const dEthMinus = web3.utils.toBN(dEth).mul(web3.utils.toBN(-1))
   dEth = toNumber(dEth,web3)
   if(dEth <= 0) return [false, "Withdraw amount must be positive"]
@@ -290,6 +299,9 @@ export const verifyWithdrawInput = function(userInfo,
 export const verifyBorrowInput = function(userInfo,
                                             dDai,
                                             web3) {
+  if(activeLiqudation(userInfo)){
+    return activeLiqudation(userInfo)
+  }
   dDai = toNumber(dDai,web3)
   if(dDai <= 0) return [false, "Borrow amount must be positive"]
 
@@ -307,6 +319,9 @@ export const verifyBorrowInput = function(userInfo,
 export const verifyRepayInput = function(userInfo,
                                            dDai,
                                            web3) {
+  if(activeLiqudation(userInfo)){
+    return activeLiqudation(userInfo)
+  }
   dDai = toNumber(dDai,web3)
   if(dDai <= 0) return [false, "Repay amount must be positive"]
   if(dDai > toNumber(userInfo.userWalletInfo.daiBalance,web3)) return [false,"Amount exceeds dai balance"]

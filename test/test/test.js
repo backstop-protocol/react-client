@@ -435,6 +435,53 @@ contract('B Interface', function (accounts) {
     assert(succ16, "verifyRepayInput should pass", msg16)
   })
 
+  it.only('input verification liqudation process', async function () {
+    const user = accounts[8]
+
+    const depositVal = web3.utils.toWei("5") // 5 ETH
+    const txObject = B.firstDeposit(web3,networkId,user)
+    //console.log({txObject})
+    const gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
+    console.log({gasConsumption})
+    await txObject.send({gas:gasConsumption,value:depositVal,from:user})
+    await mineBlock()
+
+    let userInfo = await B.getUserInfo(web3,networkId,user)
+    const cdp = userInfo.bCdpInfo.cdp
+    console.log({cdp})
+
+    // creating a userInfo mock to mock acount liqudation flag
+    const userInfoLiqudationMock = Object.assign({}, userInfo)
+    userInfoLiqudationMock.bCdpInfo.bitten = true
+
+    // deny all operations during vault liqudation all verifications should fail
+
+    // deposit
+    console.log('deposit')
+    const balanceMinusOne = web3.utils.toBN(userInfo.userWalletInfo.ethBalance).sub(web3.utils.toBN(1e10))
+    const [succ,msg] = B.verifyDepositInput(userInfoLiqudationMock, balanceMinusOne.toString(10),web3)
+    assert(! succ, "verifyDepositInput should fail")
+    assert.equal(msg,"vault is being liqudated")
+
+    // witdraw
+    console.log('witdraw')
+    const [succ1,msg1] = B.verifyWithdrawInput(userInfoLiqudationMock,web3.utils.toWei("0.1"),web3)
+    assert(! succ1, "verifyDepositInput should fail")
+    assert.equal(msg1,"vault is being liqudated")
+
+    // borrow
+    console.log('borrow')
+    const [succ2,msg2] = B.verifyBorrowInput(userInfoLiqudationMock, web3.utils.toWei("100"),web3)
+    assert(! succ2, "verifyDepositInput should fail")
+    assert.equal(msg2,"vault is being liqudated")
+
+    // repay
+    console.log('repay')
+    const [succ3,msg3] = B.verifyRepayInput(userInfoLiqudationMock,web3.utils.toWei("40.0031"),web3)
+    assert(! succ3, "verifyDepositInput should fail")
+    assert.equal(msg3,"vault is being liqudated")
+  })
+
   it('repayAllDai', async function () {
     const user = accounts[4]
 
