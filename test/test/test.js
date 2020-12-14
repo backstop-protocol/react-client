@@ -435,7 +435,7 @@ contract('B Interface', function (accounts) {
     assert(succ16, "verifyRepayInput should pass", msg16)
   })
 
-  it.only('input verification liqudation process', async function () {
+  it('input verification liqudation process', async function () {
     const user = accounts[8]
 
     const depositVal = web3.utils.toWei("5") // 5 ETH
