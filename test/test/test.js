@@ -355,7 +355,7 @@ contract('B Interface', function (accounts) {
 
     // creating a userInfo mock to mock vault liqudation flag
     // should deny all operations during vault liqudation 
-    // all verifications using this mock should fail
+    // all verifications using this mock set to rueshould fail
     const setLiqudationMock = (userInfo, status) => userInfo.bCdpInfo.bitten = status 
 
     // vault is being liqudated
