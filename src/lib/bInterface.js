@@ -281,6 +281,7 @@ export const verifyWithdrawInput = function(userInfo,
   dEth = toNumber(dEth,web3)
   if(dEth <= 0) return [false, "Withdraw amount must be positive"]
   if(dEth > toNumber(userInfo.bCdpInfo.ethDeposit,web3)) return [false, "Amount exceeds CDP deposit"]
+
   const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,dEthMinus.toString(10),"0",web3)
   if(toNumber(maxDebt,web3) < toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds allowed withdrawal"]
 
