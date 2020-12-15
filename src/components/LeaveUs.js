@@ -5,6 +5,8 @@ import { observer } from 'mobx-react'
 import {exportBackToMakerDao} from '../lib/Actions'
 import Loading from "./action-panels/Loading";
 import { useHistory } from "react-router-dom";
+import EventBus from "../lib/EventBus";
+import { setTimeout } from "timers";
 
 const ExportBtn = styled.div`
     border-radius: 6px;
@@ -80,6 +82,12 @@ const LeavUs = observer(props => {
     const [hash, setHash] = useState("")
     const history = useHistory()
 
+    const refreshUserInfo = () => {
+        [0, 1500, 5000, 1900, 3000].forEach(timeOut => {
+            setTimeout(()=> EventBus.$emit("get-user-info"), timeOut)
+        })
+    }
+
     const reset = ()=> {
         setTimeout(()=> {
             setDone(false)
@@ -103,8 +111,9 @@ const LeavUs = observer(props => {
             } 
             setErrorMsg("")
             setWating(true)
-            const recipt = await exportBackToMakerDao(setHash)
+            await exportBackToMakerDao(setHash)
             setDone(true)
+            refreshUserInfo()
             reset()
         }catch (err){
             setTxErr(err)
