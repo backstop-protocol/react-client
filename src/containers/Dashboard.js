@@ -9,8 +9,6 @@ import * as B from "../lib/bInterface";
 import { doApiAction, setUserInfo } from "../lib/Actions";
 import EventBus from "../lib/EventBus";
 import ModalContainer from "../components/ModalContainer";
-import LeavUs from "../components/LeaveUs";
-import * as qs from "qs";
 
 let timeout;
 
@@ -84,7 +82,6 @@ export default class Dashboard extends Component {
   render() {
     const { userInfo, loggedIn, showConnect } = this.state;
     const { current, handleItemChange, history } = this.props;
-    const params = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
 
     return (
       <div className="App">
@@ -94,6 +91,7 @@ export default class Dashboard extends Component {
           current={current}
           handleItemChange={handleItemChange}
           history={history}
+          showConnect={this.onShowConnect}
           initialState="maker"
         />
         <div className="content">
@@ -118,11 +116,7 @@ export default class Dashboard extends Component {
               showConnect={this.onShowConnect}
             />
           </div>
-          {params.export && 
-            <div className="container">
-              <LeavUs userInfo={userInfo} showConnect={this.onShowConnect} history={history}/>
-            </div>
-          }
+          
         </div>
       </div>
     );

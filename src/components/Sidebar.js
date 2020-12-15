@@ -11,6 +11,8 @@ import EventBus from "../lib/EventBus";
 import MigrationModal from "./modals/MigrationModal";
 import { numm } from "../lib/Utils";
 import MigrationButton from "./action-panels/MigrationButton";
+import LeavUs from "../components/LeaveUs";
+import * as qs from "qs";
 
 export default class Sidebar extends Component {
   state = {
@@ -34,15 +36,16 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    const { userInfo, history } = this.props;
+    const { userInfo, history, showConnect } = this.props;
     const { selectedItem } = this.state;
+    const params = qs.parse(history.location.search, { ignoreQueryPrefix: true })
 
     return (
       <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
         <div className="ln"> </div>
         <div className="sidebar-content">
-          {userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
+          { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
             <div>
               <div className="cdp-convert">
                 <MigrationButton />
@@ -68,6 +71,11 @@ export default class Sidebar extends Component {
               <div className="ln"> </div>
             </div>
           )}
+          {params.export && 
+            <div className="container">
+              <LeavUs userInfo={userInfo} showConnect={showConnect} history={history}/>
+            </div>
+          }
           <div className="products">
             <div
               className={`product link-accesible ${
