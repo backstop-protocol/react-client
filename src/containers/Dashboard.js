@@ -116,7 +116,6 @@ export default class Dashboard extends Component {
               showConnect={this.onShowConnect}
             />
           </div>
-          
         </div>
       </div>
     );
