@@ -73,12 +73,12 @@ class MainStore {
             ]
             let [{data: data1}, {data: data2}] = await Promise.all(dataPromises)
             data1 = data1['tokenData']['ETH-A']
-            this.makerPriceFeedPrice = data1.price
-            this.makerPriceFeedPriceNextPrice = data1.futurePrice
+            this.makerPriceFeedPrice = parseFloat(data1.price).toFixed(2)
+            this.makerPriceFeedPriceNextPrice = parseFloat(data1.futurePrice).toFixed(2)
             this.defiexploreLastUpdate = data1.updatedAt  
             this.coinMarketCapLastUpdate = data2.status.timestamp
             data2 = data2['data']['cryptoTopSearchRanks'].filter(c=> c.symbol === 'ETH')[0]
-            this.ethMarketPrice = data2.priceChange.price.toFixed(2)    
+            this.ethMarketPrice = parseFloat(data2.priceChange.price).toFixed(2)    
         }catch (err){
             console.error(err)
         } 
