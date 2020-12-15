@@ -1,25 +1,37 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
-import Flex from "styled-flex-component";
+import Flex, {FlexItem} from "styled-flex-component";
 import { observer } from 'mobx-react'
 import {exportBackToMakerDao} from '../lib/Actions'
 import Loading from "./action-panels/Loading";
 import { useHistory } from "react-router-dom";
+import EventBus from "../lib/EventBus";
+import { setTimeout } from "timers";
 
 const ExportBtn = styled.div`
-    height: 72px;
-    min-width: 300px;   
-    border-radius: 5px;
-    background-color: red;
-    color: darkred;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    letter-spacing: 0.9px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 16px;
-    font-weight: 600;
+    border-radius: 6px;
+    background-color: rgba(31, 173, 92, 0.2);
+    height: 45px;
+    width: 100%;
+    padding: 12px;
+    font-family: grotesk-display, sans-serif;
+    font-size: 14px;
+    font-weight: 550;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.7px;
+    color: #17ab57;
+    white-space: nowrap;
+    :hover{
+        cursor: pointer;
+    }
+`
+
+const Line = styled.div`
+    margin: 30px 0;
+    background-color: rgba(100, 118, 134, 0.3);
+    height: 1px;
 `
 
 const ErrMsg = styled.div`
@@ -33,15 +45,33 @@ const Centerd = styled.a`
     display: flex;
     height: 100%;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: row;
 `
 
 const OverideBorder = styled.div`
-    min-height: 200px;
+    margin: 0 20px;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .currency-action-panel {
         border: none;
     }
+`
+
+const ExportIcon = styled.img`
+    margin-left: 14px;
+    width: 16px;
+    height: 16px;
+`
+
+const Text = styled.div`
+    color: #647686;
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.29;
+    letter-spacing: 0.88px;
 `
 
 const LeavUs = observer(props => {
@@ -51,6 +81,12 @@ const LeavUs = observer(props => {
     const [txErr, setTxErr] = useState(false)
     const [hash, setHash] = useState("")
     const history = useHistory()
+
+    const refreshUserInfo = () => {
+        [0, 1500, 5000, 1900, 3000].forEach(timeOut => {
+            setTimeout(()=> EventBus.$emit("get-user-info"), timeOut)
+        })
+    }
 
     const reset = ()=> {
         setTimeout(()=> {
@@ -75,8 +111,9 @@ const LeavUs = observer(props => {
             } 
             setErrorMsg("")
             setWating(true)
-            const recipt = await exportBackToMakerDao(setHash)
+            await exportBackToMakerDao(setHash)
             setDone(true)
+            refreshUserInfo()
             reset()
         }catch (err){
             setTxErr(err)
@@ -86,21 +123,30 @@ const LeavUs = observer(props => {
 
     return (
         <OverideBorder>   
-            <Flex full justifyStart column alignCenter>
+            <Flex full justifyBetween column contentStretch alignCenter>
                 { !wating  && 
-                    <React.Fragment>
+                    <div>
                         <ExportBtn onClick={migrate}>
                             <Centerd>
-                                export back to Maker
+                                EXPORT TO MAKER
+                                <ExportIcon src={require("../assets/export-icon.svg")} />
                             </Centerd>
                         </ExportBtn>
                         <ErrMsg>{errorMsg}</ErrMsg>
-                    </React.Fragment>
+                        <Text>
+                            Export your Vault
+                            from B.Protocol system
+                            to MakerDAO
+                        </Text>
+                    </div>
                 }
                 { wating && 
-                    <Loading style={{ border: 'none'}} hash={hash} actioning={'Exporting your Vault to MakerDAO'} value={''} currency={''} completed={done} failed={txErr} />
+                    <FlexItem grow>
+                        <Loading blackBg={true} hash={hash} actioning={'Exporting your Vault to MakerDAO'} value={''} currency={''} completed={done} failed={txErr} />
+                    </FlexItem>
                 }
             </Flex>
+            <Line/>
         </OverideBorder>
     )
 })
