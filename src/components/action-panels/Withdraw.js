@@ -47,7 +47,6 @@ export default class Withdraw extends Component {
 
     setMax = () => {
         const {userInfo} = this.props
-        debugger
         const val = userInfo.bCdpInfo.ethDeposit.toString();
         const res = this.props.onPanelInput(val);
         if (res !== false) {
@@ -60,7 +59,7 @@ export default class Withdraw extends Component {
 
         const {invalid, val, error} = this.state;
         const noDaiDebt = this.props.userInfo.bCdpInfo.daiDebt === 0
-        
+
         return (
             <div className="currency-action-panel">
                 <h2>Withdraw</h2>
