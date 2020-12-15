@@ -45,16 +45,29 @@ export default class Withdraw extends Component {
         }
     };
 
+    setMax = () => {
+        const {userInfo} = this.props
+        debugger
+        const val = userInfo.bCdpInfo.ethDeposit.toString();
+        const res = this.props.onPanelInput(val);
+        if (res !== false) {
+            this.setState({val: res});
+            this.validate(res);
+        }
+    };
+
     render() {
 
         const {invalid, val, error} = this.state;
-
+        const noDaiDebt = this.props.userInfo.bCdpInfo.daiDebt === 0
+        
         return (
             <div className="currency-action-panel">
                 <h2>Withdraw</h2>
                 <p>How much ETH would you like to withdraw?</p>
                 <div className="currency-input">
                     <div className="tooltip-container">
+                        {noDaiDebt && <div className="set-max" onClick={this.setMax}>Set Max</div>}
                         <input type="text" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
                         {error && <Tooltip bottom={true} className={'warning'}>{error}</Tooltip>}
                     </div>
