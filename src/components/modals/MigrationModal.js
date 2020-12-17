@@ -40,7 +40,7 @@ export default class MigrationModal extends Component {
             <div className="migrate">
                 <h2>Import your Vault</h2>
                 <div><br></br>By importing your MakerDAO Vault you give priority to B.Protocol in the liquidation process</div>
-                <div>The Vault remains under your full control, and will start accumulate user rating</div>
+                <div>The Vault remains under your full control, and will start accumulate a user score</div>
                 <div><br></br>Read the risks of using B.Protocol</div>
                 <div><b>B.Protocol does not protect you from liquidations</b></div>
                 <div className="migration-drawing">
