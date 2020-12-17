@@ -67,7 +67,7 @@ const LiquidationPrice = observer(
             const ethBalance = userInfo ? chop4(userInfo.userWalletInfo.ethBalance)  : 0;
             const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance) : 0;
             const liquidationPrice = getLiquidationPrice(ethBalance, daiBalance)
-            const collateralRatio = (((userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100).toFixed(1)
+            const collateralRatio = (((userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100).toFixed(2)
 
             return (
                 <LpContainer >
@@ -85,7 +85,7 @@ const LiquidationPrice = observer(
                                                     <div> ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)} </div>
                                                 </ToolTipLine>
                                                 <ToolTipLine>
-                                                    <div> Collateral ratio: </div>
+                                                    <div> Collateralization ratio: </div>
                                                     <div> {collateralRatio}% </div>
                                                 </ToolTipLine>
                                                 <ToolTipTitle>
