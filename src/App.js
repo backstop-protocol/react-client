@@ -3,6 +3,8 @@ import "./style.scss";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Dashboard from "./containers/Dashboard";
 import AppError from "./components/AppError";
+import NotificationsContainer from "./components/style-components/NotificationsContainer";
+import AppAlert from "./components/AppAlert";
 import FAQ from "./containers/FAQ";
 import TermsOfUse from "./containers/Terms";
 import Risk from "./containers/Risk";
@@ -15,7 +17,10 @@ function App() {
 
   return (
     <div className="App">
-      <AppError />
+      <NotificationsContainer>
+        <AppError />
+        <AppAlert />
+      </NotificationsContainer>
       <Router>
         <Route exact path="/app" component={Dashboard} />
         <Route exact path="/app/faq" component={FAQ} />

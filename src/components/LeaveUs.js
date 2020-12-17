@@ -7,6 +7,7 @@ import Loading from "./action-panels/Loading";
 import { useHistory } from "react-router-dom";
 import EventBus from "../lib/EventBus";
 import { setTimeout } from "timers";
+import {refreshUserInfo} from '../lib/Actions'
 
 const ExportBtn = styled.div`
     border-radius: 6px;
@@ -81,12 +82,6 @@ const LeavUs = observer(props => {
     const [txErr, setTxErr] = useState(false)
     const [hash, setHash] = useState("")
     const history = useHistory()
-
-    const refreshUserInfo = () => {
-        [0, 1500, 5000, 1900, 3000].forEach(timeOut => {
-            setTimeout(()=> EventBus.$emit("get-user-info"), timeOut)
-        })
-    }
 
     const reset = ()=> {
         setTimeout(()=> {
