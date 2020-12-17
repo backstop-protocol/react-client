@@ -64,7 +64,7 @@ export function checkForUnlockedEth() {
 }
 
 export async function claimUnlockedEth() {
-    try{
+    try {
         EventBus.$emit('app-alert', 'claim unlocked ETH pending')
         const action = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, originalUserInfo.bCdpInfo.unlockedEth)
         await ApiAction(action, user, web3, 0)
