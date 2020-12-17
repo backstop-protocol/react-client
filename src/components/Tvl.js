@@ -79,13 +79,16 @@ const TvlAmount = styled.div`
     font-style: normal;
     font-size: 42px;
     color: #0b0412;
+    min-width: 294px;
 
     @media ${device.largeLaptop} {
         font-size: 32px;
+        min-width: 139px;
     }
 
     @media ${device.laptop} {
         font-size: 30px;
+        min-width: 212px;
     }
 `
 
