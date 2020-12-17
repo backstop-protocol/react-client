@@ -59,11 +59,11 @@ const RiskContent = () => {
         Security audits do not eliminate risks completely. Please only supply
         funds that you can afford and willing to lose.
         </p>
-      <h4>User Rating and rewards</h4>
+      <h4>User Score and rewards</h4>
       <p className="risk-item-content-text">
         The protocol was designed with intention to keep user funds safe, and
         under user custody (unless the users reached a liquidation state).
-        However, the user Rating and the proceed sharing scheme comes without
+        However, the user score and the proceed sharing scheme comes without
         strong guarantees,
         <br />
         and the user should consider it only as a potential bonus that might not
@@ -73,7 +73,7 @@ const RiskContent = () => {
         time by the liquidators.
         <br />
         <br />
-        The user rating itself is subject to slashing (decrease of score) in the
+        The user score itself is subject to slashing (decrease of score) in the
         cases where someone
         <br />
         increased a deposit or repaid some of the user debt on behalf of the

@@ -86,7 +86,7 @@ export default class GlobalStats extends Component {
                         </div>
                     </div>
                     <div className="right">
-                        <h2>Score
+                        <h2>User Score
                             <span className="tooltip-container">
                                 <Tooltip>
                                     <small>Total Rating</small>
