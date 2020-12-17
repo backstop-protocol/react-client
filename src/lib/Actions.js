@@ -69,7 +69,7 @@ export async function claimUnlockedEth() {
         const action = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, originalUserInfo.bCdpInfo.unlockedEth)
         await ApiAction(action, user, web3, 0)
         refreshUserInfo()
-    } catch (err){
+    } catch (err) {
         checkForUnlockedEth()
         throw err
     }
