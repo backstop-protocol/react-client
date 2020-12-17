@@ -17,7 +17,6 @@ let networkId = null;
 
 export const refreshUserInfo = () => {
     [0, 1500, 5000, 1900, 3000].forEach(timeOut => {
-        debugger
         setTimeout(()=> EventBus.$emit("get-user-info"), timeOut)
     })
 }
@@ -55,7 +54,6 @@ export function setUserInfo(u, w3, id, info, orgInfo) {
 }
 
 export function checkForUnlockedEth() {
-    debugger
     if(userInfo && userInfo.bCdpInfo && userInfo.bCdpInfo.unlockedEth){
         const eth = userInfo.bCdpInfo.unlockedEth.toFixed(4)
         const msg = `your ETH vault auction is completed. you have ${eth} ETH to claim`
@@ -66,7 +64,6 @@ export function checkForUnlockedEth() {
 }
 
 export async function claimUnlockedEth() {
-    debugger
     try{
     EventBus.$emit('app-alert', 'claim unlocked ETH pending')
     const action = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, originalUserInfo.bCdpInfo.unlockedEth)
