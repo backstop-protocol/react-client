@@ -55,7 +55,7 @@ export function setUserInfo(u, w3, id, info, orgInfo) {
 }
 
 export function checkForLiquidation() {
-    if(userInfo && userInfo.bCdpInfo && userInfo.bCdpInfo.ethDeposit == 0 && userInfo.bCdpInfo.expectedDebtMissmatch){
+    if(userInfo && userInfo.bCdpInfo && userInfo.bCdpInfo.ethDeposit == 0 && userInfo.bCdpInfo.expectedDebtMissmatch) {
         const msg = 'Your Vault might be externally liquidated now'
         EventBus.$emit('app-alert', msg)
     }
