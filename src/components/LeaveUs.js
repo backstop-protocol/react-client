@@ -88,7 +88,7 @@ const LeavUs = observer(props => {
             setDone(false)
             setTxErr(false)
             setWating(false)
-            history.push('/app')
+            //history.push('/app')
         }, 2500)
     }
 
