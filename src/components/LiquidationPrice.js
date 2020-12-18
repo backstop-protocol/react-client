@@ -64,9 +64,7 @@ const LiquidationPrice = observer(
         render () {
 
             const {userInfo} = this.props;
-            const ethBalance = userInfo ? chop4(userInfo.userWalletInfo.ethBalance)  : 0;
-            const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance) : 0;
-            const liquidationPrice = getLiquidationPrice(ethBalance, daiBalance)
+            const liquidationPrice = getLiquidationPrice(0, 0)
             const collateralRatio = (((userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100).toFixed(2)
 
             return (
