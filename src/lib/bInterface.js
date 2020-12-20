@@ -64,20 +64,16 @@ function getAddress(name, networkId) {
 }
 
 export const getUserInfo = function(web3, networkId, user) {
-  try{
-    const infoContract = new web3.eth.Contract(infoAbi,getAddress("INFO_ADDRESS",networkId))
-    return infoContract.methods.getInfo(user,
-                                        ETH_ILK,
-                                        getAddress("BCDP_MANGER", networkId),
-                                        getAddress("CDP_MANAGER", networkId),
-                                        getAddress("GET_CDPS", networkId),
-                                        getAddress("MCD_VAT", networkId),
-                                        getAddress("MCD_SPOT", networkId),
-                                        getAddress("PROXY_REGISTRY", networkId),
-                                        getAddress("JAR", networkId)).call({gasLimit:10e6})
-    } catch (err){
-      console.log(err)
-    }
+  const infoContract = new web3.eth.Contract(infoAbi,getAddress("INFO_ADDRESS",networkId))
+  return infoContract.methods.getInfo(user,
+                                      ETH_ILK,
+                                      getAddress("BCDP_MANGER", networkId),
+                                      getAddress("CDP_MANAGER", networkId),
+                                      getAddress("GET_CDPS", networkId),
+                                      getAddress("MCD_VAT", networkId),
+                                      getAddress("MCD_SPOT", networkId),
+                                      getAddress("PROXY_REGISTRY", networkId),
+                                      getAddress("JAR", networkId)).call({gasLimit:10e6})
 }
 
 export const firstDeposit = function(web3, networkId, user) {

@@ -40,6 +40,7 @@ export default class Dashboard extends Component {
   };
 
   getUserInfo = async () => {
+    try{
     let userInfo = await B.getUserInfo(this.web3, this.networkType, this.state.user);
     const orgInfo = userInfo;
     userInfo = ApiHelper.Humanize(userInfo, this.web3);
@@ -48,6 +49,10 @@ export default class Dashboard extends Component {
     setUserInfo(this.state.user, this.web3, this.networkType, userInfo, orgInfo);
     console.log(userInfo);
     this.setState({ userInfo });
+    } catch (err) {
+      debugger
+      console.log(err)
+    }
   };
 
   onAction = async (action, value, onHash) => {
