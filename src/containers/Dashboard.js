@@ -40,14 +40,18 @@ export default class Dashboard extends Component {
   };
 
   getUserInfo = async () => {
-    let userInfo = await B.getUserInfo(this.web3, this.networkType, this.state.user);
-    const orgInfo = userInfo;
-    userInfo = ApiHelper.Humanize(userInfo, this.web3);
+    try {
+      let userInfo = await B.getUserInfo(this.web3, this.networkType, this.state.user);
+      const orgInfo = userInfo;
+      userInfo = ApiHelper.Humanize(userInfo, this.web3);
 
-    //const ok = (this.web3.utils.toBN(userInfo.userWalletInfo.daiAllowance).toString(16) === "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
-    setUserInfo(this.state.user, this.web3, this.networkType, userInfo, orgInfo);
-    console.log(userInfo);
-    this.setState({ userInfo });
+      //const ok = (this.web3.utils.toBN(userInfo.userWalletInfo.daiAllowance).toString(16) === "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
+      setUserInfo(this.state.user, this.web3, this.networkType, userInfo, orgInfo);
+      console.log(userInfo);
+      this.setState({ userInfo });
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   onAction = async (action, value, onHash) => {
@@ -91,6 +95,7 @@ export default class Dashboard extends Component {
           current={current}
           handleItemChange={handleItemChange}
           history={history}
+          showConnect={this.onShowConnect}
           initialState="maker"
         />
         <div className="content">

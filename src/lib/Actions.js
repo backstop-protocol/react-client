@@ -15,6 +15,12 @@ let user = null;
 let web3 = null;
 let networkId = null;
 
+export const refreshUserInfo = () => {
+    [0, 1500, 5000, 1900, 3000].forEach(timeOut => {
+        setTimeout(()=> EventBus.$emit("get-user-info"), timeOut)
+    })
+}
+
 function increaseABit(number) {
     return parseInt(1.2 * number);
 }
@@ -44,6 +50,37 @@ export function setUserInfo(u, w3, id, info, orgInfo) {
     networkId = id;
     userInfo = info;
     originalUserInfo = orgInfo;
+    checkForUnlockedEth()
+    checkForLiquidation()
+}
+
+export function checkForLiquidation() {
+    if(userInfo && userInfo.bCdpInfo && userInfo.bCdpInfo.ethDeposit == 0 && userInfo.bCdpInfo.expectedDebtMissmatch) {
+        const msg = 'Your Vault might be externally liquidated now'
+        EventBus.$emit('app-alert', msg)
+    }
+}
+
+export function checkForUnlockedEth() {
+    if(userInfo && userInfo.bCdpInfo && userInfo.bCdpInfo.unlockedEth) {
+        const eth = userInfo.bCdpInfo.unlockedEth.toFixed(4)
+        const msg = `your ETH vault auction is completed. you have ${eth} ETH to claim`
+        const btn = 'claim'
+        const btnAction = claimUnlockedEth
+        EventBus.$emit('app-alert', msg, btn, btnAction)
+    }
+}
+
+export async function claimUnlockedEth() {
+    try {
+        EventBus.$emit('app-alert', 'claim unlocked ETH pending')
+        const action = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, originalUserInfo.bCdpInfo.unlockedEth)
+        await ApiAction(action, user, web3, 0)
+        refreshUserInfo()
+    } catch (err) {
+        checkForUnlockedEth()
+        throw err
+    }
 }
 
 export function isRepayUnlocked() {
@@ -63,6 +100,17 @@ export async function migrateMakerDao() {
             web3,
             0
         );
+    }
+}
+
+export async function exportBackToMakerDao(onHash) {
+    try{
+        const exportCdpBackToMakerDao = B.exportFresh(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp)
+        // wrapping the transactions with an async transaction validator
+        return await ApiAction(exportCdpBackToMakerDao, user, web3, 0, onHash)
+    } catch (err){
+        console.error('exportBackToMakerDao function failed: failed to export user CDP back to maker ')
+        throw(err)
     }
 }
 

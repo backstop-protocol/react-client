@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const FAQContent = () => {
   return (
@@ -14,7 +15,7 @@ const FAQContent = () => {
       <h4>2. As a lending platform user, what should I do with B.Protocol?</h4>
       <p className="item-content-text">
         <strong>A. </strong> B.Protocol provides you an alternative interface to MakerDAO (and soon Compound Aave),
-        which enables you to share liquidation proceeds, and accumulate user rating.
+        which enables you to share liquidation proceeds, and accumulate a user score.
       </p>
 
       <h4>3. Were the smart contracts audited?</h4>
@@ -33,7 +34,7 @@ const FAQContent = () => {
         </span>
         <br />
         <strong>B.</strong>Manage your vault (Deposit ETH, borrow DAI etc) via B.Protocol interface. <br />
-        <strong>C.</strong>Accumulate user rating and share the liquidation proceeds after 6 months period.
+        <strong>C.</strong>Accumulate a user score and share the liquidation proceeds after 6 months period.
       </p>
 
       <h4>5. What is the B.Protocol Rating Score?</h4>
@@ -81,6 +82,14 @@ const FAQContent = () => {
         <strong>A. </strong>True. No pre-mining to anyone. Not VCs, Not devs, No
         one. B. Protocol has a real use case and a real added value
         for its users, on both sides - Liquidators as well as platform users.
+      </p>
+      <h4>
+      10. B.Protocol is great, but what if I want to export my Vault back to MakerDAO CDP manager (Oasis)?
+      </h4>
+      <p className="item-content-text">
+        <strong>A. </strong>You can export your Vault back to MakerDAO at any time, 
+        and still maintain your accumulated score. 
+        Simply go <Link to="/app?export=true">here</Link> and click the export button.
       </p>
     </p>
   );

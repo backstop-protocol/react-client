@@ -1,10 +1,12 @@
 import React, {Component} from "react";
-import InfoIcon from '../assets/i-icon.svg';
-import DollarIcon from '../assets/dollar-icon.svg';
+import InfoIcon from "../assets/i-icon.svg";
+import DollarIcon from "../assets/dollar-icon.svg";
 import Pulser from "./Pulser";
 import Ticker from "./Ticker";
 import Tooltip from "./Tooltip";
 import {numm} from "../lib/Utils";
+import mainStore from "../stores/main.store"
+import {Observer} from "mobx-react"
 
 const ratingFactor = 24 * 60 * 60 * 1000;
 const ratingProgressTime = 3000;
@@ -50,7 +52,7 @@ export default class GlobalStats extends Component {
 
     updateUserRating = () => {
         const currentRating = this.state.currentRating;
-        const nextRating = parseFloat(currentRating * 1 + 2 * this.state.ratingProgress * ratingProgressTime / 1000);
+        const nextRating = parseFloat(currentRating * 1 + this.state.ratingProgress * ratingProgressTime / 1000);
         this.setState({currentRating: nextRating});
     };
 
@@ -66,16 +68,25 @@ export default class GlobalStats extends Component {
                         <h2>
                             Jar Balance
                             <span className="tooltip-container">
-                                <Tooltip>Jar Balance</Tooltip>
+                                <Observer>
+                                    {() => 
+                                        <Tooltip>{mainStore.jarBalanceEth} ETH</Tooltip> 
+                                    }     
+                                </Observer>
                                 <img className="info-icon" src={InfoIcon} />
                             </span>
                         </h2>
                         <div className="value">
-                            $<Ticker value={userInfo?(userInfo.userRatingInfo.jarBalance === 0 ? 10000 : parseFloat(userInfo.userRatingInfo.jarBalance * userInfo.miscInfo.spotPrice).toFixed(0)) :10000} />
+                            $
+                            <Observer>
+                                {() =>
+                                    <Ticker value={ mainStore.jarBalanceUsd} />
+                                }
+                            </Observer>
                         </div>
                     </div>
                     <div className="right">
-                        <h2>User Rating
+                        <h2>User Score
                             <span className="tooltip-container">
                                 <Tooltip>
                                     <small>Total Rating</small>
