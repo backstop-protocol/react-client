@@ -28,7 +28,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src",
+    "check": "prettier --check ./src",
+    "format": "prettier --write ./src ./test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -48,18 +51,8 @@
   "devDependencies": {
     "eslint": "^7.16.0",
     "eslint-plugin-react": "^7.22.0",
-    "husky": "^4.3.6",
     "node-sass": "^4.14.1",
-    "prettier": "2.2.1",
+    "prettier": "^2.2.1",
     "sass-loader": "^10.0.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
   }
 }
