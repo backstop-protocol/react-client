@@ -99,8 +99,8 @@ const LiquidationPrice = observer(
                                                     <div> ${mainStore.makerPriceFeedPriceNextPrice} </div>
                                                 </ToolTipLine>
                                                 <ToolTipTitle>
-                                                    <span> coinmarketcap.com </span>
-                                                    <span> {moment(mainStore.coinMarketCapLastUpdate).fromNow()} </span>
+                                                    <span> coinbase.com </span>
+                                                    <span> {moment(mainStore.coinbaseLastUpdate).fromNow()} </span>
                                                 </ToolTipTitle>
                                                 <ToolTipLine>
                                                     <div> Market price: </div>

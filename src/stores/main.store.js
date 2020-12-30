@@ -25,6 +25,8 @@ class MainStore {
     makerPriceFeedPriceNextPrice = ""
     defiexploreLastUpdate = ""
     ethMarketPrice = ""
+    coinbaseLastUpdate = ""
+    
 
     constructor (){
         makeAutoObservable(this)
@@ -69,16 +71,17 @@ class MainStore {
         try{
             const dataPromises = [
                 axios.get('https://defiexplore.com/api/stats/globalInfo'),
-                axios.get('https://api.coinmarketcap.com/data-api/v3/topsearch/rank')
+                axios.get('https://www.coinbase.com/api/v2/assets/prices/ethereum?base=USD')
             ]
             let [{data: data1}, {data: data2}] = await Promise.all(dataPromises)
+            debugger
             data1 = data1['tokenData']['ETH-A']
             this.makerPriceFeedPrice = parseFloat(data1.price).toFixed(2)
             this.makerPriceFeedPriceNextPrice = parseFloat(data1.futurePrice).toFixed(2)
             this.defiexploreLastUpdate = data1.updatedAt  
-            this.coinMarketCapLastUpdate = data2.status.timestamp
-            data2 = data2['data']['cryptoTopSearchRanks'].filter(c=> c.symbol === 'ETH')[0]
-            this.ethMarketPrice = parseFloat(data2.priceChange.price).toFixed(2)    
+            this.coinbaseLastUpdate = data2.data.prices.latest_price.timestamp
+            data2 = data2.data.prices.latest
+            this.ethMarketPrice = parseFloat(data2).toFixed(2)    
         }catch (err){
             console.error(err)
         } 
