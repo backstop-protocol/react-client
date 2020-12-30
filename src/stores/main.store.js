@@ -27,7 +27,6 @@ class MainStore {
     ethMarketPrice = ""
     coinbaseLastUpdate = ""
     
-
     constructor (){
         makeAutoObservable(this)
         this.fetchGeneralDappData()
@@ -74,7 +73,6 @@ class MainStore {
                 axios.get('https://www.coinbase.com/api/v2/assets/prices/ethereum?base=USD')
             ]
             let [{data: data1}, {data: data2}] = await Promise.all(dataPromises)
-            debugger
             data1 = data1['tokenData']['ETH-A']
             this.makerPriceFeedPrice = parseFloat(data1.price).toFixed(2)
             this.makerPriceFeedPriceNextPrice = parseFloat(data1.futurePrice).toFixed(2)
