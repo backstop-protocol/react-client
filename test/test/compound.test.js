@@ -17,7 +17,7 @@ contract("compound interface", function (accounts) {
 		await txObject.send({ value: depositVal, from: user, gasLimit: "1000000" })
 	})
 
-	afterEach(async () => {})
+	afterEach(async () => { })
 
 	it("deposits ETH and get cETH", async function () {
 		const user = accounts[1]
@@ -257,7 +257,7 @@ contract("compound interface", function (accounts) {
 		const amount = toWei("1") // 2 ETH
 		const txObject = B.withdraw(web3, networkId, amount, "cDAI")
 		const gasLimit = await B.gasCalc(networkId, txObject, { from: user })
-		await txObject.send({ from: user, gasLimit })
+		await txObject.send({ from: user, gasLimit });
 
 		const userInfoAfter = await B.getCompUserInfo(web3, networkId, user)
 		const {

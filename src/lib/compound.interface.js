@@ -6,8 +6,7 @@ import { addresses as kovanAddresses } from "./compoundConfig/kovanAddress"
 import { compUserInfoAbi } from "./compoundConfig/compUserInfoAbi"
 
 const compUserInfoAddress = "0x48c380b79F3Ac7B7DA43e76A742d2AC5235439D4"
-const maximum =
-  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 
 const getTokenByAddress = (address, networkId) => {
 	const networkAddresses = networkId == 42 ? kovanAddresses : {}
@@ -28,7 +27,7 @@ const getAbi = (name, networkId) => {
 const getAbiAndAddress = (name, networkId) => {
 	return {
 		abi: getAbi(name, networkId),
-		address: getAddress(name, networkId),
+		address: getAddress(name, networkId)
 	}
 }
 
@@ -56,9 +55,7 @@ export const depositToken = (web3, networkId, tokenName, amount) => {
 
 export const enterMarket = (web3, networkId, tokenNames) => {
 	const comptroller = getContract(web3, networkId, "Comptroller")
-	const addresses = tokenNames.map(
-		(name) => getAbiAndAddress(name, networkId).address
-	)
+	const addresses = tokenNames.map((name) => getAbiAndAddress(name, networkId).address)
 	return comptroller.methods.enterMarkets(addresses)
 }
 
@@ -87,12 +84,7 @@ export const withdraw = (web3, networkId, amount, tokenName) => {
 	return cToken.methods.redeemUnderlying(amount)
 }
 
-export const grantAllowance = (
-	web3,
-	networkId,
-	tokenName,
-	allowance = maximum
-) => {
+export const grantAllowance = (web3, networkId, tokenName, allowance = maximum) => {
 	const erc20Token = getContract(web3, networkId, tokenName)
 	const cTokenName = "c" + tokenName
 	const cTokenAddress = getAddress(cTokenName, networkId)
@@ -103,7 +95,7 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
 	const mapped = {
 		tokenInfo: {},
 		cUser: {},
-		bUser: {},
+		bUser: {}
 	}
 	const tokens = userInfo.tokenInfo.btoken
 	for (let i = 0; i < tokens.length; i++) {
@@ -122,10 +114,7 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
 }
 
 export const getCompUserInfo = async (web3, networkId, user) => {
-	const userInfoContract = new web3.eth.Contract(
-		compUserInfoAbi,
-		compUserInfoAddress
-	)
+	const userInfoContract = new web3.eth.Contract(compUserInfoAbi, compUserInfoAddress)
 	const comptroller = getAddress("Comptroller", networkId)
 	const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller)
 	const gasLimit = await gasCalc(networkId, userInfoTx, {})
