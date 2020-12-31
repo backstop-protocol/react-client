@@ -223,7 +223,7 @@ export const getStats = function (web3, networkId){
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-function toNumber(bignum,web3) {
+export function toNumber(bignum,web3) {
   return Number(web3.utils.fromWei(bignum))
 }
 
@@ -269,6 +269,11 @@ export const verifyDepositInput = function(userInfo,
   // equality is also failure, because ETH is needed for gas
   if(dEth > toNumber(userInfo.userWalletInfo.ethBalance,web3)) return [false, "Amount exceeds wallet balance"]
 
+  const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo, web3)
+  if(debtIsBiggerThanDust){
+    return [false, debtIsBiggerThanDust]
+  }
+
   return checkForActiveLiqudation(userInfo)
 }
 
@@ -277,6 +282,10 @@ export const verifyDepositInput = function(userInfo,
 export const verifyWithdrawInput = function(userInfo,
                                               dEth,
                                               web3) {
+  const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo, web3)
+  if(debtIsBiggerThanDust){
+    return [false, debtIsBiggerThanDust]
+  }
   const dEthMinus = web3.utils.toBN(dEth).mul(web3.utils.toBN(-1))
   dEth = toNumber(dEth,web3)
   if(dEth <= 0) return [false, "Withdraw amount must be positive"]
@@ -333,4 +342,12 @@ export const verifyRepayInput = function(userInfo,
 
 
   return checkForActiveLiqudation(userInfo)
+}
+
+const checkDebtIsBiggerThanDust = (userInfo, web3) => {
+  const dust = toNumber(userInfo.miscInfo.dustInWei, web3)
+  const currentDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3)
+  if (currentDebt <= dust) { 
+    return `the minimum debt Maker requires to preform the operation is ${dust.toString()} DAI`
+  }
 }

@@ -366,6 +366,16 @@ contract('B Interface', function (accounts) {
     assert.equal(msg3a,"vault is being liqudated")
     setLiqudationMock(userInfo, false)
 
+    // mocking lower debt 
+    let originalDebt = userInfo.bCdpInfo.daiDebt
+    const setDebtMock = (debt) => userInfo.bCdpInfo.daiDebt = web3.utils.toWei(debt)
+    setDebtMock("50")
+    const [succ3b, msg3b] = B.verifyDepositInput(userInfo, balanceMinusOne.toString(10),web3)
+    assert(! succ3b, "verifyDepositInput should fail")
+    const dustString = B.toNumber(userInfo.miscInfo.dustInWei, web3).toString()
+    assert.equal(msg3b, `the minimum debt Maker requires to preform the operation is ${dustString} DAI`)
+    setDebtMock(web3.utils.fromWei(originalDebt))
+
     // verify withdraw ETH
     const [succ4,msg4] = B.verifyWithdrawInput(userInfo,web3.utils.toWei("-1"),web3)
     assert(! succ4, "verifyWithdrawInput should failed")
@@ -389,6 +399,14 @@ contract('B Interface', function (accounts) {
     assert(! succ7a, "verifyDepositInput should fail")
     assert.equal(msg7a,"vault is being liqudated")
     setLiqudationMock(userInfo, false)
+
+
+    // low debt sould fail
+    originalDebt = userInfo.bCdpInfo.daiDebt
+    setDebtMock("50")
+    const [succ7b,msg7b] = B.verifyWithdrawInput(userInfo,web3.utils.toWei("0.1"),web3)
+    assert(! succ7b, "verifyWithdrawInput should fail")
+    setDebtMock(web3.utils.fromWei(originalDebt))
 
     // verify borrow dai
     const [succ8,msg8] = B.verifyBorrowInput(userInfo, web3.utils.toWei("-1"),web3)
