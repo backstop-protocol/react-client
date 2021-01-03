@@ -10,10 +10,8 @@ const compUserInfoAddress = "0x48c380b79F3Ac7B7DA43e76A742d2AC5235439D4"
 const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 
 export const getAddress = (name, networkId) => {
-  const networkAddresses = networkId == 42 ? kovanAddresses : {}
-  const { Contracts } = networkAddresses
-  const address = Contracts[name]
-  return address
+  const addresses = networkId == 42 ? kovanAddresses : {}
+  return addresses[name]
 }
 
 export const depositEth = (web3, networkId) => {
@@ -101,11 +99,9 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
 
 export const getCompUserInfo = async (web3, networkId, user) => {
   const userInfoContract = new Contract(compUserInfoAbi, compUserInfoAddress)
-  debugger
   const comptroller = getAddress("Comptroller", networkId)
   const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller)
-  const gasLimit = await gasCalc(networkId, userInfoTx, {})
-  const userInfo = await userInfoTx.call({ gasLimit })
+  const userInfo = await userInfoTx.call({ gasLimit: "10000000" }) 
   return normlizeCompUserInfo(userInfo)
 }
 
@@ -114,8 +110,5 @@ export const increaseABit = (number) => {
 }
 
 export const gasCalc = async (networkId, transaction, transactionArgs) => {
-  // if (networkId == 42) {
-  // 	return "4000000"
-  // }
   return increaseABit(await transaction.estimateGas(transactionArgs))
 }
