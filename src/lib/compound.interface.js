@@ -13,7 +13,12 @@ const getTokenByAddress = (address, networkId) => {
 	const { Contracts } = networkAddresses
 	for (const [contractName, contractAddress] of Object.entries(Contracts)) {
 		if (contractAddress == address) {
-			return contractName
+			debugger
+			return {
+				name: contractName,
+				ABI: getAbi(contractName, networkId),
+				address
+			}
 		}
 	}
 }
@@ -31,9 +36,9 @@ const getAbiAndAddress = (name, networkId) => {
 	}
 }
 
-const getContract = (web3, networkId, name) => {
-	const { abi, address } = getAbiAndAddress(name, networkId)
-	return new web3.eth.Contract(abi, address)
+const getContract = (web3, networkId, address) => {
+	const token = getTokenByAddress(address, networkId)
+	return new web3.eth.Contract(token.ABI, address)
 }
 
 export const getAddress = (name, networkId) => {
@@ -44,50 +49,51 @@ export const getAddress = (name, networkId) => {
 }
 
 export const depositEth = (web3, networkId) => {
-	const cETH = getContract(web3, networkId, "cETH")
+	const cEthAddress = getAddress("cETH", networkId)
+	const cETH = getContract(web3, networkId, cEthAddress)
 	return cETH.methods.mint()
 }
 
-export const depositToken = (web3, networkId, tokenName, amount) => {
-	const cToken = getContract(web3, networkId, tokenName)
+export const depositToken = (web3, networkId, tokenAddress, amount) => {
+	const cToken = getContract(web3, networkId, tokenAddress)
 	return cToken.methods.mint(amount)
 }
 
-export const enterMarket = (web3, networkId, tokenNames) => {
-	const comptroller = getContract(web3, networkId, "Comptroller")
-	const addresses = tokenNames.map((name) => getAbiAndAddress(name, networkId).address)
-	return comptroller.methods.enterMarkets(addresses)
+export const enterMarket = (web3, networkId, tokenAddresses) => {
+	const comptrollerAddress = getAddress("Comptroller", networkId)
+	const comptroller = getContract(web3, networkId, comptrollerAddress)
+	return comptroller.methods.enterMarkets(tokenAddresses)
 }
 
 export const getOpenMarkets = (web3, networkId, user) => {
-	const comptroller = getContract(web3, networkId, "Comptroller")
+	const comptrollerAddress = getAddress("Comptroller", networkId)
+	const comptroller = getContract(web3, networkId, comptrollerAddress)
 	return comptroller.methods.getAssetsIn(user).call()
 }
 
-export const borrowToken = (web3, networkId, amount, tokenName) => {
-	const cToken = getContract(web3, networkId, tokenName)
+export const borrowToken = (web3, networkId, amount, tokenAddress) => {
+	const cToken = getContract(web3, networkId, tokenAddress)
 	return cToken.methods.borrow(amount)
 }
 
 export const repayEth = (web3, networkId) => {
-	const cETH = getContract(web3, networkId, "cETH")
+	const cEthAddress = getAddress("cETH", networkId)
+	const cETH = getContract(web3, networkId, cEthAddress)
 	return cETH.methods.repayBorrow()
 }
 
-export const repayToken = (web3, networkId, amount, tokenName) => {
-	const cToken = getContract(web3, networkId, tokenName)
+export const repayToken = (web3, networkId, amount, tokenAddress) => {
+	const cToken = getContract(web3, networkId, tokenAddress)
 	return cToken.methods.repayBorrow(amount)
 }
 
-export const withdraw = (web3, networkId, amount, tokenName) => {
-	const cToken = getContract(web3, networkId, tokenName)
+export const withdraw = (web3, networkId, amount, tokenAddress) => {
+	const cToken = getContract(web3, networkId, tokenAddress)
 	return cToken.methods.redeemUnderlying(amount)
 }
 
-export const grantAllowance = (web3, networkId, tokenName, allowance = maximum) => {
-	const erc20Token = getContract(web3, networkId, tokenName)
-	const cTokenName = "c" + tokenName
-	const cTokenAddress = getAddress(cTokenName, networkId)
+export const grantAllowance = (web3, networkId, cTokenAddress, uderlying, allowance = maximum) => {
+	const erc20Token = getContract(web3, networkId, uderlying)
 	return erc20Token.methods.approve(cTokenAddress, allowance)
 }
 
@@ -127,8 +133,8 @@ export const increaseABit = (number) => {
 }
 
 export const gasCalc = async (networkId, transaction, transactionArgs) => {
-	// if(networkId == 42){
-	//   return "4000000"
+	// if (networkId == 42) {
+	// 	return "4000000"
 	// }
 	return increaseABit(await transaction.estimateGas(transactionArgs))
 }

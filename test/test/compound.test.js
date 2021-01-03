@@ -7,11 +7,15 @@ const { increaseABit } = B
 let networkId
 const Web3 = require("web3")
 const { toWei, toBN, toChecksumAddress } = web3.utils
+let cEthAddress, cDaiAddress, DaiAddress
 
 contract("compound interface", function (accounts) {
 	before("initing", async () => {
 		networkId = await web3.eth.net.getId()
 		console.log({ networkId })
+		cEthAddress = B.getAddress("cETH", networkId)
+		cDaiAddress = B.getAddress("cDAI", networkId)
+		daiAddress = B.getAddress("DAI", networkId)
 		// Vodo
 		console.log("voodoo!")
 		const user = accounts[9]
@@ -24,7 +28,6 @@ contract("compound interface", function (accounts) {
 
 	it("deposits ETH and get cETH", async function () {
 		const user = accounts[1]
-		const cEthAddress = B.getAddress("cETH", networkId)
 		const value = toWei("50") // 2 ETH
 		const txObject = B.depositEth(web3, networkId)
 		const userInfoBefore = await B.getCompUserInfo(web3, networkId, user)
@@ -45,19 +48,18 @@ contract("compound interface", function (accounts) {
 
 		assert(
 			toBN(balanceBefore).lt(toBN(balanceAfter)),
-			"expected cETH balanceBefore the deposit to be lower than cETH balanceAfter teh deposit"
+			"expected cETH balanceBefore the deposit to be lower than cETH balanceAfter the deposit"
 		)
 	})
 
 	it("borrows ETH", async function () {
 		const user = accounts[1]
-		const cEthAddress = B.getAddress("cETH", networkId)
 		const amount = toWei("2") // 2 ETH
 		const userInfoBefore = await B.getCompUserInfo(web3, networkId, user)
 
 		// console.log("userInfoBefore.bUser[cEthAddress]", userInfoBefore.bUser[cEthAddress])
 		const { ctokenBorrowBalance: BorrowBalanceBefore } = userInfoBefore.bUser[cEthAddress]
-		const txObject = B.borrowToken(web3, networkId, amount, "cETH")
+		const txObject = B.borrowToken(web3, networkId, amount, cEthAddress)
 		const gasLimit = await B.gasCalc(networkId, txObject, { from: user })
 		await txObject.send({ from: user, gasLimit })
 		const userInfoAfter = await B.getCompUserInfo(web3, networkId, user)
@@ -73,7 +75,6 @@ contract("compound interface", function (accounts) {
 
 	it("repays ETH reducing the users borrow balance", async function () {
 		const user = accounts[1]
-		const cEthAddress = B.getAddress("cETH", networkId)
 		const value = toWei("2") // 2 ETH
 		const userInfoBefore = await B.getCompUserInfo(web3, networkId, user)
 		const { ctokenBorrowBalance: BorrowBalanceBefore } = userInfoBefore.bUser[cEthAddress]
@@ -97,12 +98,11 @@ contract("compound interface", function (accounts) {
 
 	it("witdraw ETH", async function () {
 		const user = accounts[1]
-		const cEthAddress = B.getAddress("cETH", networkId)
 		const userInfoBefore = await B.getCompUserInfo(web3, networkId, user)
 		const { underlyingWalletBalance: ethBalanceBefore } = userInfoBefore.bUser[cEthAddress]
 
 		const value = toWei("2") // 2 ETH
-		const txObject = B.withdraw(web3, networkId, value, "cETH")
+		const txObject = B.withdraw(web3, networkId, value, cEthAddress)
 		const gasLimit = await B.gasCalc(networkId, txObject, { from: user })
 		await txObject.send({ from: user, gasLimit })
 		const userInfoAfter = await B.getCompUserInfo(web3, networkId, user)
@@ -121,16 +121,13 @@ contract("compound interface", function (accounts) {
   ============================== */
 	it("enters in to cETH and cDAI  markets", async function () {
 		const user = accounts[1]
-		const cEthAddress = B.getAddress("cETH", networkId)
-		const cDaiAddress = B.getAddress("cDAI", networkId)
-		const value = toWei("0") // 2 ETH
-		const txObject = B.enterMarket(web3, networkId, ["cETH", "cDAI"])
+		debugger
+		const txObject = B.enterMarket(web3, networkId, [cEthAddress, cDaiAddress])
 		const gasLimit = await B.gasCalc(networkId, txObject, {
-			value,
 			from: user
 		})
 
-		await txObject.send({ gasLimit, value, from: user })
+		await txObject.send({ gasLimit, from: user })
 		await mineBlock()
 		// console.log("mine block");
 		const res = await B.getOpenMarkets(web3, networkId, user)
@@ -141,11 +138,10 @@ contract("compound interface", function (accounts) {
 	it("borrows DAI", async function () {
 		const user = accounts[1]
 		const value = toWei("3") // 2 ETH
-		const cDaiAddress = B.getAddress("cDAI", networkId)
 		const userInfoBefore = await B.getCompUserInfo(web3, networkId, user)
 		const { underlyingWalletBalance: daiBalanceBefore } = userInfoBefore.bUser[cDaiAddress]
 
-		const txObject = B.borrowToken(web3, networkId, value, "cDAI")
+		const txObject = B.borrowToken(web3, networkId, value, cDaiAddress)
 		const gasLimit = await B.gasCalc(networkId, txObject, { from: user })
 		await txObject.send({ from: user, gasLimit })
 		const userInfoAfter = await B.getCompUserInfo(web3, networkId, user, gasLimit)
@@ -162,16 +158,15 @@ contract("compound interface", function (accounts) {
 
 	it("deposits DAI and get cDAI", async function () {
 		const user = accounts[1]
-		const cDaiAddress = B.getAddress("cDAI", networkId)
 		const userInfoBefore = await B.getCompUserInfo(web3, networkId, user)
 		const {
 			underlyingWalletBalance: daiBalanceBefore,
 			ctokenBalance: cDaiBefore
 		} = userInfoBefore.bUser[cDaiAddress]
 		const value = toWei("1") // 2 ETH
-		const txObject = B.depositToken(web3, networkId, "cDAI", value)
+		const txObject = B.depositToken(web3, networkId, cDaiAddress, value)
 
-		const allowance = await B.grantAllowance(web3, networkId, "DAI").send({
+		const allowance = await B.grantAllowance(web3, networkId, cDaiAddress, daiAddress).send({
 			from: user
 		})
 		const gasLimit = await B.gasCalc(networkId, txObject, { from: user })
@@ -197,14 +192,13 @@ contract("compound interface", function (accounts) {
 
 	it("repays DAI reducing the users borrow balance", async function () {
 		const user = accounts[1]
-		const cDaiAddress = B.getAddress("cDAI", networkId)
 		const userInfoBefore = await B.getCompUserInfo(web3, networkId, user)
 		const { ctokenBorrowBalance: borrowBefore } = userInfoBefore.bUser[cDaiAddress]
 
 		const value = toWei("1") // 2 ETH
-		const txObject = B.repayToken(web3, networkId, value, "cDAI")
+		const txObject = B.repayToken(web3, networkId, value, cDaiAddress)
 		// console.log("balanceBefore:", balanceBefore)
-		const allowance = await B.grantAllowance(web3, networkId, "DAI").send({
+		const allowance = await B.grantAllowance(web3, networkId, cDaiAddress, daiAddress).send({
 			from: user
 		})
 		const gasLimit = await B.gasCalc(networkId, txObject, { from: user })
@@ -221,7 +215,6 @@ contract("compound interface", function (accounts) {
 
 	it("witdraw DAI", async function () {
 		const user = accounts[1]
-		const cDaiAddress = B.getAddress("cDAI", networkId)
 		const userInfoBefore = await B.getCompUserInfo(web3, networkId, user)
 		const {
 			underlyingWalletBalance: daiBalanceBefore,
@@ -229,7 +222,7 @@ contract("compound interface", function (accounts) {
 		} = userInfoBefore.bUser[cDaiAddress]
 
 		const amount = toWei("1") // 2 ETH
-		const txObject = B.withdraw(web3, networkId, amount, "cDAI")
+		const txObject = B.withdraw(web3, networkId, amount, cDaiAddress)
 		const gasLimit = await B.gasCalc(networkId, txObject, { from: user })
 		await txObject.send({ from: user, gasLimit })
 
