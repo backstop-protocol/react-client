@@ -4,9 +4,10 @@
 import { ABI } from "./compoundConfig/abi"
 import { compUserInfoAbi } from "./compoundConfig/compUserInfoAbi"
 import { addresses as kovanAddresses } from "./compoundConfig/kovanAddress"
+import { toBN, toWei } from "../../test/node_modules/web3-utils"
 
 const { Contract } = web3.eth
-const compUserInfoAddress = "0x48c380b79F3Ac7B7DA43e76A742d2AC5235439D4"
+const compUserInfoAddress = "0x1a9820963c7dc9b798cfdfcef5d27b4f89672b98" //
 const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 
 export const getAddress = (name, networkId) => {
@@ -75,6 +76,13 @@ export const grantAllowance = (web3, networkId, cTokenAddress, uderlying, allowa
   return erc20Token.methods.approve(cTokenAddress, allowance)
 }
 
+export const calcUnderlyingDepositBalance = (cTokenAddress, compUserInfo) => {
+  const { ctokenExchangeRate: cTokenExchangeRate } = compUserInfo.tokenInfo[cTokenAddress]
+  const { ctokenBalance: cTokenBalance } = compUserInfo.bUser[cTokenAddress]
+  const underlyingBalance = toBN(cTokenBalance).mul(toBN(cTokenExchangeRate))
+  return underlyingBalance.div(toBN(toWei("1"))) // dividing by 1e18 in order to clean the number from fractions
+}
+
 export const normlizeCompUserInfo = (userInfo, networkId) => {
   const normalized = {
     tokenInfo: {},
@@ -94,6 +102,7 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
         })
     })
   }
+
   return normalized
 }
 
@@ -101,7 +110,7 @@ export const getCompUserInfo = async (web3, networkId, user) => {
   const userInfoContract = new Contract(compUserInfoAbi, compUserInfoAddress)
   const comptroller = getAddress("Comptroller", networkId)
   const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller)
-  const userInfo = await userInfoTx.call({ gasLimit: "10000000" }) 
+  const userInfo = await userInfoTx.call({ gasLimit: "10000000" })
   return normlizeCompUserInfo(userInfo)
 }
 

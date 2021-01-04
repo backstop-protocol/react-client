@@ -9,6 +9,14 @@ const Web3 = require("web3")
 const { toWei, toBN, toChecksumAddress } = web3.utils
 let cEthAddress, cDaiAddress, DaiAddress
 
+const numbersAreAproximate = (x, y) => {
+  x = toBN(x)
+  y = toBN(y)
+  return (
+    x.mul(toBN("100000")) < y.mul(toBN("100001")) && y.mul(toBN("100000")) < x.mul(toBN("100001"))
+  )
+}
+
 contract("compound interface", function (accounts) {
   before("initing", async () => {
     networkId = await web3.eth.net.getId()
@@ -16,8 +24,7 @@ contract("compound interface", function (accounts) {
     cEthAddress = B.getAddress("cETH", networkId)
     cDaiAddress = B.getAddress("cDAI", networkId)
     daiAddress = B.getAddress("DAI", networkId)
-    // Vodo
-    console.log("voodoo!")
+    // console.log("voodoo!")
     const user = accounts[9]
     const depositVal = toWei("1") // 2 ETH
     const txObject = B.depositEth(web3, networkId)
@@ -45,10 +52,15 @@ contract("compound interface", function (accounts) {
     })
     const userInfoAfter = await B.getCompUserInfo(web3, networkId, user)
     const balanceAfter = userInfoAfter.bUser[cEthAddress].ctokenBalance
+    const UnderlyingDepositBalance = B.calcUnderlyingDepositBalance(cEthAddress, userInfoAfter)
 
     assert(
       toBN(balanceBefore).lt(toBN(balanceAfter)),
       "expected cETH balanceBefore the deposit to be lower than cETH balanceAfter the deposit"
+    )
+    assert(
+      numbersAreAproximate(UnderlyingDepositBalance, value),
+      "cETH underlying deposit balance is proximate to the deposited amount"
     )
   })
 
