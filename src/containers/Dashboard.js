@@ -9,6 +9,7 @@ import * as B from "../lib/bInterface";
 import { doApiAction, setUserInfo } from "../lib/Actions";
 import EventBus from "../lib/EventBus";
 import ModalContainer from "../components/ModalContainer";
+import logo from "../assets/logo-maker-black.svg";
 
 let timeout;
 
@@ -104,6 +105,7 @@ export default class Dashboard extends Component {
             onConnect={this.onConnect}
             showConnect={showConnect}
             history={history}
+            logo={logo}
           />
 
           <div className="container currency-container split">
