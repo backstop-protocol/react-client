@@ -2,6 +2,7 @@ import Web3 from "web3";
 // import * as ApiHelper from "../lib/ApiHelper";
 import React, { Component } from "react";
 import EventBus from '../lib/EventBus';
+import {Link} from "react-router-dom";
 
 let web3;
 
@@ -78,17 +79,17 @@ export default class ConnectButton extends Component {
             <div className="term-text-btn">
               <span>
                 By using bprotocol, you agree to the{" "}
-                <a
-                  onClick={() => this.props.history.push(`/app/terms`)}
+                <Link 
+                  to="/app/terms"
                   style={{
                     color: "#119349",
                     fontStyle: "italic",
                     textDecoration: "none",
                     cursor: "pointer"
-                  }}
+                  }} 
                 >
                   Terms and Conditions
-                </a>
+                </Link>
               </span>
             </div>
 
