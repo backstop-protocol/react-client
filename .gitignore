@@ -27,3 +27,5 @@ pacakge-lock.json
 /test/node_modules
 /test/pacakge-lock.json
 /test/run-tests.bash
+test/ganache-kovan.sh
+.vscode/launch.json
