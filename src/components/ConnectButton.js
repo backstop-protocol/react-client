@@ -1,8 +1,13 @@
+/**
+ * @format
+ */
 import Web3 from "web3";
-// import * as ApiHelper from "../lib/ApiHelper";
 import React, { Component } from "react";
 import EventBus from '../lib/EventBus';
 import {Link} from "react-router-dom";
+import {observer} from "mobx-react"
+import userStore from "../stores/user.store"
+
 
 let web3;
 
@@ -10,13 +15,9 @@ function increaseABit(number) {
   return parseInt(1.1 * Number(number));
 }
 
-export default class ConnectButton extends Component {
+class ConnectButton extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loggedIn: false,
-      accounts: null,
-    };
   }
 
   connect = async () => {
@@ -26,7 +27,7 @@ export default class ConnectButton extends Component {
         return false;
     }
 
-    if (this.state.loggedIn) return false;
+    if (userStore.loggedIn) return false;
 
     web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
@@ -55,23 +56,23 @@ export default class ConnectButton extends Component {
   };
 
   handleAccountsChanged = async (accounts) => {
-    this.setState({ loggedIn: true, accounts });
-    const user = accounts[0];
-
+    const user = accounts[0];    
+    userStore.onConnect(web3, web3.utils.toChecksumAddress(user));// used by compound
+    // used by maker
     if (this.props.onConnect) {
       this.props.onConnect(web3, web3.utils.toChecksumAddress(user));
-    }
+    }    
   };
 
   render() {
-    const { loggedIn, accounts } = this.state;
+    const { loggedIn, user } = userStore
 
     return (
       <div>
         {loggedIn ? (
           <div className={"connect-button" + (loggedIn ? " active" : "")}>
             <div className="btn-inner">
-              <span title={accounts}>{accounts}</span>
+              <span title={user}>{user}</span>
             </div>
           </div>
         ) : (
@@ -105,3 +106,5 @@ export default class ConnectButton extends Component {
     );
   }
 }
+
+export default observer(ConnectButton)
