@@ -4,22 +4,24 @@ import ConnectButton from "./ConnectButton";
 import GlobalStats from "./GlobalStats";
 import BorrowLimit from "./BorrowLimit";
 import Tvl from "./Tvl";
-import Logo from "../assets/logo-maker-black.svg";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
+import userStore from "../stores/user.store"
+import {observer} from "mobx-react"
 
-export default class Header extends Component {
+
+class Header extends Component {
     render() {
 
-        const {info, onConnect, showConnect, history} = this.props;
+        const {info, onConnect, logo, x} = this.props;
 
         return (
             <div className="top-panel">
                 <div className="container">
                     <div className="split title-bar">
-                        <img className="logo" src={Logo} />
+                        <img className="logo" src={logo} />
                         <div className="connect-container">
-                            <ConnectButton onConnect={onConnect} history={history} />
-                            {(showConnect || false)&& <div className="connect-wallet">
+                            <ConnectButton onConnect={onConnect}/>
+                            {(userStore.displayConnect || false)&& <div className="connect-wallet">
                                 <i> </i>
                                 <h3>Connect your wallet</h3>
                                 <img src={ConnectWallet} />
@@ -40,3 +42,5 @@ export default class Header extends Component {
         )
     }
 }
+
+export default observer(Header)

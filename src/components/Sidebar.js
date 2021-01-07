@@ -13,8 +13,9 @@ import { numm } from "../lib/Utils";
 import MigrationButton from "./action-panels/MigrationButton";
 import LeavUs from "../components/LeaveUs";
 import * as qs from "qs";
+import {observer} from "mobx-react"
 
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   state = {
     selectedItem: this.props.initialState,
     showSideBar: true
@@ -87,9 +88,14 @@ export default class Sidebar extends Component {
             >
               <img src={MakerLogo} />
             </div>
-            <div className="product">
+            <div 
+              className={`product link-accesible ${
+                selectedItem === "compound" &&
+                history.location.pathname === "/app/compound" &&
+                "selected"
+              }`}
+              onClick={() => this.handleItemSelect("compound", "app/compound")}>
               <img src={CompoundLogo} />
-              <small>(Coming soon)</small>
             </div>
             <div className="product">
               <img src={AAVELogo} />
@@ -120,7 +126,7 @@ export default class Sidebar extends Component {
           <div
             className={`product link-accesible ${
               selectedItem === "terms" &&
-              history.location.pathname === "app/terms" &&
+              history.location.pathname === "/app/terms" &&
               "selected"
             }`}
             onClick={() => this.handleItemSelect("terms", "app/terms")}
@@ -152,3 +158,5 @@ export default class Sidebar extends Component {
     );
   }
 }
+
+export default observer(Sidebar)
