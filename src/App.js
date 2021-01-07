@@ -2,6 +2,7 @@ import React from "react";
 import "./style.scss";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Dashboard from "./containers/Dashboard";
+import Compound from "./containers/Compound";
 import AppError from "./components/AppError";
 import NotificationsContainer from "./components/style-components/NotificationsContainer";
 import AppAlert from "./components/AppAlert";
@@ -23,6 +24,8 @@ function App() {
       </NotificationsContainer>
       <Router>
         <Route exact path="/app" component={Dashboard} />
+        <Route exact path="/app/maker" component={Dashboard} />
+        <Route exact path="/app/compound" component={Compound} />
         <Route exact path="/app/faq" component={FAQ} />
         <Route exact path="/app/terms" component={TermsOfUse} />
         <Route exact path="/app/risk" component={Risk} />
