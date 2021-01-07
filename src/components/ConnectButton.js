@@ -8,7 +8,6 @@ import {Link} from "react-router-dom";
 import {observer} from "mobx-react"
 import userStore from "../stores/user.store"
 
-
 let web3;
 
 function increaseABit(number) {
