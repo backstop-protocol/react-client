@@ -2,12 +2,14 @@ import * as Api from "./ApiHelper";
 import * as B from "./bInterface"
 import EventBus from "./EventBus";
 import { ApiAction } from "./ApiHelper";
-import { calcNewBorrowLimitAndLiquidationPrice } from "./bInterface";
 import { verifyWithdrawInput } from "./bInterface";
 import { verifyDepositInput } from "./bInterface";
 import { verifyBorrowInput } from "./bInterface";
 import { verifyRepayInput } from "./bInterface";
 import { repayUnlocked } from "./ApiHelper";
+import {calcNewBorrowLimitAndLiquidationPrice} from "./bInterface";
+import makerStore from "../../src/stores/maker.store"
+
 
 let userInfo = {};
 let originalUserInfo = {}
@@ -16,9 +18,7 @@ let web3 = null;
 let networkId = null;
 
 export const refreshUserInfo = () => {
-    [0, 1500, 5000, 1900, 3000].forEach(timeOut => {
-        setTimeout(()=> EventBus.$emit("get-user-info"), timeOut)
-    })
+    makerStore.getUserInfo()
 }
 
 function increaseABit(number) {
@@ -76,7 +76,7 @@ export async function claimUnlockedEth() {
         EventBus.$emit('app-alert', 'claim unlocked ETH pending')
         const action = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, originalUserInfo.bCdpInfo.unlockedEth)
         await ApiAction(action, user, web3, 0)
-        refreshUserInfo()
+        makerStore.getUserInfo()
     } catch (err) {
         checkForUnlockedEth()
         throw err
