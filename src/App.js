@@ -6,8 +6,6 @@ import NotificationsContainer from "./components/style-components/NotificationsC
 import AppAlert from "./components/AppAlert";
 import ModalContainer from "./components/ModalContainer"
 import Sidebar from "./components/Sidebar"
-import Loader from "./containers/Loader"
-import Page from "./containers/Page"
 import {observer} from "mobx-react"
 import routerStore from "./stores/router.store"
 import { createBrowserHistory } from "history";
