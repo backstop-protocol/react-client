@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import MigrationDrawing from "../../assets/images/maker-migration.png";
 import EventBus from "../../lib/EventBus";
 import { migrateMakerDao } from "../../lib/Actions";
+import makerStore from "../../stores/maker.store"
 
 export default class MigrationModal extends Component {
     onMigrate = async () => {
@@ -10,24 +11,7 @@ export default class MigrationModal extends Component {
         try {
             await migrateMakerDao();
             EventBus.$emit("migration-completed");
-
-            // update user info, and also refresh after 15 seconds and 30 seconds
-            // to handle reorgs
-            setTimeout(() => {
-                EventBus.$emit("get-user-info");
-            }, 1500);
-
-            setTimeout(() => {
-                EventBus.$emit("get-user-info");
-            }, 5000);
-
-            setTimeout(() => {
-                EventBus.$emit("get-user-info");
-            }, 19000);
-
-            setTimeout(() => {
-                EventBus.$emit("get-user-info");
-            }, 30000);            
+            makerStore.getUserInfo()       
         }
         catch (e) {
             EventBus.$emit("migration-failed");
