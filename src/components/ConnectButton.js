@@ -56,9 +56,9 @@ class ConnectButton extends Component {
 
   handleAccountsChanged = async (accounts) => {
     const user = accounts[0];    
-    userStore.onConnect(web3, web3.utils.toChecksumAddress(user));// used by compound
+    await userStore.onConnect(web3, web3.utils.toChecksumAddress(user));// used by compound
     // used by maker
-    if (this.props.onConnect) {
+    if (this.props.onConnect) { 
       this.props.onConnect(web3, web3.utils.toChecksumAddress(user));
     }    
   };
