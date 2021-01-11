@@ -12,7 +12,7 @@ import {observer} from "mobx-react"
 class Header extends Component {
     render() {
 
-        const {info, onConnect, logo, x} = this.props;
+        const {info, onConnect, logo} = this.props;
 
         return (
             <div className="top-panel">
