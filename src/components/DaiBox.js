@@ -4,9 +4,9 @@ import Dai from "../assets/dai.svg";
 import CurrencyBox from "./CurrencyBox";
 import Repay from "./action-panels/Repay";
 import Borrow from "./action-panels/Borrow";
+import {observer} from "mobx-react"
 
-export default class DaiBox extends Component {
-
+class DaiBox extends Component {
 
     formatValue(userInfo) { return userInfo?numm(userInfo.bCdpInfo.daiDebt, 2):0; }
     calculateUSD(userInfo) { return userInfo?numm(userInfo.bCdpInfo.daiDebt, 2):0; }
@@ -22,3 +22,5 @@ export default class DaiBox extends Component {
         )
     }
 }
+
+export default observer(DaiBox)

@@ -5,8 +5,9 @@ import Etherium from "../assets/etherium.svg";
 import Deposit from "./action-panels/Deposit";
 import Withdraw from "./action-panels/Withdraw";
 import {calcNewBorrowLimitAndLiquidationPrice} from "../lib/bInterface";
+import {observer} from "mobx-react"
 
-export default class EtheriumBox extends Component {
+class EtheriumBox extends Component {
 
     formatValue(userInfo) { return userInfo?numm(userInfo.bCdpInfo.ethDeposit, 4) : 0; }
     calculateUSD(userInfo) { return userInfo?numm(userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice, 2) : 0 }
@@ -23,3 +24,5 @@ export default class EtheriumBox extends Component {
         )
     }
 }
+
+export default observer(EtheriumBox)
