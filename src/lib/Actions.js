@@ -2,14 +2,13 @@ import * as Api from "./ApiHelper";
 import * as B from "./bInterface"
 import EventBus from "./EventBus";
 import { ApiAction } from "./ApiHelper";
+import { calcNewBorrowLimitAndLiquidationPrice } from "./bInterface";
 import { verifyWithdrawInput } from "./bInterface";
 import { verifyDepositInput } from "./bInterface";
 import { verifyBorrowInput } from "./bInterface";
 import { verifyRepayInput } from "./bInterface";
 import { repayUnlocked } from "./ApiHelper";
-import {calcNewBorrowLimitAndLiquidationPrice} from "./bInterface";
 import makerStore from "../../src/stores/maker.store"
-
 
 let userInfo = {};
 let originalUserInfo = {}
