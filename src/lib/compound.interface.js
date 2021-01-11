@@ -102,7 +102,6 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
         })
     })
   }
-
   return normalized
 }
 
