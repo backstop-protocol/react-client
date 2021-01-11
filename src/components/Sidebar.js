@@ -7,23 +7,22 @@ import Discord from "../assets/discord.svg";
 import AAVELogo from "../assets/aav-ewhite-logo.svg";
 import CompoundLogo from "../assets/compound-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
-import EventBus from "../lib/EventBus";
 import MigrationModal from "./modals/MigrationModal";
 import { numm } from "../lib/Utils";
 import MigrationButton from "./action-panels/MigrationButton";
 import LeavUs from "../components/LeaveUs";
 import * as qs from "qs";
 import {observer} from "mobx-react"
+import routerStore from "../stores/router.store"
+import makerStore from "../stores/maker.store"
+import userStore from "../stores/user.store"
 
 class Sidebar extends Component {
   state = {
-    selectedItem: this.props.initialState,
     showSideBar: true
   };
-  handleItemSelect = (selectedItem, location) => {
-    this.setState({ selectedItem: selectedItem });
-
-    this.props.history.push(`/${location}`);
+  handleItemSelect = (location) => {
+    routerStore.routeProps.history.push(`/${location}`);
   };
 
   componentDidMount() {
@@ -37,10 +36,11 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { userInfo, history, showConnect } = this.props;
-    const { selectedItem } = this.state;
+    const { history } = routerStore.routeProps;
+    const { loggedIn, showConnect } = userStore
+    const { userInfo } = makerStore
     const params = qs.parse(history.location.search, { ignoreQueryPrefix: true })
-
+    debugger
     return (
       <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
@@ -74,27 +74,25 @@ class Sidebar extends Component {
           )}
           {params.export && 
             <div className="container">
-              <LeavUs userInfo={userInfo} showConnect={showConnect} history={history}/>
+              <LeavUs userInfo={userInfo} showConnect={showConnect} />
             </div>
           }
           <div className="products">
             <div
               className={`product link-accesible ${
-                selectedItem === "maker" &&
                 history.location.pathname === "/app" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("maker", "app")}
+              onClick={() => this.handleItemSelect("app")}
             >
               <img src={MakerLogo} />
             </div>
             <div 
               className={`product link-accesible ${
-                selectedItem === "compound" &&
                 history.location.pathname === "/app/compound" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("compound", "app/compound")}>
+              onClick={() => this.handleItemSelect("app/compound")}>
               <img src={CompoundLogo} />
             </div>
             <div className="product">
@@ -105,31 +103,28 @@ class Sidebar extends Component {
           <div className="ln"> </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "faq" &&
               history.location.pathname === "/app/faq" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("faq", "app/faq")}
+            onClick={() => this.handleItemSelect("app/faq")}
           >
             <p className="menu-item">FAQ</p>
           </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "risk" &&
               history.location.pathname === "/app/risk" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("risk", "app/risk")}
+            onClick={() => this.handleItemSelect("app/risk")}
           >
             <p className="menu-item">Risks</p>
           </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "terms" &&
               history.location.pathname === "/app/terms" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("terms", "app/terms")}
+            onClick={() => this.handleItemSelect("app/terms")}
           >
             <p className="menu-item">Terms of Use</p>
           </div>

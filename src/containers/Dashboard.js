@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Etherium from "../assets/etherium.svg";
-import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import EtheriumBox from "../components/EtheriumBox";
 import DaiBox from "../components/DaiBox";
@@ -8,16 +7,13 @@ import * as ApiHelper from "../lib/ApiHelper";
 import * as B from "../lib/bInterface";
 import { doApiAction, setUserInfo } from "../lib/Actions";
 import EventBus from "../lib/EventBus";
-import ModalContainer from "../components/ModalContainer";
 import logo from "../assets/logo-maker-black.svg";
 import makerStore from "../stores/maker.store"
 import userStore from "../stores/user.store";
 import {observer} from "mobx-react"
 
-
 class Dashboard extends Component {
   web3 = null;
-  networkType = null;
 
   constructor(props) {
     super(props);
@@ -28,9 +24,8 @@ class Dashboard extends Component {
 
   onConnect = async (web3, user) => {
     this.web3 = web3;
-    this.networkType = await web3.eth.net.getId()
-    const userInfo = await makerStore.getUserInfo();
-    this.setState({ userInfo })
+    await makerStore.getUserInfo();
+    this.setState({userInfo: makerStore.userInfo})
   };
 
   onAction = async (action, value, onHash) => {
@@ -50,43 +45,31 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { userInfo } = this.state;
+    const { userInfo } = makerStore
     const { current, handleItemChange, history } = this.props;
     const { loggedIn, showConnect } = userStore
-
     return (
-      <div className="App">
-        <ModalContainer></ModalContainer>
-        <Sidebar
-          userInfo={userInfo}
-          current={current}
-          handleItemChange={handleItemChange}
-          history={history}
+      <div className="content">
+        <Header
+          info={loggedIn && userInfo !== null && userInfo}
+          onConnect={this.onConnect}
           showConnect={showConnect}
-          initialState="maker"
+          logo={logo}
         />
-        <div className="content">
-          <Header
-            info={loggedIn && userInfo !== null && userInfo}
-            onConnect={this.onConnect}
-            showConnect={showConnect}
-            logo={logo}
-          />
 
-          <div className="container currency-container split">
-            <EtheriumBox
-              userInfo={userInfo}
-              onPanelAction={this.onAction}
-              showConnect={showConnect}
-            />
-            <DaiBox
-              userInfo={userInfo}
-              title={"DAI debt"}
-              icon={Etherium}
-              onPanelAction={this.onAction}
-              showConnect={showConnect}
-            />
-          </div>
+        <div className="container currency-container split">
+          <EtheriumBox
+            userInfo={userInfo}
+            onPanelAction={this.onAction}
+            showConnect={showConnect}
+          />
+          <DaiBox
+            userInfo={userInfo}
+            title={"DAI debt"}
+            icon={Etherium}
+            onPanelAction={this.onAction}
+            showConnect={showConnect}
+          />
         </div>
       </div>
     );
