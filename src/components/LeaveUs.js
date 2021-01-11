@@ -4,10 +4,10 @@ import Flex, {FlexItem} from "styled-flex-component";
 import { observer } from 'mobx-react'
 import {exportBackToMakerDao} from '../lib/Actions'
 import Loading from "./action-panels/Loading";
-import { useHistory } from "react-router-dom";
 import EventBus from "../lib/EventBus";
 import { setTimeout } from "timers";
 import {refreshUserInfo} from '../lib/Actions'
+import routerStore from "../stores/router.store"
 
 const ExportBtn = styled.div`
     border-radius: 6px;
@@ -81,14 +81,13 @@ const LeavUs = observer(props => {
     const [errorMsg, setErrorMsg] = useState("")
     const [txErr, setTxErr] = useState(false)
     const [hash, setHash] = useState("")
-    const history = useHistory()
 
     const reset = ()=> {
         setTimeout(()=> {
             setDone(false)
             setTxErr(false)
             setWating(false)
-            history.push('/app')
+            routerStore.routeProps.history.push('/app')
         }, 2500)
     }
 
