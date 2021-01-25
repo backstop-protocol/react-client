@@ -15,9 +15,9 @@ class Dashboard extends Component {
     super(props);
   }
 
-  onConnect = async (web3, user) => {
-    await makerStore.getUserInfo();
-  };
+  componentDidMount() {
+    makerStore.getUserInfo()
+  }
 
   onAction = async (action, value, onHash) => {
     try {

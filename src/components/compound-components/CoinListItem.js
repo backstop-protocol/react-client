@@ -1,8 +1,11 @@
+/**
+ * @format
+ */
 import React, {Component} from "react";
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
-import {getCoin, displayNum} from "../../lib/compound.util"
+import CToken, {ActionEnum} from "../../lib/compound.util"
 import userStore from "../../stores/user.store"
 import ActionBox from "./ActionBox"
 
@@ -26,27 +29,66 @@ const Container = styled.div`
     letter-spacing: 0.75px;
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
     transition: all 0.3s ease-in-out;
+    border-top: 1px solid rgba(151, 151, 151, 0.25);
+    z-index: 1;
+    position: relative;
     .currency-action-button{
-        transition: opacity 0.15s ease-in-out;
+        transition: all 0.3s ease-in-out;
         opacity: 0;
+        visibility: hidden;
         margin-bottom: 0;
     } 
-    .dont-scale{
+    .rectangle{
         transition: all 0.3s ease-in-out;
     }
+
     &.close:hover {
-        transform: scale(1.0500, 1.200);
+        z-index: 10;
+        padding: 10px;
+        margin: -10px;
         background: white;    
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.22);
         .currency-action-button{
             opacity: 1;
+            visibility: visible;
+            z-index: 1000;
         }
-        .dont-scale{
-            transform: scale(.97, 0.82);
+        .rectangle{
+            margin: -10px;
         }
     }
     &.open {
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.22);
+        z-index: 100;
+        transition-duration: 0s;
+        padding: initial;
+        margin: initial;
+        padding-top: 10px;
+        margin-top: -10px;
+        .rectangle{
+            transition-duration: 0s;
+        }
+    }
+`
+
+const CircleX = styled.div`
+    opacity: 0;
+    visibility: hidden;
+    width: 60px;
+    height: 60px;
+    background: url("${require("../../assets/circle-x-icon.svg")}");
+    position: absolute;
+    right: 30px;
+    margin-top: -40px;
+    z-index: 0;
+    &.show{    
+        transition: all 0.5s ease-out;
+        z-index: 1000;
+        opacity: 1;
+        visibility: visible;
+        transform: rotate(180deg);
+    }
+    &.hide{
+        transition: none;
     }
 `
 
@@ -70,20 +112,29 @@ const GreyText = styled.div`
 class CoinListItem extends Component {
     constructor(props) {
         super(props);
-        this.state = { open: false}
+        this.state = {
+            action: ActionEnum.deposit,
+            open: false,
+            openTransitionDone: false,
+        }
     }
 
     render () {
-        const {isInBalanceBox, type} = this.props
-        const coin = getCoin(this.props.coin, userStore.networkType)
-        const APY = type == "deposit" ? coin.positiveApy : coin.negetiveApy
+        const {isInBalanceBox, type, lastItem, coinAddress} = this.props
+        const isAssetColumn = type == "deposit" // represnts the veriant between the left column containing positive Assets and the right column containing Liabilities
+        const coin = new CToken(coinAddress)
+        const {displayNum} = coin
+        const APY = isAssetColumn ? coin.positiveApy : coin.negetiveApy
+        const actionBtn1 = isAssetColumn ? ActionEnum.deposit : ActionEnum.borrow
+        const actionBtn2 = isAssetColumn ? ActionEnum.withdraw : ActionEnum.repay
         return (
             <Container className={`${this.state.open ? "open" : "close"}`}>
+                <CircleX className={`${this.state.open ? "show" : "hide"}`} onClick={()=>this.setState({open: false})}/>
                 <Flex column>
                     <Flex center>
                         <FlexItem  style={{width: "40px"}}>
                             {isInBalanceBox && 
-                                <Rectangle/>
+                                <Rectangle className="rectangle"/>
                             }
                         </FlexItem>
                         <Flex className="dont-scale" justifyAround full center>
@@ -102,15 +153,19 @@ class CoinListItem extends Component {
                                     <GreyText>{displayNum(coin.underlyingBalanceStr, 4)} {coin.symbol}</GreyText>
                                 </Flex>
                             </FlexItem>
-                            <FlexItem  style={{width: "25%"}}>
+                            <Flex justifyEnd style={{width: "25%"}}>
                                 <Flex column justifyAround>
-                                    <button onClick={()=>this.setState({open: true})} style={{marginBottom: "10px"}}  className="currency-action-button">Deposit</button>
-                                    <button onClick={()=>this.setState({open: true})} className="currency-action-button">Withdraw</button>
+                                    <button onClick={()=>this.setState({open: true, action: actionBtn1})} style={{marginBottom: "10px"}}  className="currency-action-button">{actionBtn1}</button>
+                                    <button onClick={()=>this.setState({open: true, action: actionBtn2})} className="currency-action-button">{actionBtn2}</button>
                                 </Flex>
-                            </FlexItem>
+                            </Flex>
                         </Flex>
                     </Flex>
-                    <ActionBox isOpen={this.state.open} close={()=>this.setState({open: false})}/>
+                    <ActionBox  
+                            action={this.state.action}
+                            coin={coin}
+                            isOpen={this.state.open} 
+                            close={()=>this.setState({open: false})} />
                 </Flex>
             </Container>
         )

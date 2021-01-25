@@ -47,7 +47,7 @@ export default class Withdraw extends Component {
 
     setMax = () => {
         const {userInfo} = this.props
-        const val = (Math.floor((userInfo.bCdpInfo.ethDeposit * 1000000)/1000000)).toString();
+        const val = (Math.floor(userInfo.bCdpInfo.ethDeposit * 1000000)/1000000).toString();
         const res = this.props.onPanelInput(val);
         if (res !== false) {
             this.setState({val: res});

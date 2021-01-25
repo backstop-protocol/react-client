@@ -6,6 +6,7 @@ import Deposit from "./action-panels/Deposit";
 import Withdraw from "./action-panels/Withdraw";
 import {calcNewBorrowLimitAndLiquidationPrice} from "../lib/bInterface";
 import {observer} from "mobx-react"
+import userStore from "../stores/user.store"
 
 class EtheriumBox extends Component {
 
@@ -15,7 +16,8 @@ class EtheriumBox extends Component {
 
     render() {
 
-        const {userInfo, onPanelAction, onOpenPanel, showConnect} = this.props;
+        const {userInfo, onPanelAction, onOpenPanel} = this.props;
+        const {showConnect} = userStore
 
         return (
             <CurrencyBox userInfo={userInfo} title={"ETH Locked"} currency={"ETH"} icon={Etherium} currencyValue={userInfo?userInfo.bCdpInfo.ethDeposit:0} showConnect={showConnect}

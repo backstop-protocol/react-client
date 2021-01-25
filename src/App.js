@@ -21,7 +21,7 @@ const TermsOfUse = React.lazy(() => import("./containers/Terms"));
 const FAQ = React.lazy(() => import("./containers/FAQ"));
 
 function renderPage (props, PageComponent) {
-  routerStore.setRouteProps(props.history)
+  routerStore.setRouteProps(props.history) // TODO: remove this and set a listner in the routerStore instead https://github.com/ReactTraining/history/blob/28c89f4091ae9e1b0001341ea60c629674e83627/docs/api-reference.md#historylistenlistener-listener
   return (
     <Suspense fallback={<div></div>}>
         <PageComponent {...props}/> 

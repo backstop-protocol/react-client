@@ -22,6 +22,7 @@ function toNDecimals(number, n) {
     return n;
 }
 
+// TODO: refactor this component to use main store values only 
 
 export default class GlobalStats extends Component {
 

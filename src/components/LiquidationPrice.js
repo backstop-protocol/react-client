@@ -20,7 +20,7 @@ const LpContainer = styled.div`
 const ToolTipLine = styled.div`
     min-width: 300px;
     padding: 5px;
-    font-family: Poppins;
+    font-family: "Poppins", sans-serif;
     display: flex;
     justify-content: space-between;
 `
@@ -28,7 +28,7 @@ const ToolTipLine = styled.div`
 const ToolTipTitle = styled.div`
     min-width: 300px;
     padding: 5px 5px 0 5px;
-    font-family: Poppins;
+    font-family: "Poppins", sans-serif;
     color: black;
     opacity: 0.5;
     border-bottom: 1px;

@@ -40,7 +40,6 @@ class Sidebar extends Component {
     const { loggedIn, showConnect } = userStore
     const { userInfo } = makerStore
     const params = qs.parse(history.location.search, { ignoreQueryPrefix: true })
-    debugger
     return (
       <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />

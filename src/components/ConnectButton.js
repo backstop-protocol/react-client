@@ -39,6 +39,7 @@ class ConnectButton extends Component {
     }
 
     window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
+    window.ethereum.on('accountsChanged', this.handleAccountsChanged)
 
     window.ethereum
       .request({ method: "eth_requestAccounts" })
@@ -57,10 +58,6 @@ class ConnectButton extends Component {
   handleAccountsChanged = async (accounts) => {
     const user = accounts[0];    
     await userStore.onConnect(web3, web3.utils.toChecksumAddress(user));// used by compound
-    // used by maker
-    if (this.props.onConnect) { 
-      this.props.onConnect(web3, web3.utils.toChecksumAddress(user));
-    }    
   };
 
   render() {

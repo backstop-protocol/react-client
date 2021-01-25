@@ -5,6 +5,7 @@ import CurrencyBox from "./CurrencyBox";
 import Repay from "./action-panels/Repay";
 import Borrow from "./action-panels/Borrow";
 import {observer} from "mobx-react"
+import userStore from "../stores/user.store"
 
 class DaiBox extends Component {
 
@@ -13,7 +14,8 @@ class DaiBox extends Component {
     borrowLimit(userInfo, value, value2) { return userInfo?numm((userInfo.bCdpInfo.daiDebt+value2) / userInfo.bCdpInfo.maxDaiDebt*100, 2, 100) : 0 }
 
     render() {
-        const {userInfo, onPanelAction, showConnect} = this.props;
+        const {userInfo, onPanelAction} = this.props;
+        const {showConnect} = userStore
 
         return (
             <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo?userInfo.bCdpInfo.daiDebt:0} showConnect={showConnect}

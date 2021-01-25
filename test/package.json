@@ -8,7 +8,9 @@
   },
   "scripts": {
     "ganache:kovan": "sh ganache-kovan.sh",
-    "test": "node ./node_modules/truffle/build/cli.bundled.js test ./test/compound.test.js"
+    "test": "node ./node_modules/truffle/build/cli.bundled.js test ./test/compound.test.js",
+    "start-blockchain": "npm run ganache:kovan",
+    "ci": "start-server-and-test start-blockchain http://localhost:8545 test"
   },
   "repository": {
     "type": "git",

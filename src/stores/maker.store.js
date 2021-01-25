@@ -1,7 +1,7 @@
 /**
  * @format
  */
-import { runInAction, makeAutoObservable } from "mobx"
+import { runInAction, makeAutoObservable, observable } from "mobx"
 import * as ApiHelper from "../lib/ApiHelper";
 import { setUserInfo } from "../lib/Actions";
 import * as B from "../lib/bInterface";
@@ -11,7 +11,7 @@ class MakerStore {
 
     userInfo
     userInfoTimeouts = []
-    triggerRerender = 0
+    userInfoUpdate = 0
 
     constructor (){
         makeAutoObservable(this)
@@ -26,7 +26,7 @@ class MakerStore {
             setUserInfo(user, web3, networkType, userInfo, orgInfo);
             runInAction(()=>{
                 this.userInfo = userInfo
-                this.triggerRerender++
+                this.userInfoUpdate ++
             })
         } catch (err) {
             console.log(err)

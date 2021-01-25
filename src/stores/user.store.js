@@ -2,6 +2,9 @@
  * @format
  */
 import { runInAction, makeAutoObservable } from "mobx"
+import compoundStore from "./compound.store"
+import makerStore from "./maker.store"
+import routerStore from "./router.store"
 
 class UserStore {
 
@@ -25,6 +28,18 @@ class UserStore {
             this.loggedIn = true
             this.displayConnect = false
         })
+        this.fetchUserInfoBasedOnRouter()
+    }
+
+    fetchUserInfoBasedOnRouter () {
+        const page = routerStore.getRoute()
+
+        if(page == "compound") {
+            compoundStore.getUserInfo()
+            return // exit
+        }
+        // defaults to maker
+        makerStore.getUserInfo()
     }
 
     showConnect = () => {

@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-import {Observer} from "mobx-react"
+import {observer} from "mobx-react"
 import styled from 'styled-components';
 import Tooltip from "./Tooltip";
 import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../screenSizes";
-import mainStore from "../stores/main.store"
 
 const TvlBox = styled.div`
     background-image: url("${require("../assets/tvl-bg.svg")}");
@@ -130,8 +129,9 @@ const ToolTipLine = styled.div`
     justify-content: space-between;
 `
 
-export default class Tvl extends Component {
+class Tvl2 extends Component {
     render() {
+        const { tvlEth, tvlDai, cdpi, tvlUsd } = this.props
        return (
            <div>
                <TvlBox>
@@ -140,31 +140,23 @@ export default class Tvl extends Component {
                             <TvlTitle>
                                 Total value locked
                                 <span className="tooltip-container">   
-                                    <Observer>
-                                        { ()=>                
-                                            <Tooltip>
-                                                <ToolTipLine> 
-                                                    <div> ETH deposits: </div> <div> { (mainStore.tvlEth / 1000).toFixed(2) }K </div>
-                                                </ToolTipLine>
-                                                <ToolTipLine> 
-                                                    <div> DAI debt: </div> <div> { (mainStore.tvlDai / 1000000).toFixed(2) }M </div>
-                                                </ToolTipLine>
-                                                <ToolTipLine> 
-                                                    <div> Number of Vaults: </div> <div> { mainStore.cdpi } </div>
-                                                </ToolTipLine>        
-                                            </Tooltip>
-                                        }
-                                    </Observer>
+                                    <Tooltip>
+                                        <ToolTipLine> 
+                                            <div> ETH deposits: </div> <div> { (tvlEth / 1000).toFixed(2) }K </div>
+                                        </ToolTipLine>
+                                        <ToolTipLine> 
+                                            <div> DAI debt: </div> <div> { (tvlDai / 1000000).toFixed(2) }M </div>
+                                        </ToolTipLine>
+                                        <ToolTipLine> 
+                                            <div> Number of Vaults: </div> <div> { cdpi } </div>
+                                        </ToolTipLine>        
+                                    </Tooltip>
                                     <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
                                 </span>
                             </TvlTitle>
-                            <Observer>
-                                { ()=> 
-                                    <TvlAmount>
-                                        ${mainStore.tvlUsd} <Triangle/>
-                                    </TvlAmount>
-                                }
-                            </Observer>
+                            <TvlAmount>
+                                ${tvlUsd} <Triangle/>
+                            </TvlAmount>
                        </FlexItem>
                        <FlexItem grow>
                             <TvlGraphImg src={require("../assets/tvl-graph.svg")}/>
@@ -175,3 +167,5 @@ export default class Tvl extends Component {
        )
     }
 }
+
+export default observer(Tvl2)
