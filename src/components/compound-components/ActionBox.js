@@ -13,7 +13,7 @@ const Container = styled.div`
     transition: all 0.3s ease-in-out;
     height: ${({open, tx}) => {
         if (!open) return 0
-        if (!tx) return "330px"
+        if (!tx) return "310px"
         if (tx) return "100px"
     }};
     .currency-input-button{
@@ -30,7 +30,7 @@ const AnimatedContent = styled.div`
     position: ${({open}) => open ? "initial" : "absolute" }; 
     opacity: ${({open}) => open ? 1 : 0 }; 
     padding-top: ${({open}) => open ? "20px" : 0 }; 
-    margin-left: 40px;
+    margin: 0 40px;
     /* over riding some loader styles */
     .currency-action-panel{
         border: none;
