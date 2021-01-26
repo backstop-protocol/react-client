@@ -14,7 +14,11 @@ class GlobalStats2 extends Component {
 
     render() {
 
-        const {jarBalanceEth, jarBalanceUsd, totalRating, userScore} = this.props;
+        let {jarBalanceEth, jarBalanceUsd, totalRating, userScore} = this.props;
+        jarBalanceEth = 36.8
+        jarBalanceUsd = 45561
+        totalRating = 2168.36
+        userScore = 1.253
 
         return (
             <div className="global-stats even">
@@ -28,7 +32,7 @@ class GlobalStats2 extends Component {
                             </span>
                         </h2>
                         <div className="value">
-                            $<Ticker value={jarBalanceUsd} />
+                            $<span className="ticker"> {jarBalanceUsd} </span>
                         </div>
                     </div>
                     <div className="right">
@@ -42,7 +46,8 @@ class GlobalStats2 extends Component {
                             </span>
                         </h2>
                         <div className="value">
-                            <Ticker value={userScore} primary={5} />
+                            <span className="ticker"> {userScore} </span>
+                            {/* <Ticker value={userScore} primary={5} /> */}
                         </div>
                     </div>
                 </div>

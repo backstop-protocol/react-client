@@ -3,7 +3,7 @@ import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
 import GlobalStats2 from "./GlobalStats2";
 import BorrowLimit from "./BorrowLimit";
-import Tvl2 from "./Tvl2";
+import Tvl from "./Tvl";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
 import userStore from "../stores/user.store"
 import {observer} from "mobx-react"
@@ -30,7 +30,7 @@ class Header2 extends Component {
                     </div>
                     <div className="header-stats split">
                         <GlobalStats2 />
-                        <Tvl2/>
+                        <Tvl/>
                         {/* {info && 
                             <div>Compound borrow limit</div>
                         }
