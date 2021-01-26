@@ -217,6 +217,9 @@ export default class CToken {
     }
 
     calcBorrowLimit = (value) => {
+        if(!value){
+            return "0"
+        }
         value = new BN(toWei(value))
         const cf = new BN(this.tokenInfo.collateralFactor)
         const price = new BN(this.tokenInfo.underlyingPrice)
