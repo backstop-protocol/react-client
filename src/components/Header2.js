@@ -30,12 +30,13 @@ class Header2 extends Component {
                     </div>
                     <div className="header-stats split">
                         <GlobalStats2 />
-                        {info && 
+                        <Tvl2/>
+                        {/* {info && 
                             <div>Compound borrow limit</div>
                         }
                         {!info &&
                             <Tvl2/>  
-                        }
+                        } */}
                     </div>
                 </div>
             </div>
