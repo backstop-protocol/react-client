@@ -26,6 +26,12 @@ const init = () => {
 
 init()
 
+const wApiAction = async(...args) => {
+    const promise = await ApiAction(...args)
+    compoundStore.fetchAndUpdateUserInfo()
+    return promise
+}
+
 export const ActionEnum = Object.freeze({"deposit": "deposit", "withdraw": "withdraw", "borrow": "borrow", "repay": "repay"})
 
 const toDecimalPointFormat = (bn, decimalPoint) => {
@@ -122,7 +128,7 @@ export default class CToken {
     unlock = async () => {
         const {web3, user, networkType} = userStore
         const txPromise = CI.grantAllowance(web3, networkType, this.address, this.tokenInfo.underlying)
-        return await ApiAction(txPromise, user, web3)
+        return await wApiAction(txPromise, user, web3)
     }
 
     validateInput = (input, action) => {
@@ -192,7 +198,7 @@ export default class CToken {
             txPromise = CI.depositToken(web3, networkType, this.address, depositAmount)
             ethToSendWithTransaction = 0
         }
-        return await ApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
+        return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
     }
 
     witdraw = async (amount, onHash) => {
@@ -205,7 +211,7 @@ export default class CToken {
         } else {
             txPromise = CI.withdraw(web3, networkType, withdrawAmount, this.address)
         }
-        return await ApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
+        return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
     }
 
     borrow = async (amount, onHash) => {

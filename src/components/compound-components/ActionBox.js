@@ -104,12 +104,10 @@ class ActionBox extends Component {
 
     doAction = async () => {
         try{
-
             const {coin, action} = this.props
             this.setState({transactionInProgress: true})
             await coin[action](this.state.val, this.onHash)
             this.setState({success: true})
-            compoundStore.fetchAndUpdateUserInfo()
             this.reset()
         } catch (err){
             this.setState({err: err.message})
