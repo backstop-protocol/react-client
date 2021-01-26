@@ -58,7 +58,7 @@ class BorrowLimit extends Component {
         //     borrowed = borrowed + (coin.calcValueInUsd(value))
         // }
         
-        const precent = ((borrowed / borrowLimit) * 100).toFixed(2)
+        const precent = borrowLimit > 0 ? ((borrowed / borrowLimit) * 100).toFixed(2) : 0
         return (
             <Container>
                 <Flex column justifyEnd full>

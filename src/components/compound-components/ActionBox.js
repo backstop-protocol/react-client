@@ -8,6 +8,7 @@ import TxInProgress from "./TxInProgress"
 import Loading from "../action-panels/Loading"
 import Tooltip from "../Tooltip"
 import {ActionEnum} from "../../lib/compound.util"
+import compoundStore from "../../stores/compound.store"
 
 const Container = styled.div`
     transition: all 0.3s ease-in-out;
@@ -108,6 +109,7 @@ class ActionBox extends Component {
             this.setState({transactionInProgress: true})
             await coin[action](this.state.val, this.onHash)
             this.setState({success: true})
+            compoundStore.fetchAndUpdateUserInfo()
             this.reset()
         } catch (err){
             this.setState({err: err.message})
