@@ -4,8 +4,9 @@
 import { ABI } from "./compoundConfig/abi"
 import { compUserInfoAbi } from "./compoundConfig/compUserInfoAbi"
 import { addresses as kovanAddresses } from "./compoundConfig/kovanAddress"
-import { toBN, toWei } from "../../test/node_modules/web3-utils"
-var eth = require('web3-eth');
+import Web3 from "web3"
+
+const {toBN, toWei, fromWei} = Web3.utils
 
 
 const compUserInfoAddress = "0x2fae41824025d4b5d7556ab921c3ccb0bbeb46ed" //
