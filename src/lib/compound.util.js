@@ -1,12 +1,12 @@
 import { addresses as kovanAddresses } from "./compoundConfig/kovanAddress"
 // TODO: fetch mainnet here
 import { addresses as mainnetAddresses } from "./compoundConfig/kovanAddress"
-import compoundStore from "../stores/compound.store"
 import userStore from "../stores/user.store"
-import Web3 from "web3"
 import { ApiAction } from "./ApiHelper";
 import * as CI from "./compound.interface"
 import ActionBox from "../components/compound-components/ActionBox";
+import Web3 from "web3"
+import compoundStore from "../stores/compound.store"
 
 const {BN, toWei, fromWei} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
@@ -58,27 +58,10 @@ const getApy = (rate) => {
     return APY.toString()
 }
 
-export const validateDpositeInput = (coin, input) => {
-
-}
-
-export const validateWithdrawInput = (coin, input) => {
-
-}
-
-export const validateBorrowInput = (coin, input) => {
-
-}
-
-export const validateRepayInput = (coin, input) => {
-
-}
-
 export default class CToken {
-    constructor (address) {
+    constructor (address, data, info) {
         const addressToSymbol = userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
         this.address = address
-        const [data, info] = compoundStore.getBuserTokenData(address)
         this.userData = data
         this.tokenInfo = info
         this.symbol = (addressToSymbol[address] || "").replace("c", "")
@@ -91,7 +74,8 @@ export default class CToken {
         this.positiveApy = getApy(this.tokenInfo.supplyRate)
         this.negetiveApy = getApy(this.tokenInfo.borrowRate)
         this.allowance = this.userData.underlyingAllowance
-        
+        this.borrowed = this.getBorrowed()
+        this.borrowedUsd = this.getBorrowedInUsd()
     }
 
     displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {
@@ -106,8 +90,8 @@ export default class CToken {
         }
     }
 
-    getUnderlyingBalance = () => {
-        return (new BN(this.userData.ctokenBalance).mul(new BN(this.tokenInfo.ctokenExchangeRate))).div(_1e18)
+    getUnderlyingBalance = (value = this.userData.ctokenBalance) => {
+        return (new BN(value).mul(new BN(this.tokenInfo.ctokenExchangeRate))).div(_1e18)
     }
 
     getWalletBallance = () => {
@@ -118,6 +102,19 @@ export default class CToken {
 
     getUnderlyingBalanceInUsd = () => toUsd(this.underlyingBalance, this.tokenInfo.underlyingPrice)
 
+    getBorrowed = () => {
+        const {ctokenBorrowBalance} = this.userData
+        const {underlyingDecimals} = this.tokenInfo
+        return toDecimalPointFormat(new BN(ctokenBorrowBalance), underlyingDecimals)
+    }
+
+    getBorrowedInUsd = () => {
+        const borrowed = new BN(toWei(this.borrowed))
+        const borrowedInUsd = (borrowed.mul(new BN(this.tokenInfo.underlyingPrice))).div(_1e18)
+        const borrowedInUsdStr = fromWei(borrowedInUsd.toString())
+        return borrowedInUsdStr
+    }
+
     isUnlocked = () => {
         return new BN(this.allowance).eq(maxAllowance)
     }
@@ -126,7 +123,6 @@ export default class CToken {
         const {web3, user, networkType} = userStore
         const txPromise = CI.grantAllowance(web3, networkType, this.address, this.tokenInfo.underlying)
         return await ApiAction(txPromise, user, web3)
-
     }
 
     validateInput = (input, action) => {
@@ -140,29 +136,43 @@ export default class CToken {
             if (input <= 0){
                 return [false, `the ${action} amount must be positive`]
             }
+            const value = new BN(toWei(input))
+            if(new BN(this.allowance).lt(value)){
+                return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
+            }
+
             if (action == ActionEnum.deposit) {
-                // todo: validate
                 const {underlyingWalletBalance} = this.userData
                 const balance = new BN(underlyingWalletBalance)
-                const value = new BN(toWei(input).toString())
                 if(value.gt(balance)){
                     return [false, "Amount exceeds wallet balance"]
                 }
-                if(new BN(this.allowance).lt(value)){
-                    return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
-                }
-
-                return [true, ""]
             }
-            if (action == ActionEnum.witdraw) {
-                return [false, "not reay yet"]
+            if (action == ActionEnum.withdraw) {
+                const balance = new BN(toWei(this.underlyingBalanceStr))
+                if(value.gt(balance)){
+                    return [false, `Amount exceeds ${this.symbol} balance`]
+                }
+                if(compoundStore.totalBorrowedBalanceInUsd > 0){
+                    // check that the new borrow limit would not become lower then the already borrowed amount
+                    // reduce the collateral bellow the required
+                    const inputBl = this.calcBorrowLimit(input)
+                    const currentBl = new BN(toWei(compoundStore.borrowLimitInUsd))
+                    const updatedBorrowLimit = currentBl.sub(new BN(toWei(inputBl)))
+                    const currentBorrowed = new BN(toWei(compoundStore.totalBorrowedBalanceInUsd))
+                    if(updatedBorrowLimit.lt(currentBorrowed)){
+                        return [false, `Amount exceeds allowed withdrawal`]
+                    }
+                }
             }
             if (action == ActionEnum.borrow) {
-                return [false, "not reay yet"]
+                return [false, "not reday yet"]
             }
             if (action == ActionEnum.repay) {
-                return [false, "not reay yet"]
+                return [false, "not reday yet"]
             }
+            // default 
+            return [true, ""]
 
         }catch (err){
             console.error(err)
@@ -204,5 +214,24 @@ export default class CToken {
 
     repay = async (amount, onHash) => {
         throw new Error("not ready yet")
+    }
+
+    calcBorrowLimit = (value) => {
+        value = new BN(toWei(value))
+        const cf = new BN(this.tokenInfo.collateralFactor)
+        const price = new BN(this.tokenInfo.underlyingPrice)
+        const usdVal = (value.mul(price)).div(_1e18)
+        // const __debug = fromWei(usdVal.toString()) // used for debugging 1 eth should be equal to 1 eth in USD on compound
+        const borrowLimit = (usdVal.mul(cf)).div(_1e18)
+        const res = fromWei(borrowLimit.toString())
+        return res 
+    }
+
+    calcValueInUsd = (value) => {
+        value = new BN(toWei(value))
+        const price = new BN(this.tokenInfo.underlyingPrice)
+        const usdVal = (value.mul(price)).div(_1e18)
+        const res = fromWei(usdVal.toString()) // 1 eth should be equal to 1 eth in USD on compound
+        return res
     }
 }

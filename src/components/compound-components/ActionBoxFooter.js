@@ -2,12 +2,13 @@ import React, {Component} from "react";
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
+import BorrowLimit from "./BorrowLimit"
 
 const Container = styled.div`
     margin-top: 43px;
     .grey-divider:not(:last-child){
         border-right: 1px solid rgba(151, 151, 151, 0.25);
-        margin-right: 10px;
+        margin-right: 15px;
     }
 `
 
@@ -52,10 +53,10 @@ class ActionBoxFooter extends Component {
                     </FlexItem>
                     <FlexItem className="grey-divider" style={{width: "50%"}}>
                         <SmallTitle>Borrow Limit</SmallTitle>
+                        <BorrowLimit {...this.props}/>
                     </FlexItem>
                 </Flex>
             </Container>
-
         )
     }
 }

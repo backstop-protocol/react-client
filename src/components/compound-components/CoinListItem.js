@@ -5,9 +5,10 @@ import React, {Component} from "react";
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
-import CToken, {ActionEnum} from "../../lib/compound.util"
+import {ActionEnum} from "../../lib/compound.util"
 import userStore from "../../stores/user.store"
 import ActionBox from "./ActionBox"
+import compoundStore from "../../stores/compound.store";
 
 const Icon = styled.img`
     width: 40px;
@@ -122,9 +123,11 @@ class CoinListItem extends Component {
     render () {
         const {isInBalanceBox, type, lastItem, coinAddress} = this.props
         const isAssetColumn = type == "deposit" // represnts the veriant between the left column containing positive Assets and the right column containing Liabilities
-        const coin = new CToken(coinAddress)
+        const coin = compoundStore.coinMap[coinAddress]
         const {displayNum} = coin
         const APY = isAssetColumn ? coin.positiveApy : coin.negetiveApy
+        const balance = isAssetColumn ? coin.underlyingBalanceStr : coin.borrowed
+        const balanceInUsd = isAssetColumn ? coin.underlyingBalanceUsdStr : coin.borrowedUsd
         const actionBtn1 = isAssetColumn ? ActionEnum.deposit : ActionEnum.borrow
         const actionBtn2 = isAssetColumn ? ActionEnum.withdraw : ActionEnum.repay
         return (
@@ -149,8 +152,8 @@ class CoinListItem extends Component {
                             </FlexItem>
                             <FlexItem  style={{width: "25%"}}>
                                 <Flex column>
-                                    {displayNum(coin.underlyingBalanceUsdStr, 4)} USD 
-                                    <GreyText>{displayNum(coin.underlyingBalanceStr, 4)} {coin.symbol}</GreyText>
+                                    {displayNum(balanceInUsd, 4)} USD 
+                                    <GreyText>{displayNum(balance, 4)} {coin.symbol}</GreyText>
                                 </Flex>
                             </FlexItem>
                             <Flex justifyEnd style={{width: "25%"}}>

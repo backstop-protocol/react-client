@@ -156,7 +156,7 @@ class ActionBox extends Component {
                                 </button>
                             </FlexItem>
                         </Flex>
-                        <ActionBoxFooter coin={coin} hash={this.state.hash}/>
+                        <ActionBoxFooter coin={coin} action={action} value={inputIsValid ? val : "0"} hash={this.state.hash}/>
                     </AnimatedContent>
             </Container>
         )
