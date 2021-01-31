@@ -15,7 +15,7 @@ class Header2 extends Component {
         const {info, onConnect, logo} = this.props;
 
         return (
-            <div className="top-panel">
+            <div style={{zIndex: -10}} className="top-panel">
                 <div className="container">
                     <div className="split title-bar">
                         <img className="logo" src={logo} />
