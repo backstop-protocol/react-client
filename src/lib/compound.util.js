@@ -147,7 +147,6 @@ export default class CToken {
     }
 
     validateInput = (input, action) => {
-        debugger
         try{
             if (input === null || input === undefined || input === ""){
                 return [false, ""]
