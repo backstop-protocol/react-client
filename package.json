@@ -18,6 +18,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-spring": "^8.0.27",
     "react-tooltip": "^4.2.11",
     "styled-components": "^5.2.1",
     "styled-flex-component": "^3.0.5",
