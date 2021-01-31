@@ -33,6 +33,7 @@ const wApiAction = async(...args) => {
 }
 
 export const ActionEnum = Object.freeze({"deposit": "deposit", "withdraw": "withdraw", "borrow": "borrow", "repay": "repay"})
+export const CoinStatusEnum = Object.freeze({"deposited": "deposited", "borrowed": "borrowed", "unused": "unused"})
 
 const toDecimalPointFormat = (bn, decimalPoint) => {
     const factor = new BN(10).pow(new BN(18 - decimalPoint))
@@ -65,6 +66,9 @@ const getApy = (rate) => {
 }
 
 export default class CToken {
+
+    transactionInProgress
+
     constructor (address, data, info) {
         const addressToSymbol = userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
         this.address = address
@@ -82,6 +86,17 @@ export default class CToken {
         this.allowance = this.userData.underlyingAllowance
         this.borrowed = this.getBorrowed()
         this.borrowedUsd = this.getBorrowedInUsd()
+        this.status = this.getCoinStatus()
+    }
+
+    getCoinStatus = () => {
+        if(this.underlyingBalanceUsdStr != "0" ){
+            return CoinStatusEnum.deposited
+        }
+        if(this.borrowedUsd != "0"){
+            return CoinStatusEnum.borrowed
+        }
+        return CoinStatusEnum.unused
     }
 
     displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {
@@ -132,6 +147,7 @@ export default class CToken {
     }
 
     validateInput = (input, action) => {
+        debugger
         try{
             if (input === null || input === undefined || input === ""){
                 return [false, ""]
@@ -143,21 +159,21 @@ export default class CToken {
                 return [false, `the ${action} amount must be positive`]
             }
             const value = new BN(toWei(input))
+            const {underlyingWalletBalance} = this.userData
+            const balance = new BN(underlyingWalletBalance)
             if(new BN(this.allowance).lt(value)){
                 return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
             }
-
-            if (action == ActionEnum.deposit) {
-                const {underlyingWalletBalance} = this.userData
-                const balance = new BN(underlyingWalletBalance)
+            if (action == ActionEnum.deposit || action == ActionEnum.repay) {
                 if(value.gt(balance)){
                     return [false, "Amount exceeds wallet balance"]
                 }
             }
             if (action == ActionEnum.withdraw) {
-                const balance = new BN(toWei(this.underlyingBalanceStr))
-                if(value.gt(balance)){
-                    return [false, `Amount exceeds ${this.symbol} balance`]
+                // validate the new borrow limit is not lower than the amount already borrowed
+                const deposited = this.underlyingBalance
+                if(value.gt(deposited)){
+                    return [false, `Amount exceeds deposited ${this.symbol} balance`]
                 }
                 if(compoundStore.totalBorrowedBalanceInUsd > 0){
                     // check that the new borrow limit would not become lower then the already borrowed amount
@@ -171,19 +187,34 @@ export default class CToken {
                     }
                 }
             }
-            if (action == ActionEnum.borrow) {
-                return [false, "not reday yet"]
+            if (action == ActionEnum.borrow) { 
+                const currentBorrowed = new BN(toWei(compoundStore.totalBorrowedBalanceInUsd))
+                const currentBorrowLimit = new BN(toWei(compoundStore.borrowLimitInUsd))
+                const allowedToBorrow = currentBorrowLimit.sub(currentBorrowed)
+                const inputInUsd = this.calcValueInUsd(input)
+                const inputGreaterThanReaminingBorrowLimit = new BN(toWei(inputInUsd)).gt(allowedToBorrow)
+                if(inputGreaterThanReaminingBorrowLimit){
+                    return [false, "Amount exceeds allowed borrowed"]
+                }
             }
             if (action == ActionEnum.repay) {
-                return [false, "not reday yet"]
+                if(value.gt(balance)){
+                    return [false, "Amount exceeds wallet balance"]
+                }
+                // validate repay amount not greater than borrowd
+                const {ctokenBorrowBalance} = this.userData
+                const tokenBorrowed = new BN(toWei(this.borrowed))
+                if(value.gt(tokenBorrowed)){
+                    return [false, "Amount exceeds borrowed amount"]
+                }
             }
             // default 
             return [true, ""]
 
-        }catch (err){
+        }catch (err){ 
             console.error(err)
+            return [false, "input is not valid"]
         }
-
     }
 
     deposit = async (amount, onHash) => {
@@ -191,7 +222,7 @@ export default class CToken {
         const depositAmount = toWei(amount)
         let ethToSendWithTransaction
         let txPromise
-        if(this.symbol == "ETH"){
+        if(this.symbol === "ETH"){
             txPromise = CI.depositEth(web3, networkType)
             ethToSendWithTransaction = depositAmount
         }else {
@@ -201,12 +232,12 @@ export default class CToken {
         return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
     }
 
-    witdraw = async (amount, onHash) => {
+    withdraw = async (amount, onHash) => {
         const {web3, networkType, user} = userStore
         const withdrawAmount = toWei(amount)
         let ethToSendWithTransaction = 0
         let txPromise
-        if(this.symbol = "ETH") {
+        if(this.symbol === "ETH") {
             txPromise = CI.withdrawEth(web3, networkType, withdrawAmount)
         } else {
             txPromise = CI.withdraw(web3, networkType, withdrawAmount, this.address)
@@ -215,11 +246,31 @@ export default class CToken {
     }
 
     borrow = async (amount, onHash) => {
-        throw new Error("not ready yet")
+        const {web3, networkType, user} = userStore
+        const borrowAmount = toWei(amount)
+        let ethToSendWithTransaction = 0
+        let txPromise
+        if(this.symbol === "ETH") {
+            txPromise = CI.borrowEth(web3, networkType, borrowAmount)
+        } else {
+            txPromise = CI.borrowToken(web3, networkType, borrowAmount, this.address)
+        }
+        return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
     }
 
     repay = async (amount, onHash) => {
-        throw new Error("not ready yet")
+        const {web3, networkType, user} = userStore
+        const reapyAmount = toWei(amount)
+        let ethToSendWithTransaction
+        let txPromise
+        if(this.symbol === "ETH"){
+            txPromise = CI.repayEth(web3, networkType)
+            ethToSendWithTransaction = reapyAmount
+        }else {
+            txPromise = CI.repayToken(web3, networkType, reapyAmount, this.address)
+            ethToSendWithTransaction = 0
+        }
+        return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
     }
 
     calcBorrowLimit = (value) => {

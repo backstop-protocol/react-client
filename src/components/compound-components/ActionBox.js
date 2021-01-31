@@ -86,15 +86,21 @@ class ActionBox extends Component {
     }
 
     reset = () => {
+        const {coin} = this.props
         setTimeout(()=> {
             this.setState({
                 transactionInProgress: false,
                 hash: null,
                 val: "",
                 err: "",
-                success: false
+                success: false,
+                inputIsValid: false, 
+                inputErrMsg: ""
             })
             this.props.close()
+            setTimeout(()=> {
+                compoundStore.toggleInTx(coin.address, false)
+            }, 500)
         }, 3000)
     }
 
@@ -103,9 +109,11 @@ class ActionBox extends Component {
     }
 
     doAction = async () => {
+        const {coin, action} = this.props
         try{
-            const {coin, action} = this.props
+            coin.transactionInProgress = action
             this.setState({transactionInProgress: true})
+            compoundStore.toggleInTx(coin.address, coin)
             await coin[action](this.state.val, this.onHash)
             this.setState({success: true})
             this.reset()

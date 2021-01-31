@@ -26,7 +26,7 @@ class Compound extends Component {
   }
 
   render() {
-    const { userInfo, userInfoUpdate, unBorrowedList, borrowedList, unDepositedList, depositedList } = compoundStore
+    const { userInfo, userInfoUpdate, coinList } = compoundStore
     console.log("comp userInfoUpdate ", userInfoUpdate)
     return (
       <div className="content">
@@ -37,12 +37,12 @@ class Compound extends Component {
         />
         <Flex style={{ marginTop: -30}} justifyCenter>
           <Flex column>
-            <BalanceBox type="deposit" list={depositedList}/>
-            <CoinListBox type="deposit" list={unDepositedList}/>
+            <BalanceBox type="deposit" list={coinList} showBox={compoundStore.showDepositWithdrawBox}/>
+            <CoinListBox type="deposit" list={coinList}/>
           </Flex>
           <Flex column>  
-            <BalanceBox type="borrow" list={borrowedList}/>
-            <CoinListBox type="borrow" list={unBorrowedList}/>
+            <BalanceBox type="borrow" list={coinList} showBox={compoundStore.showBorrowReapyBox}/>
+            <CoinListBox type="borrow" list={coinList}/>
           </Flex>
         </Flex>
       </div>

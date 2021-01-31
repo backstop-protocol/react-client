@@ -1,7 +1,9 @@
 import React, {Component} from "react";
 import {observer} from "mobx-react"
 import styled from "styled-components"
+import {Transition} from 'react-spring/renderprops'
 import BalanceListBox from "./BalanceListBox"
+import userStore from "../../stores/user.store"
 const depositOval = require("../../assets/images/deposit-withdraw.png")
 const borrowOval = require("../../assets/images/borrow-repay.png")
 
@@ -41,19 +43,28 @@ const Empty = (props) => {
 
 class BalanceBox extends Component {
     render () {
-        const {type, list} = this.props
-        if(!list.length){
-            return (
-                <Container>
-                    <div>{type == "deposit" ? "Deposit/Withdraw" : "Borrow/Repay"}</div>
-                    <BgImage type={type} />
-                </Container>
-            )
-        } else {
-            return (
-                <BalanceListBox type={type} list={list} />
-            )
-        }
+        const {type, list, showBox} = this.props
+        return (
+            <Transition
+                items={showBox}
+                immediate={!userStore.loggedIn}
+                config={{duration: 300}} 
+                from={{ opacity: 0, height: 0, zIndex: 0}}
+                enter={{ opacity: 1 , height: "auto", zIndex: 1}}
+                leave={{ opacity: 0, height: 0, zIndex: 0}}>
+                {showBox =>
+                    showBox
+                    ? props => <div style={props}>
+                        <Container><div>{type == "deposit" ? "Deposit/Withdraw" : "Borrow/Repay"}</div>
+                            <BgImage type={type} />
+                        </Container>
+                    </div>
+                    : props => <div style={props}>
+                        <BalanceListBox type={type} list={list} />
+                    </div>
+                }
+            </Transition>
+        )
     }
 }
 

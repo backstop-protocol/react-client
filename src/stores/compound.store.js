@@ -4,7 +4,7 @@
 import { runInAction, makeAutoObservable, observable } from "mobx"
 import userStore from "./user.store"
 import {getCompUserInfo } from "../lib/compound.interface"
-import CToken from "../lib/compound.util"
+import CToken, { CoinStatusEnum } from "../lib/compound.util"
 import Web3 from "web3"
 
 const {BN, toWei, fromWei} = Web3.utils
@@ -16,24 +16,28 @@ class CompoundStore {
     userInfoTimeouts = []
     userInfoUpdate = 0
 
-    unDepositedList = []
-    depositedList = []
-    unBorrowedList = []
-    borrowedList = []
+    coinList = []
+    showBorrowReapyBox = false
+    showDepositWithdrawBox = false
 
     totalDespositedBalanceInUsd
     totalBorrowedBalanceInUsd
     borrowLimitInUsd
-    coinMap = {} 
+    coinMap = {}
+    coinsInTx = {}
 
     constructor (){
         makeAutoObservable(this)
     }
 
-    getUnDeposited = ({bUser, tokenInfo}) => Object.keys(bUser).filter(key => tokenInfo[key].listed && bUser[key].ctokenBalance === "0")
-    getDeposited = ({bUser, tokenInfo}) => Object.keys(bUser).filter(key => tokenInfo[key].listed && bUser[key].ctokenBalance !== "0")
-    getUnBorrowedList = ({bUser, tokenInfo}) => Object.keys(bUser).filter(key => tokenInfo[key].listed && bUser[key].ctokenBorrowBalance === "0")
-    getborrowedList = ({bUser, tokenInfo}) => Object.keys(bUser).filter(key =>  tokenInfo[key].listed && bUser[key].ctokenBorrowBalance !== "0")
+    toggleInTx = (address, inTx) => {
+        if(inTx){
+            this.coinsInTx[address] = inTx
+        }else{
+            delete this.coinsInTx[address]
+        }
+        this.showHideEmptyBalanceBoxs()    
+    }
 
     getUserInfo = async () => {
         try {
@@ -46,14 +50,27 @@ class CompoundStore {
                 this.calcBorrowedBalance()
                 this.calcBorrowLimit()
                 this.userInfoUpdate ++
-                this.unDepositedList = this.getUnDeposited(compUserInfo)
-                this.depositedList = this.getDeposited(compUserInfo)
-                this.unBorrowedList = this.getUnBorrowedList(compUserInfo)
-                this.borrowedList = this.getborrowedList(compUserInfo)
+                this.coinList = Object.keys(this.userInfo.bUser)
+                this.showHideEmptyBalanceBoxs()
             })
         } catch (err) {
             console.log(err)
         }
+    }
+
+    showHideEmptyBalanceBoxs = () =>{
+        let noCoinDeposited = true
+        let noCoinBorrowed = true
+        const coins = Object.values(Object.assign({}, this.coinMap, this.coinsInTx)).forEach(coin => {
+            if(coin.status === CoinStatusEnum.deposited){
+                noCoinDeposited = false
+            }
+            if(coin.status === CoinStatusEnum.borrowed){
+                noCoinBorrowed = false
+            }
+        })
+        this.showBorrowReapyBox = noCoinBorrowed
+        this.showDepositWithdrawBox = noCoinDeposited
     }
 
     getBuserTokenData = (address) => {
@@ -72,8 +89,6 @@ class CompoundStore {
         this.userInfoTimeouts.forEach(clearTimeout) // clearing all timeouts
         this.userInfoTimeouts = timeouts.map(timeout => setTimeout(this.getUserInfo, timeout)) // setting 4 new one
     }
-
-
 
     initCoins = () => {
         Object.keys(this.userInfo.bUser).forEach(address=> {
