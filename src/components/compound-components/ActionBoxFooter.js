@@ -3,6 +3,7 @@ import {observer} from "mobx-react"
 import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
 import BorrowLimit from "./BorrowLimit"
+import { ActionEnum } from "../../lib/compound.util";
 
 const Container = styled.div`
     margin-top: 43px;
@@ -38,8 +39,15 @@ const Amount = styled.div`
 class ActionBoxFooter extends Component {
 
     render (){
-        const {coin} = this.props
+        const {coin, value, action} = this.props
         const {displayNum, underlyingBalanceStr, symbol, WalletBalanceStr} = coin
+        let updatedTotalDeposit = parseFloat(displayNum(underlyingBalanceStr, 4))
+        if(action == ActionEnum.deposit){
+            updatedTotalDeposit = updatedTotalDeposit + parseFloat(displayNum(value, 4))
+        }
+        if(action == ActionEnum.withdraw){
+            updatedTotalDeposit = updatedTotalDeposit - parseFloat(displayNum(value, 4))
+        }
         return (
             <Container>
                 <Flex>
@@ -49,7 +57,7 @@ class ActionBoxFooter extends Component {
                     </FlexItem>
                     <FlexItem className="grey-divider" style={{width: "20%"}}>
                         <SmallTitle>Total deposit</SmallTitle>
-                        <Amount>{displayNum(underlyingBalanceStr, 4)} {symbol}</Amount>
+                        <Amount>{updatedTotalDeposit} {symbol}</Amount>
                     </FlexItem>
                     <FlexItem className="grey-divider" style={{width: "50%"}}>
                         <SmallTitle>Borrow Limit</SmallTitle>

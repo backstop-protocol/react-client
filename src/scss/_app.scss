@@ -5,7 +5,10 @@
   display: flex;
   width: 100%;
   min-height: 100%;
-
+  padding-left: 264px;
+  @media screen and (max-width: 1600px) {
+    padding-left: 227px;
+  }
   .content {
     flex: 1;
   }

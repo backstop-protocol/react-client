@@ -7,7 +7,7 @@ import Unlock from "./Unlock"
 import TxInProgress from "./TxInProgress"
 import Loading from "../action-panels/Loading"
 import Tooltip from "../Tooltip"
-import {ActionEnum} from "../../lib/compound.util"
+import {ActionEnum, roundBigFloatAfterTheDeciaml} from "../../lib/compound.util"
 import compoundStore from "../../stores/compound.store"
 
 const Container = styled.div`
@@ -18,7 +18,10 @@ const Container = styled.div`
         if (tx) return "100px"
     }};
     .currency-input-button{
-        text-transform: capitalize;
+        text-transform: uppercase;
+    }
+    .set-max{
+        font-size: 14px;
     }
 `
 
@@ -32,6 +35,10 @@ const AnimatedContent = styled.div`
     opacity: ${({open}) => open ? 1 : 0 }; 
     padding-top: ${({open}) => open ? "20px" : 0 }; 
     margin: 0 40px;
+    /* all childern */
+    & > * {
+        display: ${({open}) => open ? "" : "none" };
+    }
     /* over riding some loader styles */
     .currency-action-panel{
         border: none;
@@ -130,6 +137,37 @@ class ActionBox extends Component {
         this.setState({val, inputIsValid, inputErrMsg});
     };
 
+    showSetMax = () => {
+        const {coin, action} = this.props
+        if(action === ActionEnum.withdraw){
+            const noDebtAtAll = compoundStore.totalBorrowedBalanceInUsd <= 1
+            if(noDebtAtAll){
+                return true
+            }
+        }
+        if(action === ActionEnum.repay){
+            // debt is smaller than underlying wallet balance
+            if(coin.canRepayAll()){
+                return true
+            }
+        }
+        return false
+    }
+
+    setMax = () => {
+        const {coin, action} = this.props
+        let val = ""
+        if(action === ActionEnum.repay){
+            val = coin.borrowed
+        }
+        if(action === ActionEnum.withdraw){
+            // val = roundBigFloatAfterTheDeciaml(coin.underlyingBalanceStr, 1000000)
+            val = coin.underlyingBalanceStr
+        }
+        const [inputIsValid, inputErrMsg] = coin.validateInput(val, action)
+        this.setState({val, inputIsValid, inputErrMsg});
+    }
+
     render () {
         const { isOpen, close, action, coin } = this.props
         const { transactionInProgress, hash, err, val, success, inputErrMsg, inputIsValid } = this.state
@@ -153,6 +191,7 @@ class ActionBox extends Component {
                             <Flex style={{width: "50%"}} column>
             
                                 <div className="currency-input tooltip-container">
+                                {this.showSetMax() && <div className="set-max" onClick={this.setMax}>Set Max</div>}
                                     <input type="text" value={this.state.val} onChange={this.onInputChange} placeholder={`Amount in ${coin.symbol}`} ref={e => this.input = e} />
                                     {inputErrMsg && <Tooltip bottom={true} className={'warning'}>{inputErrMsg}</Tooltip>}
                                 </div>
@@ -168,7 +207,6 @@ class ActionBox extends Component {
                     </AnimatedContent>
             </Container>
         )
-
     }
 }
 

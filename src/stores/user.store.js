@@ -5,6 +5,7 @@ import { runInAction, makeAutoObservable } from "mobx"
 import compoundStore from "./compound.store"
 import makerStore from "./maker.store"
 import routerStore from "./router.store"
+import EventBus from "../lib/EventBus"
 
 class UserStore {
 
@@ -20,8 +21,13 @@ class UserStore {
     }
 
     async onConnect(web3, user) {
-        const networkType = await web3.eth.net.getId()     
+        const networkType = await web3.eth.net.getId()
+        if(networkType != 42){
+            EventBus.$emit("app-error","Only Kovan testnet is supported");
+            return //exit
+        }
         runInAction(()=> { 
+          
             this.networkType = networkType
             this.web3 = web3;
             this.user = user

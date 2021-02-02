@@ -5,6 +5,7 @@ import { runInAction, makeAutoObservable, observable } from "mobx"
 import userStore from "./user.store"
 import {getCompUserInfo } from "../lib/compound.interface"
 import CToken, { CoinStatusEnum } from "../lib/compound.util"
+import {initialState} from "../lib/compoundConfig/initialState"
 import Web3 from "web3"
 
 const {BN, toWei, fromWei} = Web3.utils
@@ -20,14 +21,15 @@ class CompoundStore {
     showBorrowReapyBox = false
     showDepositWithdrawBox = false
 
-    totalDespositedBalanceInUsd
-    totalBorrowedBalanceInUsd
-    borrowLimitInUsd
+    totalDespositedBalanceInUsd = "0"
+    totalBorrowedBalanceInUsd = "0"
+    borrowLimitInUsd = "0"
     coinMap = {}
     coinsInTx = {}
 
     constructor (){
         makeAutoObservable(this)
+        this.processUserInfo(initialState)
     }
 
     toggleInTx = (address, inTx) => {
@@ -43,19 +45,23 @@ class CompoundStore {
         try {
             const { web3, networkType, user } = userStore
             let compUserInfo = await getCompUserInfo(web3, networkType, user)
-            runInAction(()=> {
-                this.userInfo = compUserInfo
-                this.initCoins()
-                this.calcDpositedBalance()
-                this.calcBorrowedBalance()
-                this.calcBorrowLimit()
-                this.userInfoUpdate ++
-                this.coinList = Object.keys(this.userInfo.bUser)
-                this.showHideEmptyBalanceBoxs()
-            })
+            this.processUserInfo(compUserInfo)
         } catch (err) {
             console.log(err)
         }
+    }
+
+    processUserInfo = (userInfo) => {
+        runInAction(()=> {
+            this.userInfo = userInfo
+            this.initCoins()
+            this.calcDpositedBalance()
+            this.calcBorrowedBalance()
+            this.calcBorrowLimit()
+            this.userInfoUpdate ++
+            this.coinList = Object.keys(this.userInfo.bUser)
+            this.showHideEmptyBalanceBoxs()
+        })
     }
 
     showHideEmptyBalanceBoxs = () =>{
@@ -102,7 +108,9 @@ class CompoundStore {
         Object.values(this.coinMap).forEach(coin => {
             depositsInUsd = depositsInUsd.add(new BN(toWei(coin.underlyingBalanceUsdStr).toString()))
         })
-        this.totalDespositedBalanceInUsd = fromWei(depositsInUsd)
+        runInAction(()=> {
+            this.totalDespositedBalanceInUsd = fromWei(depositsInUsd)     
+        })
     }
 
     calcBorrowedBalance = () => {
@@ -111,7 +119,9 @@ class CompoundStore {
         Object.values(this.coinMap).forEach(coin => {
             borrowedInUsd = borrowedInUsd.add(new BN(toWei(coin.borrowedUsd).toString()))
         })
-        this.totalBorrowedBalanceInUsd = fromWei(borrowedInUsd)
+        runInAction(()=>{
+            this.totalBorrowedBalanceInUsd = fromWei(borrowedInUsd)
+        })
     }
 
     calcBorrowLimit = () => {

@@ -12,6 +12,13 @@ const {BN, toWei, fromWei} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
 export const maxAllowance = new BN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)
 
+export const roundBigFloatAfterTheDeciaml = (bigFloat, roundBy) => {
+    roundBy = new BN(roundBy)
+    const num = new BN(toWei(bigFloat))
+
+    return fromWei(num.divRound(roundBy).mul(roundBy).toString())
+}
+
 const kovanAddressToSymbol = {}
 const mainnetAddressToSymbol = {}
 
@@ -70,7 +77,7 @@ export default class CToken {
     transactionInProgress
 
     constructor (address, data, info) {
-        const addressToSymbol = userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
+        const addressToSymbol = userStore && userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
         this.address = address
         this.userData = data
         this.tokenInfo = info
@@ -292,5 +299,13 @@ export default class CToken {
         const usdVal = (value.mul(price)).div(_1e18)
         const res = fromWei(usdVal.toString()) // 1 eth should be equal to 1 eth in USD on compound
         return res
+    }
+
+    canRepayAll = () => {
+        if(this.borrowed <= this.WalletBalanceStr){
+            return true
+        }else {
+            return false
+        }
     }
 }

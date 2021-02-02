@@ -141,6 +141,14 @@ class CoinListItem extends Component {
         }
     }
 
+    open (action) {
+        if(!userStore.loggedIn){
+            userStore.showConnect()
+            return
+        }
+        this.setState({open: true, action})
+    }
+
     render () {
         const {isInBalanceBox, type, lastItem, coinAddress} = this.props
         const isAssetColumn = type == "deposit" // represnts the veriant between the left column containing positive Assets and the right column containing Liabilities
@@ -191,8 +199,8 @@ class CoinListItem extends Component {
                                             </FlexItem>
                                             <Flex justifyEnd style={{width: "25%"}}>
                                                 <Flex column justifyAround>
-                                                    <button onClick={()=>this.setState({open: true, action: actionBtn1})} style={{marginBottom: "10px"}}  className="currency-action-button">{actionBtn1}</button>
-                                                    <button onClick={()=>this.setState({open: true, action: actionBtn2})} className="currency-action-button">{actionBtn2}</button>
+                                                    <button onClick={()=>this.open(actionBtn1)} style={{marginBottom: "10px"}}  className="currency-action-button">{actionBtn1}</button>
+                                                    <button onClick={()=>this.open(actionBtn2)} className="currency-action-button">{actionBtn2}</button>
                                                 </Flex>
                                             </Flex>
                                         </Flex>
