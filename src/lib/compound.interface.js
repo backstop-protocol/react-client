@@ -9,17 +9,17 @@ import Web3 from "web3"
 const {toBN, toWei, fromWei} = Web3.utils
 
 
-const compUserInfoAddress = "0x2fae41824025d4b5d7556ab921c3ccb0bbeb46ed" //
+const compUserInfoAddress = "0xb3cfb23a171e3fe2ea80ac1865dda74ca2363fcb" //
 export const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+const bComptroller = "0x16f56Cda8741613348257b82D28008E6CfC20D84"
 
 export const getAddress = (name, networkId) => {
   const addresses = networkId == 42 ? kovanAddresses : {}
   return addresses[name]
 }
 
-export const depositEth = (web3, networkId) => {
+export const depositEth = (web3, networkId, cEthAddress) => {
   const { Contract } = web3.eth
-  const cEthAddress = getAddress("cETH", networkId)
   const cETH = new Contract(ABI.cETH, cEthAddress)
   return cETH.methods.mint()
 }
@@ -44,9 +44,8 @@ export const getOpenMarkets = (web3, networkId, user) => {
   return comptroller.methods.getAssetsIn(user).call()
 }
 
-export const borrowEth = (web3, networkId, amount) => {
+export const borrowEth = (web3, networkId, amount, cEthAddress) => {
   const { Contract } = web3.eth
-  const cEthAddress = getAddress("cETH", networkId)
   const cEth = new Contract(ABI.cETH, cEthAddress)
   return cEth.methods.borrow(amount)
 }
@@ -57,9 +56,8 @@ export const borrowToken = (web3, networkId, amount, tokenAddress) => {
   return cToken.methods.borrow(amount)
 }
 
-export const repayEth = (web3, networkId) => {
+export const repayEth = (web3, networkId, cEthAddress) => {
   const { Contract } = web3.eth
-  const cEthAddress = getAddress("cETH", networkId)
   const cETH = new Contract(ABI.cETH, cEthAddress)
   return cETH.methods.repayBorrow()
 }
@@ -70,9 +68,8 @@ export const repayToken = (web3, networkId, amount, tokenAddress) => {
   return cToken.methods.repayBorrow(amount)
 }
 
-export const withdrawEth = (web3, networkId, amount) => {
+export const withdrawEth = (web3, networkId, amount, cEthAddress) => {
   const { Contract } = web3.eth
-  const cEthAddress = getAddress("cETH", networkId)
   const cETH = new Contract(ABI.cETH, cEthAddress)
   return cETH.methods.redeemUnderlying(amount)
 }
@@ -122,7 +119,7 @@ export const getCompUserInfo = async (web3, networkId, user) => {
   const { Contract } = web3.eth
   const userInfoContract = new Contract(compUserInfoAbi, compUserInfoAddress)
   const comptroller = getAddress("Comptroller", networkId)
-  const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller)
+  const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptroller)
   const userInfo = await userInfoTx.call({ gasLimit: "10000000" })
   return normlizeCompUserInfo(userInfo)
 }

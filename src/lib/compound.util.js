@@ -77,11 +77,12 @@ export default class CToken {
     transactionInProgress
 
     constructor (address, data, info) {
-        const addressToSymbol = userStore && userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
+        
         this.address = address
         this.userData = data
         this.tokenInfo = info
-        this.symbol = (addressToSymbol[address] || "").replace("c", "")
+        const addressToSymbol = userStore && userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
+        this.symbol = (addressToSymbol[this.tokenInfo.ctoken] || "").replace("c", "")
         this.icon = this.getIcon()
         this.underlyingBalance = this.getUnderlyingBalance()
         this.underlyingBalanceStr = toDecimalPointFormat(this.underlyingBalance, this.tokenInfo.underlyingDecimals)
@@ -228,8 +229,9 @@ export default class CToken {
         const depositAmount = toWei(amount)
         let ethToSendWithTransaction
         let txPromise
+        debugger
         if(this.symbol === "ETH"){
-            txPromise = CI.depositEth(web3, networkType)
+            txPromise = CI.depositEth(web3, networkType, this.address)
             ethToSendWithTransaction = depositAmount
         }else {
             txPromise = CI.depositToken(web3, networkType, this.address, depositAmount)
@@ -244,7 +246,7 @@ export default class CToken {
         let ethToSendWithTransaction = 0
         let txPromise
         if(this.symbol === "ETH") {
-            txPromise = CI.withdrawEth(web3, networkType, withdrawAmount)
+            txPromise = CI.withdrawEth(web3, networkType, withdrawAmount, this.address)
         } else {
             txPromise = CI.withdraw(web3, networkType, withdrawAmount, this.address)
         }
@@ -257,7 +259,7 @@ export default class CToken {
         let ethToSendWithTransaction = 0
         let txPromise
         if(this.symbol === "ETH") {
-            txPromise = CI.borrowEth(web3, networkType, borrowAmount)
+            txPromise = CI.borrowEth(web3, networkType, borrowAmount, this.address)
         } else {
             txPromise = CI.borrowToken(web3, networkType, borrowAmount, this.address)
         }
@@ -270,7 +272,7 @@ export default class CToken {
         let ethToSendWithTransaction
         let txPromise
         if(this.symbol === "ETH"){
-            txPromise = CI.repayEth(web3, networkType)
+            txPromise = CI.repayEth(web3, networkType, this.address)
             ethToSendWithTransaction = reapyAmount
         }else {
             txPromise = CI.repayToken(web3, networkType, reapyAmount, this.address)
