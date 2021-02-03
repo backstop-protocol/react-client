@@ -115,7 +115,8 @@ class HeaderBorrowLimit extends Component {
 
         
         // const precent = borrowLimit > 0 ? ((borrowed / borrowLimit) * 100).toFixed(2) : 0
-        const precent = borrowLimit > 0 ? ((borrowed / borrowLimit) * 100).toFixed(0) : 0
+        let precent = borrowLimit > 0 ? ((borrowed / borrowLimit) * 100).toFixed(0) : 0
+        precent = precent > 100 ? 100 : precent
         return (
             <Container>
                 <Flex column justifyEnd full>
