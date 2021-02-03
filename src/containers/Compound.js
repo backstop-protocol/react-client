@@ -13,6 +13,7 @@ import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
 import BalanceBox from "../components/compound-components/BalanceBox"
 import CoinListBox from "../components/compound-components/CoinListBox"
+import {CoinStatusEnum} from "../lib/compound.util"
 
 
 class Compound extends Component {
@@ -37,12 +38,12 @@ class Compound extends Component {
         />
         <Flex style={{ marginTop: -30}} justifyCenter>
           <Flex column>
-            <BalanceBox type="deposit" list={coinList} showBox={compoundStore.showDepositWithdrawBox}/>
-            <CoinListBox type="deposit" list={coinList}/>
+            <BalanceBox coinStatusToShow={CoinStatusEnum.deposited} type="deposit" list={coinList} showBox={compoundStore.showDepositWithdrawBox}/>
+            <CoinListBox coinStatusToShow={CoinStatusEnum.unDeposited} type="deposit" list={coinList}/>
           </Flex>
           <Flex column>  
-            <BalanceBox type="borrow" list={coinList} showBox={compoundStore.showBorrowReapyBox}/>
-            <CoinListBox type="borrow" list={coinList}/>
+            <BalanceBox coinStatusToShow={CoinStatusEnum.borrowed} type="borrow" list={coinList} showBox={compoundStore.showBorrowReapyBox}/>
+            <CoinListBox coinStatusToShow={CoinStatusEnum.unBorrowed} type="borrow" list={coinList}/>
           </Flex>
         </Flex>
       </div>

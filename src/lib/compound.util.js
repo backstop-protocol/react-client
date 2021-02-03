@@ -40,7 +40,7 @@ const wApiAction = async(...args) => {
 }
 
 export const ActionEnum = Object.freeze({"deposit": "deposit", "withdraw": "withdraw", "borrow": "borrow", "repay": "repay"})
-export const CoinStatusEnum = Object.freeze({"deposited": "deposited", "borrowed": "borrowed", "unused": "unused"})
+export const CoinStatusEnum = Object.freeze({"deposited": "deposited", "borrowed": "borrowed", "unBorrowed": "unBorrowed", "unDeposited": "unDeposited"})
 
 const toDecimalPointFormat = (bn, decimalPoint) => {
     const factor = new BN(10).pow(new BN(18 - decimalPoint))
@@ -94,17 +94,24 @@ export default class CToken {
         this.allowance = this.userData.underlyingAllowance
         this.borrowed = this.getBorrowed()
         this.borrowedUsd = this.getBorrowedInUsd()
-        this.status = this.getCoinStatus()
+        this.isCoinStatus()
     }
 
-    getCoinStatus = () => {
-        if(this.underlyingBalanceUsdStr != "0" ){
-            return CoinStatusEnum.deposited
+    isCoinStatus = (statusToCheck) => {
+        debugger
+        if(statusToCheck == CoinStatusEnum.deposited && this.underlyingBalanceUsdStr != "0" ){
+            return true
         }
-        if(this.borrowedUsd != "0"){
-            return CoinStatusEnum.borrowed
+        if(statusToCheck == CoinStatusEnum.borrowed && this.borrowedUsd != "0"){
+            return true
         }
-        return CoinStatusEnum.unused
+        if(statusToCheck == CoinStatusEnum.unDeposited && this.underlyingBalanceUsdStr == "0" ){
+            return true
+        }
+        if(statusToCheck == CoinStatusEnum.unBorrowed && this.borrowedUsd == "0"){
+            return true
+        }
+        return false
     }
 
     displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {

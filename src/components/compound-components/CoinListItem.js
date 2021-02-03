@@ -127,19 +127,6 @@ class CoinListItem extends Component {
         }
     }
 
-    getListType () {
-        const {isInBalanceBox, type } = this.props
-        const isAssetColumn = type == "deposit"
-        if(!isInBalanceBox){
-            return CoinStatusEnum.unused
-        }
-        if(isAssetColumn){
-            return CoinStatusEnum.deposited
-        }
-        if(!isAssetColumn){
-            return CoinStatusEnum.borrowed
-        }
-    }
 
     open (action) {
         if(!userStore.loggedIn){
@@ -150,11 +137,10 @@ class CoinListItem extends Component {
     }
 
     render () {
-        const {isInBalanceBox, type, lastItem, coinAddress} = this.props
+        const {isInBalanceBox, type, lastItem, coinAddress, coinStatusToShow} = this.props
         const isAssetColumn = type == "deposit" // represnts the veriant between the left column containing positive Assets and the right column containing Liabilities
         const coin = compoundStore.coinsInTx[coinAddress] || compoundStore.coinMap[coinAddress] // preserve state until tx is finished and UI is ready to dispaly new coin state
-        const coinStatusToDispaly = this.getListType()
-        const show = coinStatusToDispaly === coin.status
+        const show = coin.isCoinStatus(coinStatusToShow)
         const {displayNum} = coin
         const APY = isAssetColumn ? coin.positiveApy : coin.negetiveApy
         const balance = isAssetColumn ? coin.underlyingBalanceStr : coin.borrowed

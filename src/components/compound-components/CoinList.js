@@ -7,9 +7,9 @@ import Flex, {FlexItem} from "styled-flex-component";
 class CoinList extends Component {
 
     render () {
-        const {list, isInBalanceBox, type} = this.props
+        const {list, isInBalanceBox, type, coinStatusToShow} = this.props
         return list.map((v, i)=> {
-            return <CoinListItem type={type} isInBalanceBox={isInBalanceBox} lastItem={i == list.length - 1} coinAddress={v} key={i} />
+            return <CoinListItem coinStatusToShow={coinStatusToShow} type={type} isInBalanceBox={isInBalanceBox} lastItem={i == list.length - 1} coinAddress={v} key={i} />
         })
     }
 }

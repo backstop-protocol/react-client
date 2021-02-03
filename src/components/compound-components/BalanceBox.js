@@ -43,7 +43,7 @@ const Empty = (props) => {
 
 class BalanceBox extends Component {
     render () {
-        const {type, list, showBox} = this.props
+        const {type, list, showBox, coinStatusToShow} = this.props
         return (
             <Transition
                 items={showBox}
@@ -60,7 +60,7 @@ class BalanceBox extends Component {
                         </Container>
                     </div>
                     : props => <div style={props}>
-                        <BalanceListBox type={type} list={list} />
+                        <BalanceListBox type={type} list={list} coinStatusToShow={coinStatusToShow} />
                     </div>
                 }
             </Transition>

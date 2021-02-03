@@ -20,11 +20,11 @@ const Container = styled.div`
 class CoinListBox extends Component {
 
     render () {
-        const {list, type} = this.props        
+        const {list, type, coinStatusToShow} = this.props        
         return (
             <Container>
                 <CoinListHeader/>
-                <CoinList type={type} list={list}/>
+                <CoinList coinStatusToShow={coinStatusToShow} type={type} list={list}/>
             </Container>
         )
     }

@@ -68,10 +68,10 @@ class CompoundStore {
         let noCoinDeposited = true
         let noCoinBorrowed = true
         const coins = Object.values(Object.assign({}, this.coinMap, this.coinsInTx)).forEach(coin => {
-            if(coin.status === CoinStatusEnum.deposited){
+            if(coin.isCoinStatus(CoinStatusEnum.deposited)){
                 noCoinDeposited = false
             }
-            if(coin.status === CoinStatusEnum.borrowed){
+            if(coin.isCoinStatus(CoinStatusEnum.borrowed)){
                 noCoinBorrowed = false
             }
         })
