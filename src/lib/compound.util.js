@@ -48,6 +48,12 @@ const toDecimalPointFormat = (bn, decimalPoint) => {
     return fromWei(x) 
 }
 
+const fromDeciamlPointFormat = (num, decimalPoint) => {
+    const factor = new BN(10).pow(new BN(18 - decimalPoint))
+    const x = new BN(toWei(num))
+    return x.div(factor)
+}
+
 const getUnderlying = (data, info) => {
     return (new BN(data.ctokenBalance).mul(new BN(info.ctokenExchangeRate))).div(_1e18)
 }
@@ -98,7 +104,6 @@ export default class CToken {
     }
 
     isCoinStatus = (statusToCheck) => {
-        debugger
         if(statusToCheck == CoinStatusEnum.deposited && this.underlyingBalanceUsdStr != "0" ){
             return true
         }
@@ -236,7 +241,6 @@ export default class CToken {
         const depositAmount = toWei(amount)
         let ethToSendWithTransaction
         let txPromise
-        debugger
         if(this.symbol === "ETH"){
             txPromise = CI.depositEth(web3, networkType, this.address)
             ethToSendWithTransaction = depositAmount
