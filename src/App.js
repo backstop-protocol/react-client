@@ -1,6 +1,6 @@
 import React, {Suspense} from "react";
 import "./style.scss";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import AppError from "./components/AppError";
 import NotificationsContainer from "./components/style-components/NotificationsContainer";
 import AppAlert from "./components/AppAlert";
@@ -40,12 +40,16 @@ const App = observer(() => {
       <ModalContainer></ModalContainer>
       <Sidebar initialState="maker" />
         <Router history={browserHistory}>
+          {/* Default route */}
+            <Route exact path="/">
+              <Redirect to="/app"/>
+            </Route>
             <Route exact path="/app" render={props =>(renderPage(props, Dashboard))} />
-            <Route exact path="/app/maker" render={props =>(renderPage(props, Dashboard))} />
-            <Route exact path="/app/compound" render={props =>(renderPage(props, Compound))} />
-            <Route exact path="/app/faq" render={props =>(renderPage(props, FAQ))} />
-            <Route exact path="/app/terms" render={props =>(renderPage(props, TermsOfUse))} />
-            <Route exact path="/app/risk" render={props =>(renderPage(props, Risk))} />
+            <Route exact path="/maker" render={props =>(renderPage(props, Dashboard))} />
+            <Route exact path="/compound" render={props =>(renderPage(props, Compound))} />
+            <Route exact path="/faq" render={props =>(renderPage(props, FAQ))} />
+            <Route exact path="/terms" render={props =>(renderPage(props, TermsOfUse))} />
+            <Route exact path="/risk" render={props =>(renderPage(props, Risk))} />
         </Router>
     </div>
   );

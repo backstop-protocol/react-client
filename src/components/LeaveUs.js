@@ -87,7 +87,7 @@ const LeavUs = observer(props => {
             setDone(false)
             setTxErr(false)
             setWating(false)
-            routerStore.routeProps.history.push('/app')
+            routerStore.routeProps.history.push('/maker')
         }, 2500)
     }
 

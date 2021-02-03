@@ -37,9 +37,10 @@ class Sidebar extends Component {
 
   render() {
     const { history } = routerStore.routeProps;
+    const {search, pathname} = history.location
     const { loggedIn, showConnect } = userStore
     const { userInfo } = makerStore
-    const params = qs.parse(history.location.search, { ignoreQueryPrefix: true })
+    const params = qs.parse(search, { ignoreQueryPrefix: true })
     return (
       <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
@@ -79,19 +80,19 @@ class Sidebar extends Component {
           <div className="products">
             <div
               className={`product link-accesible ${
-                history.location.pathname === "/app" &&
+                (pathname === "/maker" || pathname === "/app") &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("app")}
+              onClick={() => this.handleItemSelect("maker")}
             >
               <img src={MakerLogo} />
             </div>
             <div 
               className={`product link-accesible ${
-                history.location.pathname === "/app/compound" &&
+                pathname === "/compound" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("app/compound")}>
+              onClick={() => this.handleItemSelect("compound")}>
               <img src={CompoundLogo} />
             </div>
             <div className="product">
@@ -102,28 +103,28 @@ class Sidebar extends Component {
           <div className="ln"> </div>
           <div
             className={`product link-accesible ${
-              history.location.pathname === "/app/faq" &&
+              pathname === "/faq" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("app/faq")}
+            onClick={() => this.handleItemSelect("faq")}
           >
             <p className="menu-item">FAQ</p>
           </div>
           <div
             className={`product link-accesible ${
-              history.location.pathname === "/app/risk" &&
+              pathname === "/risk" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("app/risk")}
+            onClick={() => this.handleItemSelect("risk")}
           >
             <p className="menu-item">Risks</p>
           </div>
           <div
             className={`product link-accesible ${
-              history.location.pathname === "/app/terms" &&
+              pathname === "/terms" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("app/terms")}
+            onClick={() => this.handleItemSelect("terms")}
           >
             <p className="menu-item">Terms of Use</p>
           </div>

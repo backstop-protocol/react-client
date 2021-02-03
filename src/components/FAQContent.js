@@ -25,7 +25,7 @@ const FAQContent = () => {
 
       <h4>4. How do I use B.protocol?</h4>
       <p className="item-content-text">
-        <strong>A.</strong> Head over to bprotocol.org/app and connect your
+        <strong>A.</strong> Head over to bprotocol.org and connect your
         wallet -<br />
         <span className="item-sub-text">
           <strong>i. </strong> If you are already a user of MakerDAO - you can
@@ -89,7 +89,7 @@ const FAQContent = () => {
       <p className="item-content-text">
         <strong>A. </strong>You can export your Vault back to MakerDAO at any time, 
         and still maintain your accumulated score. 
-        Simply go <Link to="/app?export=true">here</Link> and click the export button.
+        Simply go <Link to="/maker?export=true">here</Link> and click the export button.
       </p>
     </p>
   );

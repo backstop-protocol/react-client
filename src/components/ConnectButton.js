@@ -77,7 +77,7 @@ class ConnectButton extends Component {
               <span>
                 By using bprotocol, you agree to the{" "}
                 <Link 
-                  to="/app/terms"
+                  to="/terms"
                   style={{
                     color: "#119349",
                     fontStyle: "italic",
