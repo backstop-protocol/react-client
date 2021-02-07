@@ -141,7 +141,7 @@ class ActionBox extends Component {
     }
 
     setMax = () => {
-        const {coin, action} = this.props
+        const {coin, action, store} = this.props
         let val = ""
         if(action === ActionEnum.repay){
             val = coin.borrowed
@@ -150,7 +150,9 @@ class ActionBox extends Component {
             val = coin.underlyingBalanceStr
         }
         const [inputIsValid, inputErrMsg] = coin.validateInput(val, action)
-        this.setState({val, inputIsValid, inputErrMsg});
+        store.val = val 
+        store.inputIsValid = inputIsValid 
+        store.inputErrMsg = inputErrMsg
     }
 
     render () {
