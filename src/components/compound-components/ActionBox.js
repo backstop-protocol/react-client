@@ -82,29 +82,11 @@ class ActionBox extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            transactionInProgress: false,
-            hash: null,
-            val: "",
-            err: "",
-            inputIsValid: false,
-            inputErrMsg: ""
-        }
     }
 
     reset = () => {
         const {coin} = this.props
         setTimeout(()=> {
-            this.setState({
-                transactionInProgress: false,
-                hash: null,
-                val: "",
-                err: "",
-                success: false,
-                inputIsValid: false, 
-                inputErrMsg: ""
-            })
             this.props.close()
             setTimeout(()=> {
                 compoundStore.toggleInTx(coin.address, false)
@@ -113,29 +95,32 @@ class ActionBox extends Component {
     }
 
     onHash = hash => {
-        this.setState({hash})
+        const {store} = this.props
+        store.hash = hash
     }
 
     doAction = async () => {
-        const {coin, action} = this.props
+        const {coin, action, store} = this.props
         try{
             coin.transactionInProgress = action
-            this.setState({transactionInProgress: true})
+            store.transactionInProgress = true
             compoundStore.toggleInTx(coin.address, coin)
-            await coin[action](this.state.val, this.onHash)
-            this.setState({success: true})
+            await coin[action](store.val, this.onHash)
+            store.success = true
             this.reset()
         } catch (err){
-            this.setState({err: err.message})
+            store.err = err.message
             this.reset()
         }
     }
 
     onInputChange = (e) => {
-        const {coin, action} = this.props
+        const {coin, action, store} = this.props
         const val = e.target.value;
         const [inputIsValid, inputErrMsg] = coin.validateInput(val, action)
-        this.setState({val, inputIsValid, inputErrMsg});
+        store.val = val 
+        store.inputIsValid = inputIsValid 
+        store.inputErrMsg = inputErrMsg
     };
 
     showSetMax = () => {
@@ -169,8 +154,8 @@ class ActionBox extends Component {
     }
 
     render () {
-        const { isOpen, close, action, coin } = this.props
-        const { transactionInProgress, hash, err, val, success, inputErrMsg, inputIsValid } = this.state
+        const { isOpen, close, action, coin, store } = this.props
+        const { transactionInProgress, hash, err, val, success, inputErrMsg, inputIsValid } = store
         const actioning = action.charAt(0).toUpperCase() + action.slice(1) + "ing"
         return (
             <Container open={isOpen} tx={transactionInProgress}>
@@ -192,7 +177,7 @@ class ActionBox extends Component {
             
                                 <div className="currency-input tooltip-container">
                                 {this.showSetMax() && <div className="set-max" onClick={this.setMax}>Set Max</div>}
-                                    <input type="text" value={this.state.val} onChange={this.onInputChange} placeholder={`Amount in ${coin.symbol}`} ref={e => this.input = e} />
+                                    <input type="text" value={val} onChange={this.onInputChange} placeholder={`Amount in ${coin.symbol}`} ref={e => this.input = e} />
                                     {inputErrMsg && <Tooltip bottom={true} className={'warning'}>{inputErrMsg}</Tooltip>}
                                 </div>
                                 <Unlock coin={coin}/>
@@ -203,7 +188,7 @@ class ActionBox extends Component {
                                 </button>
                             </FlexItem>
                         </Flex>
-                        <ActionBoxFooter coin={coin} action={action} value={inputIsValid ? val : "0"} hash={this.state.hash}/>
+                        <ActionBoxFooter coin={coin} action={action} value={inputIsValid ? val : "0"} hash={hash}/>
                     </AnimatedContent>
             </Container>
         )

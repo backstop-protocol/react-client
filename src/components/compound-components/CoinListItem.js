@@ -3,6 +3,8 @@
  */
 import React, {Component} from "react";
 import {observer} from "mobx-react"
+import { makeAutoObservable } from "mobx"
+
 import {runInAction} from "mobx"
 import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
@@ -116,9 +118,32 @@ const GreyText = styled.div`
     color: #0b0412;
 `
 
+class ActionBoxState {
+    transactionInProgress = false
+    hash = null
+    val = ""
+    err = ""
+    inputIsValid = false
+    inputErrMsg = ""
+
+    constructor (){
+        makeAutoObservable(this)
+    }
+
+    reset = () => {
+        this.transactionInProgress = false
+        this.hash = null
+        this.val = ""
+        this.err = ""
+        this.inputIsValid = false
+        this.inputErrMsg = ""
+    }
+}
+
 class CoinListItem extends Component {
     constructor(props) {
         super(props);
+        this.actionBoxStore = new ActionBoxState()
         this.state = {
             action: ActionEnum.deposit,
             open: false,
@@ -134,6 +159,11 @@ class CoinListItem extends Component {
             return
         }
         this.setState({open: true, action})
+    }
+
+    closeActionBox (){
+        this.setState({open: false})
+        this.actionBoxStore.reset()
     }
 
     render () {
@@ -159,7 +189,7 @@ class CoinListItem extends Component {
                     {show => show && (props => 
                         <div style={props}>
                             <Container className={`${this.state.open ? "open" : "close"} ${!show ? "hide" : ""} ${lastItem ? "last-item" : ""}`}>
-                                <CircleX className={`${this.state.open ? "show" : "hide"}`} onClick={()=>this.setState({open: false})}/>
+                                <CircleX className={`${this.state.open ? "show" : "hide"}`} onClick={()=> this.closeActionBox()}/>
                                 <Flex column style={{ background: "white", borderRadius: "0 0 14px 14px"}}>
                                     <Flex center>
                                         <FlexItem  style={{width: "40px"}}>
@@ -192,10 +222,11 @@ class CoinListItem extends Component {
                                         </Flex>
                                     </Flex>
                                     <ActionBox
+                                            store={this.actionBoxStore}
                                             action={this.state.action}
                                             coin={coin}
                                             isOpen={this.state.open} 
-                                            close={()=>this.setState({open: false})}
+                                            close={()=> this.closeActionBox()}
                                             />
                                 </Flex>                        
                             </Container>
