@@ -51,12 +51,19 @@ class BorrowLimit extends Component {
         }
         // =================
         let borrowed = totalBorrowedBalanceInUsd
-        // if (action == ActionEnum.repay){
-        //     borrowed = borrowed - (coin.calcValueInUsd(value))
-        // }
-        // if (action == ActionEnum.borrow){
-        //     borrowed = borrowed + (coin.calcValueInUsd(value))
-        // }
+        if (action == ActionEnum.repay){
+            const inputInUsd = coin.calcValueInUsd(value)
+            const currentBorrowed = new BN(toWei(borrowed))
+            const updated = currentBorrowed.sub(new BN(toWei(inputInUsd)))
+            borrowed = fromWei(updated)
+        }
+
+        if (action == ActionEnum.borrow){
+            const inputInUsd = coin.calcValueInUsd(value)
+            const currentBorrowed = new BN(toWei(borrowed))
+            const updated = currentBorrowed.add(new BN(toWei(inputInUsd)))
+            borrowed = fromWei(updated)
+        }
         
         let precent = borrowLimit > 0 ? ((borrowed / borrowLimit) * 100).toFixed(2) : 0
         precent = precent > 100 ? 100 : precent
