@@ -9,7 +9,8 @@ import Web3 from "web3"
 import compoundStore from "../stores/compound.store"
 
 const {BN, toWei, fromWei} = Web3.utils
-const _1e18 = new BN(10).pow(new BN(18))
+const _1E = (powerOf) =>  new BN(10).pow(new BN(powerOf))
+const _1e18 = _1E(18)
 export const maxAllowance = new BN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)
 
 export const roundBigFloatAfterTheDeciaml = (bigFloat, roundBy) => {
@@ -42,13 +43,13 @@ const wApiAction = async(...args) => {
 export const ActionEnum = Object.freeze({"deposit": "deposit", "withdraw": "withdraw", "borrow": "borrow", "repay": "repay"})
 export const CoinStatusEnum = Object.freeze({"deposited": "deposited", "borrowed": "borrowed", "unBorrowed": "unBorrowed", "unDeposited": "unDeposited"})
 
-const toDecimalPointFormat = (bn, decimalPoint) => {
+const toUiDecimalPointFormat = (bn, decimalPoint) => {
     const factor = new BN(10).pow(new BN(18 - decimalPoint))
     const x = new BN(bn).mul(factor)
     return fromWei(x) 
 }
 
-const fromDeciamlPointFormat = (num, decimalPoint) => {
+const fromUiDeciamlPointFormat = (num, decimalPoint) => {
     const factor = new BN(10).pow(new BN(18 - decimalPoint))
     const x = new BN(toWei(num))
     return x.div(factor)
@@ -58,13 +59,14 @@ const getUnderlying = (data, info) => {
     return (new BN(data.ctokenBalance).mul(new BN(info.ctokenExchangeRate))).div(_1e18)
 }
 
-const toUsd = (underlyingBalance, underlyingPrice) => {
-    const res = (new BN(underlyingBalance).mul(new BN(underlyingPrice))).div(_1e18)
-    return res.toString()
-}
 
 export const displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {
-    return numericalString.slice(0, numericalString.indexOf(".") + 1 + numbersAfterTheDeciamlPoint)
+    if(numericalString.indexOf(".") > -1) {
+        // number is float 
+        return numericalString.slice(0, numericalString.indexOf(".") + 1 + numbersAfterTheDeciamlPoint)
+    }
+    // number is integer nothing to slice returning it as is
+    return numericalString
 }
 
 const getApy = (rate) => {
@@ -90,17 +92,14 @@ export default class CToken {
         const addressToSymbol = userStore && userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
         this.symbol = (addressToSymbol[this.tokenInfo.ctoken] || "").replace("c", "")
         this.icon = this.getIcon()
-        this.underlyingBalance = this.getUnderlyingBalance()
-        this.underlyingBalanceStr = toDecimalPointFormat(this.underlyingBalance, this.tokenInfo.underlyingDecimals)
-        this.underlyingBalanceUsd = this.getUnderlyingBalanceInUsd()
-        this.underlyingBalanceUsdStr = toDecimalPointFormat(this.underlyingBalanceUsd, this.tokenInfo.underlyingDecimals)
+        this.underlyingBalanceStr = this.getUnderlyingBalance()
+        this.underlyingBalanceUsdStr = this.getUnderlyingBalanceInUsd()
         this.WalletBalanceStr = this.getWalletBallance()
         this.positiveApy = getApy(this.tokenInfo.supplyRate)
         this.negetiveApy = getApy(this.tokenInfo.borrowRate)
         this.allowance = this.userData.underlyingAllowance
         this.borrowed = this.getBorrowed()
         this.borrowedUsd = this.getBorrowedInUsd()
-        this.isCoinStatus()
     }
 
     isCoinStatus = (statusToCheck) => {
@@ -119,9 +118,7 @@ export default class CToken {
         return false
     }
 
-    displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {
-        return numericalString.slice(0, numericalString.indexOf(".") + 1 + numbersAfterTheDeciamlPoint)
-    }
+    displayNum = displayNum
 
     getIcon = () => {
         try{
@@ -132,25 +129,30 @@ export default class CToken {
     }
 
     getUnderlyingBalance = (value = this.userData.ctokenBalance) => {
-        return (new BN(value).mul(new BN(this.tokenInfo.ctokenExchangeRate))).div(_1e18)
+        const res = (new BN(value).mul(new BN(this.tokenInfo.ctokenExchangeRate))).div(_1e18)
+        return toUiDecimalPointFormat(res, this.tokenInfo.underlyingDecimals)
     }
 
     getWalletBallance = () => {
         const {underlyingWalletBalance} = this.userData
-        return toDecimalPointFormat(underlyingWalletBalance, this.tokenInfo.underlyingDecimals)
-
+        return toUiDecimalPointFormat(underlyingWalletBalance, this.tokenInfo.underlyingDecimals)
     }
 
-    getUnderlyingBalanceInUsd = () => toUsd(this.underlyingBalance, this.tokenInfo.underlyingPrice)
+    getUnderlyingBalanceInUsd = () => {
+        const underlyingBalance = fromUiDeciamlPointFormat(this.underlyingBalanceStr, this.tokenInfo.underlyingDecimals)
+        const underlyingBalanceUsd = (underlyingBalance.mul(new BN(this.tokenInfo.underlyingPrice))).div(_1e18) // underlyingPrice is taking the decimal point to account
+        // return toUiDecimalPointFormat(underlyingBalanceUsd, this.tokenInfo.underlyingDecimals)
+        return fromWei(underlyingBalanceUsd.toString()) // because underlyingPrice is taking the decimal
+    }
 
     getBorrowed = () => {
         const {ctokenBorrowBalance} = this.userData
         const {underlyingDecimals} = this.tokenInfo
-        return toDecimalPointFormat(new BN(ctokenBorrowBalance), underlyingDecimals)
+        return toUiDecimalPointFormat(new BN(ctokenBorrowBalance), underlyingDecimals)
     }
 
     getBorrowedInUsd = () => {
-        const borrowed = new BN(toWei(this.borrowed))
+        const borrowed = fromUiDeciamlPointFormat(this.borrowed, this.tokenInfo.underlyingDecimals)
         const borrowedInUsd = (borrowed.mul(new BN(this.tokenInfo.underlyingPrice))).div(_1e18)
         const borrowedInUsdStr = fromWei(borrowedInUsd.toString())
         return borrowedInUsdStr
@@ -177,58 +179,11 @@ export default class CToken {
             if (input <= 0){
                 return [false, `the ${action} amount must be positive`]
             }
-            const value = new BN(toWei(input))
-            const {underlyingWalletBalance} = this.userData
-            const balance = new BN(underlyingWalletBalance)
-            if(new BN(this.allowance).lt(value)){
-                return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
-            }
-            if (action == ActionEnum.deposit || action == ActionEnum.repay) {
-                if(value.gt(balance)){
-                    return [false, "Amount exceeds wallet balance"]
-                }
-            }
-            if (action == ActionEnum.withdraw) {
-                // validate the new borrow limit is not lower than the amount already borrowed
-                const deposited = this.underlyingBalance
-                if(value.gt(deposited)){
-                    return [false, `Amount exceeds deposited ${this.symbol} balance`]
-                }
-                if(compoundStore.totalBorrowedBalanceInUsd > 0){
-                    // check that the new borrow limit would not become lower then the already borrowed amount
-                    // reduce the collateral bellow the required
-                    const inputBl = this.calcBorrowLimit(input)
-                    const currentBl = new BN(toWei(compoundStore.borrowLimitInUsd))
-                    const updatedBorrowLimit = currentBl.sub(new BN(toWei(inputBl)))
-                    const currentBorrowed = new BN(toWei(compoundStore.totalBorrowedBalanceInUsd))
-                    if(updatedBorrowLimit.lt(currentBorrowed)){
-                        return [false, `Amount exceeds allowed withdrawal`]
-                    }
-                }
-            }
-            if (action == ActionEnum.borrow) { 
-                const currentBorrowed = new BN(toWei(compoundStore.totalBorrowedBalanceInUsd))
-                const currentBorrowLimit = new BN(toWei(compoundStore.borrowLimitInUsd))
-                const allowedToBorrow = currentBorrowLimit.sub(currentBorrowed)
-                const inputInUsd = this.calcValueInUsd(input)
-                const inputGreaterThanReaminingBorrowLimit = new BN(toWei(inputInUsd)).gt(allowedToBorrow)
-                if(inputGreaterThanReaminingBorrowLimit){
-                    return [false, "Amount exceeds allowed borrowed"]
-                }
-            }
-            if (action == ActionEnum.repay) {
-                if(value.gt(balance)){
-                    return [false, "Amount exceeds wallet balance"]
-                }
-                // validate repay amount not greater than borrowd
-                const {ctokenBorrowBalance} = this.userData
-                const tokenBorrowed = new BN(toWei(this.borrowed))
-                if(value.gt(tokenBorrowed)){
-                    return [false, "Amount exceeds borrowed amount"]
-                }
-            }
-            // default 
-            return [true, ""]
+
+            if(action == ActionEnum.deposit) return this.validateDeposit(input)
+            if(action == ActionEnum.withdraw) return this.validateWithdraw(input)
+            if(action == ActionEnum.borrow) return this.validateBorrow(input)
+            if(action == ActionEnum.repay) return this.validateRepay(input)
 
         }catch (err){ 
             console.error(err)
@@ -236,9 +191,97 @@ export default class CToken {
         }
     }
 
+    validateDeposit = (input) => {
+
+        const value = fromUiDeciamlPointFormat(input, this.tokenInfo.underlyingDecimals)
+        const {underlyingWalletBalance} = this.userData
+        const balance = new BN(underlyingWalletBalance)
+        if(new BN(this.allowance).lt(value)){
+            return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
+        }
+  
+        if(value.gt(balance)){
+            return [false, "Amount exceeds wallet balance"]
+        }
+
+        // default 
+        return [true, ""]
+    }
+
+    validateWithdraw = (input) => {
+        // if(this.symbol == "USDC") debugger
+
+        const value = fromUiDeciamlPointFormat(input, this.tokenInfo.underlyingDecimals)
+        const {underlyingWalletBalance} = this.userData
+        const balance = new BN(underlyingWalletBalance)
+
+        // validate the new borrow limit is not lower than the amount already borrowed
+        const deposited = fromUiDeciamlPointFormat(this.underlyingBalanceStr, this.tokenInfo.underlyingDecimals)
+        if(value.gt(deposited)){
+            return [false, `Amount exceeds deposited ${this.symbol} balance`]
+        }
+        if(compoundStore.totalBorrowedBalanceInUsd > 0){
+            // check that the new borrow limit would not become lower then the already borrowed amount
+            // reduce the collateral bellow the required
+            const inputBl = this.calcBorrowLimit(input)
+            const currentBl = new BN(toWei(compoundStore.borrowLimitInUsd))
+            const updatedBorrowLimit = currentBl.sub(new BN(toWei(inputBl)))
+            const currentBorrowed = new BN(toWei(compoundStore.totalBorrowedBalanceInUsd))
+            if(updatedBorrowLimit.lt(currentBorrowed)){
+                return [false, `Amount exceeds allowed withdrawal`]
+            }
+        }
+
+        // default 
+        return [true, ""]
+    }
+
+    validateBorrow = (input) => {
+
+        const value = fromUiDeciamlPointFormat(input, this.tokenInfo.underlyingDecimals)
+        const currentBorrowed = new BN(toWei(compoundStore.totalBorrowedBalanceInUsd))
+        const currentBorrowLimit = new BN(toWei(compoundStore.borrowLimitInUsd))
+        const allowedToBorrow = currentBorrowLimit.sub(currentBorrowed)
+        const inputInUsd = this.calcValueInUsd(input)
+        const inputGreaterThanReaminingBorrowLimit = new BN(toWei(inputInUsd)).gt(allowedToBorrow)
+        if(inputGreaterThanReaminingBorrowLimit){
+            return [false, "Amount exceeds allowed borrowed"]
+        }
+
+        // default 
+        return [true, ""]
+    }
+
+    validateRepay = (input) => {
+
+        const value = fromUiDeciamlPointFormat(input, this.tokenInfo.underlyingDecimals)
+        const {underlyingWalletBalance} = this.userData
+        const balance = new BN(underlyingWalletBalance)
+        if(new BN(this.allowance).lt(value)){
+            return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
+        }
+
+        if(value.gt(balance)){
+            return [false, "Amount exceeds wallet balance"]
+        }
+
+        if(value.gt(balance)){
+            return [false, "Amount exceeds wallet balance"]
+        }
+        // validate repay amount not greater than borrowd
+        const {ctokenBorrowBalance} = this.userData
+        const tokenBorrowed = new BN(toWei(this.borrowed))
+        if(value.gt(tokenBorrowed)){
+            return [false, "Amount exceeds borrowed amount"]
+        }
+
+        // default 
+        return [true, ""]
+    }
+
     deposit = async (amount, onHash) => {
         const {web3, networkType, user} = userStore
-        const depositAmount = toWei(amount)
+        const depositAmount = fromUiDeciamlPointFormat(amount, this.tokenInfo.underlyingDecimals)
         let ethToSendWithTransaction
         let txPromise
         if(this.symbol === "ETH"){
@@ -253,7 +296,7 @@ export default class CToken {
 
     withdraw = async (amount, onHash) => {
         const {web3, networkType, user} = userStore
-        const withdrawAmount = toWei(amount)
+        const withdrawAmount = fromUiDeciamlPointFormat(amount, this.tokenInfo.underlyingDecimals)
         let ethToSendWithTransaction = 0
         let txPromise
         if(this.symbol === "ETH") {
@@ -266,7 +309,7 @@ export default class CToken {
 
     borrow = async (amount, onHash) => {
         const {web3, networkType, user} = userStore
-        const borrowAmount = toWei(amount)
+        const borrowAmount = fromUiDeciamlPointFormat(amount, this.tokenInfo.underlyingDecimals)
         let ethToSendWithTransaction = 0
         let txPromise
         if(this.symbol === "ETH") {
@@ -279,7 +322,7 @@ export default class CToken {
 
     repay = async (amount, onHash) => {
         const {web3, networkType, user} = userStore
-        const reapyAmount = toWei(amount)
+        const reapyAmount = fromUiDeciamlPointFormat(amount, this.tokenInfo.underlyingDecimals)
         let ethToSendWithTransaction
         let txPromise
         if(this.symbol === "ETH"){
@@ -296,7 +339,7 @@ export default class CToken {
         if(!value){
             return "0"
         }
-        value = new BN(toWei(value))
+        value = fromUiDeciamlPointFormat(value, this.tokenInfo.underlyingDecimals)
         const cf = new BN(this.tokenInfo.collateralFactor)
         const price = new BN(this.tokenInfo.underlyingPrice)
         const usdVal = (value.mul(price)).div(_1e18)
@@ -307,7 +350,7 @@ export default class CToken {
     }
 
     calcValueInUsd = (value) => {
-        value = new BN(toWei(value))
+        value = fromUiDeciamlPointFormat(value, this.tokenInfo.underlyingDecimals)
         const price = new BN(this.tokenInfo.underlyingPrice)
         const usdVal = (value.mul(price)).div(_1e18)
         const res = fromWei(usdVal.toString()) // 1 eth should be equal to 1 eth in USD on compound

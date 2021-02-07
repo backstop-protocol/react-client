@@ -21,6 +21,7 @@ const Container = styled.div`
         text-transform: uppercase;
     }
     .set-max{
+        margin-top: 3px;
         font-size: 14px;
     }
 `
@@ -161,7 +162,6 @@ class ActionBox extends Component {
             val = coin.borrowed
         }
         if(action === ActionEnum.withdraw){
-            // val = roundBigFloatAfterTheDeciaml(coin.underlyingBalanceStr, 1000000)
             val = coin.underlyingBalanceStr
         }
         const [inputIsValid, inputErrMsg] = coin.validateInput(val, action)
