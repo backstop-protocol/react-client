@@ -8,6 +8,7 @@ import ConnectWallet from "../assets/connect-your-wallet.svg";
 import userStore from "../stores/user.store"
 import {observer} from "mobx-react"
 import HeaderBorrowLimit from "../components/compound-components/HeaderBorrowLimit"
+import {ResponsiveWidthHeader} from "./style-components/ResponsiveContainer"
 
 
 class Header2 extends Component {
@@ -17,7 +18,7 @@ class Header2 extends Component {
 
         return (
             <div style={{zIndex: -10}} className="top-panel">
-                <div className="container">
+                <ResponsiveWidthHeader className="container">
                     <div className="split title-bar">
                         <img className="logo" src={logo} />
                         <div className="connect-container">
@@ -38,7 +39,7 @@ class Header2 extends Component {
                             <Tvl2/>
                         }
                     </div>
-                </div>
+                </ResponsiveWidthHeader>
             </div>
         )
     }
