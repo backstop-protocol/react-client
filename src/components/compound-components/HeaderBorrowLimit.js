@@ -7,12 +7,12 @@ import compoundStore from "../../stores/compound.store";
 import {displayNum} from "../../lib/compound.util"
 import Web3 from "web3"
 import ClaimComp from "./ClaimComp"
+import ResponsiveWidthCol from "../style-components/ResponsiveContainer"
 
 const {BN, toWei, fromWei} = Web3.utils
 
-
-const Container = styled.div`
-    width: 610px;
+const Container = styled(ResponsiveWidthCol)`
+    /* width: 610px; */
     height: 100%;
     font-family: "Poppins", sans-serif;
     font-size: 12px;

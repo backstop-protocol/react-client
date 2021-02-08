@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
 import {observer} from "mobx-react"
 import ProgressBar from "../style-components/ProgressBar"
+import AnimateNumberChange from "../style-components/AnimateNumberChange"
 import compoundStore from "../../stores/compound.store";
 import {displayNum, ActionEnum} from "../../lib/compound.util"
 import Web3 from "web3"
@@ -67,15 +68,16 @@ class BorrowLimit extends Component {
         
         let precent = borrowLimit > 0 ? ((borrowed / borrowLimit) * 100).toFixed(2) : 0
         precent = precent > 100 ? 100 : precent
+        precent = `${precent}`
         return (
             <Container>
                 <Flex column justifyEnd full>
                     <Flex justifyBetween>
-                        <div>${displayNum(borrowed, 2)}</div>
-                        <div>${displayNum(borrowLimit, 2)}</div>
+                        <div>$<AnimateNumberChange val={displayNum(borrowed, 2)}/></div>
+                        <div>$<AnimateNumberChange val={displayNum(borrowLimit, 2)}/></div>
                     </Flex>
                     <ProgressBar precent={precent}/>
-                    <Label precent={precent}>{precent}%</Label>
+                    <Label precent={precent}><AnimateNumberChange val={precent}/>%</Label>
                 </Flex>
             </Container>
         )
