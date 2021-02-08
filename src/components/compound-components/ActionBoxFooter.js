@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {observer} from "mobx-react"
 import styled from "styled-components"
-import Flex, {FlexItem} from "styled-flex-component";
+import Flex from "styled-flex-component";
 import BorrowLimit from "./BorrowLimit"
 import { ActionEnum } from "../../lib/compound.util";
 
@@ -10,6 +10,7 @@ const Container = styled.div`
     .grey-divider:not(:last-child){
         border-right: 1px solid rgba(151, 151, 151, 0.25);
         margin-right: 15px;
+        padding-right: 15px;
     }
 `
 
@@ -25,7 +26,7 @@ const SmallTitle = styled.div`
 `
 
 const Amount = styled.div`
-    margin-top: 27px;
+    /* margin-top: 27px; */
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
     font-size: 16px;
     font-weight: normal;
@@ -51,18 +52,18 @@ class ActionBoxFooter extends Component {
         return (
             <Container>
                 <Flex>
-                    <FlexItem className="grey-divider" style={{width: "30%"}}>
+                    <Flex column justifyBetween className="grey-divider" style={{width: "30%"}}>
                         <SmallTitle>Current Wallet Balance</SmallTitle>
                         <Amount>{displayNum(WalletBalanceStr, 4)} {symbol}</Amount>
-                    </FlexItem>
-                    <FlexItem className="grey-divider" style={{width: "20%"}}>
+                    </Flex >
+                    <Flex column justifyBetween className="grey-divider" style={{width: "30%"}}>
                         <SmallTitle>Total deposit</SmallTitle>
                         <Amount>{updatedTotalDeposit} {symbol}</Amount>
-                    </FlexItem>
-                    <FlexItem className="grey-divider" style={{width: "50%"}}>
+                    </Flex >
+                    <Flex column justifyBetween className="grey-divider" style={{width: "40%"}}>
                         <SmallTitle>Borrow Limit</SmallTitle>
                         <BorrowLimit {...this.props}/>
-                    </FlexItem>
+                    </Flex >
                 </Flex>
             </Container>
         )
