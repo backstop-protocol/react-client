@@ -4,9 +4,10 @@ import styled from "styled-components"
 import CoinListHeader from "./CoinListHeader"
 import CoinList from "./CoinList"
 import compoundStore from "../../stores/compound.store"
+import ResponsiveWidthCol from "../style-components/ResponsiveContainer"
 
-const Container = styled.div`
-    width: 610px;
+const Container = styled(ResponsiveWidthCol)`
+    /* width: 610px; */
     border-radius: 12px;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.22);
     border-style: solid;

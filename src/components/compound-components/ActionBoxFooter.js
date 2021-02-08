@@ -26,7 +26,6 @@ const SmallTitle = styled.div`
 `
 
 const Amount = styled.div`
-    /* margin-top: 27px; */
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
     font-size: 16px;
     font-weight: normal;

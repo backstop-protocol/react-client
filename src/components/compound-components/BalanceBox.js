@@ -4,14 +4,15 @@ import styled from "styled-components"
 import {Transition} from 'react-spring/renderprops'
 import BalanceListBox from "./BalanceListBox"
 import userStore from "../../stores/user.store"
+import ResponsiveWidthCol from "../style-components/ResponsiveContainer"
 const depositOval = require("../../assets/images/deposit-withdraw.png")
 const borrowOval = require("../../assets/images/borrow-repay.png")
 
-const Container = styled.div`
+const Container = styled(ResponsiveWidthCol)`
     text-align: center;
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
     font-size: 25px;
-    width: 610px;
+    /* width: 610px; */
     height: 137px;
     margin: 0 20px;
     padding: 58px 198px 49px 199px;
