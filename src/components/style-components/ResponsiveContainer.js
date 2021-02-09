@@ -21,6 +21,7 @@ export const ResponsiveWidthHeader = styled.div`
     @media ${device.laptop} {
         width: ${498 * 2 + 40}px;
         max-width: ${498 * 2 + 40}px;
+        padding: 0;
     }
 
 `
