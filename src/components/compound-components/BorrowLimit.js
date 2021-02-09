@@ -7,6 +7,7 @@ import AnimateNumberChange from "../style-components/AnimateNumberChange"
 import compoundStore from "../../stores/compound.store";
 import {displayNum, ActionEnum} from "../../lib/compound.util"
 import Web3 from "web3"
+import {device} from "../../screenSizes";
 
 const {BN, toWei, fromWei} = Web3.utils
 
@@ -22,6 +23,12 @@ const Container = styled.div`
     line-height: normal;
     letter-spacing: normal;
     color: #0b0412;
+    @media ${device.largeLaptop} {
+        font-size: 11px;
+    }
+    @media ${device.laptop} {
+        font-size: 11px;
+    }
 `
 
 const Label = styled.div`

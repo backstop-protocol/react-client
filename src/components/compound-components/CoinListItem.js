@@ -13,12 +13,21 @@ import userStore from "../../stores/user.store"
 import ActionBox from "./ActionBox"
 import compoundStore from "../../stores/compound.store";
 import {Transition} from 'react-spring/renderprops'
+import {device} from "../../screenSizes";
 
 const Icon = styled.img`
     width: 40px;
     height: 40px;
     padding: 20px 10px 20px 0;
     display: inline-block;
+    @media ${device.largeLaptop} {
+        width: 37px;
+        height: 37px;
+    }
+    @media ${device.laptop} {
+        width: 32px;
+        height: 32px;
+    }
 `
 
 const Symbol = styled.div`
@@ -28,9 +37,21 @@ const Symbol = styled.div`
     font-size: 15px;
     letter-spacing: 0.75px;
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
+    @media ${device.largeLaptop} {
+        font-size: 14px;
+    }
+    @media ${device.laptop} {
+        font-size: 13px;
+    }
 `
 const Container = styled.div`
     font-size: 15px;
+    @media ${device.largeLaptop} {
+        font-size: 14px;
+    }
+    @media ${device.laptop} {
+        font-size: 13px;
+    }
     letter-spacing: 0.75px;
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
     transition: all 0.3s ease-in-out;
@@ -116,6 +137,12 @@ const GreyText = styled.div`
     font-size: 12px;
     letter-spacing: 0.6px;
     color: #0b0412;
+    @media ${device.largeLaptop} {
+        font-size: 11px;
+    }
+    @media ${device.laptop} {
+        font-size: 11px;
+    }
 `
 
 class ActionBoxState {

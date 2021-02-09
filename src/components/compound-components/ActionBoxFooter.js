@@ -4,6 +4,7 @@ import styled from "styled-components"
 import Flex from "styled-flex-component";
 import BorrowLimit from "./BorrowLimit"
 import { ActionEnum } from "../../lib/compound.util";
+import {device} from "../../screenSizes";
 
 const Container = styled.div`
     margin-top: 43px;
@@ -23,6 +24,12 @@ const SmallTitle = styled.div`
     line-height: normal;
     letter-spacing: normal;
     color: #0b0412;
+    @media ${device.largeLaptop} {
+        font-size: 11px;
+    }
+    @media ${device.laptop} {
+        font-size: 11px;
+    }
 `
 
 const Amount = styled.div`
@@ -34,6 +41,12 @@ const Amount = styled.div`
     line-height: normal;
     letter-spacing: 0.8px;
     color: #0b0412;
+    @media ${device.largeLaptop} {
+        font-size: 15px;
+    }
+    @media ${device.laptop} {
+        font-size: 15px;
+    }
 `
 
 class ActionBoxFooter extends Component {

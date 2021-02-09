@@ -8,6 +8,7 @@ import {displayNum} from "../../lib/compound.util"
 import Web3 from "web3"
 import ClaimComp from "./ClaimComp"
 import ResponsiveWidthCol from "../style-components/ResponsiveContainer"
+import {device} from "../../screenSizes";
 
 const {BN, toWei, fromWei} = Web3.utils
 
@@ -73,6 +74,12 @@ const Amount = styled.div`
     line-height: normal;
     letter-spacing: 0.9px;
     color: #0b0412;
+    @media ${device.largeLaptop} {
+        font-size: 17px;
+    }
+    @media ${device.laptop} {
+        font-size: 15px;
+    }
 `
 
 const GridAmount = styled(Amount)`
@@ -97,6 +104,12 @@ const SubTitle = styled.div`
     line-height: 1.29;
     letter-spacing: normal;
     color: #0b0412;
+    @media ${device.largeLaptop} {
+        font-size: 13px;
+    }
+    @media ${device.laptop} {
+        font-size: 12px;
+    }
 `
 
 const ProgressContainer = styled.div`

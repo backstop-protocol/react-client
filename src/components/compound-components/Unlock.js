@@ -8,6 +8,7 @@ import Flex, {FlexItem} from "styled-flex-component";
 import ActionBoxFooter from "./ActionBoxFooter"
 import LoadingRing from "../LoadingRing";
 import { depositEth } from "../../lib/compound.interface";
+import {device} from "../../screenSizes";
 
 const Text = styled.div`
     font-family: "Poppins", sans-serif;
@@ -18,9 +19,18 @@ const Text = styled.div`
     line-height: normal;
     letter-spacing: normal;
     color: #0b0412;
+    @media ${device.largeLaptop} {
+        font-size: 13px;
+    }
+    @media ${device.laptop} {
+        font-size: 13px;
+    }
 `
 const Container = styled.div`
     visibility: ${({hide})=> hide ? "hidden" : "visible"}; 
+    .tickbox{
+        margin: 3px 2px 0 0;
+    }
 `
 
 class Unlock extends Component{

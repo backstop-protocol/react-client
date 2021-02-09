@@ -9,6 +9,7 @@ import Loading from "../action-panels/Loading"
 import Tooltip from "../Tooltip"
 import {ActionEnum, roundBigFloatAfterTheDeciaml} from "../../lib/compound.util"
 import compoundStore from "../../stores/compound.store"
+import {device} from "../../screenSizes";
 
 const Container = styled.div`
     transition: all 0.3s ease-in-out;
@@ -17,12 +18,31 @@ const Container = styled.div`
         if (!tx) return "310px"
         if (tx) return "100px"
     }};
+    .currency-input input{
+        font-family: Poppins;
+        font-weight: 500;
+        font-size: 18px;
+        @media ${device.largeLaptop} {
+            font-size: 17px;
+        }
+        @media ${device.laptop} {
+            font-size: 16px;
+        }
+    }
     .currency-input-button{
         text-transform: uppercase;
     }
     .set-max{
-        margin-top: 3px;
+        margin-top: 4px;
         font-size: 14px;
+        @media ${device.largeLaptop} {
+            margin-top: 1.5px;
+            font-size: 13px;
+        }
+        @media ${device.laptop} {
+            margin-top: 2px;
+            font-size: 12px;
+        }
     }
 `
 
@@ -67,6 +87,12 @@ const Title = styled.div`
     letter-spacing: 0.9px;
     color: #0b0412;
     text-transform: uppercase;
+    @media ${device.largeLaptop} {
+        font-size: 16px;
+    }
+    @media ${device.laptop} {
+        font-size: 16px;
+    }
 `
 
 const SubTitle = styled.div`
@@ -76,6 +102,12 @@ const SubTitle = styled.div`
     font-size: 14px;
     font-weight: 500;
     color: #0b0412;
+    @media ${device.largeLaptop} {
+        font-size: 13px;
+    }
+    @media ${device.laptop} {
+        font-size: 13px;
+    }
 `
 
 class ActionBox extends Component {
@@ -175,7 +207,7 @@ class ActionBox extends Component {
                         <Title>{action}</Title>
                         <SubTitle> how much {coin.symbol} would you like to {action}</SubTitle>
                         <Flex >
-                            <Flex style={{width: "50%"}} column>
+                            <Flex style={{minWidth: "50%"}} column>
             
                                 <div className="currency-input tooltip-container">
                                 {this.showSetMax() && <div className="set-max" onClick={this.setMax}>Set Max</div>}

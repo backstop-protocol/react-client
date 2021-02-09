@@ -23,7 +23,6 @@ export const ResponsiveWidthHeader = styled.div`
         max-width: ${498 * 2 + 40}px;
         padding: 0;
     }
-
 `
 
 export default ResponsiveWidthCol
