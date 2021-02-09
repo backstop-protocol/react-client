@@ -46,8 +46,9 @@ class ActionBoxFooter extends Component {
             updatedTotalDeposit = updatedTotalDeposit + parseFloat(displayNum(value, 4))
         }
         if(action == ActionEnum.withdraw){
-            updatedTotalDeposit = (updatedTotalDeposit - parseFloat(displayNum(value, 4))).toFixed(4)
+            updatedTotalDeposit = updatedTotalDeposit - parseFloat(displayNum(value, 4))
         }
+        updatedTotalDeposit = updatedTotalDeposit.toFixed(4)
         return (
             <Container>
                 <Flex>
