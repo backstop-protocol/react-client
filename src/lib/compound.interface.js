@@ -9,7 +9,7 @@ import Web3 from "web3"
 const {toBN, toWei, fromWei} = Web3.utils
 
 
-const compUserInfoAddress = "0xb3cfb23a171e3fe2ea80ac1865dda74ca2363fcb" //
+const compUserInfoAddress = "0xb3cfb23a171e3fe2ea80ac1865dda74ca2363fcb" 
 export const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 const bComptroller = "0x16f56Cda8741613348257b82D28008E6CfC20D84"
 

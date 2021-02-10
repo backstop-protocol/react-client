@@ -26,6 +26,7 @@ class CompoundStore {
     borrowLimitInUsd = "0"
     coinMap = {}
     coinsInTx = {}
+    firstUserInfoFetchDelay = true
 
     constructor (){
         makeAutoObservable(this)
@@ -41,11 +42,23 @@ class CompoundStore {
         this.showHideEmptyBalanceBoxs()    
     }
 
+    handleFirstFatch = ()=> {
+        if(this.firstUserInfoFetchDelay){
+            setTimeout(()=> {
+                runInAction(()=> {
+                    // this delay is for animations
+                    this.firstUserInfoFetchDelay = false
+                })
+            }, 1000)
+        }
+    }
+
     getUserInfo = async () => {
         try {
             const { web3, networkType, user } = userStore
             let compUserInfo = await getCompUserInfo(web3, networkType, user)
             this.processUserInfo(compUserInfo)
+            this.handleFirstFatch()
         } catch (err) {
             console.log(err)
         }

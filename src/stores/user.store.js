@@ -27,7 +27,6 @@ class UserStore {
             return //exit
         }
         runInAction(()=> { 
-          
             this.networkType = networkType
             this.web3 = web3;
             this.user = user

@@ -5,19 +5,17 @@ import CoinListHeader from "./CoinListHeader"
 import CoinList from "./CoinList"
 import compoundStore from "../../stores/compound.store"
 import ResponsiveWidthCol from "../style-components/ResponsiveContainer"
+import {device} from "../../screenSizes";
 
-const Container = styled(ResponsiveWidthCol)`
-    /* width: 610px; */
-    border-radius: 12px;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.22);
-    border-style: solid;
-    border-width: 0.5px;
-    border-image-source: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4) 5%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0));
-    margin: 0 20px;
-    background: white;
+const Container = styled.div`
+    padding-top: 50px;
+    @media ${device.largeLaptop} {
+        padding-top: 42.5px;
+    }
+    @media ${device.laptop} {
+        padding-top: 35px;
+    }
 `
-
-
 
 class BalanceListBox extends Component {
 

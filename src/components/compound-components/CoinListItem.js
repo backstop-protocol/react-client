@@ -194,10 +194,9 @@ class CoinListItem extends Component {
     }
 
     render () {
-        const {isInBalanceBox, type, lastItem, coinAddress, coinStatusToShow} = this.props
+        const {isInBalanceBox, type, lastItem, coinAddress} = this.props
         const isAssetColumn = type == "deposit" // represnts the veriant between the left column containing positive Assets and the right column containing Liabilities
         const coin = compoundStore.coinsInTx[coinAddress] || compoundStore.coinMap[coinAddress] // preserve state until tx is finished and UI is ready to dispaly new coin state
-        const show = coin.symbol && coin.isCoinStatus(coinStatusToShow)
         const {displayNum} = coin
         const APY = isAssetColumn ? coin.positiveApy : coin.negetiveApy
         const balance = isAssetColumn ? coin.underlyingBalanceStr : coin.borrowed
@@ -206,60 +205,48 @@ class CoinListItem extends Component {
         const actionBtn2 = isAssetColumn ? ActionEnum.withdraw : ActionEnum.repay
         
         return (
-            <Transition
-                initial={null}
-                config={{duration: 300}} 
-                items={show}
-                from={{ opacity: 0, height: 0, zIndex: 0}}
-                enter={{ opacity: 1 , height: "auto", zIndex: 1}}
-                leave={{ opacity: 0, height: 0, zIndex: -1}}>
-                    {show => show && (props => 
-                        <div style={props}>
-                            <Container className={`${this.state.open ? "open" : "close"} ${!show ? "hide" : ""} ${lastItem ? "last-item" : ""}`}>
-                                <CircleX className={`${this.state.open ? "show" : "hide"}`} onClick={()=> this.closeActionBox()}/>
-                                <Flex column style={{ background: "white", borderRadius: "0 0 14px 14px"}}>
-                                    <Flex center>
-                                        <FlexItem  style={{width: "40px"}}>
-                                            {isInBalanceBox && 
-                                                <Rectangle className="rectangle"/>
-                                            }
-                                        </FlexItem>
-                                        <Flex className="dont-scale" justifyAround full center>
-                                            <FlexItem style={{width: "25%"}}>
-                                                <Flex alignCenter>
-                                                    <Icon src={coin.icon} />
-                                                    <Symbol> {coin.symbol} </Symbol>
-                                                </Flex>
-                                            </FlexItem>
-                                            <FlexItem style={{width: "25%"}}>
-                                                {displayNum(APY, 2)} %
-                                            </FlexItem>
-                                            <FlexItem  style={{width: "25%"}}>
-                                                <Flex column>
-                                                    {displayNum(balanceInUsd, 4)} USD 
-                                                    <GreyText>{displayNum(balance, 4)} {coin.symbol}</GreyText>
-                                                </Flex>
-                                            </FlexItem>
-                                            <Flex justifyEnd style={{width: "25%"}}>
-                                                <Flex column justifyAround>
-                                                    <button onClick={()=>this.open(actionBtn1)} style={{marginBottom: "10px"}}  className="currency-action-button">{actionBtn1}</button>
-                                                    <button onClick={()=>this.open(actionBtn2)} className="currency-action-button">{actionBtn2}</button>
-                                                </Flex>
-                                            </Flex>
-                                        </Flex>
-                                    </Flex>
-                                    <ActionBox
-                                            store={this.actionBoxStore}
-                                            action={this.state.action}
-                                            coin={coin}
-                                            isOpen={this.state.open} 
-                                            close={()=> this.closeActionBox()}
-                                            />
-                                </Flex>                        
-                            </Container>
-                        </div>)
-                    }
-            </Transition>
+            <Container className={`${this.state.open ? "open" : "close"} ${!coinAddress ? "hide" : ""} ${lastItem ? "last-item" : ""}`}>
+                <CircleX className={`${this.state.open ? "show" : "hide"}`} onClick={()=> this.closeActionBox()}/>
+                <Flex column style={{ background: "white", borderRadius: "0 0 14px 14px"}}>
+                    <Flex center>
+                        <FlexItem  style={{width: "40px"}}>
+                            {isInBalanceBox && 
+                                <Rectangle className="rectangle"/>
+                            }
+                        </FlexItem>
+                        <Flex className="dont-scale" justifyAround full center>
+                            <FlexItem style={{width: "25%"}}>
+                                <Flex alignCenter>
+                                    <Icon src={coin.icon} />
+                                    <Symbol> {coin.symbol} </Symbol>
+                                </Flex>
+                            </FlexItem>
+                            <FlexItem style={{width: "25%"}}>
+                                {displayNum(APY, 2)} %
+                            </FlexItem>
+                            <FlexItem  style={{width: "25%"}}>
+                                <Flex column>
+                                    {displayNum(balanceInUsd, 4)} USD 
+                                    <GreyText>{displayNum(balance, 4)} {coin.symbol}</GreyText>
+                                </Flex>
+                            </FlexItem>
+                            <Flex justifyEnd style={{width: "25%"}}>
+                                <Flex column justifyAround>
+                                    <button onClick={()=>this.open(actionBtn1)} style={{marginBottom: "10px"}}  className="currency-action-button">{actionBtn1}</button>
+                                    <button onClick={()=>this.open(actionBtn2)} className="currency-action-button">{actionBtn2}</button>
+                                </Flex>
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                    <ActionBox
+                            store={this.actionBoxStore}
+                            action={this.state.action}
+                            coin={coin}
+                            isOpen={this.state.open} 
+                            close={()=> this.closeActionBox()}
+                            />
+                </Flex>       
+            </Container>
         )
     }
 }
