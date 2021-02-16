@@ -8,7 +8,9 @@ export default class ModalContainer extends Component {
         super(props);
 
         this.state = {
-            component : null
+            component : null,
+            noWrapper : null,
+            show: false
         }
     }
 
@@ -17,28 +19,35 @@ export default class ModalContainer extends Component {
         EventBus.$on('close-modal', this.closeModalBox.bind(this));
     }
 
-    showModalBox(component) {
-        this.setState({component});
+    showModalBox(component, noWrapper) {
+        document.body.style.overflow = "hidden"; // ADD THIS LINE
+        this.setState({component, noWrapper, show: true});
     }
 
     closeModalBox = () => {
-        this.setState({component: null});
+        this.setState({component: <div></div>, show: false});
+        document.body.style.overflow = "auto"; // ADD THIS LINE
     };
 
     render() {
-        const {component} = this.state;
-        const cls = component !== null ? 'modal-container active' : 'modal-container';
+        const {component, noWrapper, show} = this.state;
+        const cls = show ? 'modal-container active' : 'modal-container';
 
         return (
             <div className={cls}>
-                {this.state.component &&
+                {this.state.component && !noWrapper &&
                     <div className="modal-dialog">
                         <div className="modal-close-btn" onClick={this.closeModalBox}>
                             <img src={XIcon} />
                         </div>
-                        <div>
+                        <div >
                             {component}
                         </div>
+                    </div>
+                }
+                {this.state.component && noWrapper && 
+                    <div style={{overflowY: 'scroll', height: "100%"}}>
+                        {component}
                     </div>
                 }
             </div>

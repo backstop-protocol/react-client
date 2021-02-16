@@ -15,7 +15,7 @@ import compoundStore from "../../stores/compound.store";
 import {Transition} from 'react-spring/renderprops'
 import {device} from "../../screenSizes";
 
-const Icon = styled.img`
+export const Icon = styled.img`
     width: 40px;
     height: 40px;
     padding: 20px 10px 20px 0;
@@ -30,7 +30,7 @@ const Icon = styled.img`
     }
 `
 
-const Symbol = styled.div`
+export const Symbol = styled.div`
     height: 100%;
     text-align: center;
     display: inline-block;
@@ -130,7 +130,7 @@ const Rectangle = styled.div`
     background-color: #12c164;
 `
 
-const GreyText = styled.div`
+export const GreyText = styled.div`
     margin-bottom: -14px;
     opacity: 0.48;
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;

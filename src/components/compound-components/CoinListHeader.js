@@ -4,7 +4,7 @@ import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../../screenSizes";
 
-const ClHeader = styled.div`
+export const ClHeader = styled.div`
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
     padding-left: 40px;
     height: 45px;

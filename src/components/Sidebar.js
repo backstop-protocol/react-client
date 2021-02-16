@@ -9,13 +9,24 @@ import CompoundLogo from "../assets/compound-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
 import MigrationModal from "./modals/MigrationModal";
 import { numm } from "../lib/Utils";
-import MigrationButton from "./action-panels/MigrationButton";
+import MakerMigrationButton from "./action-panels/MigrationButton";
 import LeavUs from "../components/LeaveUs";
 import * as qs from "qs";
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
 import makerStore from "../stores/maker.store"
 import userStore from "../stores/user.store"
+import styled from "styled-components"
+import MigrateFromCompound from "./compound-components/MigrateFromCompound"
+import {Transition} from 'react-spring/renderprops'
+
+const MakerMigration = styled.div`
+
+`
+
+const CompoundMigration = styled.div`
+
+`
 
 class Sidebar extends Component {
   state = {
@@ -35,48 +46,77 @@ class Sidebar extends Component {
       console.log(window.innerWidth);
   }
 
+  getState(pathname) {
+    if(pathname === "/maker" || pathname === "/app"){
+      return "maker"
+    }
+    if(pathname === "/compound"){
+      return "compound"
+    }
+  }
+
   render() {
     const { history } = routerStore.routeProps;
     const {search, pathname} = history.location
     const { loggedIn, showConnect } = userStore
     const { userInfo } = makerStore
     const params = qs.parse(search, { ignoreQueryPrefix: true })
+    const pathState = this.getState(pathname)
     return (
       <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
         <div className="ln"> </div>
         <div className="sidebar-content">
-          { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
-            <div>
-              <div className="cdp-convert">
-                <MigrationButton />
-                <div>
-                  <p>
-                    Import your Vault 
-                    <br />
-                    from MakerDAO system <br />
-                    to B.Protocol
-                  </p>
-                  <div className="even">
+
+          {pathState == "maker" 
+            ? 
+              <div >
+                <MakerMigration>
+                  { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
                     <div>
-                      <small><b><u>ETH Locked</u></b></small>
-                      <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
+                      <div className="cdp-convert">
+                        <MakerMigrationButton />
+                        <div>
+                          <p>
+                            Import your Vault 
+                            <br />
+                            from MakerDAO system <br />
+                            to B.Protocol
+                          </p>
+                          <div className="even">
+                            <div>
+                              <small><b><u>ETH Locked</u></b></small>
+                              <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
+                            </div>
+                            <div>
+                              <small><b><u>DAI Debt</u></b></small>
+                              <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="ln"> </div>
                     </div>
-                    <div>
-                      <small><b><u>DAI Debt</u></b></small>
-                      <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
+                  )}
+                  {params.export && 
+                    <div className="container">
+                      <LeavUs show={params.export} userInfo={userInfo} showConnect={showConnect} />
                     </div>
-                  </div>
-                </div>
+                  }
+                </MakerMigration>
               </div>
-              <div className="ln"> </div>
-            </div>
-          )}
-          {params.export && 
-            <div className="container">
-              <LeavUs userInfo={userInfo} showConnect={showConnect} />
-            </div>
+              
+            : pathState == "compound" ?
+              <div >
+                <MigrateFromCompound/>
+              </div>
+            :
+              <div>
+                {/* AAVE */}
+                <div></div>
+              </div>
           }
+
           <div className="products">
             <div
               className={`product link-accesible ${

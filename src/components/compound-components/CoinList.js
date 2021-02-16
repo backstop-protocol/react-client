@@ -21,7 +21,6 @@ class CoinList extends Component {
             const coin = compoundStore.coinsInTx[coinAddress] || compoundStore.coinMap[coinAddress]
             return coin
         })  
-        debugger
         return (
             <Transition
             native

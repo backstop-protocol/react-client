@@ -34,7 +34,7 @@ const init = () => {
 
 init()
 
-const wApiAction = async(...args) => {
+export const wApiAction = async(...args) => {
     const promise = await ApiAction(...args)
     compoundStore.fetchAndUpdateUserInfo()
     return promise
@@ -84,11 +84,12 @@ export default class CToken {
 
     transactionInProgress
 
-    constructor (address, data, info) {
+    constructor (address, data, info, importInfo) {
         
         this.address = address
         this.userData = data
         this.tokenInfo = info
+        this.importInfo = importInfo
         const addressToSymbol = userStore && userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
         this.symbol = (addressToSymbol[this.tokenInfo.ctoken] || "").replace("c", "")
         this.icon = this.getIcon()
@@ -363,5 +364,16 @@ export default class CToken {
         }else {
             return false
         }
+    }
+
+    grantImportAllowance = async (onHash) => {
+        const {avatar} = this.importInfo
+        const {web3, user, networkType} = userStore
+        const txPromise = CI.grantAllowance(web3, networkType, avatar, this.tokenInfo.ctoken, this.userData.ctokenBalance)
+        return await wApiAction(txPromise, user, web3, 0, onHash)
+    }
+
+    hasMigrationAllowance = () => {
+        return new BN(this.importInfo.ctokenAllowance).gte(new BN(this.userData.ctokenBalance))
     }
 }

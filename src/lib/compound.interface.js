@@ -3,15 +3,21 @@
  */
 import { ABI } from "./compoundConfig/abi"
 import { compUserInfoAbi } from "./compoundConfig/compUserInfoAbi"
+import { compoundImportAbi } from "./compoundConfig/compoundImportAbi"
+import { flashImportAbi } from "./compoundConfig/flashImportAbi"
+import { registryAbi } from "./compoundConfig/registryAbi"
 import { addresses as kovanAddresses } from "./compoundConfig/kovanAddress"
 import Web3 from "web3"
 
 const {toBN, toWei, fromWei} = Web3.utils
 
-
-const compUserInfoAddress = "0xb3cfb23a171e3fe2ea80ac1865dda74ca2363fcb" 
+const compUserInfoAddress = "0x940630f9e8a76721421e302400db9943a847cf7c" 
 export const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 const bComptroller = "0x16f56Cda8741613348257b82D28008E6CfC20D84"
+const registryAddress = "0x0704aa791bAC1Bf3195a608240E6a8F9E4F63E5F"
+const sugerDady = "0xA1A343B4245e4364e6b9c4574F9F7A3C1D849Ad6"
+const compoundImportAddress = "0x3545a9AB6a57B1172690769175A3242a644f1574"
+const flashImportAddress = "0xF9fa648c46bb1e1f249ABA973397077CDc20fC78"
 
 export const getAddress = (name, networkId) => {
   const addresses = networkId == 42 ? kovanAddresses : {}
@@ -80,10 +86,10 @@ export const withdraw = (web3, networkId, amount, tokenAddress) => {
   return cToken.methods.redeemUnderlying(amount)
 }
 
-export const grantAllowance = (web3, networkId, cTokenAddress, uderlying, allowance = maximum) => {
+export const grantAllowance = (web3, networkId, spender, token, allowance = maximum) => {
   const { Contract } = web3.eth
-  const erc20Token = new Contract(ABI.erc20, uderlying)
-  return erc20Token.methods.approve(cTokenAddress, allowance)
+  const erc20Token = new Contract(ABI.erc20, token)
+  return erc20Token.methods.approve(spender, allowance)
 }
 
 export const calcUnderlyingDepositBalance = (cTokenAddress, compUserInfo) => {
@@ -97,7 +103,8 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
   const normalized = {
     tokenInfo: {},
     cUser: {},
-    bUser: {}
+    bUser: {},
+    importInfo: {}
   }
   const tokens = userInfo.tokenInfo.btoken
   for (let i = 0; i < tokens.length; i++) {
@@ -108,10 +115,12 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
       Object.keys(userInfo[prop])
         .filter((k) => isNaN(k)) // removing numerical strings
         .forEach((key) => {
-          normalized[prop][address][key] = userInfo[prop][key][i]
+          normalized[prop][address][key] = Array.isArray(userInfo[prop][key]) ? userInfo[prop][key][i] : userInfo[prop][key]
         })
     })
   }
+  // debugger
+  // console.log("normalized", normalized)
   return normalized
 }
 
@@ -119,8 +128,10 @@ export const getCompUserInfo = async (web3, networkId, user) => {
   const { Contract } = web3.eth
   const userInfoContract = new Contract(compUserInfoAbi, compUserInfoAddress)
   const comptroller = getAddress("Comptroller", networkId)
-  const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptroller)
+  const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptroller, registryAddress, sugerDady)
   const userInfo = await userInfoTx.call({ gasLimit: "10000000" })
+  // debugger
+  // console.log("userInfo", userInfo)
   return normlizeCompUserInfo(userInfo)
 }
 
@@ -130,4 +141,26 @@ export const increaseABit = (number) => {
 
 export const gasCalc = async (networkId, transaction, transactionArgs) => {
   return increaseABit(await transaction.estimateGas(transactionArgs))
+}
+
+export const importFormCompoundToBProtocol = ()=> {
+
+}
+
+export const importCollateral = (web3, networkId, cTokens) => {
+  const { Contract } = web3.eth
+  const importContract = new Contract(compoundImportAbi, compoundImportAddress)
+  const importData = importContract.methods.importCollateral(cTokens).encodeABI()
+  const registryContract = new Contract(registryAbi, registryAddress)
+  return registryContract.methods.delegateAndExecuteOnce(compoundImportAddress, compoundImportAddress, importData)
+}
+
+export const importDebt = (web3, networkId, supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying) => {
+  const { Contract } = web3.eth
+  const importContract = new Contract(compoundImportAbi, compoundImportAddress)
+  // const importData = importContract.methods.importAccount(supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying).encodeABI()
+  const flashImportContract = new Contract(flashImportAbi, flashImportAddress)
+  const flashImportData = flashImportContract.methods.flashImport(supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying, compoundImportAddress, toWei("10"), sugerDady).encodeABI()
+  const registryContract = new Contract(registryAbi, registryAddress)
+  return registryContract.methods.delegateAndExecuteOnce(compoundImportAddress, flashImportAddress, flashImportData)
 }

@@ -3,10 +3,12 @@
  */
 import { runInAction, makeAutoObservable, observable } from "mobx"
 import userStore from "./user.store"
-import {getCompUserInfo } from "../lib/compound.interface"
+import {getCompUserInfo} from "../lib/compound.interface"
 import CToken, { CoinStatusEnum } from "../lib/compound.util"
 import {initialState} from "../lib/compoundConfig/initialState"
+import {wApiAction} from "../lib/compound.util"
 import Web3 from "web3"
+import compoundMigrationStore from "./compoundMigration.store"
 
 const {BN, toWei, fromWei} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
@@ -58,6 +60,7 @@ class CompoundStore {
             const { web3, networkType, user } = userStore
             let compUserInfo = await getCompUserInfo(web3, networkType, user)
             this.processUserInfo(compUserInfo)
+            compoundMigrationStore.getSupplyAndBorrow()
             this.handleFirstFatch()
         } catch (err) {
             console.log(err)

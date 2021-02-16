@@ -101,7 +101,6 @@ class BalanceBox extends Component {
                 <Transition
                     items={showBox}
                     config={{duration: 300}} 
-                    dealy={500}
                     from={{ opacity: 0, height: 0, zIndex: 0}}
                     enter={{ opacity: 1 , height: "auto", zIndex: 1}}
                     leave={{ opacity: 0, height: 0, zIndex: 0}}>
