@@ -17,6 +17,8 @@ const Container = styled.div`
     box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.1);
     background-color: white;
     overflow: hidden;
+    overflow-y: scroll;
+    max-height: 90vh;
     @media ${device.largeLaptop} {
         width: 994px;
     }
@@ -115,6 +117,7 @@ const ExplainerText = styled.div`
 
 const ActionButton = styled.div`
 position: relative;
+cursor: pointer;
   width: 263px;
   height: 59px;
   border-radius: 4.2px;
@@ -177,8 +180,7 @@ class MigrateFromCompoundModal extends Component {
 
     migrate (supply, borrow) {
         if(compoundMigrationStore.validateSupplyHasAllowance(supply)){
-            compoundMigrationStore.migrateFromCompound(supply, borrow)
-            this.closeModalBox()
+            compoundMigrationStore.migrateFromCompound(supply, borrow, this.closeModalBox)
         }
     }
 

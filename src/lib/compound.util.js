@@ -11,7 +11,8 @@ import compoundStore from "../stores/compound.store"
 const {BN, toWei, fromWei} = Web3.utils
 const _1E = (powerOf) =>  new BN(10).pow(new BN(powerOf))
 const _1e18 = _1E(18)
-export const maxAllowance = new BN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)
+export const maxAllowance = new  BN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)
+const reallyLargeAllowance = new BN("8888888888888888888888888888888888888888888888888888888888888888", 16)
 
 export const roundBigFloatAfterTheDeciaml = (bigFloat, roundBy) => {
     roundBy = new BN(roundBy)
@@ -139,8 +140,8 @@ export default class CToken {
         return toUiDecimalPointFormat(underlyingWalletBalance, this.tokenInfo.underlyingDecimals)
     }
 
-    getUnderlyingBalanceInUsd = () => {
-        const underlyingBalance = fromUiDeciamlPointFormat(this.underlyingBalanceStr, this.tokenInfo.underlyingDecimals)
+    getUnderlyingBalanceInUsd = (value = this.underlyingBalanceStr) => {
+        const underlyingBalance = fromUiDeciamlPointFormat(value, this.tokenInfo.underlyingDecimals)
         const underlyingBalanceUsd = (underlyingBalance.mul(new BN(this.tokenInfo.underlyingPrice))).div(_1e18) // underlyingPrice is taking the decimal point to account
         // return toUiDecimalPointFormat(underlyingBalanceUsd, this.tokenInfo.underlyingDecimals)
         return fromWei(underlyingBalanceUsd.toString()) // because underlyingPrice is taking the decimal
@@ -160,7 +161,7 @@ export default class CToken {
     }
 
     isUnlocked = () => {
-        return new BN(this.allowance).eq(maxAllowance)
+        return new BN(this.allowance).gt(reallyLargeAllowance)
     }
 
     unlock = async () => {
@@ -197,12 +198,13 @@ export default class CToken {
         const value = fromUiDeciamlPointFormat(input, this.tokenInfo.underlyingDecimals)
         const {underlyingWalletBalance} = this.userData
         const balance = new BN(underlyingWalletBalance)
-        if(new BN(this.allowance).lt(value)){
-            return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
-        }
-  
+        
         if(value.gt(balance)){
             return [false, "Amount exceeds wallet balance"]
+        }
+
+        if(new BN(this.allowance).lt(value)){
+            return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
         }
 
         // default 
@@ -258,9 +260,6 @@ export default class CToken {
         const value = fromUiDeciamlPointFormat(input, this.tokenInfo.underlyingDecimals)
         const {underlyingWalletBalance} = this.userData
         const balance = new BN(underlyingWalletBalance)
-        if(new BN(this.allowance).lt(value)){
-            return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
-        }
 
         if(value.gt(balance)){
             return [false, "Amount exceeds wallet balance"]
@@ -274,6 +273,10 @@ export default class CToken {
         const tokenBorrowed = new BN(toWei(this.borrowed))
         if(value.gt(tokenBorrowed)){
             return [false, "Amount exceeds borrowed amount"]
+        }
+
+        if(new BN(this.allowance).lt(value)){
+            return [false, "Amount exceeds allowance, unlock the token to grant allowance"]
         }
 
         // default 

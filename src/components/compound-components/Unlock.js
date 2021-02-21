@@ -9,6 +9,7 @@ import ActionBoxFooter from "./ActionBoxFooter"
 import LoadingRing from "../LoadingRing";
 import { depositEth } from "../../lib/compound.interface";
 import {device} from "../../screenSizes";
+import {ActionEnum} from "../../lib/compound.util"
 
 const Text = styled.div`
     font-family: "Poppins", sans-serif;
@@ -39,26 +40,26 @@ class Unlock extends Component{
         super(props);
 
         this.state = {
-            locked: !props.coin.isUnlocked(),
+            unlocked: false,
             unlocking: false,
         }
     }
 
     onUnlock = async () => {
         try{
-            if(!this.state.locked){
+            if(this.state.unlocked){
                 return
             }
             const {coin} = this.props
             this.setState({unlocking: true});
             await coin.unlock()
             this.setState({
-                locked: false,
+                unlocked: true,
                 unlocking: false,
             })
         } catch (err){
             this.setState({
-                locked: true,
+                unlocked: false,
                 unlocking: false,
             })
         }
@@ -66,16 +67,17 @@ class Unlock extends Component{
 
     render () {
 
-        const {unlocking, locked} = this.state
-        const {coin} = this.props
-        const text = locked ? `Unlock ${coin.symbol} to continue` : `${coin.symbol} is unlocked`
+        let {unlocking} = this.state
+        const {coin, action} = this.props
+        const unlocked = coin.isUnlocked() || this.state.unlocked // this is used to acount for UI delay
+        const text = !unlocked ? `Unlock ${coin.symbol} to continue` : `${coin.symbol} is unlocked`
         return (
-            <Container hide={coin.symbol == "ETH"}>
+            <Container hide={coin.symbol == "ETH" || action === ActionEnum.borrow || action === ActionEnum.withdraw}>
                 <Flex style={{marginTop: "15px"}} justifyBetween>
                     <Text>
                         {text}
                     </Text>
-                    <div className={'tickbox'+(unlocking ? ' loading' : (locked? '':' active'))} onClick={this.onUnlock}>
+                    <div className={'tickbox'+(unlocking ? ' loading' : (unlocked? " active": ""))} onClick={this.onUnlock}>
                         {unlocking && <LoadingRing />}
                     </div>
                 </Flex>

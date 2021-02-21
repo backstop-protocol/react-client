@@ -6,6 +6,9 @@ import Ticker from "./Ticker";
 import Tooltip from "./Tooltip";
 import {numm} from "../lib/Utils";
 import {observer} from "mobx-react"
+import compoundStore from "../stores/compound.store"
+import MainCompStore from "../stores/main.comp.store"
+import {toNDecimals} from "./GlobalStats"
 
 
 // TODO: refactor this component to use main store values only 
@@ -14,11 +17,11 @@ class GlobalStats2 extends Component {
 
     render() {
 
-        let {jarBalanceEth, jarBalanceUsd, totalRating, userScore} = this.props;
-        jarBalanceEth = 36.8
-        jarBalanceUsd = 45561
-        totalRating = 2168.36
-        userScore = 1.253
+        let {jarBalanceEth} = this.props;
+        const tooltipTxt = ""
+        const jarBalanceUsd = MainCompStore.jar
+        const totalRating = compoundStore.totalScore
+        const userScore = compoundStore.userScore
 
         return (
             <div className="global-stats even">
@@ -27,12 +30,12 @@ class GlobalStats2 extends Component {
                         <h2>
                             Jar Balance
                             <span className="tooltip-container">
-                                <Tooltip>{jarBalanceEth} ETH</Tooltip> 
+                                <Tooltip>{tooltipTxt}</Tooltip> 
                                 <img className="info-icon" src={InfoIcon} />
                             </span>
                         </h2>
                         <div className="value">
-                            $<span className="ticker"> {jarBalanceUsd} </span>
+                            $<span className="ticker">{jarBalanceUsd}</span>
                         </div>
                     </div>
                     <div className="right">
@@ -46,8 +49,7 @@ class GlobalStats2 extends Component {
                             </span>
                         </h2>
                         <div className="value">
-                            <span className="ticker"> {userScore} </span>
-                            {/* <Ticker value={userScore} primary={5} /> */}
+                            <Ticker value={toNDecimals(userScore, 10)} primary={5} />
                         </div>
                     </div>
                 </div>

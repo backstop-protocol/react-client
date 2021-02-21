@@ -32,7 +32,8 @@ class ConnectButton extends Component {
 
     const networkType = await web3.eth.net.getId();
     if(parseInt(networkType) !== parseInt(0x2a)
-       && parseInt(networkType) !== parseInt(0x1)) {
+       && parseInt(networkType) !== parseInt(0x1)
+        && parseInt(networkType) !== 1337) {
          console.log(networkType)
          EventBus.$emit("app-error","Only Mainnet and Kovan testnet are supported");
          return false;

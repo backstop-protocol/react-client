@@ -49,8 +49,9 @@ class UserStore {
 
     showConnect = () => {
         clearTimeout(this.displayConnectTimeOut)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         this.displayConnect = true
-        this.displayConnectTimeOut = setTimeout(()=> this.displayConnect = false, 2000)
+        this.displayConnectTimeOut = setTimeout(()=> this.displayConnect = false, 3000)
     }
 }
 

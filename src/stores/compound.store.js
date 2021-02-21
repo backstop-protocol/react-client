@@ -3,7 +3,7 @@
  */
 import { runInAction, makeAutoObservable, observable } from "mobx"
 import userStore from "./user.store"
-import {getCompUserInfo} from "../lib/compound.interface"
+import {getCompUserInfo, claimComp} from "../lib/compound.interface"
 import CToken, { CoinStatusEnum } from "../lib/compound.util"
 import {initialState} from "../lib/compoundConfig/initialState"
 import {wApiAction} from "../lib/compound.util"
@@ -22,13 +22,16 @@ class CompoundStore {
     coinList = []
     showBorrowReapyBox = false
     showDepositWithdrawBox = false
+    compBalance = "0"
+    userScore = "0"
+    totalScore = "0"
 
     totalDespositedBalanceInUsd = "0"
     totalBorrowedBalanceInUsd = "0"
     borrowLimitInUsd = "0"
     coinMap = {}
     coinsInTx = {}
-    firstUserInfoFetchDelay = true
+    firstUserInfoFetch = false
 
     constructor (){
         makeAutoObservable(this)
@@ -44,14 +47,10 @@ class CompoundStore {
         this.showHideEmptyBalanceBoxs()    
     }
 
+    
     handleFirstFatch = ()=> {
-        if(this.firstUserInfoFetchDelay){
-            setTimeout(()=> {
-                runInAction(()=> {
-                    // this delay is for animations
-                    this.firstUserInfoFetchDelay = false
-                })
-            }, 1000)
+        if(!this.firstUserInfoFetch){
+            this.firstUserInfoFetch = true;
         }
     }
 
@@ -71,6 +70,8 @@ class CompoundStore {
         runInAction(()=> {
             this.userInfo = userInfo
             this.initCoins()
+            this.calcCompBlance()
+            this.calcUserScore()
             this.calcDpositedBalance()
             this.calcBorrowedBalance()
             this.calcBorrowLimit()
@@ -78,6 +79,40 @@ class CompoundStore {
             this.coinList = Object.keys(this.userInfo.bUser)
             this.showHideEmptyBalanceBoxs()
         })
+    }
+
+    calcCompBlance = () => {
+        // TODO: use a new intial state 
+        // and remove the validations 
+        
+        const obj = this.userInfo.compTokenInfo || {} 
+        const val = obj[Object.keys(obj)[0]] || {}
+        this.compBalance = fromWei(val.compBalance || "0")
+    }
+
+    userScoreInterval
+
+    calcUserScore = () => {
+        /* userScore: "1130730360842517277472293108518559641600", userScoreProgressPerSec: "54659338247569563947864125560465600", totalScore: "1535350103869919825600293108518559641600" */
+        // TODO: use a new intial state 
+       
+        const seconds = 3
+        const obj = this.userInfo.scoreInfo
+        if(!obj) return  // and remove this validations once i use a proper intial state obj
+        const val = obj[Object.keys(obj)[0]] || {}
+        const factor = new BN(10).pow(new BN(19))
+        this.userScore = fromWei(new BN(val.userScore).div(factor))
+        this.totalScore = parseFloat(fromWei(new BN(val.totalScore).div(factor))).toFixed(2)
+        const progress = parseFloat(fromWei(new BN(val.userScoreProgressPerSec).div(factor)))
+
+        if(this.userScoreInterval){
+            clearInterval(this.userScoreInterval)
+        }
+        this.userScoreInterval = setInterval(()=> {
+            runInAction(()=> {
+                this.userScore = parseFloat(this.userScore) + (progress * seconds)
+            })
+        }, seconds * 1000)
     }
 
     showHideEmptyBalanceBoxs = () =>{
@@ -151,6 +186,12 @@ class CompoundStore {
             borrowLimitInUsd = borrowLimitInUsd.add(coinBorrowLimit)
         })
         this.borrowLimitInUsd = fromWei(borrowLimitInUsd)
+    }
+
+    claimComp = async (onHash) => {
+        const {web3, networkType, user} = userStore
+        const txPromise = claimComp(web3, networkType, user)
+        return await wApiAction(txPromise, user, web3, 0, onHash)
     }
 }
 

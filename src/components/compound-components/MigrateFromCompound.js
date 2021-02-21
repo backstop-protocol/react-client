@@ -67,7 +67,7 @@ class MigrateFromCompound extends Component {
                             </div>
                             <p>
                                 <span>
-                                    Import your CDP
+                                    Import your account
                                     from Compound  system
                                     to B.Protocol
                                 </span>

@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import Tooltip from "./Tooltip";
 import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../screenSizes";
+import mainStore, {toCommmSepratedString} from "../stores/main.store"
+import mainCompStore from "../stores/main.comp.store"
+import AnimateNumberChange from "./style-components/AnimateNumberChange"
 
 const TvlBox = styled.div`
     background-image: url("${require("../assets/tvl-bg.svg")}");
@@ -16,13 +19,13 @@ const TvlBox = styled.div`
     @media ${device.largeLaptop} {
         min-width: 505px;
         height: 116px;
-        padding: 18px 30px 23px 53px;
+        padding: 18px 62px 23px 53px;
     }
 
     @media ${device.laptop} {
         min-width: 466px;
         height: 103px;
-        padding: 17px 28px 21px 49px;
+        padding: 17px 59px 21px 49px;
         margin-top -6px;
     } 
 `
@@ -92,6 +95,7 @@ const TvlAmount = styled.div`
 `
 
 const Triangle = styled.div`
+    margin-left: 5px;
     display: inline-block;
     position: relative;
     transform: translateY(-80%);
@@ -131,31 +135,37 @@ const ToolTipLine = styled.div`
 
 class Tvl2 extends Component {
     render() {
-        const { tvlEth, tvlDai, cdpi, tvlUsd } = this.props
+        let {tooltipData} = this.props
+        tooltipData = tooltipData || {}
+        const {tvlNumeric: compTvl} = mainCompStore
+        const {tvlUsdNumeric: makerTvl} = mainStore
+
+        // const tvl = toCommmSepratedString((compTvl + makerTvl).toFixed(1))
+        const tvl = (compTvl + makerTvl) 
        return (
            <div>
                <TvlBox>
-                   <Flex justifyStart>
+                   <Flex justifyBetween>
                        <FlexItem>
                             <TvlTitle>
                                 Total value locked
                                 <span className="tooltip-container">   
                                     <Tooltip>
-                                        <ToolTipLine> 
-                                            <div> ETH deposits: </div> <div> { (tvlEth / 1000).toFixed(2) }K </div>
-                                        </ToolTipLine>
-                                        <ToolTipLine> 
-                                            <div> DAI debt: </div> <div> { (tvlDai / 1000000).toFixed(2) }M </div>
-                                        </ToolTipLine>
-                                        <ToolTipLine> 
-                                            <div> Number of Vaults: </div> <div> { cdpi } </div>
-                                        </ToolTipLine>        
+                                        {Object.entries(tooltipData).map(([key, value]) => {
+                                            return (
+                                                <ToolTipLine> 
+                                                    <div> {key}: </div> <div> {value} </div>
+                                                </ToolTipLine>
+                                            )
+                                        })}
                                     </Tooltip>
                                     <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
                                 </span>
                             </TvlTitle>
                             <TvlAmount>
-                                ${tvlUsd} <Triangle/>
+                                {/* ${tvl} */}
+                                $<AnimateNumberChange decimals={1} val={tvl}/>
+                                <Triangle/> 
                             </TvlAmount>
                        </FlexItem>
                        <FlexItem grow>

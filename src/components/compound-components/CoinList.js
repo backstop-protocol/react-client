@@ -8,24 +8,13 @@ import compoundStore from "../../stores/compound.store";
 import userStore from "../../stores/user.store"
 
 class CoinList extends Component {
-// TODO: filter the array here and pass it to the transition
-// inorder for it to scale the height greacfully
-// TODO: store 4 lists in compound store and change there values on every userInfo Fetch
+
     render () {
-        const {list, isInBalanceBox, type, coinStatusToShow} = this.props
-        const items = list.filter(coinAddress=> {
-            const coin = compoundStore.coinsInTx[coinAddress] || compoundStore.coinMap[coinAddress] // preserve state until tx is finished and UI is ready to dispaly new coin state
-            return coin.isCoinStatus(coinStatusToShow)
-        })
-        .map(coinAddress => {
-            const coin = compoundStore.coinsInTx[coinAddress] || compoundStore.coinMap[coinAddress]
-            return coin
-        })  
+        const {list: items, isInBalanceBox, type, coinStatusToShow} = this.props
+
         return (
             <Transition
             native
-            // immediate={compoundStore.firstUserInfoFetchDelay}
-            // delay={compoundStore.firstUserInfoFetchDelay ? 1000 : 0}
             initial={null}
             config={{duration: 300}}
             items={items}

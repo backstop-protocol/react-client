@@ -7,9 +7,11 @@ import Unlock from "./Unlock"
 import TxInProgress from "./TxInProgress"
 import Loading from "../action-panels/Loading"
 import Tooltip from "../Tooltip"
-import {ActionEnum, roundBigFloatAfterTheDeciaml} from "../../lib/compound.util"
+import {ActionEnum, roundBigFloatAfterTheDeciaml, displayNum} from "../../lib/compound.util"
 import compoundStore from "../../stores/compound.store"
 import {device} from "../../screenSizes";
+import Web3 from "web3"
+const {BN} = Web3.utils
 
 const Container = styled.div`
     transition: all 0.3s ease-in-out;
@@ -114,6 +116,7 @@ class ActionBox extends Component {
 
     constructor(props) {
         super(props);
+        this.boxRef = React.createRef();
     }
 
     reset = () => {
@@ -133,15 +136,21 @@ class ActionBox extends Component {
 
     doAction = async () => {
         const {coin, action, store} = this.props
+        const [inputIsValid, inputErrMsg] = coin.validateInput(store.val, action)
+        if(!inputIsValid){
+            store.setErrMsg(inputErrMsg)
+            return
+        }
         try{
             coin.transactionInProgress = action
             store.transactionInProgress = true
             compoundStore.toggleInTx(coin.address, coin)
             await coin[action](store.val, this.onHash)
             store.success = true
-            this.reset()
         } catch (err){
             store.err = err.message
+        }
+        finally {
             this.reset()
         }
     }
@@ -152,11 +161,14 @@ class ActionBox extends Component {
         const [inputIsValid, inputErrMsg] = coin.validateInput(val, action)
         store.val = val 
         store.inputIsValid = inputIsValid 
-        store.inputErrMsg = inputErrMsg
+        store.setErrMsg(inputErrMsg)
     };
 
     showSetMax = () => {
         const {coin, action} = this.props
+        if(action === ActionEnum.deposit && coin.symbol != "ETH" && coin.WalletBalanceStr > 0){
+            return true
+        }
         if(action === ActionEnum.withdraw){
             const noDebtAtAll = compoundStore.totalBorrowedBalanceInUsd <= 1
             if(noDebtAtAll){
@@ -165,26 +177,45 @@ class ActionBox extends Component {
         }
         if(action === ActionEnum.repay){
             // debt is smaller than underlying wallet balance
-            if(coin.canRepayAll()){
-                return true
-            }
+            return true
         }
         return false
     }
 
     setMax = () => {
         const {coin, action, store} = this.props
+
         let val = ""
         if(action === ActionEnum.repay){
-            val = coin.borrowed
+            const borrowed = coin.borrowed
+            const balance = coin.WalletBalanceStr
+            debugger
+            val = new BN(balance).gt(new BN(borrowed)) ? borrowed : balance
+        }
+        if(action === ActionEnum.deposit){
+            val = coin.WalletBalanceStr
         }
         if(action === ActionEnum.withdraw){
             val = coin.underlyingBalanceStr
         }
         const [inputIsValid, inputErrMsg] = coin.validateInput(val, action)
-        store.val = val 
+        store.val = displayNum(val, 8)
         store.inputIsValid = inputIsValid 
-        store.inputErrMsg = inputErrMsg
+        store.setErrMsg(inputErrMsg)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const actionBoxIsOpening = this.props.isOpen && !prevProps.isOpen
+        if(actionBoxIsOpening){
+            const {bottom} = this.boxRef.current.getBoundingClientRect();
+            const theBottomOfTheActionBoxIsNotInView = bottom + 300 > window.innerHeight
+            if(theBottomOfTheActionBoxIsNotInView){
+                // wait for it to open a bit then start scrolling it in to the  view
+                setTimeout(()=> {
+                    this.boxRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+                }, 200)
+            }
+        }
     }
 
     render () {
@@ -192,7 +223,7 @@ class ActionBox extends Component {
         const { transactionInProgress, hash, err, val, success, inputErrMsg, inputIsValid } = store
         const actioning = action.charAt(0).toUpperCase() + action.slice(1) + "ing"
         return (
-            <Container open={isOpen} tx={transactionInProgress}>
+            <Container ref={this.boxRef} open={isOpen} tx={transactionInProgress}>
                     <AnimatedContent open={isOpen && transactionInProgress && !err && !success}>
                         <Loading hash={hash} actioning={actioning} value={val} currency={coin.symbol} completed={success} failed={err} />
                     </AnimatedContent>
@@ -214,10 +245,10 @@ class ActionBox extends Component {
                                     <input type="text" value={val} onChange={this.onInputChange} placeholder={`Amount in ${coin.symbol}`} ref={e => this.input = e} />
                                     {inputErrMsg && <Tooltip bottom={true} className={'warning'}>{inputErrMsg}</Tooltip>}
                                 </div>
-                                <Unlock coin={coin}/>
+                                <Unlock coin={coin} action={action}/>
                             </Flex>
                             <FlexItem style={{width: "50%"}}>
-                                <button onClick={this.doAction} className={`currency-input-button ${!inputIsValid ? "disabled" : ""}`} disabled={!inputIsValid}>
+                                <button onClick={this.doAction} className={`currency-input-button ${!inputIsValid ? "disabled" : ""}`}>
                                     {action}
                                 </button>
                             </FlexItem>

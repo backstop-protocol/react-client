@@ -9,13 +9,20 @@ import userStore from "../stores/user.store"
 import {observer} from "mobx-react"
 import HeaderBorrowLimit from "../components/compound-components/HeaderBorrowLimit"
 import {ResponsiveWidthHeader} from "./style-components/ResponsiveContainer"
-
+import mainStore from "../stores/main.store"
+import mainCompStore from "../stores/main.comp.store"
+import {Transition} from 'react-spring/renderprops'
 
 class Header2 extends Component {
     render() {
 
         const {info, onConnect, logo} = this.props;
-
+        const {loggedIn} = userStore
+        const tooltipData = {
+            "Maker": `$${mainStore.tvlUsd}`,
+            "Compound": `$${mainCompStore.tvl}`,
+            "Accounts": `${mainCompStore.compoundAccounts}` 
+        }
         return (
             <div style={{zIndex: -10}} className="top-panel">
                 <ResponsiveWidthHeader className="container">
@@ -32,12 +39,18 @@ class Header2 extends Component {
                     </div>
                     <div className="header-stats split">
                         <GlobalStats2 />
-                        {info && 
-                            <HeaderBorrowLimit/>
-                        }
-                        {!info &&
-                            <Tvl2/>
-                        }
+                        <Transition
+                            initial={null}
+                            items={loggedIn}
+                            from={{ display: "none", opacity: 0 }}
+                            enter={{ display: "initial", opacity: 1 }}
+                            leave={{ display: "none", opacity: 0 }}>
+                            {toggle =>
+                                toggle
+                                ? props => <div style={props}><HeaderBorrowLimit/></div>
+                                : props => <div style={props}><Tvl2 tooltipData={tooltipData}/></div>
+                            }
+                        </Transition>
                     </div>
                 </ResponsiveWidthHeader>
             </div>

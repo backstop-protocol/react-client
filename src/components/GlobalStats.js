@@ -11,7 +11,7 @@ import {Observer} from "mobx-react"
 const ratingFactor = 24 * 60 * 60 * 1000;
 const ratingProgressTime = 3000;
 
-function toNDecimals(number, n) {
+export function toNDecimals(number, n) {
 
     if(!number) return 0;
     for(let i = 0 ; i < 20 ; i++) {
@@ -61,29 +61,21 @@ export default class GlobalStats extends Component {
 
         const {userInfo} = this.props;
         const {currentRating} = this.state;
-
-        return (
+        return (          
+        <Observer>
+            {() => 
             <div className="global-stats even">
                 <div className="stats">
                     <div className="left">
                         <h2>
                             Jar Balance
                             <span className="tooltip-container">
-                                <Observer>
-                                    {() => 
-                                        <Tooltip>{mainStore.jarBalanceEth} ETH</Tooltip> 
-                                    }     
-                                </Observer>
+                                <Tooltip>{mainStore.jarBalanceEth} ETH</Tooltip>     
                                 <img className="info-icon" src={InfoIcon} />
                             </span>
                         </h2>
                         <div className="value">
-                            $
-                            <Observer>
-                                {() =>
-                                    <Ticker value={ mainStore.jarBalanceUsd} />
-                                }
-                            </Observer>
+                            $<Ticker value={mainStore.jarBalanceUsd} />
                         </div>
                     </div>
                     <div className="right">
@@ -106,6 +98,8 @@ export default class GlobalStats extends Component {
                     <img src={DollarIcon} className="dollar-icon floating centered" />
                 </div>
             </div>
+            }     
+        </Observer>
         )
     }
 }

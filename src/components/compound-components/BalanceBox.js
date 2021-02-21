@@ -89,7 +89,7 @@ const Hero = styled.div`
 
 class BalanceBox extends Component {
     render () {
-        const {type, list, showBox, coinStatusToShow} = this.props
+        const {type, list, showBox} = this.props
         return (
             <Container>
                 <Hero className={`${showBox ? "center" : "top" }`}>
@@ -115,7 +115,7 @@ class BalanceBox extends Component {
                             </div>
                         : props => 
                         <div style={props}>
-                            <BalanceListBox type={type} list={list} coinStatusToShow={coinStatusToShow} />
+                            <BalanceListBox type={type} list={list} />
                         </div>
 
                     }

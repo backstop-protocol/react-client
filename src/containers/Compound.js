@@ -18,6 +18,7 @@ import {device} from "../screenSizes";
 
 const Overides = styled.div`
     overflow: hidden;
+    margin-bottom: 100px;
 `
 
 class Compound extends Component {
@@ -30,6 +31,21 @@ class Compound extends Component {
     compoundStore.getUserInfo()
   }
 
+  getList(coinStatusToShow){
+    const items = compoundStore.coinList.filter(coinAddress=> {
+        const coin = compoundStore.coinsInTx[coinAddress] || compoundStore.coinMap[coinAddress] // preserve state until tx is finished and UI is ready to dispaly new coin state
+        if(!coin.symbol){
+            return false
+        }
+        return coin.isCoinStatus(coinStatusToShow)
+    })
+    .map(coinAddress => {
+        const coin = compoundStore.coinsInTx[coinAddress] || compoundStore.coinMap[coinAddress]
+        return coin
+    }) 
+    return items     
+  }
+
   render() {
     const { userInfo, userInfoUpdate, coinList } = compoundStore
     console.log("comp userInfoUpdate ", userInfoUpdate)
@@ -40,14 +56,14 @@ class Compound extends Component {
           onConnect={this.onConnect}
           logo={logo}
         />
-        <Flex style={{ marginTop: -30}} justifyCenter>
+        <Flex style={{ marginTop: -30, paddingBottom: "15px"}} justifyCenter>
             <Flex column>
-              <BalanceBox coinStatusToShow={CoinStatusEnum.deposited} type="deposit" list={coinList} showBox={compoundStore.showDepositWithdrawBox}/>
-              <CoinListBox coinStatusToShow={CoinStatusEnum.unDeposited} type="deposit" list={coinList}/>
+              <BalanceBox type="deposit" list={this.getList(CoinStatusEnum.deposited)} showBox={compoundStore.showDepositWithdrawBox}/>
+              <CoinListBox type="deposit" list={this.getList(CoinStatusEnum.unDeposited)}/>
             </Flex>
             <Flex column>  
-              <BalanceBox coinStatusToShow={CoinStatusEnum.borrowed} type="borrow" list={coinList} showBox={compoundStore.showBorrowReapyBox}/>
-              <CoinListBox coinStatusToShow={CoinStatusEnum.unBorrowed} type="borrow" list={coinList}/>
+              <BalanceBox type="borrow" list={this.getList(CoinStatusEnum.borrowed)} showBox={compoundStore.showBorrowReapyBox}/>
+              <CoinListBox type="borrow" list={this.getList(CoinStatusEnum.unBorrowed)}/>
             </Flex>
         </Flex>
       </Overides>

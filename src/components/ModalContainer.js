@@ -46,7 +46,7 @@ export default class ModalContainer extends Component {
                     </div>
                 }
                 {this.state.component && noWrapper && 
-                    <div style={{overflowY: 'scroll', height: "100%"}}>
+                    <div>
                         {component}
                     </div>
                 }

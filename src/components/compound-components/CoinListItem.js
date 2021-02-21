@@ -150,6 +150,7 @@ class ActionBoxState {
     hash = null
     val = ""
     err = ""
+    success = ""
     inputIsValid = false
     inputErrMsg = ""
 
@@ -162,8 +163,20 @@ class ActionBoxState {
         this.hash = null
         this.val = ""
         this.err = ""
+        this.success = ""
         this.inputIsValid = false
         this.inputErrMsg = ""
+        this.timeout = null
+    }
+
+    setErrMsg = (msg) => {
+        this.inputErrMsg = msg
+        if(this.timeout) {
+            clearTimeout(this.timeout)
+        }
+        this.timeout = setTimeout(()=> {
+            runInAction(()=> this.inputErrMsg = "")
+        }, 3000)
     }
 }
 
@@ -174,11 +187,8 @@ class CoinListItem extends Component {
         this.state = {
             action: ActionEnum.deposit,
             open: false,
-            openTransitionDone: false,
-            show: false
         }
     }
-
 
     open (action) {
         if(!userStore.loggedIn){

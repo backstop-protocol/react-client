@@ -62,6 +62,9 @@ class ImportAllowanceToggle extends Component{
                 locked: false,
                 unlocking: false,
             })
+            setTimeout(()=> {
+                this.setState({hash: ""})
+            }, 3000)
         } catch (err){
             this.setState({
                 locked: true,

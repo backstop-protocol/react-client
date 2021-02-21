@@ -11,13 +11,15 @@ import Web3 from "web3"
 
 const {toBN, toWei, fromWei} = Web3.utils
 
-const compUserInfoAddress = "0x940630f9e8a76721421e302400db9943a847cf7c" 
+const compUserInfoAddress = "0xf0f2e5aa370e33ebbea467c568cb9d018c9e9916" 
 export const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-const bComptroller = "0x16f56Cda8741613348257b82D28008E6CfC20D84"
+const bComptrollerAddress = "0x16f56Cda8741613348257b82D28008E6CfC20D84"
 const registryAddress = "0x0704aa791bAC1Bf3195a608240E6a8F9E4F63E5F"
 const sugerDady = "0xA1A343B4245e4364e6b9c4574F9F7A3C1D849Ad6"
 const compoundImportAddress = "0x3545a9AB6a57B1172690769175A3242a644f1574"
 const flashImportAddress = "0xF9fa648c46bb1e1f249ABA973397077CDc20fC78"
+const jarConnector = "0x061133BE90f97B6Eb7f73eD9Dc50eFB1DD96ED72"
+const jar = "0x18DB5F7711d57974d825f9ca45D21627353bEb72"
 
 export const getAddress = (name, networkId) => {
   const addresses = networkId == 42 ? kovanAddresses : {}
@@ -104,7 +106,11 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
     tokenInfo: {},
     cUser: {},
     bUser: {},
-    importInfo: {}
+    importInfo: {},
+    jarInfo: {},
+    tvlInfo: {},
+    compTokenInfo: {},
+    scoreInfo: {}
   }
   const tokens = userInfo.tokenInfo.btoken
   for (let i = 0; i < tokens.length; i++) {
@@ -128,7 +134,7 @@ export const getCompUserInfo = async (web3, networkId, user) => {
   const { Contract } = web3.eth
   const userInfoContract = new Contract(compUserInfoAbi, compUserInfoAddress)
   const comptroller = getAddress("Comptroller", networkId)
-  const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptroller, registryAddress, sugerDady)
+  const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptrollerAddress, registryAddress, sugerDady, jarConnector, jar)
   const userInfo = await userInfoTx.call({ gasLimit: "10000000" })
   // debugger
   // console.log("userInfo", userInfo)
@@ -163,4 +169,10 @@ export const importDebt = (web3, networkId, supplyCTokens, supplyUnderlying, bor
   const flashImportData = flashImportContract.methods.flashImport(supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying, compoundImportAddress, toWei("10"), sugerDady).encodeABI()
   const registryContract = new Contract(registryAbi, registryAddress)
   return registryContract.methods.delegateAndExecuteOnce(compoundImportAddress, flashImportAddress, flashImportData)
+}
+
+export const claimComp = (web3, networkId, user) => {
+  const { Contract } = web3.eth
+  const bComptrollerContract = new Contract(ABI.Comptroller, bComptrollerAddress)
+  return bComptrollerContract.methods.claimComp(user)
 }

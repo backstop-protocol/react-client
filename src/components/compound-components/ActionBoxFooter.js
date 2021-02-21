@@ -4,7 +4,8 @@ import styled from "styled-components"
 import Flex from "styled-flex-component";
 import BorrowLimit from "./BorrowLimit"
 import { ActionEnum } from "../../lib/compound.util";
-import {device} from "../../screenSizes";
+import {device} from "../../screenSizes"
+import compoundStore from "../../stores/compound.store"
 
 const Container = styled.div`
     margin-top: 43px;
@@ -53,13 +54,14 @@ class ActionBoxFooter extends Component {
 
     render (){
         const {coin, value, action} = this.props
-        const {displayNum, underlyingBalanceStr, symbol, WalletBalanceStr} = coin
-        let updatedTotalDeposit = parseFloat(displayNum(underlyingBalanceStr, 4))
+        const {displayNum, symbol, WalletBalanceStr} = coin
+        let updatedTotalDeposit = parseFloat(displayNum(compoundStore.totalDespositedBalanceInUsd, 4))
+        const valueInUsd = coin.calcValueInUsd(value)
         if(action == ActionEnum.deposit){
-            updatedTotalDeposit = updatedTotalDeposit + parseFloat(displayNum(value, 4))
+            updatedTotalDeposit = updatedTotalDeposit + parseFloat(displayNum(valueInUsd, 4))
         }
         if(action == ActionEnum.withdraw){
-            updatedTotalDeposit = updatedTotalDeposit - parseFloat(displayNum(value, 4))
+            updatedTotalDeposit = updatedTotalDeposit - parseFloat(displayNum(valueInUsd, 4))
         }
         updatedTotalDeposit = updatedTotalDeposit.toFixed(4)
         return (
@@ -71,7 +73,7 @@ class ActionBoxFooter extends Component {
                     </Flex >
                     <Flex column justifyBetween className="grey-divider" style={{width: "30%"}}>
                         <SmallTitle>Total deposit</SmallTitle>
-                        <Amount>{updatedTotalDeposit} {symbol}</Amount>
+                        <Amount>${updatedTotalDeposit}</Amount>
                     </Flex >
                     <Flex column justifyBetween className="grey-divider" style={{width: "40%"}}>
                         <SmallTitle>Borrow Limit</SmallTitle>

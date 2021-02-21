@@ -75,7 +75,7 @@ class CompoundMigrationStore {
         return true
     }
 
-    migrateFromCompound = async (supply, borrow) => {
+    migrateFromCompound = async (supply, borrow, closeModal) => {
         this.setStatus(MigrationStatus.pending)
         try{
             const { web3, networkType, user } = userStore
@@ -89,7 +89,11 @@ class CompoundMigrationStore {
             } else {
                 txPromise = importCollateral(web3, networkType, supplyCTokens)
             }
-            await wApiAction(txPromise, user, web3, 0, this.onHash)
+            const promise = wApiAction(txPromise, user, web3, 0, (hash) => {
+                this.onHash(hash)
+                closeModal()
+            })
+            await promise
             this.setStatus(MigrationStatus.success)
         } catch (err){
             console.log(err)

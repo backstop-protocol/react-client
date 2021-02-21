@@ -95,7 +95,7 @@ const GridItem = styled.div`
         padding-left: 25px;
     }
 `
-const SubTitle = styled.div`
+export const SubTitle = styled.div`
     font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
@@ -150,15 +150,15 @@ class HeaderBorrowLimit extends Component {
                                     Borrow Balance
                                 </SubTitle>
                                 <GridAmount>
-                                    ${displayNum(borrowed, 9)}
+                                    ${displayNum(borrowed, 4)}
                                 </GridAmount>
                             </Flex>
                         </GridItem>
                         <GridItem>
                             <Flex column justifyEnd full>
-                                <ClaimComp/>
+                                <ClaimComp compBalance={compoundStore.compBalance}/>
                                 <GridAmount>
-                                    $0 COMP
+                                    {displayNum(compoundStore.compBalance, 4)} COMP
                                 </GridAmount>
                             </Flex>
                         </GridItem>

@@ -9,7 +9,7 @@ import userStore from "./user.store"
 
 class MakerStore {
 
-    userInfo
+    userInfo = null
     userInfoTimeouts = []
     userInfoUpdate = 0
 

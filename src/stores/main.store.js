@@ -5,7 +5,7 @@ import Web3 from "web3"
 import axios from "axios"
 const BP_API = "https://bp-api.bprotocol.workers.dev"
 
-const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 /**
  * Main Store is desigend for general purpose app data
@@ -16,6 +16,7 @@ class MainStore {
     generalInfo = null
     jarBalanceEth = "--,---" //  default
     jarBalanceUsd = 10000 // dafult
+    tvlUsdNumeric = 0
     tvlUsd = "--,---" //  default
     tvlEth = "--,---" //  default
     tvlDai = "--,---"
@@ -56,8 +57,8 @@ class MainStore {
             const web3 = new Web3(BP_API)
             let info = await B.getStats(web3, "1")
             this.tvlEth = parseFloat(web3.utils.fromWei(info.eth)).toFixed(1)
-            const tvlUsd = parseFloat(this.tvlEth * this.spotPrice).toFixed(1)
-            this.tvlUsd = toCommmSepratedString(tvlUsd)
+            this.tvlUsdNumeric = parseFloat(this.tvlEth * this.spotPrice)
+            this.tvlUsd = toCommmSepratedString(this.tvlUsdNumeric.toFixed(1))
             this.tvlDai = parseFloat(web3.utils.fromWei(info.dai)).toFixed(1)
             this.cdpi = info.cdpi
         }catch (err){
