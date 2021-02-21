@@ -17,7 +17,7 @@ class MainCompStore {
         /* ==================================================
         TODO: do not commmit this !!!!!!!!!!!!!!!!!!!!!!!!! 
         ================================================= */
-        const web3 = new Web3("https://kovan.infura.io/v3/58073b4a32df4105906c702f167b91d2")
+        const web3 = new Web3(API)
         this.compUserInfoPromise = getCompUserInfo(web3, 42, "0x18DB5F7711d57974d825f9ca45D21627353bEb72")
         this.fetchTvl()
         this.fetchJar()
