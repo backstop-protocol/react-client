@@ -246,7 +246,7 @@ class MigrateFromCompoundModal extends Component {
                             }}>IMPORT</div>
                         </ActionButton>
                         <Risks>
-                            Read the risks of using B.Protocol <br/>
+                            Read the <a href="/risk" target="_blank">risks</a> of using B.Protocol <br/>
                             B.Protocol doesn’t protect you from liquidations
                         </Risks>
                     </Flex>
