@@ -101,7 +101,7 @@ class CompoundStore {
         if(!obj) return  // and remove this validations once i use a proper intial state obj
         const val = obj[Object.keys(obj)[0]] || {}
         const factor = new BN(10).pow(new BN(19))
-        this.userScore = fromWei(new BN(val.userScore).div(factor))
+        this.userScore = this.userScore == "0" ? fromWei(new BN(val.userScore).div(factor)) : this.userScore
         this.totalScore = parseFloat(fromWei(new BN(val.totalScore).div(factor))).toFixed(2)
         const progress = parseFloat(fromWei(new BN(val.userScoreProgressPerSec).div(factor)))
 

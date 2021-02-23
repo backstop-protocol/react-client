@@ -12,11 +12,10 @@ const ratingFactor = 24 * 60 * 60 * 1000;
 const ratingProgressTime = 3000;
 
 export function toNDecimals(number, n) {
-
     if(!number) return 0;
     for(let i = 0 ; i < 20 ; i++) {
         const s = parseFloat(number).toFixed(i);
-        if(s.length > n) return parseFloat(s);
+        if(s.length > n) return s
     }
 
     return n;

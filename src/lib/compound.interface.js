@@ -122,7 +122,7 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
   return normalized
 }
 
-export const getCompUserInfo = async (web3, networkId, user) => {
+export const getCompUserInfo = async (web3, networkId, user, getTvl = false) => {
   const { Contract } = web3.eth
   const compUserInfoAddress = getAddress("compUserInfoAddress", networkId)
   const bComptrollerAddress = getAddress("bComptrollerAddress", networkId)
@@ -132,7 +132,7 @@ export const getCompUserInfo = async (web3, networkId, user) => {
   const jar = getAddress("jar", networkId)
   const userInfoContract = new Contract(compUserInfoAbi, compUserInfoAddress)
   const comptroller = getAddress("Comptroller", networkId)
-  const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptrollerAddress, registryAddress, sugerDady, jarConnector, jar)
+  const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptrollerAddress, registryAddress, sugerDady, jarConnector, jar, getTvl)
   const userInfo = await userInfoTx.call({ gasLimit: "10000000" })
   // debugger
   // console.log("userInfo", userInfo)

@@ -247,7 +247,7 @@ class ActionBox extends Component {
                                 <Unlock coin={coin} action={action}/>
                             </Flex>
                             <FlexItem style={{width: "50%"}}>
-                                <button onClick={this.doAction} className={`currency-input-button ${!inputIsValid ? "disabled" : ""}`}>
+                                <button onClick={this.doAction} className={`currency-input-button`}>
                                     {action}
                                 </button>
                             </FlexItem>
