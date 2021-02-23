@@ -309,9 +309,7 @@ export default class CToken {
         let ethToSendWithTransaction = 0
         let txPromise
         const repayAll = this.getMaximum(ActionEnum.withdraw) === amount
-        debugger
-        if(repayAll){
-            
+        if(repayAll){  
             txPromise = CI.withdrawMax(web3, networkType, this.userData.ctokenBalance, this.address)
         }else if(this.symbol === "ETH") {
             txPromise = CI.withdrawEth(web3, networkType, withdrawAmount, this.address)
@@ -349,7 +347,6 @@ export default class CToken {
             if(isMax && canRepayAll){
                 repayAll = true
             }
-            debugger
             txPromise = CI.repayToken(web3, networkType, reapyAmount, this.address, repayAll)
             ethToSendWithTransaction = 0
         }
@@ -367,7 +364,6 @@ export default class CToken {
         if(action === ActionEnum.withdraw){
             val = this.underlyingBalanceStr
         }
-
         return displayNum(val, 8)
     }
 
