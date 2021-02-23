@@ -62,9 +62,13 @@ export const repayEth = (web3, networkId, cEthAddress) => {
   return cETH.methods.repayBorrow()
 }
 
-export const repayToken = (web3, networkId, amount, tokenAddress) => {
+export const repayToken = (web3, networkId, amount, tokenAddress, repayAll) => {
   const { Contract } = web3.eth
   const cToken = new Contract(ABI.cToken, tokenAddress)
+  debugger
+  if(repayAll){
+    amount = maximum
+  }
   return cToken.methods.repayBorrow(amount)
 }
 
@@ -78,6 +82,12 @@ export const withdraw = (web3, networkId, amount, tokenAddress) => {
   const { Contract } = web3.eth
   const cToken = new Contract(ABI.cToken, tokenAddress)
   return cToken.methods.redeemUnderlying(amount)
+}
+
+export const withdrawMax = (web3, networkId, amount, tokenAddress) => {
+  const { Contract } = web3.eth
+  const cToken = new Contract(ABI.cToken, tokenAddress)
+  return cToken.methods.redeem(amount)
 }
 
 export const grantAllowance = (web3, networkId, spender, token, allowance = maximum) => {
