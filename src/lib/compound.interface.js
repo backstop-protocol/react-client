@@ -65,7 +65,6 @@ export const repayEth = (web3, networkId, cEthAddress) => {
 export const repayToken = (web3, networkId, amount, tokenAddress, repayAll) => {
   const { Contract } = web3.eth
   const cToken = new Contract(ABI.cToken, tokenAddress)
-  debugger
   if(repayAll){
     amount = maximum
   }
