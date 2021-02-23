@@ -7,22 +7,14 @@ import { compoundImportAbi } from "./compoundConfig/compoundImportAbi"
 import { flashImportAbi } from "./compoundConfig/flashImportAbi"
 import { registryAbi } from "./compoundConfig/registryAbi"
 import { addresses as kovanAddresses } from "./compoundConfig/kovanAddress"
+import { addresses as mainnetAddresses } from "./compoundConfig/mainnetAddress"
 import Web3 from "web3"
 
+export const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 const {toBN, toWei, fromWei} = Web3.utils
 
-const compUserInfoAddress = "0xf0f2e5aa370e33ebbea467c568cb9d018c9e9916" 
-export const maximum = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-const bComptrollerAddress = "0x16f56Cda8741613348257b82D28008E6CfC20D84"
-const registryAddress = "0x0704aa791bAC1Bf3195a608240E6a8F9E4F63E5F"
-const sugerDady = "0xA1A343B4245e4364e6b9c4574F9F7A3C1D849Ad6"
-const compoundImportAddress = "0x3545a9AB6a57B1172690769175A3242a644f1574"
-const flashImportAddress = "0xF9fa648c46bb1e1f249ABA973397077CDc20fC78"
-const jarConnector = "0x061133BE90f97B6Eb7f73eD9Dc50eFB1DD96ED72"
-const jar = "0x18DB5F7711d57974d825f9ca45D21627353bEb72"
-
 export const getAddress = (name, networkId) => {
-  const addresses = networkId == 42 ? kovanAddresses : {}
+  const addresses = networkId == 42 ? kovanAddresses : mainnetAddresses
   return addresses[name]
 }
 
@@ -132,6 +124,12 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
 
 export const getCompUserInfo = async (web3, networkId, user) => {
   const { Contract } = web3.eth
+  const compUserInfoAddress = getAddress("compUserInfoAddress", networkId)
+  const bComptrollerAddress = getAddress("bComptrollerAddress", networkId)
+  const registryAddress = getAddress("registryAddress", networkId)
+  const sugerDady = getAddress("sugerDady", networkId)
+  const jarConnector = getAddress("jarConnector", networkId)
+  const jar = getAddress("jar", networkId)
   const userInfoContract = new Contract(compUserInfoAbi, compUserInfoAddress)
   const comptroller = getAddress("Comptroller", networkId)
   const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptrollerAddress, registryAddress, sugerDady, jarConnector, jar)
@@ -155,24 +153,30 @@ export const importFormCompoundToBProtocol = ()=> {
 
 export const importCollateral = (web3, networkId, cTokens) => {
   const { Contract } = web3.eth
+  const compoundImportAddress = getAddress("compoundImportAddress", networkId)
+  const registryAddress = getAddress("registryAddress", networkId)
   const importContract = new Contract(compoundImportAbi, compoundImportAddress)
   const importData = importContract.methods.importCollateral(cTokens).encodeABI()
   const registryContract = new Contract(registryAbi, registryAddress)
   return registryContract.methods.delegateAndExecuteOnce(compoundImportAddress, compoundImportAddress, importData)
 }
 
-export const importDebt = (web3, networkId, supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying) => {
+export const importDebt = (web3, networkId, supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying, flashLoanMax) => {
   const { Contract } = web3.eth
+  const compoundImportAddress = getAddress("compoundImportAddress", networkId)
+  const flashImportAddress = getAddress("flashImportAddress", networkId)
+  const sugerDady = getAddress("sugerDady", networkId)
+  const registryAddress = getAddress("registryAddress", networkId)
   const importContract = new Contract(compoundImportAbi, compoundImportAddress)
-  // const importData = importContract.methods.importAccount(supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying).encodeABI()
   const flashImportContract = new Contract(flashImportAbi, flashImportAddress)
-  const flashImportData = flashImportContract.methods.flashImport(supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying, compoundImportAddress, toWei("10"), sugerDady).encodeABI()
+  const flashImportData = flashImportContract.methods.flashImport(supplyCTokens, supplyUnderlying, borrowCTokens, borrowUnderlying, compoundImportAddress, flashLoanMax, sugerDady).encodeABI()
   const registryContract = new Contract(registryAbi, registryAddress)
   return registryContract.methods.delegateAndExecuteOnce(compoundImportAddress, flashImportAddress, flashImportData)
 }
 
 export const claimComp = (web3, networkId, user) => {
   const { Contract } = web3.eth
+  const bComptrollerAddress = getAddress("bComptrollerAddress", networkId)
   const bComptrollerContract = new Contract(ABI.Comptroller, bComptrollerAddress)
   return bComptrollerContract.methods.claimComp(user)
 }

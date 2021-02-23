@@ -189,7 +189,6 @@ class ActionBox extends Component {
         if(action === ActionEnum.repay){
             const borrowed = coin.borrowed
             const balance = coin.WalletBalanceStr
-            debugger
             val = new BN(balance).gt(new BN(borrowed)) ? borrowed : balance
         }
         if(action === ActionEnum.deposit){

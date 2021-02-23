@@ -56,5 +56,13 @@ export const addresses = {
     "CommunityComptroller": "0xA06058e40d6a6Dd0D5Dc4c6C394864BCA74d3002",
     "PriceOracle": "0x37ac0cb24b5DA520B653A5D94cFF26EB08d4Dc02",
     "PriceOracleProxy": "0x37ac0cb24b5DA520B653A5D94cFF26EB08d4Dc02",
-    "TemporaryComptroller": "0x4cc3cc0b761b4f5581af978dd3b2269a784ec03a"
+    "TemporaryComptroller": "0x4cc3cc0b761b4f5581af978dd3b2269a784ec03a",
+    "compUserInfoAddress": "0xf0f2e5aa370e33ebbea467c568cb9d018c9e9916",
+    "bComptrollerAddress": "0x16f56Cda8741613348257b82D28008E6CfC20D84",
+    "registryAddress": "0x0704aa791bAC1Bf3195a608240E6a8F9E4F63E5F",
+    "sugerDady": "0xA1A343B4245e4364e6b9c4574F9F7A3C1D849Ad6",
+    "compoundImportAddress": "0x3545a9AB6a57B1172690769175A3242a644f1574",
+    "flashImportAddress": "0xF9fa648c46bb1e1f249ABA973397077CDc20fC78",
+    "jarConnector": "0x061133BE90f97B6Eb7f73eD9Dc50eFB1DD96ED72",
+    "jar": "0x18DB5F7711d57974d825f9ca45D21627353bEb72"
   }

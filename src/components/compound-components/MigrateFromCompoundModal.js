@@ -91,6 +91,13 @@ const AssetsLists = styled.div`
     @media ${device.laptop} {
         margin-top: 33px;
     }
+    ${({disabled}) => {
+        if (disabled){
+            return `
+                pointer-events: none;
+            `
+        }
+    }}
 `
 
 const ExplainerText = styled.div`
@@ -117,7 +124,6 @@ const ExplainerText = styled.div`
 
 const ActionButton = styled.div`
 position: relative;
-cursor: pointer;
   width: 263px;
   height: 59px;
   border-radius: 4.2px;
@@ -129,6 +135,15 @@ cursor: pointer;
   &:hover {
       opacity: 0.8;
   }
+
+  ${({disabled}) => {
+        if (disabled){
+            return `
+                pointer-events: none;
+                background-color: grey;
+            `
+        }
+    }}
 `
 
 const Risks = styled.div`
@@ -179,13 +194,17 @@ class MigrateFromCompoundModal extends Component {
     }
 
     migrate (supply, borrow) {
-        if(compoundMigrationStore.validateSupplyHasAllowance(supply)){
+        // validateSupplyHasAllowance
+        const supplyHasAllowance = compoundMigrationStore.validateSupplyHasAllowance(supply)
+        if(supplyHasAllowance){
             compoundMigrationStore.migrateFromCompound(supply, borrow, this.closeModalBox)
         }
     }
 
     render () {
         const {supply, borrow} = compoundMigrationStore
+        const borrowCanBeCoverd = compoundMigrationStore.validateBorrowCanBeCovered(borrow)
+
         return (
             <Container>
                 <GreenRectangle>
@@ -200,8 +219,8 @@ class MigrateFromCompoundModal extends Component {
                         <Title>
                             Import your account
                         </Title>
-                        <AssetsLists>
-                            <Flex justifyCenter>
+                        <AssetsLists disabled={!borrowCanBeCoverd}>
+                            <Flex justifyCenter alignStart>
                             {!!supply.length && <MigrationAssetList type="deposit" list={supply}/>}
                             {!!borrow.length && <MigrationAssetList type="borrow" list={borrow}/>}
                             </Flex>
@@ -215,10 +234,10 @@ class MigrateFromCompoundModal extends Component {
                         </ExplainerText>
 
                         <ErrText>
-                            {compoundMigrationStore.missingAllowance}
+                            {compoundMigrationStore.validationErr}
                         </ErrText>
                         
-                        <ActionButton onClick={()=> this.migrate(supply, borrow)}>
+                        <ActionButton disabled={!borrowCanBeCoverd} onClick={()=> this.migrate(supply, borrow)}>
                             <div style={{
                                 position: "absolute",
                                 top: "50%",

@@ -1,6 +1,5 @@
 import { addresses as kovanAddresses } from "./compoundConfig/kovanAddress"
-// TODO: fetch mainnet here
-import { addresses as mainnetAddresses } from "./compoundConfig/kovanAddress"
+import { addresses as mainnetAddresses } from "./compoundConfig/mainnetAddress"
 import userStore from "../stores/user.store"
 import { ApiAction } from "./ApiHelper";
 import * as CI from "./compound.interface"
@@ -26,10 +25,10 @@ const mainnetAddressToSymbol = {}
 
 const init = () => {
     Object.entries(kovanAddresses).forEach(([symbol, address]) => {
-        kovanAddressToSymbol[address] = symbol
+        kovanAddressToSymbol[address.toUpperCase()] = symbol
     });
     Object.entries(mainnetAddresses).forEach(([symbol, address]) => {
-        mainnetAddressToSymbol[address] = symbol
+        mainnetAddressToSymbol[address.toUpperCase()] = symbol
     });
 }
 
@@ -59,7 +58,6 @@ const fromUiDeciamlPointFormat = (num, decimalPoint) => {
 const getUnderlying = (data, info) => {
     return (new BN(data.ctokenBalance).mul(new BN(info.ctokenExchangeRate))).div(_1e18)
 }
-
 
 export const displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {
     if(numericalString.indexOf(".") > -1) {
@@ -91,8 +89,15 @@ export default class CToken {
         this.userData = data
         this.tokenInfo = info
         this.importInfo = importInfo
-        const addressToSymbol = userStore && userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
-        this.symbol = (addressToSymbol[this.tokenInfo.ctoken] || "").replace("c", "")
+        let addressToSymbol
+        if(!userStore || !userStore.loggedIn){
+            // user has not loged in yet showing intial empty userInfo
+            addressToSymbol = kovanAddressToSymbol
+        } else {
+            // user logged in
+            addressToSymbol = userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
+        }
+        this.symbol = (addressToSymbol[this.tokenInfo.ctoken.toUpperCase()] || "").replace("c", "")
         this.icon = this.getIcon()
         this.underlyingBalanceStr = this.getUnderlyingBalance()
         this.underlyingBalanceUsdStr = this.getUnderlyingBalanceInUsd()

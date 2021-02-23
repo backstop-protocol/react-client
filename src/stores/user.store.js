@@ -22,10 +22,10 @@ class UserStore {
 
     async onConnect(web3, user) {
         const networkType = await web3.eth.net.getId()
-        if(networkType != 42){
-            EventBus.$emit("app-error","Only Kovan testnet is supported");
-            return //exit
-        }
+        // if(networkType != 42 && ){
+        //     EventBus.$emit("app-error","Only Kovan testnet is supported");
+        //     return //exit
+        // }
         runInAction(()=> { 
             this.networkType = networkType
             this.web3 = web3;

@@ -7,7 +7,8 @@ import {importCollateral, importDebt} from "../lib/compound.interface"
 import {wApiAction} from "../lib/compound.util"
 import userStore from "./user.store"
 import CToken, { CoinStatusEnum } from "../lib/compound.util"
-import { setTimeout } from "timers";
+import Web3 from "web3"
+const {BN, fromWei} = Web3.utils
 
 export const MigrationStatus = {
     none: 'none',
@@ -20,7 +21,7 @@ class CompoundMigrationStore {
 
     status = MigrationStatus.none
     hash = ""
-    missingAllowance = ""
+    validationErr = ""
     supply = []
     borrow = []
     constructor (){
@@ -64,12 +65,28 @@ class CompoundMigrationStore {
     validateSupplyHasAllowance = (supply) => {
         const supplyWithoutAllowance = supply.filter(coin => !coin.hasMigrationAllowance())
         if(supplyWithoutAllowance.length > 0){
-            this.missingAllowance = "must unlock all collateral before import"
+            this.validationErr = "must unlock all collateral before import"
             setTimeout(()=> {
                 runInAction(() => {
-                    this.missingAllowance = ""
+                    this.validationErr = ""
                 })
             }, 4000)
+            return false
+        }
+        return true
+    }
+
+    validateBorrowCanBeCovered = (borrow) => {
+        
+        const borrowedAmountInUsd = borrow.reduce((acc, coin)=> {
+            return acc + parseFloat(coin.borrowedUsd)
+        }, 0)
+
+        const [ETH] = Object.values(compoundStore.coinMap).filter(({symbol}) => symbol == "ETH")
+        const [{availableEthBalance}] = Object.values(compoundStore.userInfo.importInfo)
+        const flashLoanCovrage = ETH.getUnderlyingBalanceInUsd(fromWei(availableEthBalance))
+        if(borrowedAmountInUsd > (parseFloat(flashLoanCovrage) * 0.5)){
+            this.validationErr = "flash loan liquidity is currently not enough to support the import of your account"
             return false
         }
         return true
@@ -85,7 +102,9 @@ class CompoundMigrationStore {
             const borrowCTokensUnderlying = borrow.map(coin=> coin.tokenInfo.underlying)
             let txPromise
             if(borrow.length){
-                txPromise = importDebt(web3, networkType, supplyCTokens, supplyCTokensUnderlying, borrowCTokens, borrowCTokensUnderlying)
+                const [{availableEthBalance}] = Object.values(compoundStore.userInfo.importInfo)
+                const flashLoanMax = (new BN(availableEthBalance).mul(new BN(9)).div(new BN(10))).toString() // 90%
+                txPromise = importDebt(web3, networkType, supplyCTokens, supplyCTokensUnderlying, borrowCTokens, borrowCTokensUnderlying, flashLoanMax)
             } else {
                 txPromise = importCollateral(web3, networkType, supplyCTokens)
             }

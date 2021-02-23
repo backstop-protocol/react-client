@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx"
 import Web3 from "web3"
 import {getCompUserInfo} from "../lib/compound.interface"
 import CToken from "../lib/compound.util"
-const {API} = require("../API.json")
+const {API} = require("../../src/API")
 const {BN, fromWei, toWei} = Web3.utils
 
 const BP_API = "https://bp-api.bprotocol.workers.dev"
@@ -14,9 +14,6 @@ class MainCompStore {
     jar = "--,---"
     constructor (){
         makeAutoObservable(this)
-        /* ==================================================
-        TODO: do not commmit this !!!!!!!!!!!!!!!!!!!!!!!!! 
-        ================================================= */
         const web3 = new Web3(API)
         this.compUserInfoPromise = getCompUserInfo(web3, 42, "0x18DB5F7711d57974d825f9ca45D21627353bEb72")
         this.fetchTvl()
@@ -34,11 +31,7 @@ class MainCompStore {
                 const totalBalance = coin.getUnderlyingBalance(jarData.ctokenBalance)
                 const totalBalanceUsd = coin.getUnderlyingBalanceInUsd(totalBalance)
                 jar += parseFloat(totalBalanceUsd)
-                // // TODO: add the bTotal supply here
-                // console.log("symbol", coin.symbol)
-                // console.log("address", coin.address)
-                // console.log("jarData.ctokenBalance", jarData.ctokenBalance)
-                // console.log("private TVL", totalBalanceUsd)
+
             })
             runInAction(()=> {
                 this.jar = jar.toFixed(0)
@@ -61,10 +54,6 @@ class MainCompStore {
                 const totalBalance = coin.getUnderlyingBalance(tvlData.ctokenBalance)
                 const totalBalanceUsd = coin.getUnderlyingBalanceInUsd(totalBalance)
                 tvl += parseFloat(totalBalanceUsd)
-                // TODO: add the bTotal supply here
-                console.log("symbol", coin.symbol)
-                console.log("address", coin.address)
-                console.log("private TVL", totalBalanceUsd)
             })
             
             runInAction(()=> {
