@@ -18,7 +18,7 @@ class GlobalStats2 extends Component {
     render() {
 
         let {jarBalanceEth} = this.props;
-        const tooltipTxt = ""
+        const tooltipTxt = "total proceeds to be distributed"
         const jarBalanceUsd = MainCompStore.jar
         const totalRating = compoundStore.totalScore
         const userScore = compoundStore.userScore
