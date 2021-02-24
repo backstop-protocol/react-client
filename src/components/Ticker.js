@@ -1,12 +1,13 @@
 import React, {Component} from "react";
+import {observer} from "mobx-react"
 
-export default class Ticker extends Component {
+class Ticker extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            value : '0',
+            value : props.value,
             changes : [],
         }
     }
@@ -63,3 +64,5 @@ export default class Ticker extends Component {
         );
     }
 }
+
+export default observer(Ticker)

@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ganache:kovan": "sh ganache-kovan.sh",
+    "test": "node ./node_modules/truffle/build/cli.bundled.js test ./test/compound.test.js",
+    "start-blockchain": "npm run ganache:kovan",
+    "ci": "start-server-and-test start-blockchain http://localhost:8545 test"
   },
   "repository": {
     "type": "git",
@@ -24,8 +27,12 @@
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "esm": "^3.2.25",
-    "ganache-cli": "6.10.1",
+    "ganache-cli": "^6.12.1",
     "truffle": "5.1.49",
+    "truffle-core": "^5.0.34",
     "web3": "^1.3.0"
+  },
+  "devDependencies": {
+    "start-server-and-test": "^1.11.7"
   }
 }

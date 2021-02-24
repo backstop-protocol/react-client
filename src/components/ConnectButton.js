@@ -1,7 +1,12 @@
+/**
+ * @format
+ */
 import Web3 from "web3";
-// import * as ApiHelper from "../lib/ApiHelper";
 import React, { Component } from "react";
 import EventBus from '../lib/EventBus';
+import {Link} from "react-router-dom";
+import {observer} from "mobx-react"
+import userStore from "../stores/user.store"
 
 let web3;
 
@@ -9,13 +14,9 @@ function increaseABit(number) {
   return parseInt(1.1 * Number(number));
 }
 
-export default class ConnectButton extends Component {
+class ConnectButton extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loggedIn: false,
-      accounts: null,
-    };
   }
 
   connect = async () => {
@@ -25,19 +26,21 @@ export default class ConnectButton extends Component {
         return false;
     }
 
-    if (this.state.loggedIn) return false;
+    if (userStore.loggedIn) return false;
 
     web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
     const networkType = await web3.eth.net.getId();
     if(parseInt(networkType) !== parseInt(0x2a)
-       && parseInt(networkType) !== parseInt(0x1)) {
+       && parseInt(networkType) !== parseInt(0x1)
+        && parseInt(networkType) !== 1337) {
          console.log(networkType)
          EventBus.$emit("app-error","Only Mainnet and Kovan testnet are supported");
          return false;
     }
 
     window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
+    window.ethereum.on('accountsChanged', this.handleAccountsChanged)
 
     window.ethereum
       .request({ method: "eth_requestAccounts" })
@@ -54,23 +57,19 @@ export default class ConnectButton extends Component {
   };
 
   handleAccountsChanged = async (accounts) => {
-    this.setState({ loggedIn: true, accounts });
-    const user = accounts[0];
-
-    if (this.props.onConnect) {
-      this.props.onConnect(web3, web3.utils.toChecksumAddress(user));
-    }
+    const user = accounts[0];    
+    await userStore.onConnect(web3, web3.utils.toChecksumAddress(user));// used by compound
   };
 
   render() {
-    const { loggedIn, accounts } = this.state;
+    const { loggedIn, user } = userStore
 
     return (
       <div>
         {loggedIn ? (
           <div className={"connect-button" + (loggedIn ? " active" : "")}>
             <div className="btn-inner">
-              <span title={accounts}>{accounts}</span>
+              <span title={user}>{user}</span>
             </div>
           </div>
         ) : (
@@ -78,17 +77,17 @@ export default class ConnectButton extends Component {
             <div className="term-text-btn">
               <span>
                 By using bprotocol, you agree to the{" "}
-                <a
-                  onClick={() => this.props.history.push(`/app/terms`)}
+                <Link 
+                  to="/terms"
                   style={{
                     color: "#119349",
                     fontStyle: "italic",
                     textDecoration: "none",
                     cursor: "pointer"
-                  }}
+                  }} 
                 >
                   Terms and Conditions
-                </a>
+                </Link>
               </span>
             </div>
 
@@ -104,3 +103,5 @@ export default class ConnectButton extends Component {
     );
   }
 }
+
+export default observer(ConnectButton)

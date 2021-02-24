@@ -4,10 +4,11 @@ import Flex, {FlexItem} from "styled-flex-component";
 import { observer } from 'mobx-react'
 import {exportBackToMakerDao} from '../lib/Actions'
 import Loading from "./action-panels/Loading";
-import { useHistory } from "react-router-dom";
 import EventBus from "../lib/EventBus";
 import { setTimeout } from "timers";
 import {refreshUserInfo} from '../lib/Actions'
+import routerStore from "../stores/router.store"
+import {Transition} from 'react-spring/renderprops'
 
 const ExportBtn = styled.div`
     border-radius: 6px;
@@ -81,14 +82,13 @@ const LeavUs = observer(props => {
     const [errorMsg, setErrorMsg] = useState("")
     const [txErr, setTxErr] = useState(false)
     const [hash, setHash] = useState("")
-    const history = useHistory()
 
     const reset = ()=> {
         setTimeout(()=> {
             setDone(false)
             setTxErr(false)
             setWating(false)
-            history.push('/app')
+            routerStore.routeProps.history.push('/maker')
         }, 2500)
     }
 
@@ -115,34 +115,43 @@ const LeavUs = observer(props => {
             reset()
         }
     }
-
+    const {show} = props
     return (
-        <OverideBorder>   
-            <Flex full justifyBetween column contentStretch alignCenter>
-                { !wating  && 
-                    <div>
-                        <ExportBtn onClick={migrate}>
-                            <Centerd>
-                                EXPORT TO MAKER
-                                <ExportIcon src={require("../assets/export-icon.svg")} />
-                            </Centerd>
-                        </ExportBtn>
-                        <ErrMsg>{errorMsg}</ErrMsg>
-                        <Text>
-                            Export your Vault
-                            from B.Protocol system
-                            to MakerDAO
-                        </Text>
-                    </div>
-                }
-                { wating && 
-                    <FlexItem grow>
-                        <Loading blackBg={true} hash={hash} actioning={'Exporting your Vault to MakerDAO'} value={''} currency={''} completed={done} failed={txErr} />
-                    </FlexItem>
-                }
-            </Flex>
-            <Line/>
-        </OverideBorder>
+        <Transition
+                items={show}
+                config={{duration: 300}} 
+                from={{ opacity: 0, height: 0, zIndex: -10}}
+                enter={{ opacity: 1 , height: "auto", zIndex: 1}}
+                leave={{ opacity: 0, height: 0, zIndex: -10}}>
+                {show => show && (props => <div style={props}>
+                    <OverideBorder>   
+                        <Flex full justifyBetween column contentStretch alignCenter>
+                            { !wating  && 
+                                <div>
+                                    <ExportBtn onClick={migrate}>
+                                        <Centerd>
+                                            EXPORT TO MAKER
+                                            <ExportIcon src={require("../assets/export-icon.svg")} />
+                                        </Centerd>
+                                    </ExportBtn>
+                                    <ErrMsg>{errorMsg}</ErrMsg>
+                                    <Text>
+                                        Export your Vault
+                                        from B.Protocol system
+                                        to MakerDAO
+                                    </Text>
+                                </div>
+                            }
+                            { wating && 
+                                <FlexItem grow>
+                                    <Loading blackBg={true} hash={hash} actioning={'Exporting your Vault to MakerDAO'} value={''} currency={''} completed={done} failed={txErr} />
+                                </FlexItem>
+                            }
+                        </Flex>
+                        <Line/>
+                    </OverideBorder>
+                </div>)}
+        </Transition>
     )
 })
 

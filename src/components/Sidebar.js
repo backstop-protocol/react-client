@@ -7,22 +7,33 @@ import Discord from "../assets/discord.svg";
 import AAVELogo from "../assets/aav-ewhite-logo.svg";
 import CompoundLogo from "../assets/compound-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
-import EventBus from "../lib/EventBus";
 import MigrationModal from "./modals/MigrationModal";
 import { numm } from "../lib/Utils";
-import MigrationButton from "./action-panels/MigrationButton";
+import MakerMigrationButton from "./action-panels/MigrationButton";
 import LeavUs from "../components/LeaveUs";
 import * as qs from "qs";
+import {observer} from "mobx-react"
+import routerStore from "../stores/router.store"
+import makerStore from "../stores/maker.store"
+import userStore from "../stores/user.store"
+import styled from "styled-components"
+import MigrateFromCompound from "./compound-components/MigrateFromCompound"
+import {Transition} from 'react-spring/renderprops'
 
-export default class Sidebar extends Component {
+const MakerMigration = styled.div`
+
+`
+
+const CompoundMigration = styled.div`
+
+`
+
+class Sidebar extends Component {
   state = {
-    selectedItem: this.props.initialState,
     showSideBar: true
   };
-  handleItemSelect = (selectedItem, location) => {
-    this.setState({ selectedItem: selectedItem });
-
-    this.props.history.push(`/${location}`);
+  handleItemSelect = (location) => {
+    routerStore.routeProps.history.push(`/${location}`);
   };
 
   componentDidMount() {
@@ -35,61 +46,94 @@ export default class Sidebar extends Component {
       console.log(window.innerWidth);
   }
 
-  render() {
-    const { userInfo, history, showConnect } = this.props;
-    const { selectedItem } = this.state;
-    const params = qs.parse(history.location.search, { ignoreQueryPrefix: true })
+  getState(pathname) {
+    if(pathname === "/maker" || pathname === "/app"){
+      return "maker"
+    }
+    if(pathname === "/compound"){
+      return "compound"
+    }
+  }
 
+  render() {
+    const { history } = routerStore.routeProps;
+    const {search, pathname} = history.location
+    const { loggedIn, showConnect } = userStore
+    const { userInfo } = makerStore
+    const params = qs.parse(search, { ignoreQueryPrefix: true })
+    const pathState = this.getState(pathname)
     return (
       <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
         <div className="ln"> </div>
         <div className="sidebar-content">
-          { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
-            <div>
-              <div className="cdp-convert">
-                <MigrationButton />
-                <div>
-                  <p>
-                    Import your Vault 
-                    <br />
-                    from MakerDAO system <br />
-                    to B.Protocol
-                  </p>
-                  <div className="even">
+
+          {pathState == "maker" 
+            ? 
+              <div >
+                <MakerMigration>
+                  { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
                     <div>
-                      <small><b><u>ETH Locked</u></b></small>
-                      <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
+                      <div className="cdp-convert">
+                        <MakerMigrationButton />
+                        <div>
+                          <p>
+                            Import your Vault 
+                            <br />
+                            from MakerDAO system <br />
+                            to B.Protocol
+                          </p>
+                          <div className="even">
+                            <div>
+                              <small><b><u>ETH Locked</u></b></small>
+                              <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
+                            </div>
+                            <div>
+                              <small><b><u>DAI Debt</u></b></small>
+                              <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="ln"> </div>
                     </div>
-                    <div>
-                      <small><b><u>DAI Debt</u></b></small>
-                      <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
+                  )}
+                  {params.export && 
+                    <div className="container">
+                      <LeavUs show={params.export} userInfo={userInfo} showConnect={showConnect} />
                     </div>
-                  </div>
-                </div>
+                  }
+                </MakerMigration>
               </div>
-              <div className="ln"> </div>
-            </div>
-          )}
-          {params.export && 
-            <div className="container">
-              <LeavUs userInfo={userInfo} showConnect={showConnect} history={history}/>
-            </div>
+              
+            : pathState == "compound" ?
+              <div >
+                <MigrateFromCompound/>
+              </div>
+            :
+              <div>
+                {/* AAVE */}
+                <div></div>
+              </div>
           }
+
           <div className="products">
             <div
               className={`product link-accesible ${
-                selectedItem === "maker" &&
-                history.location.pathname === "/app" &&
+                (pathname === "/maker" || pathname === "/app") &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("maker", "app")}
+              onClick={() => this.handleItemSelect("maker")}
             >
               <img src={MakerLogo} />
             </div>
-            <div className="product">
+            <div 
+              className={`product link-accesible ${
+                pathname === "/compound" &&
+                "selected"
+              }`}
+              onClick={() => this.handleItemSelect("compound")}>
               <img src={CompoundLogo} />
-              <small>(Coming soon)</small>
             </div>
             <div className="product">
               <img src={AAVELogo} />
@@ -99,31 +143,28 @@ export default class Sidebar extends Component {
           <div className="ln"> </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "faq" &&
-              history.location.pathname === "/app/faq" &&
+              pathname === "/faq" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("faq", "app/faq")}
+            onClick={() => this.handleItemSelect("faq")}
           >
             <p className="menu-item">FAQ</p>
           </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "risk" &&
-              history.location.pathname === "/app/risk" &&
+              pathname === "/risk" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("risk", "app/risk")}
+            onClick={() => this.handleItemSelect("risk")}
           >
             <p className="menu-item">Risks</p>
           </div>
           <div
             className={`product link-accesible ${
-              selectedItem === "terms" &&
-              history.location.pathname === "app/terms" &&
+              pathname === "/terms" &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("terms", "app/terms")}
+            onClick={() => this.handleItemSelect("terms")}
           >
             <p className="menu-item">Terms of Use</p>
           </div>
@@ -152,3 +193,5 @@ export default class Sidebar extends Component {
     );
   }
 }
+
+export default observer(Sidebar)

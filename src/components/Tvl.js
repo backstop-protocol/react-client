@@ -29,7 +29,7 @@ const TvlBox = styled.div`
 `
 
 const TvlTitle = styled.h2`
-    font-family: Poppins;
+    font-family: "Poppins", sans-serif;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.04;
@@ -125,7 +125,7 @@ const TvlGraphImg = styled.img`
 const ToolTipLine = styled.div`
     min-width: 160px;
     padding: 5px;
-    font-family: Poppins;
+    font-family: "Poppins", sans-serif;
     display: flex;
     justify-content: space-between;
 `

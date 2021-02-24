@@ -47,15 +47,15 @@ function increaseABit(number) {
     return parseInt(1.2 * number);
 }
 
-export const ApiAction = async function (action, user, web3, gasValue = 0, hashCb = null) {
+export const ApiAction = async function (action, user, web3, value = 0, hashCb = null) {
     return new Promise(async (res, rej) => {
 
         try {
             const txObject = await action;
-            const gasEstimate = await txObject.estimateGas({ value: gasValue, from: user });
+            const gasEstimate = await txObject.estimateGas({ value: value, from: user });
             console.log("345345", gasEstimate)
             const gasConsumption = increaseABit(gasEstimate);
-            const transaction = txObject.send({ gas: gasConsumption, value: gasValue, from: user })
+            const transaction = txObject.send({ gas: gasConsumption, value: value, from: user })
                 .once('transactionHash', (hash) => { if (hashCb) hashCb(hash) })
                 .on('error', (error) => { console.log("hmmm?", error); rej(error) })
                 .then((receipt) => {
