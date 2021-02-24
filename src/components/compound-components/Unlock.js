@@ -32,6 +32,7 @@ const Container = styled.div`
     .tickbox{
         margin: 3px 2px 0 0;
     }
+    pointer-events: ${({disable})=> disable ? "none" : "auto"};
 `
 
 class Unlock extends Component{
@@ -72,7 +73,7 @@ class Unlock extends Component{
         const unlocked = coin.isUnlocked() || this.state.unlocked // this is used to acount for UI delay
         const text = !unlocked ? `Unlock ${coin.symbol} to continue` : `${coin.symbol} is unlocked`
         return (
-            <Container hide={coin.symbol == "ETH" || action === ActionEnum.borrow || action === ActionEnum.withdraw}>
+            <Container disable={unlocked} hide={coin.symbol == "ETH" || action === ActionEnum.borrow || action === ActionEnum.withdraw}>
                 <Flex style={{marginTop: "15px"}} justifyBetween>
                     <Text>
                         {text}
