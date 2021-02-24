@@ -65,7 +65,7 @@ const LiquidationPrice = observer(
 
             const {userInfo} = this.props;
             const liquidationPrice = getLiquidationPrice(0, 0)
-            const collateralRatio = (((userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100).toFixed(2)
+            const collateralRatio = ((((userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100) || 0).toFixed(2)
 
             return (
                 <LpContainer >
@@ -99,8 +99,8 @@ const LiquidationPrice = observer(
                                                     <div> ${mainStore.makerPriceFeedPriceNextPrice} </div>
                                                 </ToolTipLine>
                                                 <ToolTipTitle>
-                                                    <span> coinmarketcap.com </span>
-                                                    <span> {moment(mainStore.coinMarketCapLastUpdate).fromNow()} </span>
+                                                    <span> coinbase.com </span>
+                                                    <span> {moment(mainStore.coinbaseLastUpdate).fromNow()} </span>
                                                 </ToolTipTitle>
                                                 <ToolTipLine>
                                                     <div> Market price: </div>
