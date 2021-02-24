@@ -11,7 +11,6 @@ import MainCompStore from "../stores/main.comp.store"
 import {toNDecimals} from "./GlobalStats"
 
 
-// TODO: refactor this component to use main store values only 
 
 class GlobalStats2 extends Component {
 
