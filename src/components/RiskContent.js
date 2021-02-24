@@ -52,7 +52,7 @@ const RiskContent = () => {
       <h4>Smart contract and software risks</h4>
       <p className="risk-item-content-text">
         B.Protocol smart contracts were audited by Solidified (
-          <a href="https://github.com/solidified-platform/audits/blob/master/Audit%20Report%20-%20Backstop%20Protocol%20%5B02.10.2020%5D.pdf" target="_blank" >MakerDAO integration</a>, <a href="https://github.com/solidified-platform/audits/blob/60778395ae2f78fc1caec0085bfa96c6f70c4573/Audit%20Report%20-%20B-Protocol%20%5B16.02.2021%5D.pdf" target="_blank">Comound integration</a>)
+          <a href="https://github.com/solidified-platform/audits/blob/master/Audit%20Report%20-%20Backstop%20Protocol%20%5B02.10.2020%5D.pdf" target="_blank" >MakerDAO integration</a>, <a href="https://github.com/solidified-platform/audits/blob/60778395ae2f78fc1caec0085bfa96c6f70c4573/Audit%20Report%20-%20B-Protocol%20%5B16.02.2021%5D.pdf" target="_blank">Comound integration</a>).
         <br />
         The audit was focused on verifying the security of user funds.
         The user incentive code was not part of the scope of the external audit, and was only reviewed internally by the team.
