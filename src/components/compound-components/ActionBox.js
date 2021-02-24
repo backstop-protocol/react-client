@@ -187,15 +187,13 @@ class ActionBox extends Component {
 
         let val = ""
         if(action === ActionEnum.repay){
-            const borrowed = coin.borrowed
-            const balance = coin.WalletBalanceStr
-            val = new BN(balance).gt(new BN(borrowed)) ? borrowed : balance
+            val = coin.getMaximum(action)
         }
         if(action === ActionEnum.deposit){
             val = coin.WalletBalanceStr
         }
         if(action === ActionEnum.withdraw){
-            val = coin.underlyingBalanceStr
+            val = coin.getMaximum(action)
         }
         const [inputIsValid, inputErrMsg] = coin.validateInput(val, action)
         store.val = displayNum(val, 8)

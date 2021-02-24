@@ -78,15 +78,15 @@ class MigrationAssetList extends Component{
                                         <Symbol> {coin.symbol} </Symbol>
                                     </Flex>
                                 </FlexItem>
-                                <FlexItem style={{width: "33%"}}>
+                                <FlexItem style={{width: isAssetList ? "33%" : "66%"}}>
                                     <Flex column>
                                         {displayNum(isAssetList ? coin.underlyingBalanceUsdStr :  coin.borrowedUsd, 4)} USD 
                                         <GreyText>{displayNum(isAssetList ? coin.underlyingBalanceStr : coin.borrowed, 4)} {coin.symbol}</GreyText>
                                     </Flex>
                                 </FlexItem>
-                                <FlexItem style={{width: "33%"}}>
-                                    {isAssetList && <ImportAllowanceToggle coin={coin}/>}
-                                </FlexItem>
+                                {isAssetList &&<FlexItem style={{width: "33%"}}>
+                                     <ImportAllowanceToggle coin={coin}/>
+                                </FlexItem>}
                             </Flex>
                         </ListItem>
                     )

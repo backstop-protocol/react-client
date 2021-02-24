@@ -308,7 +308,10 @@ export default class CToken {
         const withdrawAmount = fromUiDeciamlPointFormat(amount, this.tokenInfo.underlyingDecimals)
         let ethToSendWithTransaction = 0
         let txPromise
-        if(this.symbol === "ETH") {
+        const repayAll = this.getMaximum(ActionEnum.withdraw) === amount
+        if(repayAll){  
+            txPromise = CI.withdrawMax(web3, networkType, this.userData.ctokenBalance, this.address)
+        }else if(this.symbol === "ETH") {
             txPromise = CI.withdrawEth(web3, networkType, withdrawAmount, this.address)
         } else {
             txPromise = CI.withdraw(web3, networkType, withdrawAmount, this.address)
@@ -338,10 +341,30 @@ export default class CToken {
             txPromise = CI.repayEth(web3, networkType, this.address)
             ethToSendWithTransaction = reapyAmount
         }else {
-            txPromise = CI.repayToken(web3, networkType, reapyAmount, this.address)
+            const isMax = this.getMaximum(ActionEnum.repay) === amount
+            const canRepayAll = parseFloat(this.borrowed) <= parseFloat(this.WalletBalanceStr)
+            let repayAll = false
+            if(isMax && canRepayAll){
+                repayAll = true
+            }
+            txPromise = CI.repayToken(web3, networkType, reapyAmount, this.address, repayAll)
             ethToSendWithTransaction = 0
         }
         return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
+    }
+
+    getMaximum = (action) => {
+        let val
+        if(action === ActionEnum.repay){
+            const borrowed = this.borrowed
+            const balance = this.WalletBalanceStr
+            val = parseFloat(balance) > parseFloat(borrowed) ? borrowed : balance
+        }
+
+        if(action === ActionEnum.withdraw){
+            val = this.underlyingBalanceStr
+        }
+        return displayNum(val, 8)
     }
 
     calcBorrowLimit = (value) => {
@@ -364,14 +387,6 @@ export default class CToken {
         const usdVal = (value.mul(price)).div(_1e18)
         const res = fromWei(usdVal.toString()) // 1 eth should be equal to 1 eth in USD on compound
         return res
-    }
-
-    canRepayAll = () => {
-        if(this.borrowed <= this.WalletBalanceStr){
-            return true
-        }else {
-            return false
-        }
     }
 
     grantImportAllowance = async (onHash) => {
