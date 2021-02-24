@@ -156,10 +156,6 @@ export const gasCalc = async (networkId, transaction, transactionArgs) => {
   return increaseABit(await transaction.estimateGas(transactionArgs))
 }
 
-export const importFormCompoundToBProtocol = ()=> {
-
-}
-
 export const importCollateral = (web3, networkId, cTokens) => {
   const { Contract } = web3.eth
   const compoundImportAddress = getAddress("compoundImportAddress", networkId)
