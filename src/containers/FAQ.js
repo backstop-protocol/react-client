@@ -7,7 +7,11 @@ export default class FAQ extends Component {
     return (
       <div className="item-page-content">
         <div className="menu-item-header" style={{ height: "176px" }}>
-          <h1 className="item-header-title">Frequently Asked Questions</h1>
+          <h1 className="risk-header">FAQ</h1>
+          <p className="item-header-small-text">
+            The following are the most common questions the B.Protocol team has been asked by new users of the protocol. 
+            It will be updated as we go forward. Get yourself educated…
+          </p>
         </div>
         {/* <p dangerouslySetInnerHTML={{ __html: Content.faq }}></p> */}
         <div

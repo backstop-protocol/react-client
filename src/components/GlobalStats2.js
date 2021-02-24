@@ -18,7 +18,7 @@ class GlobalStats2 extends Component {
     render() {
 
         let {jarBalanceEth} = this.props;
-        const tooltipTxt = ""
+        const tooltipTxt = "Total proceeds to be distributed"
         const jarBalanceUsd = MainCompStore.jar
         const totalRating = compoundStore.totalScore
         const userScore = compoundStore.userScore
@@ -28,7 +28,7 @@ class GlobalStats2 extends Component {
                 <div className="stats">
                     <div className="left">
                         <h2>
-                            Jar Balance
+                            cJar Balance
                             <span className="tooltip-container">
                                 <Tooltip>{tooltipTxt}</Tooltip> 
                                 <img className="info-icon" src={InfoIcon} />
@@ -39,7 +39,7 @@ class GlobalStats2 extends Component {
                         </div>
                     </div>
                     <div className="right">
-                        <h2>User Score
+                        <h2>User cScore
                             <span className="tooltip-container">
                                 <Tooltip>
                                     <small>Total Rating</small>

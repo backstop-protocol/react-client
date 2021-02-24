@@ -67,7 +67,7 @@ export default class GlobalStats extends Component {
                 <div className="stats">
                     <div className="left">
                         <h2>
-                            Jar Balance
+                             mJar Balance
                             <span className="tooltip-container">
                                 <Tooltip>{mainStore.jarBalanceEth} ETH</Tooltip>     
                                 <img className="info-icon" src={InfoIcon} />
@@ -78,7 +78,7 @@ export default class GlobalStats extends Component {
                         </div>
                     </div>
                     <div className="right">
-                        <h2>User Score
+                        <h2>User mScore
                             <span className="tooltip-container">
                                 <Tooltip>
                                     <small>Total Rating</small>
