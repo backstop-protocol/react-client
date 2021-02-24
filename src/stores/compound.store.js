@@ -32,6 +32,7 @@ class CompoundStore {
     coinMap = {}
     coinsInTx = {}
     firstUserInfoFetch = false
+    userScoreInterval
 
     constructor (){
         makeAutoObservable(this)
@@ -81,24 +82,16 @@ class CompoundStore {
         })
     }
 
-    calcCompBlance = () => {
-        // TODO: use a new intial state 
-        // and remove the validations 
-        
+    calcCompBlance = () => {        
         const obj = this.userInfo.compTokenInfo || {} 
         const val = obj[Object.keys(obj)[0]] || {}
         this.compBalance = fromWei(val.compBalance || "0")
     }
 
-    userScoreInterval
-
     calcUserScore = () => {
-        /* userScore: "1130730360842517277472293108518559641600", userScoreProgressPerSec: "54659338247569563947864125560465600", totalScore: "1535350103869919825600293108518559641600" */
-        // TODO: use a new intial state 
-       
         const seconds = 3
         const obj = this.userInfo.scoreInfo
-        if(!obj) return  // and remove this validations once i use a proper intial state obj
+        if(!obj) return 
         const val = obj[Object.keys(obj)[0]] || {}
         const factor = new BN(10).pow(new BN(19))
         this.userScore = this.userScore == "0" ? fromWei(new BN(val.userScore).div(factor)) : this.userScore
@@ -176,8 +169,6 @@ class CompoundStore {
     }
 
     calcBorrowLimit = () => {
-        // TODO: re visit this calculation 
-        // we might need to multiply the CF with the original Asset depositied amount and not it's USD representation
         let borrowLimitInUsd = new BN(0)
         Object.values(this.coinMap).forEach(coin => {
             const deposit = new BN(toWei(coin.underlyingBalanceUsdStr).toString())
