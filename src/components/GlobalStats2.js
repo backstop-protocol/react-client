@@ -28,7 +28,7 @@ class GlobalStats2 extends Component {
                 <div className="stats">
                     <div className="left">
                         <h2>
-                            Jar Balance
+                            cJar Balance
                             <span className="tooltip-container">
                                 <Tooltip>{tooltipTxt}</Tooltip> 
                                 <img className="info-icon" src={InfoIcon} />
@@ -39,7 +39,7 @@ class GlobalStats2 extends Component {
                         </div>
                     </div>
                     <div className="right">
-                        <h2>User Score
+                        <h2>User cScore
                             <span className="tooltip-container">
                                 <Tooltip>
                                     <small>Total Rating</small>
