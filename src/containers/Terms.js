@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-
+import routerStore from "../stores/router.store"
 import Sidebar from "../components/Sidebar";
 import TermsOfUseContent from "../components/TermsOfUseContent";
 
 export default class Terms extends Component {
+
+  componentDidMount() {
+    routerStore.setRouteProps(this.props.history) 
+  }
+
   render() {
     const { handleItemChange, history } = this.props;
     return (

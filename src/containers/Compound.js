@@ -15,6 +15,7 @@ import BalanceBox from "../components/compound-components/BalanceBox"
 import CoinListBox from "../components/compound-components/CoinListBox"
 import {CoinStatusEnum} from "../lib/compound.util"
 import {device} from "../screenSizes";
+import routerStore from "../stores/router.store"
 
 const Overides = styled.div`
     overflow: hidden;
@@ -28,6 +29,7 @@ class Compound extends Component {
   }
 
   componentDidMount() {
+    routerStore.setRouteProps(this.props.history) 
     compoundStore.getUserInfo()
   }
 
