@@ -279,10 +279,17 @@
     }
 
     img.floating {
-      // TODO: add media queries here to fix the jar balance golden coin position
       position: absolute;
-      left: calc(50% - 19px);
+      left: calc(50% - 22px);
       top: calc(50% - 24px);
+      @media screen and (max-width: 1600px) {
+        left: calc(50% - 19px);
+        top: calc(50% - 23px);
+      }
+      @media screen and (max-width: 1366px) {
+        left: calc(50% - 19px);
+        top: calc(50% - 23px);
+      }
     }
   }
 }
