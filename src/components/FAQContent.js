@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 const FAQContent = () => {
   return (
-    <p>
+    <div>
       <h4>1. What is B.protocol?</h4>
       <p className="item-content-text">
         <strong>A. </strong> B.Protocol makes lending platforms more stable by 
@@ -87,7 +87,7 @@ const FAQContent = () => {
         and still maintain your accumulated bmScore. 
         Simply go <Link to="/maker?export=true">here</Link> and click the export button.
       </p>
-    </p>
+    </div>
   );
 };
 
