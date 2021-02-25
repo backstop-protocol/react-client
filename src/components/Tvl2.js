@@ -153,7 +153,7 @@ class Tvl2 extends Component {
                                     <Tooltip>
                                         {Object.entries(tooltipData).map(([key, value]) => {
                                             return (
-                                                <ToolTipLine> 
+                                                <ToolTipLine key={key}> 
                                                     <div> {key}: </div> <div> {value} </div>
                                                 </ToolTipLine>
                                             )
