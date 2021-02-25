@@ -22,7 +22,6 @@ const TermsOfUse = React.lazy(() => import("./containers/Terms"));
 const FAQ = React.lazy(() => import("./containers/FAQ"));
 
 function renderPage (props, PageComponent) {
-  routerStore.setRouteProps(props.history) 
   return (
     <Suspense fallback={<div></div>}>
         <PageComponent {...props}/> 

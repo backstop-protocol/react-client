@@ -8,6 +8,7 @@ import EventBus from "../lib/EventBus";
 import logo from "../assets/logo-maker-black.svg";
 import makerStore from "../stores/maker.store"
 import {observer} from "mobx-react"
+import routerStore from "../stores/router.store"
 
 class Dashboard extends Component {
 
@@ -16,6 +17,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    routerStore.setRouteProps(this.props.history) 
     makerStore.getUserInfo()
   }
 

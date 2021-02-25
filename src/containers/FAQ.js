@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import FAQContent from "../components/FAQContent";
+import routerStore from "../stores/router.store"
 
 export default class FAQ extends Component {
+
+  componentDidMount() {
+    routerStore.setRouteProps(this.props.history) 
+  }
+
   render() {
     const { handleItemChange, history } = this.props;
     return (
