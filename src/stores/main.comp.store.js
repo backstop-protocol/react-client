@@ -2,10 +2,11 @@ import { makeAutoObservable, runInAction } from "mobx"
 import Web3 from "web3"
 import {getCompUserInfo} from "../lib/compound.interface"
 import CToken from "../lib/compound.util"
-const {API} = require("../../src/API")
+// const {API} = require("../../src/API")
 const {BN, fromWei, toWei} = Web3.utils
 
-const BP_API = "https://bp-api.bprotocol.workers.dev"
+// const BP_API = "https://bp-api.bprotocol.workers.dev"
+const BP_API = "https://cloudflare-eth.com"
 
 class MainCompStore {
     tvl = "--,---"
@@ -14,8 +15,8 @@ class MainCompStore {
     jar = "--,---"
     constructor (){
         makeAutoObservable(this)
-        const web3 = new Web3(API)
-        this.compUserInfoPromise = getCompUserInfo(web3, 42, "0x18DB5F7711d57974d825f9ca45D21627353bEb72", true)
+        const web3 = new Web3(BP_API)
+        this.compUserInfoPromise = getCompUserInfo(web3, 1, "0x0000000000000000000000000000000000000001", true)
         this.fetchTvl()
         this.fetchJar()
     }

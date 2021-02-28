@@ -3,7 +3,7 @@ import * as B from "../lib/bInterface"
 import * as ApiHelper from "../lib/ApiHelper"
 import Web3 from "web3"
 import axios from "axios"
-const BP_API = "https://bp-api.bprotocol.workers.dev"
+const BP_API = "https://cloudflare-eth.com"
 
 export const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
