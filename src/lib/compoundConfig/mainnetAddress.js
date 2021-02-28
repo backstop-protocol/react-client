@@ -13,14 +13,14 @@ export const addresses = {
   
     "cZRX": "0xB3319f5D18Bc0D84dD1b4825Dcde5d5f7266d407",
     "cWBTC": "0xC11b1268C1A384e55C48c2391d8d480264A3A7F4",
-/* DYNAMICLY INSERTED
-===================================================================== */
-"compUserInfoAddress": "0x1A1FEe7EeD918BD762173e4dc5EfDB8a78C924A8",
-"bComptrollerAddress": "0xc4905364b78a742ccce7B890A89514061E47068D",
-"registryAddress": "0x8B5B7a6055E54a36fF574bbE40cf2eA68d5554b3",
-"sugerDady": "0x35fFd6E268610E764fF6944d07760D0EFe5E40E5",
-"compoundImportAddress": "0x18b9306737eaf6E8FC8e737F488a1AE077b18053",
-"flashImportAddress": "0xFAe0fd738dAbc8a0426F47437322b6d026A9FD95",
-"jarConnector": "0x1d80315fac6aBd3EfeEbE97dEc44461ba7556160",
-"jar": "0x2D8553F9ddA85A9B3259F6Bf26911364B85556F5"
+    /* B.Compound specific addresses
+    ===================================================================== */
+    "compUserInfoAddress": "0x907403da04eb05efd47eb0ba0c7a7d00d4f233ea",
+    "bComptrollerAddress": "0x9db10b9429989cc13408d7368644d4a1cb704ea3",
+    "registryAddress": "0xbf698df5591caf546a7e087f5806e216afed666a",
+    "sugerDady": "0x35fFd6E268610E764fF6944d07760D0EFe5E40E5",
+    "compoundImportAddress": "0x035cccb015a826b754529b4d04587182b8210344",
+    "flashImportAddress": "0xa5c48ef0301437bb2f5afdda8aedbe817f5e11d6",
+    "jarConnector": "0xd24e557762589124d7cfef90d870df17c25bff8a",
+    "jar": "0xb493d1b6048b801747d72f755b6efbfa1b4c6103"
 }
