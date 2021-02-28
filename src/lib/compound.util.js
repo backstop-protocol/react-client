@@ -92,7 +92,7 @@ export default class CToken {
         let addressToSymbol
         if(!userStore || !userStore.loggedIn){
             // user has not loged in yet showing intial empty userInfo
-            addressToSymbol = kovanAddressToSymbol
+            addressToSymbol = mainnetAddressToSymbol
         } else {
             // user logged in
             addressToSymbol = userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol

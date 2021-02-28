@@ -1,188 +1,478 @@
 export const initialState = {
-    "tokenInfo": {
-      "0x4a77fAeE9650b09849Ff459eA1476eaB01606C7a": {
-        "btoken": "0x4a77fAeE9650b09849Ff459eA1476eaB01606C7a",
-        "ctoken": "0x4a77fAeE9650b09849Ff459eA1476eaB01606C7a",
-        "ctokenDecimals": "8",
-        "underlying": "0x482dC9bB08111CB875109B075A40881E48aE02Cd",
-        "underlyingDecimals": "18",
-        "ctokenExchangeRate": "203809612514741323628163841",
-        "underlyingPrice": "354131000000000000",
-        "borrowRate": "39949590961",
-        "supplyRate": "8521250420",
-        "listed": true,
-        "collateralFactor": "600000000000000000"
-      },
-      "0xF0d0EB522cfa50B716B3b1604C4F0fA6f04376AD": {
-        "btoken": "0xF0d0EB522cfa50B716B3b1604C4F0fA6f04376AD",
-        "ctoken": "0xF0d0EB522cfa50B716B3b1604C4F0fA6f04376AD",
-        "ctokenDecimals": "8",
-        "underlying": "0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa",
-        "underlyingDecimals": "18",
-        "ctokenExchangeRate": "259200816927205068145925241",
-        "underlyingPrice": "1002351000000000000",
-        "borrowRate": "65990071831",
-        "supplyRate": "65920646262",
-        "listed": true,
-        "collateralFactor": "750000000000000000"
-      },
-      "0xA4eC170599a1Cf87240a35b9B1B8Ff823f448b57": {
-        "btoken": "0xA4eC170599a1Cf87240a35b9B1B8Ff823f448b57",
-        "ctoken": "0xA4eC170599a1Cf87240a35b9B1B8Ff823f448b57",
-        "ctokenDecimals": "8",
-        "underlying": "0x50DD65531676F718B018De3dc48F92B53D756996",
-        "underlyingDecimals": "18",
-        "ctokenExchangeRate": "200260154169754874191540041",
-        "underlyingPrice": "22745000000000000000",
-        "borrowRate": "11940464128",
-        "supplyRate": "203132440",
-        "listed": true,
-        "collateralFactor": "400000000000000000"
-      },
-      "0xb3f7fB482492f4220833De6D6bfCC81157214bEC": {
-        "btoken": "0xb3f7fB482492f4220833De6D6bfCC81157214bEC",
-        "ctoken": "0xb3f7fB482492f4220833De6D6bfCC81157214bEC",
-        "ctokenDecimals": "8",
-        "underlying": "0xD1308F63823221518Ec88EB209CBaa1ac182105f",
-        "underlyingDecimals": "18",
-        "ctokenExchangeRate": "200000000000000000000000000",
-        "underlyingPrice": "2027405000000000000",
-        "borrowRate": "23782343987",
-        "supplyRate": "0",
-        "listed": true,
-        "collateralFactor": "650000000000000000"
-      },
-      "0x41B5844f4680a8C38fBb695b7F9CFd1F64474a72": {
-        "btoken": "0x41B5844f4680a8C38fBb695b7F9CFd1F64474a72",
-        "ctoken": "0x41B5844f4680a8C38fBb695b7F9CFd1F64474a72",
-        "ctokenDecimals": "8",
-        "underlying": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-        "underlyingDecimals": "18",
-        "ctokenExchangeRate": "219659380639229685515183648",
-        "underlyingPrice": "383575000000000000000",
-        "borrowRate": "57077070297",
-        "supplyRate": "57076403976",
-        "listed": true,
-        "collateralFactor": "750000000000000000"
-      },
-      "0x4a92E71227D294F041BD82dd8f78591B75140d63": {
-        "btoken": "0x4a92E71227D294F041BD82dd8f78591B75140d63",
-        "ctoken": "0x4a92E71227D294F041BD82dd8f78591B75140d63",
-        "ctokenDecimals": "8",
-        "underlying": "0xb7a4F3E9097C08dA09517b5aB877F7a917224ede",
-        "underlyingDecimals": "6",
-        "ctokenExchangeRate": "232529032873907",
-        "underlyingPrice": "1000000000000000000000000000000",
-        "borrowRate": "52925552839",
-        "supplyRate": "48305513183",
-        "listed": true,
-        "collateralFactor": "750000000000000000"
-      },
-      "0x3f0A0EA2f86baE6362CF9799B523BA06647Da018": {
-        "btoken": "0x3f0A0EA2f86baE6362CF9799B523BA06647Da018",
-        "ctoken": "0x3f0A0EA2f86baE6362CF9799B523BA06647Da018",
-        "ctokenDecimals": "8",
-        "underlying": "0x07de306FF27a2B630B1141956844eB1552B956B5",
-        "underlyingDecimals": "6",
-        "ctokenExchangeRate": "22394019796087393",
-        "underlyingPrice": "1000000000000000000000000000000",
-        "borrowRate": "74612646459",
-        "supplyRate": "51059533540",
-        "listed": true,
-        "collateralFactor": "0"
-      },
-      "0xa1fAA15655B0e7b6B6470ED3d096390e6aD93Abb": {
-        "btoken": "0xa1fAA15655B0e7b6B6470ED3d096390e6aD93Abb",
-        "ctoken": "0xa1fAA15655B0e7b6B6470ED3d096390e6aD93Abb",
-        "ctokenDecimals": "8",
-        "underlying": "0xd3A691C852CDB01E281545A27064741F0B7f6825",
-        "underlyingDecimals": "8",
-        "ctokenExchangeRate": "20745720049708217",
-        "underlyingPrice": "137815950000000000000000000000000",
-        "borrowRate": "9512937595",
-        "supplyRate": "0",
-        "listed": true,
-        "collateralFactor": "400000000000000000"
-      },
-      "0xAf45ae737514C8427D373D50Cd979a242eC59e5a": {
-        "btoken": "0xAf45ae737514C8427D373D50Cd979a242eC59e5a",
-        "ctoken": "0xAf45ae737514C8427D373D50Cd979a242eC59e5a",
-        "ctokenDecimals": "8",
-        "underlying": "0x162c44e53097e7B5aaE939b297ffFD6Bf90D1EE3",
-        "underlyingDecimals": "18",
-        "ctokenExchangeRate": "203060476279872248491857238",
-        "underlyingPrice": "619513000000000000",
-        "borrowRate": "22403730307",
-        "supplyRate": "2023923318",
-        "listed": true,
-        "collateralFactor": "600000000000000000"
-      }
+  "tokenInfo": {
+    "0x6CaF698cA73b1a5a27a44A6441545E291D955e90": {
+      "btoken": "0x6CaF698cA73b1a5a27a44A6441545E291D955e90",
+      "ctoken": "0x6C8c6b02E7b2BE14d4fA6022Dfd6d75921D90E4E",
+      "ctokenDecimals": "8",
+      "underlying": "0x0D8775F648430679A709E98d2b0Cb6250d2887EF",
+      "underlyingDecimals": "18",
+      "ctokenExchangeRate": "205356338394528844357977016",
+      "underlyingPrice": "487315000000000000",
+      "borrowRate": "50839376811",
+      "supplyRate": "11386102377",
+      "listed": true,
+      "collateralFactor": "600000000000000000",
+      "bTotalSupply": "509708143160646831"
     },
-    "cUser": {
-      "0x4a77fAeE9650b09849Ff459eA1476eaB01606C7a": {},
-      "0xF0d0EB522cfa50B716B3b1604C4F0fA6f04376AD": {},
-      "0xA4eC170599a1Cf87240a35b9B1B8Ff823f448b57": {},
-      "0xb3f7fB482492f4220833De6D6bfCC81157214bEC": {},
-      "0x41B5844f4680a8C38fBb695b7F9CFd1F64474a72": {},
-      "0x4a92E71227D294F041BD82dd8f78591B75140d63": {},
-      "0x3f0A0EA2f86baE6362CF9799B523BA06647Da018": {},
-      "0xa1fAA15655B0e7b6B6470ED3d096390e6aD93Abb": {},
-      "0xAf45ae737514C8427D373D50Cd979a242eC59e5a": {}
+    "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7": {
+      "btoken": "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7",
+      "ctoken": "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
+      "ctokenDecimals": "8",
+      "underlying": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+      "underlyingDecimals": "18",
+      "ctokenExchangeRate": "211494757405529119673192799",
+      "underlyingPrice": "1001253000000000000",
+      "borrowRate": "44731681632",
+      "supplyRate": "32302729631",
+      "listed": true,
+      "collateralFactor": "750000000000000000",
+      "bTotalSupply": "10443277367625522801"
     },
-    "bUser": {
-      "0x4a77fAeE9650b09849Ff459eA1476eaB01606C7a": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "0"
-      },
-      "0xF0d0EB522cfa50B716B3b1604C4F0fA6f04376AD": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "0"
-      },
-      "0xA4eC170599a1Cf87240a35b9B1B8Ff823f448b57": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "0"
-      },
-      "0xb3f7fB482492f4220833De6D6bfCC81157214bEC": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "0"
-      },
-      "0x41B5844f4680a8C38fBb695b7F9CFd1F64474a72": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "115792089237316195423570985008687907853269984665640564039457584007913129639935"
-      },
-      "0x4a92E71227D294F041BD82dd8f78591B75140d63": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "0"
-      },
-      "0x3f0A0EA2f86baE6362CF9799B523BA06647Da018": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "0"
-      },
-      "0xa1fAA15655B0e7b6B6470ED3d096390e6aD93Abb": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "0"
-      },
-      "0xAf45ae737514C8427D373D50Cd979a242eC59e5a": {
-        "ctokenBalance": "0",
-        "ctokenBorrowBalance": "0",
-        "underlyingWalletBalance": "0",
-        "underlyingAllowance": "0"
-      }
+    "0xAE62A925924850a3f02A125477c1E2418f4085fF": {
+      "btoken": "0xAE62A925924850a3f02A125477c1E2418f4085fF",
+      "ctoken": "0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5",
+      "ctokenDecimals": "8",
+      "underlying": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+      "underlyingDecimals": "18",
+      "ctokenExchangeRate": "200353184431444902937931259",
+      "underlyingPrice": "1627430000000000000000",
+      "borrowRate": "14018385952",
+      "supplyRate": "1062445404",
+      "listed": true,
+      "collateralFactor": "750000000000000000",
+      "bTotalSupply": "6164394654613570"
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "btoken": "0x0000000000000000000000000000000000000000",
+      "ctoken": "0xF5DCe57282A584D2746FaF1593d3121Fcac444dC",
+      "ctokenDecimals": "8",
+      "underlying": "0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359",
+      "underlyingDecimals": "18",
+      "ctokenExchangeRate": "214497546666952197312199338",
+      "underlyingPrice": "8600967000000000000",
+      "borrowRate": "27174240326",
+      "supplyRate": "0",
+      "listed": true,
+      "collateralFactor": "0",
+      "bTotalSupply": "0"
+    },
+    "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6": {
+      "btoken": "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6",
+      "ctoken": "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
+      "ctokenDecimals": "8",
+      "underlying": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "underlyingDecimals": "6",
+      "ctokenExchangeRate": "216777458087733",
+      "underlyingPrice": "1000000000000000000000000000000",
+      "borrowRate": "31434009844",
+      "supplyRate": "23957051308",
+      "listed": true,
+      "collateralFactor": "750000000000000000",
+      "bTotalSupply": "8078464093589391856"
+    },
+    "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9": {
+      "btoken": "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9",
+      "ctoken": "0xf650C3d88D12dB855b8bf7D11Be6C55A4e07dCC9",
+      "ctokenDecimals": "8",
+      "underlying": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "underlyingDecimals": "6",
+      "ctokenExchangeRate": "208540802065944",
+      "underlyingPrice": "1000000000000000000000000000000",
+      "borrowRate": "39411899629",
+      "supplyRate": "30598281939",
+      "listed": true,
+      "collateralFactor": "0",
+      "bTotalSupply": "1595768307930984815"
+    },
+    "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208": {
+      "btoken": "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208",
+      "ctoken": "0xC11b1268C1A384e55C48c2391d8d480264A3A7F4",
+      "ctokenDecimals": "8",
+      "underlying": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+      "underlyingDecimals": "8",
+      "ctokenExchangeRate": "20201150702490738",
+      "underlyingPrice": "497134500000000000000000000000000",
+      "borrowRate": "18865101366",
+      "supplyRate": "989270426",
+      "listed": true,
+      "collateralFactor": "750000000000000000",
+      "bTotalSupply": "196263349115660"
+    },
+    "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7": {
+      "btoken": "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7",
+      "ctoken": "0xB3319f5D18Bc0D84dD1b4825Dcde5d5f7266d407",
+      "ctokenDecimals": "8",
+      "underlying": "0xE41d2489571d322189246DaFA5ebDe1F4699F498",
+      "underlyingDecimals": "18",
+      "ctokenExchangeRate": "204255280074451121593865711",
+      "underlyingPrice": "1444863000000000000",
+      "borrowRate": "33411193192",
+      "supplyRate": "4252544434",
+      "listed": true,
+      "collateralFactor": "600000000000000000",
+      "bTotalSupply": "539861415438681457"
+    },
+    "0x2AACA31206cD011AcDE0d26a217690AfB7f41530": {
+      "btoken": "0x2AACA31206cD011AcDE0d26a217690AfB7f41530",
+      "ctoken": "0x35A18000230DA775CAc24873d00Ff85BccdeD550",
+      "ctokenDecimals": "8",
+      "underlying": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+      "underlyingDecimals": "18",
+      "ctokenExchangeRate": "201689711082607411775350761",
+      "underlyingPrice": "25257150000000000000",
+      "borrowRate": "40598256397",
+      "supplyRate": "5685534178",
+      "listed": true,
+      "collateralFactor": "600000000000000000",
+      "bTotalSupply": "45457346170442977"
+    },
+    "0x261f1375e2b921b11DcE28171063A51E4fb2A813": {
+      "btoken": "0x261f1375e2b921b11DcE28171063A51E4fb2A813",
+      "ctoken": "0x70e36f6BF80a52b3B46b3aF8e106CC0ed743E8e4",
+      "ctokenDecimals": "8",
+      "underlying": "0xc00e94Cb662C3520282E6f5717214004A7f26888",
+      "underlyingDecimals": "18",
+      "ctokenExchangeRate": "202241357036972191139451230",
+      "underlyingPrice": "431544999000000000000",
+      "borrowRate": "39901658370",
+      "supplyRate": "8497622965",
+      "listed": true,
+      "collateralFactor": "600000000000000000",
+      "bTotalSupply": "1582916895991890"
+    }
+  },
+  "cUser": {
+    "0x6CaF698cA73b1a5a27a44A6441545E291D955e90": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0xAE62A925924850a3f02A125477c1E2418f4085fF": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x2AACA31206cD011AcDE0d26a217690AfB7f41530": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x261f1375e2b921b11DcE28171063A51E4fb2A813": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    }
+  },
+  "bUser": {
+    "0x6CaF698cA73b1a5a27a44A6441545E291D955e90": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0xAE62A925924850a3f02A125477c1E2418f4085fF": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x2AACA31206cD011AcDE0d26a217690AfB7f41530": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    },
+    "0x261f1375e2b921b11DcE28171063A51E4fb2A813": {
+      "ctokenBalance": "0",
+      "ctokenBorrowBalance": "0",
+      "underlyingWalletBalance": "0",
+      "underlyingAllowance": "0"
+    }
+  },
+  "importInfo": {
+    "0x6CaF698cA73b1a5a27a44A6441545E291D955e90": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0xAE62A925924850a3f02A125477c1E2418f4085fF": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0x2AACA31206cD011AcDE0d26a217690AfB7f41530": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    },
+    "0x261f1375e2b921b11DcE28171063A51E4fb2A813": {
+      "avatar": "0xAc78c5AA67672eA8c2CdFf331beF19f88A39eb4D",
+      "ctokenAllowance": "0",
+      "availableEthBalance": "45931582793422743378443"
+    }
+  },
+  "jarInfo": {
+    "0x6CaF698cA73b1a5a27a44A6441545E291D955e90": {
+      "ctokenBalance": "0"
+    },
+    "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7": {
+      "ctokenBalance": "0"
+    },
+    "0xAE62A925924850a3f02A125477c1E2418f4085fF": {
+      "ctokenBalance": "0"
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "ctokenBalance": "0"
+    },
+    "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6": {
+      "ctokenBalance": "0"
+    },
+    "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9": {
+      "ctokenBalance": "0"
+    },
+    "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208": {
+      "ctokenBalance": "0"
+    },
+    "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7": {
+      "ctokenBalance": "0"
+    },
+    "0x2AACA31206cD011AcDE0d26a217690AfB7f41530": {
+      "ctokenBalance": "0"
+    },
+    "0x261f1375e2b921b11DcE28171063A51E4fb2A813": {
+      "ctokenBalance": "0"
+    }
+  },
+  "tvlInfo": {
+    "0x6CaF698cA73b1a5a27a44A6441545E291D955e90": {
+      "numAccounts": "0"
+    },
+    "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7": {
+      "numAccounts": "0"
+    },
+    "0xAE62A925924850a3f02A125477c1E2418f4085fF": {
+      "numAccounts": "0"
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "numAccounts": "0"
+    },
+    "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6": {
+      "numAccounts": "0"
+    },
+    "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9": {
+      "numAccounts": "0"
+    },
+    "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208": {
+      "numAccounts": "0"
+    },
+    "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7": {
+      "numAccounts": "0"
+    },
+    "0x2AACA31206cD011AcDE0d26a217690AfB7f41530": {
+      "numAccounts": "0"
+    },
+    "0x261f1375e2b921b11DcE28171063A51E4fb2A813": {
+      "numAccounts": "0"
+    }
+  },
+  "compTokenInfo": {
+    "0x6CaF698cA73b1a5a27a44A6441545E291D955e90": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0xAE62A925924850a3f02A125477c1E2418f4085fF": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0x2AACA31206cD011AcDE0d26a217690AfB7f41530": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    },
+    "0x261f1375e2b921b11DcE28171063A51E4fb2A813": {
+      "compBalance": "0",
+      "comp": "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    }
+  },
+  "scoreInfo": {
+    "0x6CaF698cA73b1a5a27a44A6441545E291D955e90": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0x66d392FAAEFE95DcaA30625E8978C14BEA1721a7": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0xAE62A925924850a3f02A125477c1E2418f4085fF": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0x459EF67e0668a85CBf073073Cf45fb7e01c551a6": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0xB0e9443f9dBC1E39A550C9eBBA2bff38E81543D9": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0xAAb7A87b6aec217bc18fE2600C53134c05AB8208": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0x4E55193e835980b0C0Ac4a0b4E7cDfbaF041e4A7": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0x2AACA31206cD011AcDE0d26a217690AfB7f41530": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
+    },
+    "0x261f1375e2b921b11DcE28171063A51E4fb2A813": {
+      "userScore": "0",
+      "userScoreProgressPerSec": "0",
+      "totalScore": "0"
     }
   }
+}
