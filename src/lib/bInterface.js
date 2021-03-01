@@ -347,7 +347,7 @@ export const verifyRepayInput = function(userInfo,
 const checkDebtIsBiggerThanDust = (userInfo, web3) => {
   const dust = toNumber(userInfo.miscInfo.dustInWei, web3)
   const currentDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3)
-  if (currentDebt <= dust) { 
+  if (currentDebt <= dust && currentDebt > 0) { 
     return `the minimum debt Maker requires to preform the operation is ${dust.toString()} DAI`
   }
 }
