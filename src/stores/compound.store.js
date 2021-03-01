@@ -93,9 +93,10 @@ class CompoundStore {
         const obj = this.userInfo.scoreInfo
         if(!obj) return 
         const val = obj[Object.keys(obj)[0]] || {}
-        const factor = new BN(10).pow(new BN(19))
+        // 480000 * 100 * 5944368153772800000000000000000 / 1e18
+        const factor = new BN("480000").mul(new BN("100")).mul(new BN("5944368153772800000000000000000")).div(new BN(toWei("1")))
         this.userScore = this.userScore == "0" ? fromWei(new BN(val.userScore).div(factor)) : this.userScore
-        this.totalScore = parseFloat(fromWei(new BN(val.totalScore).div(factor))).toFixed(2)
+        this.totalScore = (parseFloat(fromWei(new BN(val.totalScore).div(factor))) + 0.005).toFixed(2) // round up
         const progress = parseFloat(fromWei(new BN(val.userScoreProgressPerSec).div(factor)))
 
         if(this.userScoreInterval){
