@@ -35,7 +35,7 @@ const FAQContent = () => {
 
       <h4>4. How do I use B.protocol?</h4>
       <p className="item-content-text">
-        <strong>A.</strong> Head over to <a target="_blank" href="app.bprotocol.org">app.bprotocol.org</a>, choose your platform on the left (MakerDAO or Compound), and connect your wallet.
+        <strong>A.</strong> Head over to <a target="_blank" href="//app.bprotocol.org">app.bprotocol.org</a>, choose your platform on the left (MakerDAO or Compound), and connect your wallet.
         <br/>
         <strong>B. </strong> If you are already a user of MakerDAO or Compound - you can import your existing Maker Vault/ Compound account to B.Protocol seamlessly, using the “Import” button on the upper left corner (make sure to connect with the same account you use for Maker/ Compound).
         <br />
