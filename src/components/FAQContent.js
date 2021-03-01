@@ -35,20 +35,20 @@ const FAQContent = () => {
 
       <h4>4. How do I use B.protocol?</h4>
       <p className="item-content-text">
-        <strong>A.</strong> Head over to <a target="_blank" href="bprotocol.org/app">bprotocol.org/app</a>, choose your platform on the left (MakerDAO or Compound), and connect your wallet.
+        <strong>A.</strong> Head over to <a target="_blank" href="app.bprotocol.org">app.bprotocol.org</a>, choose your platform on the left (MakerDAO or Compound), and connect your wallet.
         <br/>
         <strong>B. </strong> If you are already a user of MakerDAO or Compound - you can import your existing Maker Vault/ Compound account to B.Protocol seamlessly, using the “Import” button on the upper left corner (make sure to connect with the same account you use for Maker/ Compound).
         <br />
         <strong>C.</strong>Manage your account (Deposit and Withdraw/ Borrow and Repay) via the B.Protocol interface.<br />
-        <strong>D.</strong>Accumulate your bScore and share the liquidation proceeds every epoch (the current epoch ends in April 2021).
+        <strong>D.</strong>Accumulate your mScore/cScore and share the liquidation proceeds every epoch (the current epoch ends in April 2021).
       </p>
 
       <h4>5. What is the B.Protocol User Score?</h4>
       <p className="item-content-text">
-        <strong>A.</strong> User Score is the way for B.Protocol to calculate your part in the liquidation proceeds of the platform, and your weight in the protocol upgrade vote (both will occur in April 2021). A user’s Score is determined by his/her usage of B.Protocol and is being calculated differently for MakerDAO users and for Compound users.
+        <strong>A.</strong> User Score is the way for B.Protocol to calculate your part in the liquidation proceeds of the platform, and your weight in the protocol upgrade vote (both will occur in April 2021). A user’s Score is determined by his/her usage of B.Protocol and is being calculated differently for MakerDAO users (mScore) and for Compound users  (cScore).
         <ul>
           <li><strong>Maker users</strong> - for every 1k Dai debt, borrowed for 24 hours, a user will get approximately 1 bmScore (B.Protocol-MakerDAO Score).</li>
-          <li><strong>Compound users</strong> - for every $1k worth of debt in any of the available tokens for borrowing, borrowed for 24 hours, a user will get 0.6 bcScore (B.Protocol-Compound Score). For every $1k worth of collateral deposit, deposited for 24 hours, a user will get 0.2 bcScore.</li>
+          <li><strong>Compound users</strong> - The cScore accumulation rate is calculated in correlation to the COMP distribution rate, and the user supply and borrow balances.</li>
         </ul>
         <strong>The bScore is non-transferable</strong> and is not even an ERC20 token. Hence it cannot be traded, and can never be traded. While we technically cannot prevent future governance from tokenizing it, we will not actively support any outcome that will violate the applicable regulatory frameworks.
 
