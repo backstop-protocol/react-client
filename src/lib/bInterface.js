@@ -22,7 +22,10 @@ const mainnetAddresses =
      "INFO_ADDRESS" : "0x940fF82e0D9a9cc84EB927E08FE9AB2ADc348379",
      "ACTION_PROXY_ADDRESS" : "0x351626387B5bb5408f97F8fD6B2EC415Efc9E6a1",
      "JAR" : "0x3C36cCf03dAB88c1b1AC1eb9C3Fb5dB0b6763cFF",
-     "BCDP_MANGER" : "0x3f30c2381CD8B917Dd96EB2f1A4F96D91324BBed",
+     "BCDP_MANGER" : "0x5ef30b9986345249bc32d8928B7ee64DE9435E39",
+     "BBCDP_MANGER" : "0x183994267258E85CB9335a31C0Ef46469C12e28a",
+     "BBCDP_MANGER_TVL" : "0x3f30c2381CD8B917Dd96EB2f1A4F96D91324BBed",     
+       
      "BSTATS" : "0xAA89884477f05c6C563D76721c6A1C8186015f10",
 
      "CDP_MANAGER" : "0x5ef30b9986345249bc32d8928B7ee64DE9435E39",
@@ -41,9 +44,10 @@ const kovanAddresses =
     "INFO_ADDRESS" : "0x1aeca71f98dbAB47Ad204F4eaE769DBFDF152bC3",
     "ACTION_PROXY_ADDRESS" : "0x3e934104D787a1eAD9A87d5ED0070182c70FEB01",
     "JAR" : "0x92E3B48d3C86A1c809a2a5334a4ad3c9d0bf3758",
-    "BCDP_MANGER" : "0x0470000Ff279d3951F0Fb4893443C25EA4E0ec69",
+    "BBCDP_MANGER" : "0xf38D41940B37050Bb4E9806DE2FbCb8817930350",    
     "BSTATS" : "0xcd628C30c97d702874939dd729a4D0FdDb25DA90",
 
+    "BCDP_MANGER" : "0x1476483dD8C35F25e568113C5f70249D3976ba21",    
     "CDP_MANAGER" : "0x1476483dD8C35F25e568113C5f70249D3976ba21",
     "GET_CDPS" : "0x592301a23d37c591C5856f28726AF820AF8e7014",
     "MCD_VAT" : "0xbA987bDB501d131f766fEe8180Da5d81b34b69d9",
@@ -63,26 +67,32 @@ function getAddress(name, networkId) {
     return mainnetAddresses[name]
 }
 
-export const getUserInfo = function(web3, networkId, user) {
+export const getUserInfo = async function(web3, networkId, user) {
   const infoContract = new web3.eth.Contract(infoAbi,getAddress("INFO_ADDRESS",networkId))
-  return infoContract.methods.getInfo(user,
+  const ret = infoContract.methods.getInfo(user,
                                       ETH_ILK,
-                                      getAddress("BCDP_MANGER", networkId),
+                                      getAddress("BBCDP_MANGER", networkId),
                                       getAddress("CDP_MANAGER", networkId),
                                       getAddress("GET_CDPS", networkId),
                                       getAddress("MCD_VAT", networkId),
                                       getAddress("MCD_SPOT", networkId),
                                       getAddress("PROXY_REGISTRY", networkId),
                                       getAddress("JAR", networkId)).call({gasLimit:10e6})
+
+          console.log(getAddress("BBCDP_MANGER", networkId), await ret);
+          return ret;
 }
 
 export const firstDeposit = function(web3, networkId, user) {
+  console.log("yossi")
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS", networkId))
-  return actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY", networkId),
+  const ret = actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY", networkId),
                                                                getAddress("BCDP_MANGER", networkId),
                                                                getAddress("MCD_JOIN_ETH_A", networkId),
                                                                ETH_ILK,
                                                                user)
+  console.log(ret.encodeABI())
+  return ret
 }
 
 export const depositETH = function(web3, networkId, userProxy, cdp) {
@@ -347,7 +357,7 @@ export const verifyRepayInput = function(userInfo,
 const checkDebtIsBiggerThanDust = (userInfo, web3) => {
   const dust = toNumber(userInfo.miscInfo.dustInWei, web3)
   const currentDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3)
-  if (currentDebt <= dust) { 
+  if (currentDebt < dust && currentDebt > 0) { 
     return `the minimum debt Maker requires to preform the operation is ${dust.toString()} DAI`
   }
 }

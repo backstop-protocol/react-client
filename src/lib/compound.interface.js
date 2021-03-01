@@ -134,7 +134,7 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
 export const getCompUserInfo = async (web3, networkId, user, getTvl = false) => {
   const { Contract } = web3.eth
   const compUserInfoAddress = getAddress("compUserInfoAddress", networkId)
-  const bComptrollerAddress = getAddress("bComptrollerAddress", networkId)
+  const bComptrollerAddress = parseInt(networkId) === parseInt(42) ? "0x3956dee3a5755eeadfa55db3521b1ea70a1f5f5e" : "0xa6ba9a68430dc7b21f7b8ab9d23ea3ff0c008b6e"
   const registryAddress = getAddress("registryAddress", networkId)
   const sugerDady = getAddress("sugerDady", networkId)
   const jarConnector = getAddress("jarConnector", networkId)
