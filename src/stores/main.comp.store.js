@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx"
 import Web3 from "web3"
 import {getCompUserInfo} from "../lib/compound.interface"
 import CToken from "../lib/compound.util"
+import compoundStore from "./compound.store"
 // const {API} = require("../../src/API")
 const {BN, fromWei, toWei} = Web3.utils
 
@@ -19,6 +20,7 @@ class MainCompStore {
         this.compUserInfoPromise = getCompUserInfo(web3, 1, "0x0000000000000000000000000000000000000001", true)
         this.fetchTvl()
         this.fetchJar()
+        this.setIntialStateApy()
     }
 
     async fetchJar () {
@@ -65,6 +67,11 @@ class MainCompStore {
         }catch (err){
             console.error("failed to fatch TVL for compound")
         }
+    }
+
+    async setIntialStateApy (){
+        const compUserInfo = await this.compUserInfoPromise
+        compoundStore.processUserInfo(compUserInfo)
     }
 }
 
