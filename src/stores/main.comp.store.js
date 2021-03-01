@@ -71,7 +71,9 @@ class MainCompStore {
 
     async setIntialStateApy (){
         const compUserInfo = await this.compUserInfoPromise
-        compoundStore.processUserInfo(compUserInfo)
+        if(!compoundStore.firstUserInfoFetch){
+            compoundStore.processUserInfo(compUserInfo)
+        }
     }
 }
 
