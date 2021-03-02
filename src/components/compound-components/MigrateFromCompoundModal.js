@@ -237,7 +237,7 @@ class MigrateFromCompoundModal extends Component {
                             {compoundMigrationStore.validationErr}
                         </ErrText>
                         
-                        <ActionButton disabled={!borrowCanBeCoverd} onClick={()=> this.migrate(supply, borrow)}>
+                        <ActionButton className={borrowCanBeCoverd ? "clickable" : ""} disabled={!borrowCanBeCoverd} onClick={()=> this.migrate(supply, borrow)}>
                             <div style={{
                                 position: "absolute",
                                 top: "50%",
