@@ -62,6 +62,13 @@ class ClaimComp extends Component{
         }
     }
 
+    reset = () => {
+        this.setState({
+            hash: "",
+            status: ClaimStatus.none
+        })
+    }
+
     onHash = (hash) => {
         this.setState({hash})
     }
@@ -75,7 +82,7 @@ class ClaimComp extends Component{
             this.setState({status: ClaimStatus.failed})
         } finally {
             setTimeout(()=> {
-                this.setState({status: ClaimStatus.none})
+                this.reset()
             }, 5000)
         }
 
