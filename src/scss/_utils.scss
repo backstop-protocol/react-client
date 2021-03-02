@@ -22,6 +22,15 @@
   }
 }
 
+.limited-width {
+  width: 100%;
+  margin-right: -115px;
+  min-height: 40px;
+  height: initial;
+  padding: 15px;
+  white-space: initial;
+}
+
 .tickbox {
   width: 37px;
   height: 14px;
