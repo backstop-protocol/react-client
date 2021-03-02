@@ -51,7 +51,7 @@ class ConnectButton extends Component {
           // If this happens, the user rejected the connection request.
           EventBus.$emit("app-error","Please connect to Meta Mask");
         } else {
-          EventBus.$emit("app-error",err);
+          EventBus.$emit("app-error", err.message);
         }
       });
   };
