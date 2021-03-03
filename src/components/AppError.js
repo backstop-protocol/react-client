@@ -20,6 +20,7 @@ export default class AppError extends Component {
                 this.setState({error: false});
             }, 3000)
         });
+
     }
 
     render() {
