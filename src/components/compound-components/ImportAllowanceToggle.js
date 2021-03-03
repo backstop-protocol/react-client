@@ -88,7 +88,7 @@ class ImportAllowanceToggle extends Component{
                             <img src={WhiteBgViewIcon} />
                         </a>
                     </div>}
-                    <div className={'tickbox'+(unlocking ? ' loading' : (locked? '':' active'))} onClick={this.onUnlock}>
+                    <div className={'tickbox'+(unlocking ? ' loading' : (locked? ' clickable':' active'))} onClick={this.onUnlock}>
                         {unlocking && <LoadingRing />}
                     </div>
                 </Flex>
