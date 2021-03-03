@@ -7,7 +7,7 @@ import compoundStore from "./compound.store"
 const {BN, fromWei, toWei} = Web3.utils
 
 // const BP_API = "https://bp-api.bprotocol.workers.dev"
-const BP_API = "https://cloudflare-eth.com"
+const BP_API = "https://eth-node.b-protocol.workers.dev"
 
 class MainCompStore {
     tvl = "--,---"
