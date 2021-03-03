@@ -4,6 +4,7 @@ import EventBus from '../lib/EventBus';
 import Close from "../assets/close.svg";
 import Loading from "./action-panels/Loading";
 import {getLiquidationPrice} from "../lib/Actions";
+import CurrencyBoxHeader from "./CurrencyBoxHeader"
 
 function chop4(number) {
     return Math.floor(parseFloat(number) * 10000) / 10000
@@ -96,6 +97,7 @@ export default class CurrencyBox extends Component {
         const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit} = this.props;
         let {panel, actioning, value, loading, completed, failed, hash} = this.state;
 
+        const showStabilityFee = currency === "DAI"
         let CustomPanel = null;
         if (panel) {
             CustomPanel = panel;
@@ -142,14 +144,18 @@ export default class CurrencyBox extends Component {
             (completed? ' completed':'')+ (failed? ' failed':'');
 
         return (
-            <div className={'currency-box-container'+containerClass}>
-                <div className="currency-box">
+            <div className={'currency-box-container'+containerClass} >
+                <CurrencyBoxHeader showStabilityFee={showStabilityFee} />
+                <div className="currency-box" >
                     <div className={"currency-box-close" + (panel? ' active':'')}>
                         <img src={Close} onClick={() => this.resetPanel()} />
                     </div>
                     <div className="currency-meta">
                         <div className="currency-icon"><img src={icon} /></div>
                         <div className="currency-title">{title}</div>
+                        { showStabilityFee && 
+                        <div className="currency-title" style={{maxWidth: "60px"}}>4.5%</div>
+                        }
                         <div className="currency-value nowrap">
                             <p>{formatValue(userInfo)} {currency}</p>
                             <small>{calculateUsd(userInfo)} USD</small>
