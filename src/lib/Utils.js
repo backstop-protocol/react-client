@@ -7,3 +7,5 @@ export const isKovan = () => {
         return false
     }
 }
+
+export const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
