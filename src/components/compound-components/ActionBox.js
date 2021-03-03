@@ -240,7 +240,7 @@ class ActionBox extends Component {
                                 <div className="currency-input tooltip-container">
                                 {this.showSetMax() && <div className="set-max" onClick={this.setMax}>Set Max</div>}
                                     <input type="text" value={val} onChange={this.onInputChange} placeholder={`Amount in ${coin.symbol}`} ref={e => this.input = e} />
-                                    {inputErrMsg && <Tooltip bottom={true} className={'warning'}>{inputErrMsg}</Tooltip>}
+                                    {inputErrMsg && <Tooltip bottom={true} className={'warning limited-width'}>{inputErrMsg}</Tooltip>}
                                 </div>
                                 <Unlock coin={coin} action={action}/>
                             </Flex>
