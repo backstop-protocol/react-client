@@ -3,9 +3,9 @@ import * as B from "../lib/bInterface"
 import * as ApiHelper from "../lib/ApiHelper"
 import Web3 from "web3"
 import axios from "axios"
+import {toCommmSepratedString} from "../lib/Utils"
 const BP_API = "https://eth-node.b-protocol.workers.dev"
 
-export const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 /**
  * Main Store is desigend for general purpose app data

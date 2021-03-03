@@ -126,7 +126,7 @@ const TvlGraphImg = styled.img`
 `
 
 const ToolTipLine = styled.div`
-    min-width: 160px;
+    min-width: 200px;
     padding: 5px;
     font-family: "Poppins", sans-serif;
     display: flex;
