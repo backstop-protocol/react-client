@@ -8,6 +8,7 @@ import FragLoader from "../FragLoader";
 import WhiteBgViewIcon from "../../assets/view-icon.svg";
 import VIcon from "../../assets/v-icon.svg";
 import XIcon from "../../assets/red-x-icon.svg";
+import {isKovan} from "../../lib/Utils"
 
 const Overide = styled.div`
     border: none;
@@ -85,7 +86,7 @@ class ClaimComp extends Component{
     render () {
         const disabled = this.props.compBalance == "0" 
         const {hash, status} = this.state
-        const kovan = parseInt(window.ethereum.chainId) === parseInt("0x2A")
+        const kovan = isKovan()
 
         return (
             <Container>

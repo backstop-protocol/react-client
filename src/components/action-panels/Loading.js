@@ -5,6 +5,7 @@ import BIcon from "../../assets/b-icon.svg";
 import VIcon from "../../assets/v-icon.svg";
 import XIcon from "../../assets/red-x-icon.svg";
 import FragLoader from "../FragLoader";
+import {isKovan} from "../../lib/Utils"
 
 const blackBgStyle = {
     color: '#647686', 
@@ -18,7 +19,7 @@ const blackBgStyle = {
 export default class Loading extends Component {
 
     render() {
-        const kovan = parseInt(window.ethereum.chainId) === parseInt("0x2A")
+        const kovan = isKovan()
         const { actioning, value, currency, completed, failed, hash, blackBg } = this.props;
 
         const icon = completed ? VIcon : (failed ? XIcon : BIcon);
