@@ -25,6 +25,7 @@ class MainStore {
     makerPriceFeedPrice = ""
     makerPriceFeedPriceNextPrice = ""
     defiexploreLastUpdate = ""
+    stabilityFee = "0.0"
     ethMarketPrice = ""
     coinbaseLastUpdate
 
@@ -78,6 +79,7 @@ class MainStore {
             this.makerPriceFeedPrice = parseFloat(data1.price).toFixed(2)
             this.makerPriceFeedPriceNextPrice = parseFloat(data1.futurePrice).toFixed(2)
             this.defiexploreLastUpdate = data1.updatedAt  
+            this.stabilityFee = data1.stabilityFee
             this.coinbaseLastUpdate = data2.data.prices.latest_price.timestamp
             data2 = data2.data.prices.latest
             this.ethMarketPrice = parseFloat(data2).toFixed(2)    

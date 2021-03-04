@@ -5,6 +5,33 @@ import Close from "../assets/close.svg";
 import Loading from "./action-panels/Loading";
 import {getLiquidationPrice} from "../lib/Actions";
 import CurrencyBoxHeader from "./CurrencyBoxHeader"
+import styled from "styled-components"
+import {device} from "../screenSizes";
+import mainStore from "../stores/main.store"
+import {observer} from "mobx-react"
+import AnimateNumberChange from "./style-components/AnimateNumberChange"
+
+const Overider = styled.div`
+    .currency-meta{
+        max-width: calc(100% - 160px)
+    }
+    .currency-icon{
+            min-width: 40px;
+    }
+    @media ${device.largeLaptop} {
+        .currency-meta{
+            max-width: calc(100% - 145px)
+        }
+        .currency-icon{
+            width: 40px;
+            height: 40px;
+        }
+
+        .currency-title{
+            min-width: 79px;
+        }
+    }
+`
 
 function chop4(number) {
     return Math.floor(parseFloat(number) * 10000) / 10000
@@ -14,7 +41,7 @@ function chop2(number) {
     return Math.floor(parseFloat(number) * 100) / 100
 }
 
-export default class CurrencyBox extends Component {
+class CurrencyBox extends Component {
 
     constructor(props) {
         super(props);
@@ -98,6 +125,7 @@ export default class CurrencyBox extends Component {
         let {panel, actioning, value, loading, completed, failed, hash} = this.state;
 
         const showStabilityFee = currency === "DAI"
+
         let CustomPanel = null;
         if (panel) {
             CustomPanel = panel;
@@ -144,72 +172,78 @@ export default class CurrencyBox extends Component {
             (completed? ' completed':'')+ (failed? ' failed':'');
 
         return (
-            <div className={'currency-box-container'+containerClass} >
-                <CurrencyBoxHeader showStabilityFee={showStabilityFee} />
-                <div className="currency-box" >
-                    <div className={"currency-box-close" + (panel? ' active':'')}>
-                        <img src={Close} onClick={() => this.resetPanel()} />
-                    </div>
-                    <div className="currency-meta">
-                        <div className="currency-icon"><img src={icon} /></div>
-                        <div className="currency-title">{title}</div>
-                        { showStabilityFee && 
-                        <div className="currency-title" style={{maxWidth: "60px"}}>4.5%</div>
-                        }
-                        <div className="currency-value nowrap">
-                            <p>{formatValue(userInfo)} {currency}</p>
-                            <small>{calculateUsd(userInfo)} USD</small>
+            <Overider className={'currency-box-container'+containerClass}>
+                    <CurrencyBoxHeader showStabilityFee={showStabilityFee} />
+                    <div className="currency-box" >
+                        <div className={"currency-box-close" + (panel? ' active':'')}>
+                            <img src={Close} onClick={() => this.resetPanel()} />
+                        </div>
+                        <div className="currency-meta">
+                            <div className="currency-icon"><img src={icon} /></div>
+                            <div className="currency-title">
+                                {title}
+                            </div>
+                            { showStabilityFee && 
+                                <div className="currency-title" style={{maxWidth: "52px"}}>
+                                    <AnimateNumberChange val={mainStore.stabilityFee} />%
+                                </div>
+                            }
+                            <div className="currency-value nowrap">
+                                <p>{formatValue(userInfo)} {currency}</p>
+                                <small>{calculateUsd(userInfo)} USD</small>
+                            </div>
+                        </div>
+
+                        <div className="currency-actions" >
+                            {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
                         </div>
                     </div>
-
-                    <div className="currency-actions">
-                        {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
-                    </div>
-                </div>
-                <div className={'currency-action-panel-container' + actionPanelContainerClass}>
-                    {panel &&
-                    <CustomPanel onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
-                                 actioning={actioning} value={value} currency={currency} hash={hash}
-                                 completed={completed} failed={failed} />
-                    }
-                    {(!loading && !completed && !failed && panel) &&
-                    <div className="currency-action-panel-footer">
-                        <div className="even">
-                            <div>
-                                <label>Current Wallet Balance</label>
-                                <div className="value">{walletBalance}</div>
-                            </div>
-                            <div>
-                                <label>Liquidation Price</label>
-                                <div className="value">
-                                    {liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)+' USD'}
+                    <div className={'currency-action-panel-container' + actionPanelContainerClass}>
+                        {panel &&
+                        <CustomPanel onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
+                                    actioning={actioning} value={value} currency={currency} hash={hash}
+                                    completed={completed} failed={failed} />
+                        }
+                        {(!loading && !completed && !failed && panel) &&
+                        <div className="currency-action-panel-footer">
+                            <div className="even">
+                                <div>
+                                    <label>Current Wallet Balance</label>
+                                    <div className="value">{walletBalance}</div>
                                 </div>
-                            </div>
-                            <div>
-                                <label>Borrow Limit</label>
-                                <div className="value">
-                                    {liquidationPrice &&
-                                    <div>
-                                        <div className="limit-bar mini">
-                                        <div className="values">
-                                            <label>{/* Empty label is here to preserve orginal flex layout  */}</label> 
-                                            <label>{numm(liquidationPrice[0])} DAI</label>
-                                        </div>
-                                        <div className="limit-bar-inner">
-                                            <div className="limit-bar-track" style={{width: borrowLimit(userInfo,liquidationPrice[0], value * valueDir)+'%'}}>
-                                                <span>{borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+"%"}</span>
+                                <div>
+                                    <label>Liquidation Price</label>
+                                    <div className="value">
+                                        {liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)+' USD'}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>Borrow Limit</label>
+                                    <div className="value">
+                                        {liquidationPrice &&
+                                        <div>
+                                            <div className="limit-bar mini">
+                                            <div className="values">
+                                                <label>{/* Empty label is here to preserve orginal flex layout  */}</label> 
+                                                <label>{numm(liquidationPrice[0])} DAI</label>
+                                            </div>
+                                            <div className="limit-bar-inner">
+                                                <div className="limit-bar-track" style={{width: borrowLimit(userInfo,liquidationPrice[0], value * valueDir)+'%'}}>
+                                                    <span>{borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+"%"}</span>
+                                                </div>
+                                            </div>
                                             </div>
                                         </div>
-                                        </div>
+                                        }
                                     </div>
-                                    }
                                 </div>
                             </div>
                         </div>
+                        }
                     </div>
-                    }
-                </div>
-            </div>
+            </Overider>
         )
     }
 }
+
+export default observer(CurrencyBox)

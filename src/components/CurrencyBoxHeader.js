@@ -27,7 +27,7 @@ export const ClHeader = styled.div`
     @media ${device.largeLaptop} {
         font-size: 11px;
         .asset{
-            width: 25%;
+            width: 30%;
         }
     }
     @media ${device.laptop} {
