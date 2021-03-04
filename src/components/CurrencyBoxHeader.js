@@ -4,7 +4,7 @@ import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../screenSizes";
 
-export const ClHeader = styled.div`
+const Container = styled.div`
     font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
     height: 40px;
     width: 100%;
@@ -41,7 +41,7 @@ class CurrencyBoxHeader extends Component {
     render () {
         const {showStabilityFee} = this.props
         return (
-            <ClHeader>
+            <Container>
                 <Flex justifyAround full center>
                     <FlexItem className="asset" >
                         Asset
@@ -53,7 +53,7 @@ class CurrencyBoxHeader extends Component {
                         Balance
                     </FlexItem>
                 </Flex>
-            </ClHeader>
+            </Container>
         )
     }
 }
