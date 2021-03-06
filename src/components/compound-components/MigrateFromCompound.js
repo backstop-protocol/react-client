@@ -10,6 +10,7 @@ import { makeAutoObservable } from "mobx"
 import compoundMigrationStore, {MigrationStatus} from "../../stores/compoundMigration.store"
 import BlacBgViewIcon from "../../assets/view-icon-opeq-bg.svg";
 import {Transition} from 'react-spring/renderprops'
+import {isKovan} from "../../lib/Utils"
 
 const MigrationStates = {
     none: {
@@ -38,7 +39,7 @@ class MigrateFromCompound extends Component {
     }
 
     render () {
-        const kovan = parseInt(window.ethereum.chainId) === parseInt("0x2A")
+        const kovan = isKovan()
         const {status, hash, supply, borrow} = compoundMigrationStore
         const show = supply.length > 0 || borrow.length > 0
         const extraClass = status !== MigrationStatus.none ? 'currency-action-panel' : '';

@@ -78,7 +78,7 @@ class Unlock extends Component{
                     <Text>
                         {text}
                     </Text>
-                    <div className={'tickbox'+(unlocking ? ' loading' : (unlocked? " active": ""))} onClick={this.onUnlock}>
+                    <div className={'tickbox'+(unlocking ? ' loading' : (unlocked? " active": " clickable"))} onClick={this.onUnlock}>
                         {unlocking && <LoadingRing />}
                     </div>
                 </Flex>
