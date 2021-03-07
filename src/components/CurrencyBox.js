@@ -13,22 +13,99 @@ import AnimateNumberChange from "./style-components/AnimateNumberChange"
 
 const Overider = styled.div`
     .currency-meta{
-        max-width: calc(100% - 160px)
+        max-width: calc(100% - 130px)
     }
+    .currency-box{
+        height: 152px;
+    }
+
     .currency-icon{
             min-width: 40px;
     }
+    .currency-actions{
+        margin-left: 20px;
+    }
+
+    .currency-value{
+        width 100%;
+        p{
+            margin-top: 22.5px; 
+            font-size: 20px;
+        }
+    }
+
+    .currency-title{
+        white-space: nowrap;
+        font-size: 20px;
+        max-width: 120px;
+    }
+
+    .stability-fee{
+        font-size: 20px;
+        font-family: "NeueHaasGroteskDisp Pro Md";
+        letter-spacing: 1.1px;
+        width: 62px;
+        margin-left: 20px;
+    }
+
     @media ${device.largeLaptop} {
         .currency-meta{
-            max-width: calc(100% - 145px)
+            max-width: calc(100% - 120px)
         }
         .currency-icon{
             width: 40px;
             height: 40px;
         }
-
         .currency-title{
-            min-width: 79px;
+            white-space: nowrap;
+            max-width: 95px;
+            font-size: 18px;
+        }
+        .stability-fee{
+            font-size: 18px;
+            width: 52px;
+        }
+        .currency-value{
+            p{
+                margin-top: 22px;
+                font-size: 18px;
+            }
+            small{
+                font-size: 13px;
+            }
+        }
+        .currency-action-button{
+            width: 100px;
+            font-size: 13px;
+        }
+    }
+    @media ${device.laptop} {
+        .currency-title{
+            white-space: nowrap;
+            max-width: 85px;
+            font-size: 17px;
+        }
+
+        .stability-fee{
+            font-size: 17px;
+        }
+
+        .currency-value{
+            p{
+                margin-top: 20px;
+                font-size: 17px;
+            }
+            small{
+                font-size: 12px;
+            }
+        }
+        .currency-action-button{
+            width: 94px;
+            font-size: 12px;
+        }
+
+        .currency-meta{
+            max-width: calc(100% - 114px)
         }
     }
 `
@@ -183,11 +260,15 @@ class CurrencyBox extends Component {
                             <div className="currency-title">
                                 {title}
                             </div>
+                            
+                            <div className="stability-fee" >
                             { showStabilityFee && 
-                                <div className="currency-title" style={{maxWidth: "52px"}}>
+                                <div>
                                     <AnimateNumberChange val={mainStore.stabilityFee} />%
                                 </div>
                             }
+                            </div>
+                        
                             <div className="currency-value nowrap">
                                 <p>{formatValue(userInfo)} {currency}</p>
                                 <small>{calculateUsd(userInfo)} USD</small>

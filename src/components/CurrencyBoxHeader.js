@@ -15,23 +15,39 @@ const Container = styled.div`
     line-height: 1.5;
     padding: 0 20px;
     border-bottom: 1px solid rgba(151, 151, 151, 0.25);
+    max-width: calc(100% - 130px);
     .asset{
-        width: 33%;
+        width: 160px;
     }
     .fee{
-        width: 27%;
+        width: 70px;
+        margin-right: 20px;
     }
     .balance{
-        width: 40%;
     }
     @media ${device.largeLaptop} {
+        max-width: calc(100% - 120px);
         font-size: 11px;
         .asset{
-            width: 30%;
+            width: 147px;
+        }
+        .fee{
+            width: 70px;
+        }
+        .balance{
         }
     }
     @media ${device.laptop} {
+        max-width: calc(100% - 114px);
         font-size: 11px;
+        .asset{
+            width: 145px;
+        }
+        .fee{
+            width: 70px;
+        }
+        .balance{
+        }
     }
 
 `
@@ -42,7 +58,7 @@ class CurrencyBoxHeader extends Component {
         const {showStabilityFee} = this.props
         return (
             <Container>
-                <Flex justifyAround full center>
+                <Flex full alignCenter>
                     <FlexItem className="asset" >
                         Asset
                     </FlexItem>
