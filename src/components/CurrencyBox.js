@@ -49,6 +49,9 @@ const Overider = styled.div`
     }
 
     @media ${device.largeLaptop} {
+        .currency-box-container{
+            max-width: 560px;
+        }
         .currency-meta{
             max-width: calc(100% - 120px)
         }
@@ -80,6 +83,9 @@ const Overider = styled.div`
         }
     }
     @media ${device.laptop} {
+        .currency-box-container{
+            max-width: 500px;
+        }
         .currency-title{
             white-space: nowrap;
             max-width: 85px;
