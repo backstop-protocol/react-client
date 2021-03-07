@@ -29,7 +29,8 @@ const Overider = styled.div`
     .currency-value{
         width 100%;
         p{
-            margin-top: 22.5px; 
+            margin-top: 17px; 
+            margin-bottom:0;
             font-size: 20px;
         }
     }
@@ -70,7 +71,8 @@ const Overider = styled.div`
         }
         .currency-value{
             p{
-                margin-top: 22px;
+                margin-top: 20px;
+                margin-bottom: 0;
                 font-size: 18px;
             }
             small{
@@ -99,6 +101,7 @@ const Overider = styled.div`
         .currency-value{
             p{
                 margin-top: 20px;
+                margin-bottom: 0;
                 font-size: 17px;
             }
             small{
