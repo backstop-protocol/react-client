@@ -17,7 +17,7 @@ const Container = styled.div`
     border-bottom: 1px solid rgba(151, 151, 151, 0.25);
     max-width: calc(100% - 130px);
     .asset{
-        width: 160px;
+        width: calc(46px + 20px + 85px + 20px);
     }
     .fee{
         width: 70px;
@@ -29,7 +29,7 @@ const Container = styled.div`
         max-width: calc(100% - 120px);
         font-size: 11px;
         .asset{
-            width: 147px;
+            width: calc(46px + 20px + 77px + 20px);
         }
         .fee{
             width: 70px;
@@ -41,7 +41,7 @@ const Container = styled.div`
         max-width: calc(100% - 114px);
         font-size: 11px;
         .asset{
-            width: 145px;
+            width: calc(40px + 20px + 73px + 20px);
         }
         .fee{
             width: 70px;
