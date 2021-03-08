@@ -51,8 +51,6 @@ const Overider = styled.div`
         margin-left: 20px;
     }
 
-    
-
     @media ${device.largeLaptop} {
         .currency-box-container{
             max-width: 560px;
