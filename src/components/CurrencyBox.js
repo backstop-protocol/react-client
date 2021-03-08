@@ -31,7 +31,7 @@ const Overider = styled.div`
         text-align: left;
         padding-left: 20px;
         p{
-            margin-top: 17px; 
+            margin-top: 20px; 
             margin-bottom:0;
             font-size: 20px;
         }
