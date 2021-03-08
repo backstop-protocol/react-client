@@ -15,7 +15,7 @@ const Container = styled.div`
     line-height: 1.5;
     padding: 0 20px;
     border-bottom: 1px solid rgba(151, 151, 151, 0.25);
-    max-width: calc(100% - 130px);
+    width: 100%;
     .asset{
         width: calc(46px + 20px + 85px + 20px);
     }
@@ -23,30 +23,20 @@ const Container = styled.div`
         width: 70px;
         margin-right: 20px;
     }
-    .balance{
-    }
+
     @media ${device.largeLaptop} {
-        max-width: calc(100% - 120px);
         font-size: 11px;
         .asset{
             width: calc(46px + 20px + 77px + 20px);
         }
-        .fee{
-            width: 70px;
-        }
-        .balance{
-        }
     }
     @media ${device.laptop} {
-        max-width: calc(100% - 114px);
         font-size: 11px;
         .asset{
-            width: calc(40px + 20px + 73px + 20px);
+            width: calc(40px + 7.5px + 73px + 7.5px);
         }
         .fee{
-            width: 70px;
-        }
-        .balance{
+            margin-right: 7.5px;
         }
     }
 
