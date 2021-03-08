@@ -100,19 +100,20 @@
       margin-left: 103px;
       margin-right: 18px;
       flex: 1;
-      @media screen and (max-width: 1366px) {
-        min-width: 300px;
-      }
       h3{
         margin-bottom: 42px; 
       }
 
       @media screen and (max-width: 1600px) {
-        margin-left: 153px;
+        margin-left: 195px;
+      }
+      @media screen and (max-width: 1366px) {
+        margin-left: 155px;
+        min-width: 300px;
       }
 
       @media screen and (max-width: 1023px) {
-        margin-left: 0;
+        margin-left: 110px;
         width: 100%;
         padding: 0 30px;
 

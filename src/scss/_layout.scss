@@ -32,16 +32,16 @@
 
 .container {
   margin: 0 auto;
-  max-width: 1266px;
+  max-width: 1260px;
   transition: all 0.3s;
 
   @media screen and (max-width: 1600px) {
-    max-width: 1088px;
+    max-width: 1160px;
   }
 
   @media screen and (max-width: 1365px) {
     width: 100%;
-    padding: 0 10px;
+    max-width: 1036px;
   }
 
 }
