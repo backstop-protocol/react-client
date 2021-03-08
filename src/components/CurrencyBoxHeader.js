@@ -39,7 +39,6 @@ const Container = styled.div`
             margin-right: 7.5px;
         }
     }
-
 `
 
 class CurrencyBoxHeader extends Component {

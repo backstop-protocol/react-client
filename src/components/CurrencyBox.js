@@ -273,7 +273,6 @@ class CurrencyBox extends Component {
                             <div className="currency-title">
                                 {title}
                             </div>
-                            
                             <div className="stability-fee" >
                             { showStabilityFee && 
                                 <div>
@@ -281,13 +280,11 @@ class CurrencyBox extends Component {
                                 </div>
                             }
                             </div>
-                        
                             <div className="currency-value nowrap">
                                 <p>{formatValue(userInfo)} {currency}</p>
                                 <small>{calculateUsd(userInfo)} USD</small>
                             </div>
                         </div>
-
                         <div className="currency-actions" >
                             {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
                         </div>
