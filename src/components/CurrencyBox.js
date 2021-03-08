@@ -28,6 +28,8 @@ const Overider = styled.div`
 
     .currency-value{
         width 100%;
+        text-align: left;
+        padding-left: 20px;
         p{
             margin-top: 17px; 
             margin-bottom:0;
@@ -38,16 +40,18 @@ const Overider = styled.div`
     .currency-title{
         white-space: nowrap;
         font-size: 20px;
-        max-width: 120px;
+        width: 85px;
     }
 
     .stability-fee{
         font-size: 20px;
         font-family: "NeueHaasGroteskDisp Pro Md";
         letter-spacing: 1.1px;
-        width: 62px;
+        min-width: 70px;
         margin-left: 20px;
     }
+
+    
 
     @media ${device.largeLaptop} {
         .currency-box-container{
@@ -58,12 +62,12 @@ const Overider = styled.div`
         }
         .currency-title{
             white-space: nowrap;
-            max-width: 95px;
+            width: 77px;
             font-size: 18px;
         }
         .stability-fee{
             font-size: 18px;
-            width: 52px;
+            width: 70px;
         }
         .currency-value{
             p{
@@ -89,15 +93,18 @@ const Overider = styled.div`
         }
         .currency-title{
             white-space: nowrap;
-            max-width: 85px;
+            width: 73px;
             font-size: 17px;
+            margin-left: 7.5px;
         }
 
         .stability-fee{
             font-size: 17px;
+            margin-left: 7.5px;
         }
 
         .currency-value{
+            padding-left: 7.5px;
             p{
                 margin-top: 20px;
                 margin-bottom: 0;
