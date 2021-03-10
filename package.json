@@ -1,8 +1,9 @@
 {
   "name": "bprotocol-react-client",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.1.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -49,7 +50,6 @@
     ]
   },
   "devDependencies": {
-    "@cloudflare/wrangler": "^1.14.1",
     "eslint-plugin-react": "^7.22.0",
     "node-sass": "^4.14.1",
     "prettier": "^2.2.1",

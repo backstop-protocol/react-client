@@ -142,7 +142,8 @@ export const getCompUserInfo = async (web3, networkId, user, getTvl = false) => 
   const userInfoContract = new Contract(compUserInfoAbi, compUserInfoAddress)
   const comptroller = getAddress("Comptroller", networkId)
   const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptrollerAddress, registryAddress, sugerDady, jarConnector, jar, getTvl)
-  const userInfo = await userInfoTx.call({ gasLimit: "10000000" })
+  const gasLimit = getTvl ? "100000000" : "10000000"
+  const userInfo = await userInfoTx.call({ gasLimit })
   // debugger
   // console.log("userInfo", userInfo)
   return normlizeCompUserInfo(userInfo)
