@@ -12,6 +12,7 @@ import {ResponsiveWidthHeader} from "./style-components/ResponsiveContainer"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import {Transition} from 'react-spring/renderprops'
+import Flex, {FlexItem} from "styled-flex-component";
 
 class Header2 extends Component {
     render() {
@@ -37,21 +38,30 @@ class Header2 extends Component {
                             </div>}
                         </div>
                     </div>
-                    <div className="header-stats split">
-                        <GlobalStats2 />
-                        <Transition
-                            initial={null}
-                            items={loggedIn}
-                            from={{ display: "none", opacity: 0 }}
-                            enter={{ display: "initial", opacity: 1 }}
-                            leave={{ display: "none", opacity: 0 }}>
-                            {toggle =>
-                                toggle
-                                ? props => <div style={props}><HeaderBorrowLimit/></div>
-                                : props => <div style={props}><Tvl2 tooltipData={tooltipData}/></div>
-                            }
-                        </Transition>
-                    </div>
+                    <Flex style={{
+                        paddingBottom: "15px", 
+                        flexWrap: "wrap" ,
+                        justifyContent: "space-between",
+                    }} className="header-stats split" justifyCenter > 
+                        <Flex column>
+                            <GlobalStats2 />
+                        </Flex>
+                        <Flex column>
+                            <Transition
+                                    initial={null}
+                                    items={loggedIn}
+                                    from={{ display: "none", opacity: 0 }}
+                                    enter={{ display: "initial", opacity: 1 }}
+                                    leave={{ display: "none", opacity: 0 }}>
+                                    {toggle =>
+                                        toggle
+                                        ? props => <div style={props}><HeaderBorrowLimit/></div>
+                                        : props => <div style={props}><Tvl2 tooltipData={tooltipData}/></div>
+                                    }
+                                </Transition>
+                        </Flex>
+                    </Flex>
+
                 </ResponsiveWidthHeader>
             </div>
         )

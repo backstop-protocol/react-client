@@ -13,7 +13,7 @@ const Container = styled(ResponsiveWidthCol)`
     border-style: solid;
     border-width: 0.5px;
     border-image-source: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4) 5%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0));
-    margin: 0 20px;
+    margin: 0;
     margin-top: 40px;
 `
 

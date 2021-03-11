@@ -6,8 +6,17 @@
   width: 100%;
   min-height: 100%;
   padding-left: 264px;
-  @media screen and (max-width: 1600px) {
+  background-image: linear-gradient(
+    -182deg,
+    $jumboBgStart 83%,
+    $jumboBgEnd 115%
+  ),
+  linear-gradient(to bottom, $jumboBg, $jumboBg);
+@media screen and (max-width: 1600px) {
     padding-left: 227px;
+  }
+  @media screen and (max-width: 1050px) {
+    padding-left: 0px;
   }
   .content {
     flex: 1;
@@ -15,16 +24,10 @@
 
   .top-panel {
     width: 100%;
-    background-image: linear-gradient(
-        -182deg,
-        $jumboBgStart 83%,
-        $jumboBgEnd 115%
-      ),
-      linear-gradient(to bottom, $jumboBg, $jumboBg);
     height: 462px;
 
     @media screen and (max-width: 1600px) {
-      height: 412px;
+      height: auto;
     }
 
     .logo {
