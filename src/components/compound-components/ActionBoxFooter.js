@@ -54,7 +54,8 @@ class ActionBoxFooter extends Component {
 
     render (){
         const {coin, value, action} = this.props
-        const {displayNum, symbol, WalletBalanceStr} = coin
+        const {displayNum, WalletBalanceStr} = coin
+        const [symbol] = coin.symbol.split(" ")
         let updatedTotalDeposit = parseFloat(displayNum(compoundStore.totalDespositedBalanceInUsd, 4))
         const valueInUsd = coin.calcValueInUsd(value)
         if(action == ActionEnum.deposit){
