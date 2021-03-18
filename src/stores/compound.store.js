@@ -80,7 +80,9 @@ class CompoundStore {
             this.calcBorrowedBalance()
             this.calcBorrowLimit()
             this.userInfoUpdate ++
-            this.coinList = Object.keys(this.userInfo.bUser)
+            this.coinList = Object.values(this.coinMap)
+                .filter(({tokenInfo})=> tokenInfo.btoken !== "0")
+                .map(({address}) => address)
             this.showHideEmptyBalanceBoxs()
         })
     }
