@@ -70,7 +70,7 @@ class CompoundStore {
         }
     }
 
-    unsupportedCoins = (address) => this.coinMap[address].tokenInfo.btoken !== "0x0000000000000000000000000000000000000000"
+    supportedCoins = (address) => this.coinMap[address].tokenInfo.btoken !== "0x0000000000000000000000000000000000000000"
 
     processUserInfo = (userInfo) => {
         runInAction(()=> {
@@ -82,7 +82,7 @@ class CompoundStore {
             this.calcBorrowedBalance()
             this.calcBorrowLimit()
             this.userInfoUpdate ++
-            this.coinList = Object.keys(this.userInfo.bUser).filter(this.unsupportedCoins) 
+            this.coinList = Object.keys(this.userInfo.bUser).filter(this.supportedCoins) 
             this.showHideEmptyBalanceBoxs()
         })
     }
