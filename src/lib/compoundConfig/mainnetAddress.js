@@ -12,7 +12,8 @@ export const addresses = {
     "cUNI": "0x35a18000230da775cac24873d00ff85bccded550",
   
     "cZRX": "0xB3319f5D18Bc0D84dD1b4825Dcde5d5f7266d407",
-    "cWBTC": "0xC11b1268C1A384e55C48c2391d8d480264A3A7F4",
+    "cWBTC legacy": "0xC11b1268C1A384e55C48c2391d8d480264A3A7F4",
+    "cWBTC": "0xccF4429DB6322D5C611ee964527D42E5d685DD6a",
     /* B.Compound specific addresses
     ===================================================================== */
     "compUserInfoAddress": "0x907403da04eb05efd47eb0ba0c7a7d00d4f233ea",

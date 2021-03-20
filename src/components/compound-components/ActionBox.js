@@ -219,6 +219,7 @@ class ActionBox extends Component {
         const { isOpen, close, action, coin, store } = this.props
         const { transactionInProgress, hash, err, val, success, inputErrMsg, inputIsValid } = store
         const actioning = action.charAt(0).toUpperCase() + action.slice(1) + "ing"
+        const [symbol] = coin.symbol.split(" ")
         return (
             <Container ref={this.boxRef} open={isOpen} tx={transactionInProgress}>
                     <AnimatedContent open={isOpen && transactionInProgress && !err && !success}>
@@ -239,7 +240,7 @@ class ActionBox extends Component {
             
                                 <div className="currency-input tooltip-container">
                                 {this.showSetMax() && <div className="set-max" onClick={this.setMax}>Set Max</div>}
-                                    <input type="text" value={val} onChange={this.onInputChange} placeholder={`Amount in ${coin.symbol}`} ref={e => this.input = e} />
+                                    <input type="text" value={val} onChange={this.onInputChange} placeholder={`Amount in ${symbol}`} ref={e => this.input = e} />
                                     {inputErrMsg && <Tooltip bottom={true} className={'warning limited-width'}>{inputErrMsg}</Tooltip>}
                                 </div>
                                 <Unlock coin={coin} action={action}/>
