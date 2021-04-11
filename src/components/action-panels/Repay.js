@@ -66,8 +66,16 @@ export default class Repay extends Component {
     };
 
     setMax = () => {
-        const {userInfo} = this.props,
-        val = (Math.floor(userInfo.bCdpInfo.daiDebt*1000)/1000).toString();
+        const {userInfo} = this.props;
+
+        const userWalletBalance = (userInfo.userWalletInfo.daiBalance);
+        const cdpDaiDebt = (userInfo.bCdpInfo.daiDebt);
+
+        // Check if the user's wallet balance is less than the total owed.
+        const repayAmount = (userWalletBalance < cdpDaiDebt) ? userWalletBalance : cdpDaiDebt;
+
+        const val = (Math.floor(repayAmount)).toString();
+        
         const res = this.props.onPanelInput(val);
         if (res !== false) {
             this.setState({val: res});

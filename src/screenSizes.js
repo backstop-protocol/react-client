@@ -4,7 +4,7 @@
 const size = {
     largeLaptop: '1600px',
     laptop: '1366px',
-    mobile: '1050px'
+    mobile: '600px'
 }
 
 export const device = {

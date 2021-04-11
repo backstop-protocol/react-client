@@ -47,9 +47,7 @@ const MobileApp = styled.div`
 
 const App = observer(() => {
   
-  if(mobileCheck()){
-    return <MobileApp/>
-  }
+
 
   return (
     <div className="App">

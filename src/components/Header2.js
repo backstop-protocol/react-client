@@ -39,14 +39,15 @@ class Header2 extends Component {
                         </div>
                     </div>
                     <Flex style={{
-                        paddingBottom: "15px", 
+                        paddingBottom: "40px", 
                         flexWrap: "wrap" ,
-                        justifyContent: "space-between",
-                    }} className="header-stats split" justifyCenter > 
-                        <Flex column>
+                        justifyContent: "space-around",
+                        alignContent: "center"
+                    }} justifyCenter > 
+                        <Flex column style={{ paddingBottom: "20px" }}>
                             <GlobalStats2 />
                         </Flex>
-                        <Flex column>
+                        <Flex column style={{ paddingBottom: "20px" }}>
                             <Transition
                                     initial={null}
                                     items={loggedIn}

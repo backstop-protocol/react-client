@@ -9,6 +9,7 @@ import logo from "../assets/logo-maker-black.svg";
 import makerStore from "../stores/maker.store"
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
+import Flex, {FlexItem} from "styled-flex-component";
 
 class Dashboard extends Component {
 
@@ -48,18 +49,28 @@ class Dashboard extends Component {
           logo={logo}
         />
 
-        <div className="container currency-container split">
-          <EtheriumBox
-            userInfo={userInfo}
-            onPanelAction={this.onAction}
+        <Flex style={{
+            paddingBottom: "40px", 
+            flexWrap: "wrap" ,
+            justifyContent: "space-around",
+            alignContent: "center"
+        }} justifyCenter>
+            <Flex column style={{ paddingBottom: "20px" }}>
+              <EtheriumBox
+                userInfo={userInfo}
+                onPanelAction={this.onAction}
           />
-          <DaiBox
-            userInfo={userInfo}
-            title={"DAI debt"}
-            icon={Etherium}
-            onPanelAction={this.onAction}
-          />
-        </div>
+            </Flex>
+            <Flex column style={{ paddingBottom: "20px" }}>
+              <DaiBox
+                userInfo={userInfo}
+                title={"DAI debt"}
+                icon={Etherium}
+                onPanelAction={this.onAction}
+              />
+            </Flex>
+        </Flex>
+
       </div>
     );
   }

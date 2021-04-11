@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components"
 import Flex, {FlexItem} from "styled-flex-component";
 import {observer} from "mobx-react"
-import HeaderProgressBar from "../style-components/HeaderProgressBar"
+import HeaderProgressBar from "../style-components/HeaderProgressBar";
 import compoundStore from "../../stores/compound.store";
 import {displayNum} from "../../lib/compound.util"
 import Web3 from "web3"
