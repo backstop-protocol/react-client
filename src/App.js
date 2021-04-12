@@ -1,6 +1,6 @@
 import React, {Suspense} from "react";
 import "./style.scss";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { HashRouter as Router, Route, Redirect } from "react-router-dom";
 import AppError from "./components/AppError";
 import NotificationsContainer from "./components/style-components/NotificationsContainer";
 import AppAlert from "./components/AppAlert";

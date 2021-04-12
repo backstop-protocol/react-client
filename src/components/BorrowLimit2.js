@@ -244,7 +244,7 @@ export default class BorrowLimit2 extends Component {
                     <GridItem>
                         <Flex column justifyEnd full>
                             <SubTitle>
-                                Collateralization Ratio
+                                Collateralization
                             </SubTitle>
                             <GridAmount>
                                 {displayNum(collateralizationRatio, 2)}%

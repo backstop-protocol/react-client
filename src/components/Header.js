@@ -41,7 +41,7 @@ class Header extends Component {
                         flexWrap: "wrap" ,
                         justifyContent: "space-around",
                         alignContent: "center"
-                    }} justifyCenter>
+                    }}>
                         <Flex column style={{ paddingBottom: "20px" }}>
                             <GlobalStats userInfo={info} />
                         </Flex>
