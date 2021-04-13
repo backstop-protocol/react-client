@@ -180,94 +180,96 @@ export default class BorrowLimit2 extends Component {
         let borrowed = (userInfo && userInfo.bCdpInfo.daiDebt?numm(userInfo.bCdpInfo.daiDebt):0)
         let precent = borrowLimit > 0 ? ((borrowed / borrowLimit) * 100).toFixed(0) : 0
         precent = precent > 100 ? 100 : precent
-        console.log(mainStore, userInfo.bCdpInfo );
  
         return (
            <Container>
-            <Flex column justifyEnd>
-                <Flex full>
-                    <GridItem>
-                        <Flex column justifyEnd full>
+            {userInfo && userInfo.bCdpInfo.hasCdp && 
+                <Flex column justifyEnd>
+                    <Flex full>
+                        <GridItem>
+                            <Flex column justifyEnd full>
+                                <SubTitle>
+                                    Collateralization
+                                </SubTitle>
+                                <GridAmount>
+                                    {displayNum(collateralization, 2)}%
+                                </GridAmount>
+                            </Flex>
+                        </GridItem>
+                        <GridItem>
+                            <Flex column justifyEnd full>
+                                <SubTitle>
+                                    Stability Fee
+                                </SubTitle>
+                                <GridAmount>
+                                    {displayNum(stabilityFee, 2)}%
+                                </GridAmount>
+                            </Flex>
+                        </GridItem>
+                        <GridItem>
+                            <Flex column justifyEnd full>
                             <SubTitle>
-                                Collateralization
-                            </SubTitle>
-                            <GridAmount>
-                                {displayNum(collateralizationRatio, 2)}%
-                            </GridAmount>
-                        </Flex>
-                    </GridItem>
-                    <GridItem>
-                        <Flex column justifyEnd full>
-                            <SubTitle>
-                                Stability Fee
-                            </SubTitle>
-                            <GridAmount>
-                                {displayNum(stabilityFee, 2)}%
-                            </GridAmount>
-                        </Flex>
-                    </GridItem>
-                    <GridItem>
-                        <Flex column justifyEnd full>
-                        <SubTitle>
-                                Liquidation Price
-                                <span className="tooltip-container">   
-                                    <a data-tip data-for="liquidation-price-tooltip">
-                                        <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
-                                    </a>
-                                    <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="left">
-                                            <ToolTipLine>
-                                                <div> Liquidation price: </div>
-                                                <div> ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)} </div>
-                                            </ToolTipLine>
-                                            <ToolTipLine>
-                                                <div> Collateralization ratio: </div>
-                                                <div> {collateralToBorrowRatio}% </div>
-                                            </ToolTipLine>
-                                            <ToolTipTitle>
-                                                <span> defiexplorer.com </span>
-                                                <span> {moment(mainStore.defiexploreLastUpdate).fromNow()} </span>
-                                            </ToolTipTitle>
-                                            <ToolTipLine>
-                                                <div> Maker price feed: </div>
-                                                <div> ${mainStore.makerPriceFeedPrice} </div>
-                                            </ToolTipLine>
-                                            <ToolTipLine>
-                                                <div> Maker price feed Next price: </div>
-                                                <div> ${mainStore.makerPriceFeedPriceNextPrice} </div>
-                                            </ToolTipLine>
-                                            <ToolTipTitle>
-                                                <span> coinbase.com </span>
-                                                <span> {moment(mainStore.coinbaseLastUpdate).fromNow()} </span>
-                                            </ToolTipTitle>
-                                            <ToolTipLine>
-                                                <div> Market price: </div>
-                                                <div> ${mainStore.ethMarketPrice} </div>
-                                            </ToolTipLine>  
-                                        </ReactTooltip>                                
-                                    </span>
-                            </SubTitle>
-                            <GridAmount>
-                            ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)}
-                            </GridAmount>
-                        </Flex>
-                    </GridItem>
+                                    Liquidation Price &nbsp;
+                                    <span className="tooltip-container">   
+                                        <a data-tip data-for="liquidation-price-tooltip">
+                                            <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
+                                        </a>
+                                        <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="left">
+                                                <ToolTipLine>
+                                                    <div> Liquidation price: </div>
+                                                    <div> ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)} </div>
+                                                </ToolTipLine>
+                                                <ToolTipLine>
+                                                    <div> Collateralization ratio: </div>
+                                                    <div> {collateralToBorrowRatio}% </div>
+                                                </ToolTipLine>
+                                                <ToolTipTitle>
+                                                    <span> defiexplorer.com </span>
+                                                    <span> {moment(mainStore.defiexploreLastUpdate).fromNow()} </span>
+                                                </ToolTipTitle>
+                                                <ToolTipLine>
+                                                    <div> Maker price feed: </div>
+                                                    <div> ${mainStore.makerPriceFeedPrice} </div>
+                                                </ToolTipLine>
+                                                <ToolTipLine>
+                                                    <div> Maker price feed Next price: </div>
+                                                    <div> ${mainStore.makerPriceFeedPriceNextPrice} </div>
+                                                </ToolTipLine>
+                                                <ToolTipTitle>
+                                                    <span> coinbase.com </span>
+                                                    <span> {moment(mainStore.coinbaseLastUpdate).fromNow()} </span>
+                                                </ToolTipTitle>
+                                                <ToolTipLine>
+                                                    <div> Market price: </div>
+                                                    <div> ${mainStore.ethMarketPrice} </div>
+                                                </ToolTipLine>  
+                                            </ReactTooltip>                                
+                                        </span>
+                                </SubTitle>
+                                <GridAmount>
+                                ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)}
+                                </GridAmount>
+                            </Flex>
+                        </GridItem>
+                    </Flex>
+                    <SubTitle style={{padding: "18px 0"}}>
+                        Borrow Limit
+                    </SubTitle>
+                    <Flex alignCenter>
+                        <Amount>${displayNum(borrowed, 2)}</Amount>
+                        <ProgressContainer>                        
+                            <HeaderProgressBar precent={precent}/>
+                            <Label precent={precent}>
+                                <Parallelogram>
+                                    <div className="white-text">{`${precent}%`}</div>
+                                </Parallelogram>
+                            </Label>
+                        </ProgressContainer>
+                        <Amount>${displayNum(borrowLimit, 2)}</Amount>
+                    </Flex>
+                
                 </Flex>
-                <SubTitle style={{padding: "18px 0"}}>
-                    Borrow Limit
-                </SubTitle>
-                <Flex alignCenter>
-                    <Amount>${displayNum(borrowed, 2)}</Amount>
-                    <ProgressContainer>                        
-                        <HeaderProgressBar precent={precent}/>
-                        <Label precent={precent}>
-                            <Parallelogram>
-                                <div className="white-text">{`${precent}%`}</div>
-                            </Parallelogram>
-                        </Label>
-                    </ProgressContainer>
-                    <Amount>${displayNum(borrowLimit, 2)}</Amount>
-                </Flex>
-            </Flex>
+            }
         </Container>
 
         )

@@ -48,7 +48,7 @@ class Dashboard extends Component {
           onConnect={this.onConnect}
           logo={logo}
         />
-        <div class="container">
+        <div className="container">
         <Flex style={{
             paddingBottom: "40px", 
             flexWrap: "wrap" ,
