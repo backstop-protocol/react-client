@@ -209,42 +209,43 @@ export default class BorrowLimit2 extends Component {
                         <GridItem>
                             <Flex column justifyEnd full>
                             <SubTitle>
-                                    Liquidation Price &nbsp;
-                                    <span className="tooltip-container">   
-                                        <a data-tip data-for="liquidation-price-tooltip">
-                                            <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
-                                        </a>
-                                        <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="left">
-                                                <ToolTipLine>
-                                                    <div> Liquidation price: </div>
-                                                    <div> ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)} </div>
-                                                </ToolTipLine>
-                                                <ToolTipLine>
-                                                    <div> Collateralization ratio: </div>
-                                                    <div> {collateralToBorrowRatio}% </div>
-                                                </ToolTipLine>
-                                                <ToolTipTitle>
-                                                    <span> defiexplorer.com </span>
-                                                    <span> {moment(mainStore.defiexploreLastUpdate).fromNow()} </span>
-                                                </ToolTipTitle>
-                                                <ToolTipLine>
-                                                    <div> Maker price feed: </div>
-                                                    <div> ${mainStore.makerPriceFeedPrice} </div>
-                                                </ToolTipLine>
-                                                <ToolTipLine>
-                                                    <div> Maker price feed Next price: </div>
-                                                    <div> ${mainStore.makerPriceFeedPriceNextPrice} </div>
-                                                </ToolTipLine>
-                                                <ToolTipTitle>
-                                                    <span> coinbase.com </span>
-                                                    <span> {moment(mainStore.coinbaseLastUpdate).fromNow()} </span>
-                                                </ToolTipTitle>
-                                                <ToolTipLine>
-                                                    <div> Market price: </div>
-                                                    <div> ${mainStore.ethMarketPrice} </div>
-                                                </ToolTipLine>  
-                                            </ReactTooltip>                                
-                                        </span>
+                                    <div style={{ whiteSpace: "nowrap" }}> Liquidation Price 
+                                        <span className="tooltip-container">   
+                                            <a data-tip data-for="liquidation-price-tooltip">
+                                                <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
+                                            </a>
+                                            <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="left">
+                                                    <ToolTipLine>
+                                                        <div> Liquidation price: </div>
+                                                        <div> ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)} </div>
+                                                    </ToolTipLine>
+                                                    <ToolTipLine>
+                                                        <div> Collateralization ratio: </div>
+                                                        <div> {collateralToBorrowRatio}% </div>
+                                                    </ToolTipLine>
+                                                    <ToolTipTitle>
+                                                        <span> defiexplorer.com </span>
+                                                        <span> {moment(mainStore.defiexploreLastUpdate).fromNow()} </span>
+                                                    </ToolTipTitle>
+                                                    <ToolTipLine>
+                                                        <div> Maker price feed: </div>
+                                                        <div> ${mainStore.makerPriceFeedPrice} </div>
+                                                    </ToolTipLine>
+                                                    <ToolTipLine>
+                                                        <div> Maker price feed Next price: </div>
+                                                        <div> ${mainStore.makerPriceFeedPriceNextPrice} </div>
+                                                    </ToolTipLine>
+                                                    <ToolTipTitle>
+                                                        <span> coinbase.com </span>
+                                                        <span> {moment(mainStore.coinbaseLastUpdate).fromNow()} </span>
+                                                    </ToolTipTitle>
+                                                    <ToolTipLine>
+                                                        <div> Market price: </div>
+                                                        <div> ${mainStore.ethMarketPrice} </div>
+                                                    </ToolTipLine>  
+                                                </ReactTooltip>                                
+                                            </span>
+                                        </div>
                                 </SubTitle>
                                 <GridAmount>
                                     ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)}

@@ -47,7 +47,7 @@ class Header2 extends Component {
                         <Flex column style={{ paddingBottom: "20px" }}>
                             <GlobalStats2 />
                         </Flex>
-                        <Flex column style={{ paddingBottom: "20px" }}>
+                        <Flex column style={{ paddingBottom: "20px", alignItems: "center", justifyContent: "center" }}>
                             <Transition
                                     initial={null}
                                     items={loggedIn}

@@ -28,6 +28,13 @@ const TvlBox = styled.div`
         padding: 17px 59px 21px 49px;
         margin-top -6px;
     } 
+
+    @media ${device.mobile} {
+        min-width: 400px;
+        height: 103px;
+        padding: 17px 59px 21px 49px;
+        margin-top -6px;
+    } 
 `
 
 const TvlTitle = styled.h2`

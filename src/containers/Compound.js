@@ -63,11 +63,11 @@ class Compound extends Component {
           flexWrap: "wrap" ,
           justifyContent: "space-around"
           }} justifyCenter >
-            <Flex column>
+            <Flex column style={{ paddingBottom: "50px" }}>
               <BalanceBox type="deposit" list={this.getList(CoinStatusEnum.deposited)} showBox={compoundStore.showDepositWithdrawBox}/>
               <CoinListBox type="deposit" list={this.getList(CoinStatusEnum.unDeposited)}/>
             </Flex>
-            <Flex column>  
+            <Flex column style={{ paddingBottom: "50px" }}>  
               <BalanceBox type="borrow" list={this.getList(CoinStatusEnum.borrowed)} showBox={compoundStore.showBorrowReapyBox}/>
               <CoinListBox type="borrow" list={this.getList(CoinStatusEnum.unBorrowed)}/>
             </Flex>

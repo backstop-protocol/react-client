@@ -45,7 +45,7 @@ class Header extends Component {
                         <Flex column style={{ paddingBottom: "20px" }}>
                             <GlobalStats userInfo={info} />
                         </Flex>
-                        <Flex column style={{ paddingBottom: "20px" }}>
+                        <Flex column style={{ paddingBottom: "20px", alignItems: "center", justifyContent: "center" }}>
                         {info && 
                             <BorrowLimit2 userInfo={info} />
                         }
