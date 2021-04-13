@@ -183,7 +183,7 @@ export default class BorrowLimit2 extends Component {
  
         return (
            <Container>
-            {userInfo && userInfo.bCdpInfo.hasCdp && 
+            
                 <Flex column justifyEnd>
                     <Flex full>
                         <GridItem>
@@ -192,7 +192,7 @@ export default class BorrowLimit2 extends Component {
                                     Collateralization
                                 </SubTitle>
                                 <GridAmount>
-                                    {displayNum(collateralization, 2)}%
+                                    {collateralization}%
                                 </GridAmount>
                             </Flex>
                         </GridItem>
@@ -202,7 +202,7 @@ export default class BorrowLimit2 extends Component {
                                     Stability Fee
                                 </SubTitle>
                                 <GridAmount>
-                                    {displayNum(stabilityFee, 2)}%
+                                    {stabilityFee}%
                                 </GridAmount>
                             </Flex>
                         </GridItem>
@@ -247,7 +247,7 @@ export default class BorrowLimit2 extends Component {
                                         </span>
                                 </SubTitle>
                                 <GridAmount>
-                                ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)}
+                                    ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)}
                                 </GridAmount>
                             </Flex>
                         </GridItem>
@@ -256,7 +256,7 @@ export default class BorrowLimit2 extends Component {
                         Borrow Limit
                     </SubTitle>
                     <Flex alignCenter>
-                        <Amount>${displayNum(borrowed, 2)}</Amount>
+                        <Amount>${borrowed}</Amount>
                         <ProgressContainer>                        
                             <HeaderProgressBar precent={precent}/>
                             <Label precent={precent}>
@@ -265,11 +265,11 @@ export default class BorrowLimit2 extends Component {
                                 </Parallelogram>
                             </Label>
                         </ProgressContainer>
-                        <Amount>${displayNum(borrowLimit, 2)}</Amount>
+                        <Amount>${borrowLimit}</Amount>
                     </Flex>
                 
                 </Flex>
-            }
+            
         </Container>
 
         )
