@@ -10,6 +10,7 @@ import {observer} from "mobx-react"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import Flex, {FlexItem} from "styled-flex-component";
+import {ResponsiveWidthHeader} from "./style-components/ResponsiveContainer"
 
 class Header extends Component {
     render() {
@@ -24,7 +25,7 @@ class Header extends Component {
 
         return (
             <div className="top-panel">
-                <div className="container">
+                <ResponsiveWidthHeader className="container">
                     <div className="split title-bar">
                         <img className="logo" src={logo} />
                         <div className="connect-container">
@@ -54,7 +55,7 @@ class Header extends Component {
                         }
                         </Flex>
                     </Flex>
-                </div>
+                </ResponsiveWidthHeader>
             </div>
         )
     }
