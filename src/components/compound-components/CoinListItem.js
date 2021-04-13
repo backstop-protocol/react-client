@@ -32,7 +32,7 @@ export const Icon = styled.img`
 
 export const Symbol = styled.div`
     height: 100%;
-    text-align: center;
+    text-align: left;
     display: inline-block;
     font-size: 15px;
     letter-spacing: 0.75px;

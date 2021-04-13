@@ -18,7 +18,7 @@ class DaiBox extends Component {
         const {showConnect} = userStore
 
         return (
-            <CurrencyBox userInfo={userInfo} title={"Dai Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo?userInfo.bCdpInfo.daiDebt:0} showConnect={showConnect}
+            <CurrencyBox userInfo={userInfo} title={"DAI Debt"} currency={"DAI"} icon={Dai} currencyValue={userInfo?userInfo.bCdpInfo.daiDebt:0} showConnect={showConnect}
                          formatValue={this.formatValue} calculateUsd={this.calculateUSD} borrowLimit={this.borrowLimit} onPanelAction={onPanelAction}
                          actions={{ Borrow, Repay }} />
         )

@@ -3,6 +3,7 @@ import {numm} from "../lib/Utils";
 import EventBus from "../lib/EventBus";
 import styled from "styled-components"
 import { setTimeout } from "timers";
+import LoadingRing from "./LoadingRing";
 
 const Alert = styled.div`
     display: flex;
@@ -16,15 +17,27 @@ const Alert = styled.div`
 `
 
 const AlertActionBtn = styled.div`
+    min-width:  80px;
     margin-left: 15px;
     padding: 0 6px;
     color: #bf8517;
+    text-align: center;
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid rgb(251, 201, 89);
     border-radius: 6px;
     :hover {
         cursor: pointer;
         opacity: 0.8;
+    }
+`
+
+const Overides = styled.div`
+    min-width:  80px;
+    margin-left: 15px;
+    padding: 0 30px;
+    transform: scale(0.7);
+    .lds-ring div {
+        border-color: #bf8517 transparent transparent transparent;
     }
 `
 
@@ -37,33 +50,44 @@ export default class AppAlert extends Component {
             alert: false,
             alertMessage: "",
             actionBtn: null,
-            actionFn: null
+            actionFn: null,
+            waiting: null
         }
     }
 
     componentDidMount() {
         EventBus.$on('app-alert',(msg, actionBtn, actionFn) => {
-            this.setState({alert: true, alertMessage: msg, actionBtn, actionFn});
+            this.setState({alert: !!msg, alertMessage: msg, actionBtn, actionFn});
         });
     }
 
     async callActionFn(fn){
-        await fn()
-        setTimeout(()=> {
-            this.setState({alert: false})
-        }, 3000)
+
+        try{
+            this.setState({waiting: true})
+            await Promise.all([fn(), new Promise((resolve, reject)=> {setTimeout(resolve, 3000)})])
+        } catch (err){
+            console.error(err)
+        } finally {
+            this.setState({waiting: false})
+        }
     }
 
     render() {
 
-        const {alert, alertMessage, actionBtn, actionFn} = this.state;
+        const {alert, alertMessage, actionBtn, actionFn, waiting} = this.state;
 
         return (
             <div>
                 {alert && 
                     <Alert>
                         <span>{alertMessage}</span>
-                        {actionBtn && <AlertActionBtn onClick={()=> this.callActionFn(actionFn)}> {actionBtn} </AlertActionBtn>}
+                        {actionBtn && 
+                            <div>
+                                {!waiting && <AlertActionBtn onClick={()=> this.callActionFn(actionFn)}> {actionBtn} </AlertActionBtn>}
+                                {waiting && <Overides><LoadingRing /></Overides>}
+                            </div>
+                        }
                     </Alert>
                 }
             </div>
