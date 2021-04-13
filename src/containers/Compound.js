@@ -20,6 +20,11 @@ import routerStore from "../stores/router.store"
 const Overides = styled.div`
     overflow: hidden;
     margin-bottom: 100px;
+
+    @media ${device.mobile} {
+      margin-top 40px;
+  } 
+
 `
 
 class Compound extends Component {
@@ -62,7 +67,8 @@ class Compound extends Component {
           paddingBottom: "15px", 
           flexWrap: "wrap" ,
           justifyContent: "space-around"
-          }} justifyCenter >
+          }}  justifyCenter
+              className="container" >
             <Flex column style={{ paddingBottom: "50px" }}>
               <BalanceBox type="deposit" list={this.getList(CoinStatusEnum.deposited)} showBox={compoundStore.showDepositWithdrawBox}/>
               <CoinListBox type="deposit" list={this.getList(CoinStatusEnum.unDeposited)}/>

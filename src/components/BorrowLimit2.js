@@ -14,7 +14,6 @@ import moment from "moment"
 
 const Container = styled(ResponsiveWidthCol)`
     /* width: 610px; */
-    height: 100%;
     font-family: "Poppins", sans-serif;
     font-size: 12px;
     font-weight: 500;
@@ -87,8 +86,15 @@ const GridAmount = styled(Amount)`
 `
 
 const GridItem = styled.div`
-    min-width: 33.3%;
-    flex-grow: 1;
+    flex-grow: 0.3;
+    border-bottom: solid 2px rgba(151, 151, 151, 0.2);
+    &:not(:first-child){
+        border-left: solid 2px rgba(151, 151, 151, 0.2);
+        padding-left: 25px;
+    }
+`
+const GridItemGrow = styled.div`
+    flex-grow: 0.4;
     border-bottom: solid 2px rgba(151, 151, 151, 0.2);
     &:not(:first-child){
         border-left: solid 2px rgba(151, 151, 151, 0.2);
@@ -196,25 +202,15 @@ export default class BorrowLimit2 extends Component {
                                 </GridAmount>
                             </Flex>
                         </GridItem>
-                        <GridItem>
-                            <Flex column justifyEnd full>
-                                <SubTitle>
-                                    Stability Fee
-                                </SubTitle>
-                                <GridAmount>
-                                    {stabilityFee}%
-                                </GridAmount>
-                            </Flex>
-                        </GridItem>
-                        <GridItem>
+                        <GridItemGrow>
                             <Flex column justifyEnd full>
                             <SubTitle>
-                                    <div style={{ whiteSpace: "nowrap" }}> Liquidation Price 
+                                    <div style={{ whiteSpace: "nowrap" }}> Liquidation Price &nbsp;
                                         <span className="tooltip-container">   
                                             <a data-tip data-for="liquidation-price-tooltip">
                                                 <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
                                             </a>
-                                            <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="left">
+                                            <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="bottom">
                                                     <ToolTipLine>
                                                         <div> Liquidation price: </div>
                                                         <div> ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)} </div>
@@ -251,7 +247,18 @@ export default class BorrowLimit2 extends Component {
                                     ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)}
                                 </GridAmount>
                             </Flex>
+                        </GridItemGrow>
+                        <GridItem>
+                            <Flex column justifyEnd full>
+                                <SubTitle>
+                                    Stability Fee
+                                </SubTitle>
+                                <GridAmount>
+                                    {stabilityFee}%
+                                </GridAmount>
+                            </Flex>
                         </GridItem>
+
                     </Flex>
                     <SubTitle style={{padding: "18px 0"}}>
                         Borrow Limit

@@ -10,6 +10,18 @@ import makerStore from "../stores/maker.store"
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
 import Flex, {FlexItem} from "styled-flex-component";
+import styled from "styled-components"
+import {device} from "../screenSizes";
+
+const Overrides = styled.div`
+    overflow: hidden;
+    margin-bottom: 100px;
+
+    @media ${device.mobile} {
+      margin-top 40px;
+  } 
+
+`
 
 class Dashboard extends Component {
 
@@ -42,19 +54,20 @@ class Dashboard extends Component {
     const { userInfo, userInfoUpdate } = makerStore
     console.log("userInfoUpdate ", userInfoUpdate)
     return (
-      <div className="content">
+      <Overrides className="content">
         <Header
           info={ userInfo !== null && userInfo}
           onConnect={this.onConnect}
           logo={logo}
         />
-        <div className="container">
         <Flex style={{
-            paddingBottom: "40px", 
-            flexWrap: "wrap" ,
-            justifyContent: "space-around",
-            alignContent: "center"
-        }} justifyCenter>
+                paddingBottom: "40px", 
+                flexWrap: "wrap" ,
+                justifyContent: "space-around",
+                alignContent: "center"
+              }}    
+              justifyCenter
+              className="container">
             <Flex column style={{ paddingBottom: "20px" }}>
               <EtheriumBox
                 userInfo={userInfo}
@@ -70,10 +83,7 @@ class Dashboard extends Component {
               />
             </Flex>
         </Flex>
-        </div>
-
-
-      </div>
+      </Overrides>
     );
   }
 }

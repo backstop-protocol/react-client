@@ -45,7 +45,6 @@ class Sidebar extends Component {
 
   resize() {
       this.setState({showSideBar : window.innerWidth >= 1050})
-      console.log(window.innerWidth);
   }
 
   getState(pathname) {
