@@ -172,7 +172,7 @@ export default class BorrowLimit2 extends Component {
         const {userInfo} = this.props;
         const ethUsd =  (userInfo?numm(userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice, 2) : 0 );
         const collateralToBorrowRatio = (userInfo && userInfo.bCdpInfo.maxDaiDebt?numm(userInfo.bCdpInfo.daiDebt / userInfo.bCdpInfo.maxDaiDebt * 100):0)
-        const collateralizationRatio = (userInfo && userInfo.bCdpInfo.daiDebt?numm((ethUsd / userInfo.bCdpInfo.daiDebt) * 100):0)
+        const collateralization = (userInfo && userInfo.bCdpInfo.daiDebt?numm((ethUsd / userInfo.bCdpInfo.daiDebt) * 100):0)
         const ratioPositionStyle = collateralToBorrowRatio > 50 ? {right: '0%'} : {left: '100%'}
         const liquidationPrice = getLiquidationPrice(0, 0)
         let stabilityFee = (mainStore && mainStore.stabilityFee?numm(mainStore.stabilityFee):0); 
