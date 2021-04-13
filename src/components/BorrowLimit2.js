@@ -189,6 +189,26 @@ export default class BorrowLimit2 extends Component {
                     <GridItem>
                         <Flex column justifyEnd full>
                             <SubTitle>
+                                Collateralization
+                            </SubTitle>
+                            <GridAmount>
+                                {displayNum(collateralizationRatio, 2)}%
+                            </GridAmount>
+                        </Flex>
+                    </GridItem>
+                    <GridItem>
+                        <Flex column justifyEnd full>
+                            <SubTitle>
+                                Stability Fee
+                            </SubTitle>
+                            <GridAmount>
+                                {displayNum(stabilityFee, 2)}%
+                            </GridAmount>
+                        </Flex>
+                    </GridItem>
+                    <GridItem>
+                        <Flex column justifyEnd full>
+                        <SubTitle>
                                 Liquidation Price
                                 <span className="tooltip-container">   
                                     <a data-tip data-for="liquidation-price-tooltip">
@@ -228,26 +248,6 @@ export default class BorrowLimit2 extends Component {
                             </SubTitle>
                             <GridAmount>
                             ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)}
-                            </GridAmount>
-                        </Flex>
-                    </GridItem>
-                    <GridItem>
-                        <Flex column justifyEnd full>
-                            <SubTitle>
-                                Stability Fee
-                            </SubTitle>
-                            <GridAmount>
-                                {displayNum(stabilityFee, 2)}%
-                            </GridAmount>
-                        </Flex>
-                    </GridItem>
-                    <GridItem>
-                        <Flex column justifyEnd full>
-                            <SubTitle>
-                                Collateralization
-                            </SubTitle>
-                            <GridAmount>
-                                {displayNum(collateralizationRatio, 2)}%
                             </GridAmount>
                         </Flex>
                     </GridItem>
