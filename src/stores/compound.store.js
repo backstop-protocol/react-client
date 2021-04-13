@@ -57,15 +57,20 @@ class CompoundStore {
 
     getUserInfo = async () => {
         try {
-            const { web3, networkType, user } = userStore
+            const { web3, networkType, user, loggedIn } = userStore
+            if(!loggedIn) return
             let compUserInfo = await getCompUserInfo(web3, networkType, user)
             this.processUserInfo(compUserInfo)
             compoundMigrationStore.getSupplyAndBorrow()
             this.handleFirstFatch()
+            userStore.removeConnectionWarning()
         } catch (err) {
             console.log(err)
+            userStore.connectionWarning()
         }
     }
+
+    supportedCoins = (address) => this.coinMap[address].tokenInfo.btoken !== "0x0000000000000000000000000000000000000000"
 
     processUserInfo = (userInfo) => {
         runInAction(()=> {
@@ -77,7 +82,7 @@ class CompoundStore {
             this.calcBorrowedBalance()
             this.calcBorrowLimit()
             this.userInfoUpdate ++
-            this.coinList = Object.keys(this.userInfo.bUser)
+            this.coinList = Object.keys(this.userInfo.bUser).filter(this.supportedCoins) 
             this.showHideEmptyBalanceBoxs()
         })
     }
