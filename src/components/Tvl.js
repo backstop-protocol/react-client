@@ -21,12 +21,19 @@ const TvlBox = styled.div`
     }
 
     @media ${device.laptop} {
-        min-width: 400px;
+        min-width: 466px;
         height: 103px;
         padding: 17px 28px 21px 49px;
         margin-top -6px;
     } 
-`
+
+    @media ${device.mobile} {
+        min-width: 400px;
+        height: 103px;
+        padding: 17px 0 21px 49px;
+        margin-top -6px;
+    } 
+    `
 
 const TvlTitle = styled.h2`
     font-family: "Poppins", sans-serif;

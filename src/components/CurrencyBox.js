@@ -39,12 +39,12 @@ const Overider = styled.div`
 
     .currency-title{
         white-space: nowrap;
-        font-size: 20px;
+        font-size: 15px;
         width: 85px;
     }
 
     .stability-fee{
-        font-size: 20px;
+        font-size: 15px;
         font-family: "NeueHaasGroteskDisp Pro Md";
         letter-spacing: 1.1px;
         min-width: 70px;
@@ -61,17 +61,17 @@ const Overider = styled.div`
         .currency-title{
             white-space: nowrap;
             width: 77px;
-            font-size: 18px;
+            font-size: 14px;
         }
         .stability-fee{
-            font-size: 18px;
+            font-size: 14px;
             width: 70px;
         }
         .currency-value{
             p{
                 margin-top: 20px;
                 margin-bottom: 0;
-                font-size: 18px;
+                font-size: 14px;
             }
             small{
                 font-size: 13px;
@@ -92,12 +92,12 @@ const Overider = styled.div`
         .currency-title{
             white-space: nowrap;
             width: 73px;
-            font-size: 17px;
+            font-size: 13px;
             margin-left: 7.5px;
         }
 
         .stability-fee{
-            font-size: 17px;
+            font-size: 13px;
             margin-left: 7.5px;
         }
 
@@ -106,7 +106,7 @@ const Overider = styled.div`
             p{
                 margin-top: 20px;
                 margin-bottom: 0;
-                font-size: 17px;
+                font-size: 13px;
             }
             small{
                 font-size: 12px;

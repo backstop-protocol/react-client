@@ -32,7 +32,7 @@ const TvlBox = styled.div`
     @media ${device.mobile} {
         min-width: 400px;
         height: 103px;
-        padding: 17px 59px 21px 49px;
+        padding: 17px 0 21px 49px;
         margin-top -6px;
     } 
 `
