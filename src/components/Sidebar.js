@@ -178,7 +178,7 @@ class Sidebar extends Component {
             }`}
             onClick={() => this.handleItemSelect("vote/maker")}
           >
-            <p className="menu-item">Vote</p>
+            <p className="menu-item">Vote & Claim Jar</p>
           </div>}
         </div>
         <div className="sidebar-footer">
