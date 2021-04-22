@@ -176,9 +176,9 @@ class Sidebar extends Component {
               pathname.indexOf("/vote") > -1 &&
               "selected"
             }`}
-            onClick={() => this.handleItemSelect("vote/maker")}
+            onClick={() =>  window.location = "https://vote.bprotocol.org/vote/maker"}
           >
-            <p className="menu-item">Vote & Claim Jar</p>
+            <p className="menu-item">Vote & Claim</p>
           </div>}
         </div>
         <div className="sidebar-footer">

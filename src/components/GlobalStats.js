@@ -61,7 +61,7 @@ export default class GlobalStats extends Component {
 
         const {userInfo} = this.props;
         const {currentRating} = this.state;
-        const {voting} = window.appConfig
+        const {votingBanner: voting} = window.appConfig
 
         return (          
         <Observer>

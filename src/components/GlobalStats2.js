@@ -20,7 +20,7 @@ class GlobalStats2 extends Component {
         const jarBalanceUsd = MainCompStore.jar
         const totalRating = compoundStore.totalScore
         const userScore = compoundStore.userScore
-        const {voting} = window.appConfig
+        const {votingBanner: voting} = window.appConfig
 
         return (
             <div className="overlay-container">
