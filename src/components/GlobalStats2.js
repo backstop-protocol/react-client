@@ -9,8 +9,7 @@ import {observer} from "mobx-react"
 import compoundStore from "../stores/compound.store"
 import MainCompStore from "../stores/main.comp.store"
 import {toNDecimals} from "./GlobalStats"
-
-
+import {VoteBanner} from "./voting/VotingStyleComponents"
 
 class GlobalStats2 extends Component {
 
@@ -21,41 +20,47 @@ class GlobalStats2 extends Component {
         const jarBalanceUsd = MainCompStore.jar
         const totalRating = compoundStore.totalScore
         const userScore = compoundStore.userScore
+        const {voting} = window.appConfig
 
         return (
-            <div className="global-stats even">
-                <div className="stats">
-                    <div className="left">
-                        <h2>
-                            cJar Balance
-                            <span className="tooltip-container">
-                                <Tooltip>{tooltipTxt}</Tooltip> 
-                                <img className="info-icon" src={InfoIcon} />
-                            </span>
-                        </h2>
-                        <div className="value">
-                            $<span className="ticker">{jarBalanceUsd}</span>
+            <div className="overlay-container">
+                <div className={`global-stats even ${voting ? "blur-fade": ""}`}>
+                    <div className="stats">
+                        <div className="left">
+                            <h2>
+                                cJar Balance
+                                <span className="tooltip-container">
+                                    <Tooltip>{tooltipTxt}</Tooltip> 
+                                    <img className="info-icon" src={InfoIcon} />
+                                </span>
+                            </h2>
+                            <div className="value">
+                                $<span className="ticker">{jarBalanceUsd}</span>
+                            </div>
+                        </div>
+                        <div className="right">
+                            <h2>User cScore
+                                <span className="tooltip-container">
+                                    <Tooltip>
+                                        <small>Total Rating</small>
+                                        <h3>{totalRating}</h3>
+                                    </Tooltip>
+                                    <img className="info-icon" src={InfoIcon} />
+                                </span>
+                            </h2>
+                            <div className="value">
+                                <Ticker value={toNDecimals(userScore, 10)} primary={5} />
+                            </div>
                         </div>
                     </div>
-                    <div className="right">
-                        <h2>User cScore
-                            <span className="tooltip-container">
-                                <Tooltip>
-                                    <small>Total Rating</small>
-                                    <h3>{totalRating}</h3>
-                                </Tooltip>
-                                <img className="info-icon" src={InfoIcon} />
-                            </span>
-                        </h2>
-                        <div className="value">
-                            <Ticker value={toNDecimals(userScore, 10)} primary={5} />
-                        </div>
+                    <div className="image-container">
+                        <Pulser />
+                        <img src={DollarIcon} className="dollar-icon floating centered" />
                     </div>
                 </div>
-                <div className="image-container">
-                    <Pulser />
-                    <img src={DollarIcon} className="dollar-icon floating centered" />
-                </div>
+                {voting && <div className="overlay" >
+                    <VoteBanner/>
+                </div>}
             </div>
         )
     }

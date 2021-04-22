@@ -9,6 +9,7 @@ import {initialState} from "../lib/compoundConfig/initialState"
 import {wApiAction} from "../lib/compound.util"
 import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
+import compoundVoteStore from "./compoundVote.store"
 
 const {BN, toWei, fromWei} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
@@ -25,6 +26,8 @@ class CompoundStore {
     compBalance = "0"
     userScore = "0"
     totalScore = "0"
+    originalUserScore = "0"
+    originaltotalScore = "0"
 
     totalDespositedBalanceInUsd = "0"
     totalBorrowedBalanceInUsd = "0"
@@ -52,6 +55,7 @@ class CompoundStore {
     handleFirstFatch = ()=> {
         if(!this.firstUserInfoFetch){
             this.firstUserInfoFetch = true;
+            this.compuoundVoteStoreUserInfoUpdateSideAffects()
         }
     }
 
@@ -87,6 +91,10 @@ class CompoundStore {
         })
     }
 
+    compuoundVoteStoreUserInfoUpdateSideAffects = () => {
+        compoundVoteStore.getUserInfoDependentData()
+    }
+
     calcCompBlance = () => {        
         const obj = this.userInfo.compTokenInfo || {} 
         const val = obj[Object.keys(obj)[0]] || {}
@@ -94,6 +102,7 @@ class CompoundStore {
     }
 
     calcUserScore = () => {
+        
         const seconds = 3
         const obj = this.userInfo.scoreInfo
         if(!obj) return 
@@ -103,7 +112,8 @@ class CompoundStore {
         this.userScore = this.userScore == "0" ? fromWei(new BN(val.userScore).div(factor)) : this.userScore
         this.totalScore = (parseFloat(fromWei(new BN(val.totalScore).div(factor))) + 0.005).toFixed(2) // round up
         const progress = parseFloat(fromWei(new BN(val.userScoreProgressPerSec).div(factor)))
-
+        this.originalUserScore = fromWei(val.userScore)
+        this.originaltotalScore = fromWei(val.totalScore)
         if(this.userScoreInterval){
             clearInterval(this.userScoreInterval)
         }

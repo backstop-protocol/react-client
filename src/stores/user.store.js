@@ -6,7 +6,8 @@ import compoundStore from "./compound.store"
 import makerStore from "./maker.store"
 import routerStore from "./router.store"
 import EventBus from "../lib/EventBus"
-import Web3 from "web3";
+import Web3 from "web3"
+
 class UserStore {
 
     loggedIn = false
@@ -76,8 +77,7 @@ class UserStore {
 
     fetchUserInfoBasedOnRouter () {
         const page = routerStore.getRoute()
-
-        if(page == "compound") {
+        if(page.indexOf("compound") > -1) {
             compoundStore.getUserInfo()
             return // exit
         }
