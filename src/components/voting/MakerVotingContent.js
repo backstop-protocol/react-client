@@ -28,7 +28,7 @@ class MakerVotingContent extends Component {
         <FlexItem style={{width: "70%"}}>
           <GreyTitle>Open Votes</GreyTitle>
           <VoteBox>
-            <VoteTitle>Migration to Governor Bravo</VoteTitle>
+            <VoteTitle>Migration to Tokenized Governance</VoteTitle>
             <Flex full>
               <Flex justifyBetween column alignCenter style={{width: "100%", }}>
                 <VoteProgressBar precent={voteForPrecent}/>
