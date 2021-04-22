@@ -121,6 +121,7 @@ const GlText = styled.a`
   color: #17ab57;
   border-bottom: 1px solid #17ab57;
   cursor: pointer;
+  text-decoration: none;
 `
 
 export const GreenLink = (props) => {

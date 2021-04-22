@@ -34,7 +34,7 @@ class CompoundVotingContent extends Component {
               </Flex>
               <Flex justifyBetween column alignCenter style={{minWidth: "200px"}}>
                 <VoteButton onClick={()=>compVoteStore.vote()} voted={voted} disabled={cantVote}/>
-                <GreenLink>More Details</GreenLink>
+                <GreenLink href="https://forum.bprotocol.org/t/b-protocol-governance-token/48">More Details</GreenLink>
               </Flex>
             </Flex>
           </VoteBox>
