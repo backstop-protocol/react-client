@@ -275,3 +275,26 @@ export const VoteBanner = () => {
     </BannerBg>
   )
 }
+
+const FullScreen = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(140deg, rgba(255, 255, 255, .7) 40%, rgba(32,177,95,0.9) 85%, rgba(32,177,95,1) 95%);
+`
+
+export const CommingSoon = (props) => {
+
+  return (
+    <FullScreen>
+      <Flex column justifyCenter full>
+        <h1 style={{textAlign: "center", fontSize: "65px"}} className="risk-header">
+          Comming Soon
+        </h1>
+
+        <h1 style={{textAlign: "center", fontSize: "55px"}} className="risk-header">
+           {props.d}d  {props.h}h  {props.m}m  {props.s}s
+        </h1>
+      </Flex>
+    </FullScreen>
+  )
+}

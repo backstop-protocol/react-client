@@ -4,6 +4,7 @@ import {observer} from "mobx-react"
 import styled from 'styled-components'
 import MakerVotingContent from "../components/voting/MakerVotingContent.js"
 import CompoundVotingContent from "../components/voting/CompoundVotingContent.js"
+import {CommingSoon} from "../components/voting/VotingStyleComponents"
 import ConnectButton from "../components/ConnectButton"
 import userStore from "../stores/user.store"
 import compoundStore from "../stores/compound.store"
@@ -44,10 +45,52 @@ class Vote extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      interval: null,
+      d : null,
+      h: null,
+      m: null,
+      s: null
+    }
   }
 
   componentDidMount() {
     routerStore.setRouteProps(this.props.history) 
+    this.setCounter()
+  }
+
+  setCounter() {
+    const countDownDate = new Date(1619461223000).getTime();
+
+    // Update the count down every 1 second
+    const interval = setInterval(()=> {
+
+      // Get todays date and time
+      const now = new Date().getTime();
+
+      // Find the distance between now an the count down date
+      const distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      this.setState({
+        d : days,
+        h: hours,
+        m: minutes,
+        s: seconds
+      })
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    this.setState({interval})
   }
 
   setSelectedTab = (selection) => {
@@ -65,7 +108,11 @@ class Vote extends Component {
   render() {
     const { handleItemChange, history } = this.props
     const selectedTab = window.location.pathname.indexOf("compound") > -1 ? "compound" : "maker"
+    const showCounter = true
+    debugger
+    const {d,h,m,s} = this.state
     return (
+      <div className="overlay-container">
       <div className="item-page-content">
         <div className="container" style={{marginBottom: "-117px"}}>
           <div className="split title-bar">
@@ -100,6 +147,10 @@ class Vote extends Component {
            <CompoundVotingContent/>
         }
       </div> 
+    </div>
+      { showCounter && <div className="overlay">
+        <CommingSoon d={d} h={h} m={m} s={s}/>
+      </div>}
     </div>
     );
   }
