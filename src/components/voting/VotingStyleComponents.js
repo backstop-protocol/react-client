@@ -288,7 +288,7 @@ export const CommingSoon = (props) => {
     <FullScreen>
       <Flex column justifyCenter full>
         <h1 style={{textAlign: "center", fontSize: "65px"}} className="risk-header">
-          Comming Soon
+          Coming Soon
         </h1>
 
         <h1 style={{textAlign: "center", fontSize: "55px"}} className="risk-header">
