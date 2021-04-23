@@ -62,6 +62,8 @@ class Sidebar extends Component {
     const { userInfo } = makerStore
     const params = qs.parse(search, { ignoreQueryPrefix: true })
     const pathState = this.getState(pathname)
+    const {voting} = window.appConfig
+
     return (
       <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
@@ -168,8 +170,16 @@ class Sidebar extends Component {
           >
             <p className="menu-item">Terms of Use</p>
           </div>
-
-
+          {voting && <div className="ln"> </div>}
+          {voting && <div
+            className={`product link-accesible ${
+              pathname.indexOf("/vote") > -1 &&
+              "selected"
+            }`}
+            onClick={() =>  window.location = "https://vote.bprotocol.org/vote/maker"}
+          >
+            <p className="menu-item">Vote & Claim</p>
+          </div>}
         </div>
         <div className="sidebar-footer">
           <h3>B.Protocol community</h3>

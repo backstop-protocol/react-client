@@ -6,6 +6,7 @@ import * as ApiHelper from "../lib/ApiHelper";
 import { setUserInfo } from "../lib/Actions";
 import * as B from "../lib/bInterface";
 import userStore from "./user.store"
+import makerVoteStore from "./makerVote.store"
 
 class MakerStore {
 
@@ -27,6 +28,7 @@ class MakerStore {
             runInAction(()=>{
                 this.userInfo = userInfo
                 this.userInfoUpdate ++
+                this.makerUserInfoUpdateSideAffects()
             })
         } catch (err) {
             console.log(err)
@@ -43,6 +45,13 @@ class MakerStore {
             this.userInfoTimeouts.forEach(clearTimeout) // clearing all timeouts
             this.userInfoTimeouts = timeouts.map(timeout => setTimeout(this.fetchAndUpdateUserInfo, timeout)) // setting 4 new one
         })
+    }
+
+    /**
+     * use this action to update other stores
+     */
+    makerUserInfoUpdateSideAffects = () => {
+        makerVoteStore.getUserInfoDependentData()
     }
 }
 

@@ -150,6 +150,22 @@
   }
 }
 
+.overlay-container {
+  position: relative;
+  .overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.blur-fade {
+  filter: blur(50px);
+  opacity: 0.5;
+}
+
 span.ticker {
   & > span {
     display: inline-block;
