@@ -56,42 +56,9 @@ class Vote extends Component {
 
   componentDidMount() {
     routerStore.setRouteProps(this.props.history) 
-    this.setCounter()
   }
 
-  setCounter() {
-    const countDownDate = new Date(1619461223000).getTime();
 
-    // Update the count down every 1 second
-    const interval = setInterval(()=> {
-
-      // Get todays date and time
-      const now = new Date().getTime();
-
-      // Find the distance between now an the count down date
-      const distance = countDownDate - now;
-
-      // Time calculations for days, hours, minutes and seconds
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      this.setState({
-        d : days,
-        h: hours,
-        m: minutes,
-        s: seconds
-      })
-
-      // If the count down is finished, write some text
-      if (distance < 0) {
-        clearInterval(interval);
-      }
-    }, 1000);
-
-    this.setState({interval})
-  }
 
   setSelectedTab = (selection) => {
     if(userStore.loggedIn){
@@ -108,7 +75,8 @@ class Vote extends Component {
   render() {
     const { handleItemChange, history } = this.props
     const selectedTab = window.location.pathname.indexOf("compound") > -1 ? "compound" : "maker"
-    const showCounter = true
+    const showCounter = false
+  
     debugger
     const {d,h,m,s} = this.state
     return (

@@ -7,14 +7,14 @@ import makerStore from "./maker.store"
 import mainStore from "./main.store"
 
 const proposalId = window.appConfig.makerPropsalId
-const {BN, fromWei, toWei} = Web3.utils
+const {BN, fromWei, toWei, toBN} = Web3.utils
 
 // const BP_API = "https://bp-api.bprotocol.workers.dev"
 const BP_API = window.appConfig.voteBpApi//"https://eth-node.b-protocol.workers.dev"
 
 class MakerVoteStore {
 
-  forVotes = 0
+  forVotes = "0"
   voted = false
   cantVote = false
   cantClaim = false
@@ -137,6 +137,20 @@ class MakerVoteStore {
     const userScore = userInfo ? userInfo.userRatingInfo.userRating : 0
     const jarBalance = (!userScore || this.cantClaim) ? 0 : (userScore*(mainStore.jarBalanceUsd/(totalScore - this.scoreClaimedFromJar))).toFixed(8)
     this.personalJarBalance = jarBalance
+  }
+
+  calcVotePrecent = (forVotes, totalScore) => {
+    forVotes = toWei(forVotes)
+    totalScore = toWei(totalScore.toString())
+    const {generalInfo} = mainStore
+    const x = generalInfo ? generalInfo.userRatingInfo.totalRating : "0"
+    if(forVotes == "0" || totalScore == "0"){
+      return "0"
+    }
+
+    let res = ((toBN(forVotes).mul(toBN(10000))).div(toBN(totalScore))).toString()
+    res = parseFloat(res)/100
+    return res  //((forVotes / totalScore)*100).toFixed(10) : 0
   }
 
   async getUserInfoDependentData(){

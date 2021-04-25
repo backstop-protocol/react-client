@@ -4,7 +4,7 @@ const TermsOfUseContent = () => {
   const styleProps = {marginBottom: '0.08in', color: '#00000a', textAlign: 'left', fontFamily: '"Times New Roman", serif', fontSize: '15px'}
   return (
     <div>
-      <p dir="ltr" style={styleProps}>Last Revised: October 22, 2020<br /><br /></p>
+      <p dir="ltr" style={styleProps}>Last Revised: April 22, 2021<br /><br /></p>
       <p dir="ltr" style={styleProps}>Smart Future Labs Ltd. (“<strong>SFL</strong>”, “<strong>we</strong>”, “<strong>our</strong>”) welcomes you (the “<strong>User(s)</strong>”, or “<strong>you</strong>”) to <u><a href="https://www.bprotocol.org/">https://www.bprotocol.org/</a></u> (the “<strong>Site</strong>”), a website that provides information and hosts a user interface (the “<strong>Interface</strong>”) to a decentralized protocol on the Ethereum blockchain (the “<strong>Protocol</strong>”) that <em>enables a backstop liquidity mechanism</em> for decentralized lending platforms (“<strong>DLPs</strong>”). Each User may use the Site and/or Interface in accordance with, and subject to, the terms and conditions hereunder.&nbsp;</p>
       <ol>
         <li>

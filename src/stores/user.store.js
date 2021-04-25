@@ -77,7 +77,7 @@ class UserStore {
 
     fetchUserInfoBasedOnRouter () {
         const page = routerStore.getRoute()
-        if(page.indexOf("compound") > -1) {
+        if(page && page.indexOf("compound") > -1) {
             compoundStore.getUserInfo()
             return // exit
         }

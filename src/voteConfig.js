@@ -3,5 +3,5 @@ window.appConfig = {
   voting: true,
   makerPropsalId: 0,
   compoundPropsalId: 0,
-  voteBpApi: "http://localhost:8545"
+  voteBpApi: "https://eth-node.b-protocol.workers.dev"//"http://localhost:8545"
 }
