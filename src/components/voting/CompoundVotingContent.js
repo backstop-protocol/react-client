@@ -16,7 +16,7 @@ class CompoundVotingContent extends Component {
 
   render() {
     const {originalUserScore: userScore, originaltotalScore :totalScore} = compoundStore
-    const { forVotes, scoreClaimedFromJar, cantClaim, cantVote, voted, personalJarBalance, calcVotePrecent } = compVoteStore
+    const { forVotes, scoreClaimedFromJar, cantClaim, cantVote, voted, personalJarBalance, calcVotePrecent, voting } = compVoteStore
     const votingPower = userScore ? ((userScore/totalScore)*100).toFixed(8) : 0
     const voteForPrecent = calcVotePrecent(forVotes, totalScore)
     console.log({userScore, forVotes, totalScore})
@@ -33,7 +33,7 @@ class CompoundVotingContent extends Component {
                 <VoteProgressBar precent={voteForPrecent}/>
               </Flex>
               <Flex justifyBetween column alignCenter style={{minWidth: "200px"}}>
-                <VoteButton onClick={()=>compVoteStore.vote()} voted={voted} disabled={cantVote}/>
+                <VoteButton voting={voting} onClick={()=>compVoteStore.vote()} voted={voted} disabled={cantVote}/>
                 <GreenLink href="https://forum.bprotocol.org/t/b-protocol-governance-token/48">More Details</GreenLink>
               </Flex>
             </Flex>

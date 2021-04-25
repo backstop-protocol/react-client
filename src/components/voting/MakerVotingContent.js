@@ -16,7 +16,7 @@ class MakerVotingContent extends Component {
 
   render() {
     const { userInfo } = makerStore
-    const { forVotes, scoreClaimedFromJar, cantClaim, cantVote, voted, personalJarBalance } = makerVoteStore
+    const { forVotes, scoreClaimedFromJar, cantClaim, cantVote, voted, personalJarBalance, voting } = makerVoteStore
     const totalScore = userInfo ? userInfo.userRatingInfo.totalRating : 0 // TODO: get total rating from main makerStore
     const userScore = userInfo ? userInfo.userRatingInfo.userRating : 0
     const votingPower = userInfo ? ((userScore/totalScore)*100).toFixed(8) : 0
@@ -34,7 +34,7 @@ class MakerVotingContent extends Component {
                 <VoteProgressBar precent={voteForPrecent}/>
               </Flex>
               <Flex justifyBetween column alignCenter style={{minWidth: "200px"}}>
-                <VoteButton onClick={()=>makerVoteStore.vote()} voted={voted} disabled={cantVote}/>
+                <VoteButton voting={voting} onClick={()=>makerVoteStore.vote()} voted={voted} disabled={cantVote}/>
                 <GreenLink href="https://forum.bprotocol.org/t/b-protocol-governance-token/48">More Details</GreenLink>
               </Flex>
             </Flex>

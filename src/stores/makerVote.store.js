@@ -20,6 +20,7 @@ class MakerVoteStore {
   cantClaim = false
   scoreClaimedFromJar = 0
   personalJarBalance = 0
+  voting = false
 
   constructor (){
     makeAutoObservable(this)
@@ -68,15 +69,22 @@ class MakerVoteStore {
         showConnect()
         return
       }
+      runInAction(()=> {
+        this.voting = true
+      })
       const tx = this.getVoteTx()
       const voteRes = await ApiAction(tx, user, web3)
       localStorage.setItem(user+"_voted_maker", Date.now().toString())
+      await this.getData()
       runInAction(()=> {
         this.voted = true
+        this.voting = false
       })
       return voteRes
-      this.getData()
     } catch (err){
+      runInAction(()=> {
+        this.voting = false
+      })
       console.error(err)
     }
   }  

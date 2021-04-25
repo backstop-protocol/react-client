@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Flex, {FlexItem} from "styled-flex-component"
 import VIcon from "../../assets/v-icon.svg"
 import {device} from "../../screenSizes";
+import FragLoader from "../FragLoader";
 
 
 export const VoteBox = styled.div`
@@ -181,6 +182,15 @@ const ActionButton = styled.div`
   text-align: center;
   ${({voted})=>  voted ? "border: solid 2px #25c068" : "border: solid 0px #ffffff"};
   ${({voted})=>  voted ? "padding: 8px 8px 8px 8px" : ""};
+  ${({voting})=>  voting ? "padding: 0!important" : ""};
+  .currency-action-panel{
+    border: none;
+    margin-top: -5px;
+    padding: 0 40px;
+    svg{
+      fill: white;
+    }
+  }
   &.disabled{
     background-color: #dddddd;
     color: #aaaaaa;
@@ -205,17 +215,22 @@ const ActionButton = styled.div`
 `
 
 export const VoteButton = (props) => {
-  const {voted, disabled} = props
+  const {voted, disabled, voting} = props
   const onClick = voted ? ()=>{} : props.onClick
   return (
-    <ActionButton voted={voted} onClick={onClick} className={disabled && !voted? 'disabled' : ""}>
+    <ActionButton voting={voting} voted={voted} onClick={onClick} className={disabled && !voted? 'disabled' : ""}>
       {/*
         TODO: icon V
       */}
-      <span>
+      {voting && 
+        <div className="currency-action-panel">
+          <FragLoader/>
+        </div>
+      }
+      {!voting && <span>
         {voted && <img src={VIcon} />}
         {voted ? "VOTED" : "VOTE"}
-      </span>
+      </span>}
     </ActionButton>
   )
 }

@@ -18,6 +18,7 @@ class CompVoteStore {
   forVotes = "0"
   voted = false
   cantVote = false
+  voting = false
 
   constructor (){
     makeAutoObservable(this)
@@ -46,15 +47,22 @@ class CompVoteStore {
         showConnect()
         return
       }
+      runInAction(()=> {
+        this.voting = true
+      })
       const tx = vote(web3, networkType, proposalId)
       const voteRes = await ApiAction(tx, user, web3)
       localStorage.setItem(user+"_voted_compound", Date.now().toString())
+      await this.getData()
       runInAction(()=> {
+        this.voting = false
         this.voted = true
       })
-      this.getData()
       return voteRes
     } catch (err){
+      runInAction(()=> {
+        this.voting = false
+      })
       console.error(err)
     }
   }
