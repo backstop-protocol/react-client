@@ -151,7 +151,6 @@ class MakerVoteStore {
     forVotes = toWei(forVotes)
     totalScore = toWei(totalScore.toString())
     const {generalInfo} = mainStore
-    const x = generalInfo ? generalInfo.userRatingInfo.totalRating : "0"
     if(forVotes == "0" || totalScore == "0"){
       return "0"
     }
