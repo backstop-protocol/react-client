@@ -80,7 +80,6 @@ class CompVoteStore {
   }
 
   calcVotePrecent = (forVotes, totalScore) => {
-    debugger
     forVotes = toWei(forVotes)
     totalScore = toWei(totalScore)
     if(forVotes == "0" || totalScore == "0"){

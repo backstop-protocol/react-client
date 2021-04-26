@@ -25,9 +25,8 @@ class CompoundVotingContent extends Component {
     <Container>
       <Flex>
         <FlexItem style={{width: "70%"}}>
-          <GreyTitle>Open Votes</GreyTitle>
           <VoteBox>
-            <VoteTitle>Migration to Tokenized Governance</VoteTitle>
+            <VoteTitle>Launch Tokenized Governance</VoteTitle>
             <Flex full>
               <Flex justifyBetween column alignCenter style={{width: "100%", }}>
                 <VoteProgressBar precent={voteForPrecent}/>

@@ -229,7 +229,7 @@ export const VoteButton = (props) => {
       }
       {!voting && <span>
         {voted && <img src={VIcon} />}
-        {voted ? "VOTED" : "VOTE"}
+        {voted ? "VOTED" : "APPROVE"}
       </span>}
     </ActionButton>
   )
