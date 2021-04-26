@@ -147,16 +147,17 @@ class MakerVoteStore {
     this.personalJarBalance = jarBalance
   }
 
-  calcVotePrecent = (forVotes, totalScore) => {
+  calcVotePrecent = (forVotes) => {
+    const {generalInfo} = mainStore
+    let totalScore = generalInfo ? generalInfo.userRatingInfo.totalRating : "0"
     forVotes = toWei(forVotes)
     totalScore = toWei(totalScore.toString())
-    const {generalInfo} = mainStore
     if(forVotes == "0" || totalScore == "0"){
       return "0"
     }
 
-    let res = ((toBN(forVotes).mul(toBN(10000))).div(toBN(totalScore))).toString()
-    res = parseFloat(res)/100
+    let res = ((toBN(forVotes).mul(toBN(1000000000000))).div(toBN(totalScore))).toString()
+    res = parseFloat(res)/10000000000
     return res  //((forVotes / totalScore)*100).toFixed(10) : 0
   }
 

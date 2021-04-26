@@ -16,12 +16,12 @@ class MakerVotingContent extends Component {
 
   render() {
     const { userInfo } = makerStore
-    const { forVotes, scoreClaimedFromJar, cantClaim, cantVote, voted, personalJarBalance, voting } = makerVoteStore
-    const totalScore = userInfo ? userInfo.userRatingInfo.totalRating : 0 // TODO: get total rating from main makerStore
+    const { forVotes, scoreClaimedFromJar, cantClaim, cantVote, voted, personalJarBalance, voting, calcVotePrecent } = makerVoteStore
+    const totalScore = userInfo ? userInfo.userRatingInfo.totalRating : 0 
     const userScore = userInfo ? userInfo.userRatingInfo.userRating : 0
     const votingPower = userInfo ? ((userScore/totalScore)*100).toFixed(8) : 0
     
-    const voteForPrecent = totalScore ? ((forVotes / totalScore)*100).toFixed(10) : 0
+    const voteForPrecent = calcVotePrecent(forVotes)
     return (
     <Container>
       <Flex>

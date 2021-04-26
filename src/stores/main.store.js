@@ -46,6 +46,7 @@ class MainStore {
             let info = await B.getUserInfo(web3, "1", "0x0000000000000000000000000000000000000000")
             this.originalInfoResponse = info
             info = ApiHelper.Humanize(info, web3);
+            this.generalInfo = info
             this.spotPrice = info.miscInfo.spotPrice
             this.jarBalanceEth = parseFloat(info.userRatingInfo.jarBalance).toFixed(1);
             this.jarBalanceUsd = parseFloat(info.userRatingInfo.jarBalance * this.spotPrice).toFixed(0)
