@@ -38,7 +38,6 @@ class GenesisStore {
         compound ? compoundGenesisIsClaimed(web3, compound.index) : Promise.resolve(true)
       ]
       const [cantClaimMaker, cantClaimCompound] = await Promise.all(promises)
-      debugger
       runInAction(()=> {
         this.cantClaimCompound = cantClaimCompound
         this.cantClaimMaker = cantClaimMaker
@@ -104,7 +103,6 @@ class GenesisClaim extends Component {
     const {bproMakerClaimProps, bproCompoundClaimProps} = this.getClaimProps(claims)
     const { handleItemChange, history } = this.props
     const {cantClaimCompound, cantClaimMaker} = this.state
-    debugger
     return (
       <div className="item-page-content">
         <div className="menu-item-header" style={{ height: "176px" }}>
@@ -117,6 +115,9 @@ class GenesisClaim extends Component {
                     <i> </i>
                     <h3>Connect your wallet</h3>
                     <img src={ConnectWallet} />
+                  </div>}
+                  {(userStore.displayTermsRequired || false)&& <div className="connect-wallet">
+                    <h3 style={{padding: "5px", textAlign: "center"}}>to connect <br/> please go over <br/>the terms and conditions <br/>  and click on agree</h3>
                 </div>}
               </div>
             </div>

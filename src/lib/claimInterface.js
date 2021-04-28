@@ -8,7 +8,6 @@ function isClaimed(contractAddress, web3, userIndex){
 }
 
 function claim(contractAddress, web3, userIndex,  account, amount, merkleProof){
-  debugger
   const gensisClaim = new web3.eth.Contract(genesisClaimAbi, contractAddress)
   return gensisClaim.methods.claim(userIndex, account, amount, merkleProof)
 }

@@ -124,15 +124,12 @@ class BproClaimModal extends Component {
   }
 
   async doAction (){
-    debugger
     try{
       if(this.props.actionState == "done"){
         return
       }
       this.setState({actionState: "waiting"})
-      debugger
       await this.props.action()
-      debugger
       this.setState({actionState: "done"})
     }catch(err){ 
       console.error(err)
@@ -144,7 +141,6 @@ class BproClaimModal extends Component {
     const { data, action, balance, header, disabled, cantClaim } = this.props
     const {actionState} = this.state
     const claimed = balance !== "0" && cantClaim
-    debugger
     return (
       <Container>
         <Header>

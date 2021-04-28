@@ -10,16 +10,30 @@ import Web3 from "web3"
 import {genesisStore} from "../containers/GenesisClaim"
 
 class UserStore {
-
+    userAggresToTerms = false
     loggedIn = false
     web3
     networkType
     user = null
     displayConnect = false
     displayConnectTimeOut
+    displayTermsRequired = false
+    displayTermsRequiredTimeOut
 
     constructor (){
         makeAutoObservable(this)
+    }
+
+    aggreToTerms = () => {
+        this.userAggresToTerms = true
+        window.history.back()
+    }
+
+    showTermsRequiredBeforeConnect = () => {
+        clearTimeout(this.displayTermsRequiredTimeOut)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.displayTermsRequired = true
+        this.displayTermsRequiredTimeOut = setTimeout(()=> this.displayTermsRequired = false, 3000)
     }
 
     userIsLoggedIn = () => !!this.user
@@ -38,6 +52,10 @@ class UserStore {
         }
 
         if (this.loggedIn) return false;
+        if (this.userAggresToTerms  === false){
+            this.showTermsRequiredBeforeConnect()
+            return
+        }
 
         this.web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 

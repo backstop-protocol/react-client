@@ -77,7 +77,6 @@ class Vote extends Component {
     const selectedTab = window.location.pathname.indexOf("compound") > -1 ? "compound" : "maker"
     const showCounter = false
   
-    debugger
     const {d,h,m,s} = this.state
     return (
       <div className="overlay-container">
