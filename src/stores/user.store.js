@@ -7,19 +7,23 @@ import makerStore from "./maker.store"
 import routerStore from "./router.store"
 import EventBus from "../lib/EventBus"
 import Web3 from "web3"
+import {genesisStore} from "../containers/GenesisClaim"
 
 class UserStore {
 
     loggedIn = false
     web3
     networkType
-    user
+    user = null
     displayConnect = false
     displayConnectTimeOut
 
     constructor (){
         makeAutoObservable(this)
     }
+
+    userIsLoggedIn = () => !!this.user
+
 
     handleAccountsChanged = async (accounts) => {
         const user = accounts[0];    
@@ -72,7 +76,7 @@ class UserStore {
             this.loggedIn = true
             this.displayConnect = false
         })
-        this.fetchUserInfoBasedOnRouter()
+        genesisStore.checkIfBproIsClaimed()
     }
 
     fetchUserInfoBasedOnRouter () {
