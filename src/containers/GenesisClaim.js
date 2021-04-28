@@ -67,7 +67,7 @@ class GenesisClaim extends Component {
   getClaimProps({maker, compound}){
     const {web3, user} = userStore
     const bproMakerClaimProps = {}
-    bproMakerClaimProps.header = "BPRO Maker Genesis"
+    bproMakerClaimProps.header = "Maker Genesis"
     bproMakerClaimProps.balance = maker && maker.amount ? parseFloat(fromWei(maker.amount)).toFixed(9) : "0"
     bproMakerClaimProps.disabled = !maker
     bproMakerClaimProps.cantClaim = genesisStore.cantClaimMaker
@@ -81,7 +81,7 @@ class GenesisClaim extends Component {
     }
     
     const bproCompoundClaimProps = {}
-    bproCompoundClaimProps.header = "BPRO Compound Genesis"
+    bproCompoundClaimProps.header = "Compound Genesis"
     bproCompoundClaimProps.balance = compound && compound.amount ? parseFloat(fromWei(compound.amount)).toFixed(9) : "0"
     bproCompoundClaimProps.disabled = !compound
     bproCompoundClaimProps.cantClaim = genesisStore.cantClaimCompound
@@ -117,7 +117,7 @@ class GenesisClaim extends Component {
                     <img src={ConnectWallet} />
                   </div>}
                   {(userStore.displayTermsRequired || false)&& <div className="connect-wallet">
-                    <h3 style={{padding: "5px", textAlign: "center"}}>to connect <br/> please go over <br/>the terms and conditions <br/>  and click on agree</h3>
+                    <h3 style={{padding: "5px", textAlign: "center"}}>To connect <br/> please read <br/>the terms and conditions <br/>  and click on agree</h3>
                 </div>}
               </div>
             </div>

@@ -52,7 +52,7 @@ export default class Terms extends Component {
         >
           <TermsOfUseContent />
           <Button className={userStore.userAggresToTerms ? "done" : ""} onClick={()=>userStore.aggreToTerms()}>
-            <span>i agree to the terms of use</span>
+            <span>I agree to the terms of use</span>
           </Button>
         </div>
       </div>
