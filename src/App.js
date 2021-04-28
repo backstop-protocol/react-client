@@ -21,6 +21,7 @@ const Risk = React.lazy(() => import("./containers/Risk"));
 const TermsOfUse = React.lazy(() => import("./containers/Terms"));
 const FAQ = React.lazy(() => import("./containers/FAQ"));
 const Vote = React.lazy(() => import("./containers/Vote"));
+const GenesisClaim = React.lazy(() => import("./containers/GenesisClaim"));
 
 function renderPage (props, PageComponent) {
   return (
@@ -63,7 +64,7 @@ const App = observer(() => {
         <Router history={browserHistory}>
           {/* Default route */}
             <Route exact path="/">
-              <Redirect to="/vote"/>
+              <Redirect to="/genesis-claim"/>
             </Route>
             <Route exact path="/app" render={props =>(renderPage(props, Dashboard))} />
             <Route exact path="/maker" render={props =>(renderPage(props, Dashboard))} />
@@ -72,6 +73,7 @@ const App = observer(() => {
             <Route exact path="/terms" render={props =>(renderPage(props, TermsOfUse))} />
             <Route exact path="/risk" render={props =>(renderPage(props, Risk))} />
             <Route path="/vote" render={props =>(renderPage(props, Vote))} />
+            <Route path="/genesis-claim" render={props =>(renderPage(props, GenesisClaim))} />
         </Router>
     </div>
   );
