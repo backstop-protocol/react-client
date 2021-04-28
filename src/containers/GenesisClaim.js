@@ -90,7 +90,7 @@ class GenesisClaim extends Component {
         userStore.showConnect()
         return
       }
-      const tx = compoundGenesisClaim(web3, compound.index, user, maker.amount, compound.proof)
+      const tx = compoundGenesisClaim(web3, compound.index, user, compound.amount, compound.proof)
       return ApiAction(tx, user, web3).then(genesisStore.checkIfBproIsClaimed)
     }
 
