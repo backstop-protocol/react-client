@@ -10,8 +10,26 @@ import compoundStore from "../stores/compound.store"
 import MainCompStore from "../stores/main.comp.store"
 import {toNDecimals} from "./GlobalStats"
 import {VoteBanner} from "./voting/VotingStyleComponents"
+import AnimateNumberChange from "./style-components/AnimateNumberChange"
+import {SmallButton} from "./style-components/Buttons"
+import EventBus from "../lib/EventBus"
+import BproClaimModal from './modals/BproCalimModal'
 
 class GlobalStats2 extends Component {
+
+    showClaimBproPopup () {
+        const noWrapper = true
+        const claimProps = {
+            header: "Claim BPRO",
+            balance: "0.987654321",
+            data: [
+                {label: "Wallet Balance", number: "0.6779869"},
+                {label: "Unclaimable Balance", number: "0.6779869"},
+                {label: "Claimable Balance", number: "0.6779869"},
+            ],
+        }
+        EventBus.$emit('show-modal', <BproClaimModal {...claimProps} />, noWrapper);
+    }
 
     render() {
 
@@ -28,7 +46,7 @@ class GlobalStats2 extends Component {
                     <div className="stats">
                         <div className="left">
                             <h2>
-                                cJar Balance
+                                Jar Balance
                                 <span className="tooltip-container">
                                     <Tooltip>{tooltipTxt}</Tooltip> 
                                     <img className="info-icon" src={InfoIcon} />
@@ -37,9 +55,13 @@ class GlobalStats2 extends Component {
                             <div className="value">
                                 $<span className="ticker">{jarBalanceUsd}</span>
                             </div>
+                            <h2 style={{margin: "7px 0", marginLeft: "-6px"}}>
+                                <span style={{marginRight: "5px"}}>User cScore </span>
+                                <span> <Ticker small={true} value={toNDecimals(userScore, 10)} primary={5} /></span>
+                            </h2>
                         </div>
                         <div className="right">
-                            <h2>User cScore
+                            <h2>BPRO Balance
                                 <span className="tooltip-container">
                                     <Tooltip>
                                         <small>Total Rating</small>
@@ -51,6 +73,7 @@ class GlobalStats2 extends Component {
                             <div className="value">
                                 <Ticker value={toNDecimals(userScore, 10)} primary={5} />
                             </div>
+                            <SmallButton style={{margin: "7px 0"}} onClick={this.showClaimBproPopup}>CLAIM</SmallButton>
                         </div>
                     </div>
                     <div className="image-container">

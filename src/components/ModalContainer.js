@@ -34,7 +34,7 @@ export default class ModalContainer extends Component {
         const cls = show ? 'modal-container active' : 'modal-container';
 
         return (
-            <div className={cls}>
+            <div className={cls} onClick={() => noWrapper ? this.closeModalBox() : ""}>
                 {this.state.component && !noWrapper &&
                     <div className="modal-dialog">
                         <div className="modal-close-btn" onClick={this.closeModalBox}>
@@ -46,7 +46,7 @@ export default class ModalContainer extends Component {
                     </div>
                 }
                 {this.state.component && noWrapper && 
-                    <div>
+                    <div onClick={(e)=>e.stopPropagation()}>
                         {component}
                     </div>
                 }

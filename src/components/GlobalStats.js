@@ -8,6 +8,10 @@ import {numm} from "../lib/Utils";
 import mainStore from "../stores/main.store"
 import {Observer} from "mobx-react"
 import {VoteBanner} from "./voting/VotingStyleComponents"
+import AnimateNumberChange from "./style-components/AnimateNumberChange"
+import {SmallButton} from "./style-components/Buttons"
+import EventBus from "../lib/EventBus"
+import BproClaimModal from './modals/BproCalimModal'
 
 const ratingFactor = 24 * 60 * 60 * 1000;
 const ratingProgressTime = 3000;
@@ -33,6 +37,20 @@ export default class GlobalStats extends Component {
             ratingProgress: null,
             ratingInterval : null
         }
+    }
+
+    showClaimBproPopup () {
+        const noWrapper = true
+        const claimProps = {
+            header: "Claim BPRO",
+            balance: "0.987654321",
+            data: [
+                {label: "Wallet Balance", number: "0.6779869"},
+                {label: "Unclaimable Balance", number: "0.6779869"},
+                {label: "Claimable Balance", number: "0.6779869"},
+            ],
+        }
+        EventBus.$emit('show-modal', <BproClaimModal {...claimProps} />, noWrapper);
     }
 
     componentDidUpdate(prevProps, prevState, ss) {
@@ -71,7 +89,7 @@ export default class GlobalStats extends Component {
                         <div className="stats">
                             <div className="left">
                                 <h2>
-                                    mJar Balance
+                                    Jar Balance
                                     <span className="tooltip-container">
                                         <Tooltip>{mainStore.jarBalanceEth} ETH</Tooltip>     
                                         <img className="info-icon" src={InfoIcon} />
@@ -80,9 +98,13 @@ export default class GlobalStats extends Component {
                                 <div className="value">
                                     $<Ticker value={mainStore.jarBalanceUsd} />
                                 </div>
+                                <h2 style={{margin: "7px 0", marginLeft: "-6px"}}>
+                                    <span style={{marginRight: "5px"}}>User cScore </span>
+                                    <span> <Ticker small={true} value={toNDecimals(userInfo?currentRating:0,10)} primary={5} /></span>
+                                </h2>
                             </div>
                             <div className="right">
-                                <h2>User mScore
+                                <h2>BPRO Balance
                                     <span className="tooltip-container">
                                         <Tooltip>
                                             <small>Total Rating</small>
@@ -94,6 +116,7 @@ export default class GlobalStats extends Component {
                                 <div className="value">
                                     <Ticker value={toNDecimals(userInfo?currentRating:0,10)} primary={5} />
                                 </div>
+                                <SmallButton style={{margin: "7px 0"}} onClick={this.showClaimBproPopup}>CLAIM</SmallButton>
                             </div>
                         </div>
                         <div className="image-container">
