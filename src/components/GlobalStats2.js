@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import InfoIcon from "../assets/i-icon.svg";
-import DollarIcon from "../assets/dollar-icon.svg";
+import DollarIcon from "../assets/bp-icon-gold.svg";
 import Pulser from "./Pulser";
 import Ticker from "./Ticker";
 import Tooltip from "./Tooltip";
