@@ -13,7 +13,7 @@ import {VoteBanner} from "./voting/VotingStyleComponents"
 import AnimateNumberChange from "./style-components/AnimateNumberChange"
 import {SmallButton} from "./style-components/Buttons"
 import EventBus from "../lib/EventBus"
-import BproClaimModal from './modals/BproCalimModal'
+import BproClaimModal from './modals/BproClaimModal'
 
 class GlobalStats2 extends Component {
 

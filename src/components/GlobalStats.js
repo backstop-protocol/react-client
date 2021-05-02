@@ -11,7 +11,7 @@ import {VoteBanner} from "./voting/VotingStyleComponents"
 import AnimateNumberChange from "./style-components/AnimateNumberChange"
 import {SmallButton} from "./style-components/Buttons"
 import EventBus from "../lib/EventBus"
-import BproClaimModal from './modals/BproCalimModal'
+import BproClaimModal from './modals/BproClaimModal'
 
 const ratingFactor = 24 * 60 * 60 * 1000;
 const ratingProgressTime = 3000;

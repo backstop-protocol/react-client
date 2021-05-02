@@ -9,7 +9,9 @@ import infographic from "../../assets/images/compound-import-popup.png"
 import {device} from "../../screenSizes"
 import LoadingRing from "../LoadingRing"
 import BpLoader from "../../components/style-components/BpLoader"
-import VIcon from "../../assets/v-icon.svg";
+import VIcon from "../../assets/v-icon.svg"
+import bproStore from "../../stores/bpro.store"
+import TermsAndConditionsModal from "./TermsAndConditionsModal"
 
 const Container = styled.div`
   width: 554px;
@@ -79,7 +81,8 @@ const Text = styled.span`
 const Button = styled.div`
   transition: all 0.3s ease-in-out;
   margin: 50px 0;
-  width: 218px;
+  min-width: 218px;
+  padding: 0 10px;
   height: 48px;
   border-radius: 3.4px;
   background-color: #12c164;
@@ -98,6 +101,7 @@ const Button = styled.div`
     letter-spacing: 0.7px;
     color: white;
     padding: 10px;
+    text-transform: uppercase;
   }
   &.disabled{
     background-color: #cccccc;
@@ -123,6 +127,11 @@ class BproClaimModal extends Component {
     }
   }
 
+  showTermsAndConditions = () => {
+    const noWrapper = true
+    EventBus.$emit('show-modal', <TermsAndConditionsModal {...this.props}/>, noWrapper);
+  }
+
   async doAction (){
     try{
       if(this.props.actionState == "done"){
@@ -141,6 +150,7 @@ class BproClaimModal extends Component {
     const { data, action, balance, header, disabled, cantClaim } = this.props
     const {actionState} = this.state
     const claimed = balance !== "0" && cantClaim
+    const agreed = bproStore.userAgreesToTerms
     return (
       <Container>
         <Header>
@@ -160,7 +170,7 @@ class BproClaimModal extends Component {
               )
             })}
           </ContentBox>}
-
+          {agreed &&
           <Button onClick={()=>this.doAction()} 
             className={`${disabled || balance === "0" ? "disabled" : ""} ${claimed ? "done" : ""}`}>
             {actionState == "waiting" && !claimed &&
@@ -179,7 +189,12 @@ class BproClaimModal extends Component {
                 </span>
               </Flex>
             }
-          </Button>
+          </Button>}
+          {!agreed && <Button onClick={this.showTermsAndConditions}>
+            <span>
+              agree to terms and Claim
+            </span>
+          </Button>}
         </Flex>
       </Container>
     )
