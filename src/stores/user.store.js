@@ -7,6 +7,7 @@ import makerStore from "./maker.store"
 import routerStore from "./router.store"
 import EventBus from "../lib/EventBus"
 import Web3 from "web3"
+import bproStore from "./bpro.store"
 
 class UserStore {
 
@@ -73,6 +74,7 @@ class UserStore {
             this.displayConnect = false
         })
         this.fetchUserInfoBasedOnRouter()
+        bproStore.onUserConnect()
     }
 
     fetchUserInfoBasedOnRouter () {

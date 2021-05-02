@@ -9,7 +9,6 @@ import {initialState} from "../lib/compoundConfig/initialState"
 import {wApiAction} from "../lib/compound.util"
 import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
-import compoundVoteStore from "./compoundVote.store"
 
 const {BN, toWei, fromWei} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
@@ -92,7 +91,7 @@ class CompoundStore {
     }
 
     compuoundVoteStoreUserInfoUpdateSideAffects = () => {
-        compoundVoteStore.getUserInfoDependentData()
+        
     }
 
     calcCompBlance = () => {        

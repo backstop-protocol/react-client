@@ -47,8 +47,8 @@ class MainStore {
             this.originalInfoResponse = info
             info = ApiHelper.Humanize(info, web3);
             this.spotPrice = info.miscInfo.spotPrice
-            this.jarBalanceEth = parseFloat(info.userRatingInfo.jarBalance).toFixed(1);
-            this.jarBalanceUsd = parseFloat(info.userRatingInfo.jarBalance * this.spotPrice).toFixed(0)
+            this.jarBalanceEth = parseFloat(0).toFixed(1);
+            this.jarBalanceUsd = parseFloat(0 * this.spotPrice).toFixed(0)
         }catch (err){
             console.error("failed to fatch jar amount")
         }

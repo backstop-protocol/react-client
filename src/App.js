@@ -20,7 +20,6 @@ const Compound = React.lazy(() => import("./containers/Compound"));
 const Risk = React.lazy(() => import("./containers/Risk"));
 const TermsOfUse = React.lazy(() => import("./containers/Terms"));
 const FAQ = React.lazy(() => import("./containers/FAQ"));
-const Vote = React.lazy(() => import("./containers/Vote"));
 
 function renderPage (props, PageComponent) {
   return (
@@ -71,7 +70,6 @@ const App = observer(() => {
             <Route exact path="/faq" render={props =>(renderPage(props, FAQ))} />
             <Route exact path="/terms" render={props =>(renderPage(props, TermsOfUse))} />
             <Route exact path="/risk" render={props =>(renderPage(props, Risk))} />
-            <Route path="/vote" render={props =>(renderPage(props, Vote))} />
         </Router>
     </div>
   );

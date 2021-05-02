@@ -6,7 +6,6 @@ import * as ApiHelper from "../lib/ApiHelper";
 import { setUserInfo } from "../lib/Actions";
 import * as B from "../lib/bInterface";
 import userStore from "./user.store"
-import makerVoteStore from "./makerVote.store"
 
 class MakerStore {
 
@@ -51,7 +50,6 @@ class MakerStore {
      * use this action to update other stores
      */
     makerUserInfoUpdateSideAffects = () => {
-        makerVoteStore.getUserInfoDependentData()
     }
 }
 

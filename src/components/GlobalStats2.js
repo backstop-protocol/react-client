@@ -8,8 +8,8 @@ import {numm} from "../lib/Utils";
 import {observer} from "mobx-react"
 import compoundStore from "../stores/compound.store"
 import MainCompStore from "../stores/main.comp.store"
+import bproStore from "../stores/bpro.store"
 import {toNDecimals} from "./GlobalStats"
-import {VoteBanner} from "./voting/VotingStyleComponents"
 import AnimateNumberChange from "./style-components/AnimateNumberChange"
 import {SmallButton} from "./style-components/Buttons"
 import EventBus from "../lib/EventBus"
@@ -38,11 +38,10 @@ class GlobalStats2 extends Component {
         const jarBalanceUsd = MainCompStore.jar
         const totalRating = compoundStore.totalScore
         const userScore = compoundStore.userScore
-        const {votingBanner: voting} = window.appConfig
 
         return (
             <div className="overlay-container">
-                <div className={`global-stats even ${voting ? "blur-fade": ""}`}>
+                <div className={`global-stats even `}>
                     <div className="stats">
                         <div className="left">
                             <h2>
@@ -81,9 +80,6 @@ class GlobalStats2 extends Component {
                         <img src={DollarIcon} className="dollar-icon floating centered" />
                     </div>
                 </div>
-                {voting && <div className="overlay" >
-                    <VoteBanner/>
-                </div>}
             </div>
         )
     }
