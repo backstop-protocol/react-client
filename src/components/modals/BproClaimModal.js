@@ -9,9 +9,13 @@ import infographic from "../../assets/images/compound-import-popup.png"
 import {device} from "../../screenSizes"
 import LoadingRing from "../LoadingRing"
 import BpLoader from "../../components/style-components/BpLoader"
+import ModalClaimHeader from "../../components/style-components/ModalClaimHeader"
 import VIcon from "../../assets/v-icon.svg"
 import bproStore from "../../stores/bpro.store"
 import TermsAndConditionsModal from "./TermsAndConditionsModal"
+import AnimateNumericalString from "../../components/style-components/AnimateNumericalString"
+import {stringToFixed} from '../../lib/Utils'
+
 
 const Container = styled.div`
   width: 554px;
@@ -19,16 +23,94 @@ const Container = styled.div`
   background: white;
   border-radius: 5px;
   box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.1);
+
+/**
+ * ----------------------------------------
+ * animation heartbeat
+ * ----------------------------------------
+ */
+@-webkit-keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+@keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
+
+#flip-animation {
+	/* -webkit-animation: heartbeat 1.5s ease-in-out 3s both;
+	        animation: heartbeat 1.5s ease-in-out 3s both; */
+}
+
 `
 
 const Header = styled.div`
-  padding-top: 26px;
   width: 100%;
   height: 157px;
-  background: url("${require("../../assets/images/modal-header.svg")}");
+
 `
 
 const Title = styled.div`
+  margin-top: -135px;
   text-align: center;
   font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
   font-size: 20px;
@@ -84,7 +166,7 @@ const Button = styled.div`
   min-width: 218px;
   padding: 0 10px;
   height: 48px;
-  border-radius: 3.4px;
+  border-radius: 4px;
   background-color: #12c164;
   display: flex;
   justify-content:center;
@@ -123,7 +205,7 @@ class BproClaimModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      actionState: this.props.actionState
+      actionState: null
     }
   }
 
@@ -138,8 +220,11 @@ class BproClaimModal extends Component {
         return
       }
       this.setState({actionState: "waiting"})
-      await this.props.action()
+      await bproStore.claim()
       this.setState({actionState: "done"})
+      setTimeout(() => {
+        EventBus.$emit('close-modal');
+      }, 3000)
     }catch(err){ 
       console.error(err)
       this.setState({actionState: "failed"})
@@ -147,41 +232,48 @@ class BproClaimModal extends Component {
   }
   
   render () {
-    const { data, action, balance, header, disabled, cantClaim } = this.props
+    const {walletBalance, claimable, unclaimable, totalBproNotInWallet} = bproStore
     const {actionState} = this.state
-    const claimed = balance !== "0" && cantClaim
+    const claimed = actionState == "done"
+    const balance = stringToFixed(totalBproNotInWallet, 9)
     const agreed = bproStore.userAgreesToTerms
+    const disabled = claimable == "0"
     return (
       <Container>
         <Header>
-          <Title>{header}</Title>
+          <ModalClaimHeader/>
+          <Title>Claim BPRO</Title>
         </Header>
         <Flex full column alignCenter>
           <Balance>
-            {cantClaim ? <span>0</span> : balance.split("").map((num, i) => <span key={i}>{num}</span>)}
+              {balance.split("").map((num, i) => <span key={i}>{num}</span>)}
           </Balance>
-          {data && <ContentBox>
-            {data.map(line => {
-              return (
-                <Flex style={{padding: "22px"}} justifyBetween>
-                  <Text>{line.label}</Text>
-                  <Text>{line.number}</Text>
-                </Flex>
-              )
-            })}
-          </ContentBox>}
+          <ContentBox>
+              <Flex style={{padding: "22px"}} justifyBetween>
+                <Text>Wallet Balance</Text>
+                <Text><AnimateNumericalString val={walletBalance} decimals={9}/></Text>
+              </Flex>
+              <Flex style={{padding: "22px"}} justifyBetween>
+                <Text>Unclaimable Balance</Text>
+                <Text><AnimateNumericalString val={unclaimable} decimals={9}/></Text>
+              </Flex>
+              <Flex style={{padding: "22px"}} justifyBetween>
+                <Text>Claimable Balance</Text>
+                <Text><AnimateNumericalString val={claimable} decimals={9}/></Text>
+              </Flex>
+          </ContentBox>
           {agreed &&
           <Button onClick={()=>this.doAction()} 
             className={`${disabled || balance === "0" ? "disabled" : ""} ${claimed ? "done" : ""}`}>
-            {actionState == "waiting" && !claimed &&
+            {actionState == "waiting" &&
               <BpLoader color="white"/>
             }
-            {actionState !== "waiting" && !claimed &&
+            {actionState == null &&
               <span>
                 CLAIM
               </span>
             }
-            {claimed && 
+            {actionState == "done" && 
               <Flex>
                 <img src={VIcon}/>
                 <span>

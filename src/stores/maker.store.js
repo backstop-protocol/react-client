@@ -6,6 +6,7 @@ import * as ApiHelper from "../lib/ApiHelper";
 import { setUserInfo } from "../lib/Actions";
 import * as B from "../lib/bInterface";
 import userStore from "./user.store"
+import apyStore from "./apy.store"
 
 class MakerStore {
 
@@ -14,7 +15,7 @@ class MakerStore {
     userInfoUpdate = 0
 
     constructor (){
-        makeAutoObservable(this)
+        // makeAutoObservable(this)
     }
 
     fetchAndUpdateUserInfo = async () => {
@@ -50,6 +51,7 @@ class MakerStore {
      * use this action to update other stores
      */
     makerUserInfoUpdateSideAffects = () => {
+        apyStore.onUserConnect()
     }
 }
 

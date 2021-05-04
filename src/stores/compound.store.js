@@ -9,6 +9,7 @@ import {initialState} from "../lib/compoundConfig/initialState"
 import {wApiAction} from "../lib/compound.util"
 import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
+import apyStore from "./apy.store"
 
 const {BN, toWei, fromWei} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
@@ -54,7 +55,7 @@ class CompoundStore {
     handleFirstFatch = ()=> {
         if(!this.firstUserInfoFetch){
             this.firstUserInfoFetch = true;
-            this.compuoundVoteStoreUserInfoUpdateSideAffects()
+            this.userInfoUpdateSideAffects()
         }
     }
 
@@ -90,8 +91,8 @@ class CompoundStore {
         })
     }
 
-    compuoundVoteStoreUserInfoUpdateSideAffects = () => {
-        
+    userInfoUpdateSideAffects = () => {
+        // sapyStore.onUserConnect()
     }
 
     calcCompBlance = () => {        

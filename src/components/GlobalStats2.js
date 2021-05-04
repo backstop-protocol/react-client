@@ -56,7 +56,7 @@ class GlobalStats2 extends Component {
                             </div>
                             <h2 style={{margin: "7px 0", marginLeft: "-6px"}}>
                                 <span style={{marginRight: "5px"}}>User cScore </span>
-                                <span> <Ticker small={true} value={toNDecimals(userScore, 10)} primary={5} /></span>
+                                <span> <Ticker small={true} value={toNDecimals(bproStore.cScore, 9)} primary={5} /></span>
                             </h2>
                         </div>
                         <div className="right">

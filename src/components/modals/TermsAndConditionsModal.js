@@ -17,6 +17,7 @@ import BproClaimModal from "./BproClaimModal"
 const Container = styled.div`
   min-width: 554px;
   min-height: 400px;
+  border-radius: 4px;
   width: 80vw;
   height: 90vh;
   background: white;
@@ -85,7 +86,7 @@ const Button = styled.div`
 `
 
 const Content = styled.div`
- padding:30px;
+ padding: 40px;
  height: calc(90vh - 77px);
  overflow-y: hidden;
  overflow-y: scroll;
