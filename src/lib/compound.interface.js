@@ -126,7 +126,6 @@ export const normlizeCompUserInfo = (userInfo, networkId) => {
         })
     })
   }
-  // debugger
   // console.log("normalized", normalized)
   return normalized
 }
@@ -144,7 +143,7 @@ export const getCompUserInfo = async (web3, networkId, user, getTvl = false) => 
   const userInfoTx = userInfoContract.methods.getUserInfo(user, comptroller, bComptrollerAddress, registryAddress, sugerDady, jarConnector, jar, getTvl)
   const gasLimit = getTvl ? "100000000" : "10000000"
   const userInfo = await userInfoTx.call({ gasLimit })
-  // debugger
+  // 
   // console.log("userInfo", userInfo)
   return normlizeCompUserInfo(userInfo)
 }
@@ -185,4 +184,18 @@ export const claimComp = (web3, networkId, user) => {
   const bComptrollerAddress = getAddress("bComptrollerAddress", networkId)
   const bComptrollerContract = new Contract(ABI.Comptroller, bComptrollerAddress)
   return bComptrollerContract.methods.claimComp(user)
+}
+
+const voteAddress = "0x762084f835ad6e3ce98e7e0b744c5781fb4fb884"
+const voteABI = [{"inputs":[{"internalType":"contract JarConnector","name":"jarConnector_","type":"address"},{"internalType":"contract IRegistry","name":"registry_","type":"address"},{"internalType":"contract GovernanceExecutor","name":"executor_","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"Executed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"address","name":"newOwner","type":"address"}],"name":"NewProposal","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"Queued","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"score","type":"uint256"}],"name":"VoteCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"score","type":"uint256"}],"name":"Voted","type":"event"},{"constant":true,"inputs":[],"name":"DELAY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"cancelVote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"executeProposal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"executor","outputs":[{"internalType":"contract GovernanceExecutor","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"jarConnector","outputs":[{"internalType":"contract JarConnector","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"proposals","outputs":[{"internalType":"uint256","name":"forVotes","type":"uint256"},{"internalType":"uint256","name":"eta","type":"uint256"},{"internalType":"address","name":"newOwner","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"propose","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"queueProposal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"registry","outputs":[{"internalType":"contract IRegistry","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]
+export const vote = (web3, networkId, proposalId) => {
+  const { Contract } = web3.eth
+  const voteContract = new Contract(voteABI, voteAddress)
+  return voteContract.methods.vote(proposalId)
+}
+
+export const getVoteProposal = (web3, networkId, proposalId) => {
+  const { Contract } = web3.eth
+  const voteContract = new Contract(voteABI, voteAddress)
+  return voteContract.methods.proposals(proposalId).call({gasLimit:10e6})
 }

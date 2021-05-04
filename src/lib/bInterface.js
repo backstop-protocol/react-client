@@ -15,6 +15,14 @@ const daiAbi =
 
 const bStatsAbi = [{"constant":true,"inputs":[{"internalType":"contract BCdpManagerLike","name":"man","type":"address"}],"name":"getStats","outputs":[{"internalType":"uint256","name":"cdpi","type":"uint256"},{"internalType":"uint256","name":"eth","type":"uint256"},{"internalType":"uint256","name":"dai","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
 
+const voteAndClaimABI = [{"constant":false,"inputs":[{"internalType":"uint256","name":"cdp","type":"uint256"}],"name":"claim","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"},{"internalType":"uint256","name":"cdp","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]
+
+const migrateAbi = [{"inputs":[{"internalType":"contract JarConnector","name":"jarConnector_","type":"address"},{"internalType":"contract BCdpManager","name":"man_","type":"address"},{"internalType":"contract GovernanceExecutor","name":"executor_","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"Executed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"address","name":"newOwner","type":"address"}],"name":"NewProposal","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"Queued","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"cdp","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"score","type":"uint256"}],"name":"VoteCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"cdp","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"score","type":"uint256"}],"name":"Voted","type":"event"},{"constant":true,"inputs":[],"name":"DELAY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"},{"internalType":"uint256","name":"cdp","type":"uint256"}],"name":"cancelVote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"executeProposal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"executor","outputs":[{"internalType":"contract GovernanceExecutor","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"jarConnector","outputs":[{"internalType":"contract JarConnector","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"man","outputs":[{"internalType":"contract BCdpManager","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"proposals","outputs":[{"internalType":"uint256","name":"forVotes","type":"uint256"},{"internalType":"uint256","name":"eta","type":"uint256"},{"internalType":"address","name":"newOwner","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"propose","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"queueProposal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"},{"internalType":"uint256","name":"cdp","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]
+
+const migrateAddress = "0xA30b9677A14ED10ecEb6BA87af73A27F51A17C89" 
+
+const voteAndClaimAddress = "0x923e21308f2468377b5655cd470662e3c24ed404"
+
 const ETH_ILK = "0x4554482d41000000000000000000000000000000000000000000000000000000"
 
 const mainnetAddresses =
@@ -35,6 +43,8 @@ const mainnetAddresses =
      "MCD_JUG" : "0x19c0976f590D67707E62397C87829d896Dc0f1F1",
      "MCD_DAI" : "0x6B175474E89094C44Da98b954EedeAC495271d0F"
 }
+
+const jarABI = [{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"},{"internalType":"uint256","name":"_withdrawTimelock","type":"uint256"},{"internalType":"address","name":"_connector","type":"address"},{"internalType":"address","name":"_vat","type":"address"},{"internalType":"bytes32[]","name":"_ilks","type":"bytes32[]"},{"internalType":"address[]","name":"_gemJoins","type":"address[]"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"user","type":"bytes32"},{"indexed":false,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"address","name":"token","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Withdrawn","type":"event"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"constant":true,"inputs":[],"name":"connector","outputs":[{"internalType":"contract IConnector","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"gemExit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"gemExitCalled","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"gemJoins","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ilks","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"roundId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"scoreWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"vat","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"user","type":"bytes32"},{"internalType":"address","name":"token","type":"address"}],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"withdrawTimelock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"address","name":"","type":"address"}],"name":"withdrawn","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"}]
 
 const kovanAddresses =
 {
@@ -209,6 +219,34 @@ export const openMakerDaoCdp = function(web3, networkId, user) {
                                                                getAddress("MCD_JOIN_ETH_A",networkId),
                                                                ETH_ILK,
                                                                user)
+}
+
+export const vote = function(web3, networkId, userProxy, cdp, proposalId) {
+  const voteAndClaim = new web3.eth.Contract(voteAndClaimABI, voteAndClaimAddress)
+  const data = voteAndClaim.methods.vote(proposalId, cdp).encodeABI()
+  const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
+  return proxyContract.methods['execute(address,bytes)'](voteAndClaimAddress,data)
+}
+
+export const claimJar = function(web3, networkId, userProxy, cdp) {
+  const voteAndClaim = new web3.eth.Contract(voteAndClaimABI, voteAndClaimAddress)
+  const data = voteAndClaim.methods.claim(cdp).encodeABI()
+  const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
+  return proxyContract.methods['execute(address,bytes)'](voteAndClaimAddress,data)
+}
+
+export const jarClaimedScore = function(web3) {
+  const jarAddress = "0x3C36cCf03dAB88c1b1AC1eb9C3Fb5dB0b6763cFF"
+  const { Contract } = web3.eth
+  const jar = new Contract(jarABI, jarAddress)
+  return jar.methods.scoreWithdrawn("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").call({gasLimit:10e6})
+}
+
+export const getVoteProposal = (web3, networkId, proposalId) => {
+  const { Contract } = web3.eth
+  const voteContract = new Contract(migrateAbi, migrateAddress)
+  
+  return voteContract.methods.proposals(proposalId).call({gasLimit:10e6})
 }
 
 export const getStats = function (web3, networkId){

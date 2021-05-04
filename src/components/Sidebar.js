@@ -63,6 +63,8 @@ class Sidebar extends Component {
     const { userInfo } = makerStore
     const params = qs.parse(search, { ignoreQueryPrefix: true })
     const pathState = this.getState(pathname)
+    const {voting} = window.appConfig
+
     return (
       <div className="sidebar-container">
         <div className="sidebar-activator" style={!this.state.showSideBar ? {} : { display: 'none' }}>
@@ -175,8 +177,61 @@ class Sidebar extends Component {
             >
               <p className="menu-item">Terms of Use</p>
             </div>
-
-
+          </div>
+          <div className="ln"> </div>
+          <div
+            className={`product link-accesible ${
+              pathname === "/faq" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("faq")}
+          >
+            <p className="menu-item">FAQ</p>
+          </div>
+          <div
+            className={`product link-accesible ${
+              pathname === "/risk" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("risk")}
+          >
+            <p className="menu-item">Risks</p>
+          </div>
+          <div
+            className={`product link-accesible ${
+              pathname === "/terms" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("terms")}
+          >
+            <p className="menu-item">Terms of Use</p>
+          </div>
+          {voting && <div className="ln"> </div>}
+          {voting && <div
+            className={`product link-accesible ${
+              pathname.indexOf("/vote") > -1 &&
+              "selected"
+            }`}
+            onClick={() =>  window.location = "https://vote.bprotocol.org/vote/maker"}
+          >
+            <p className="menu-item">Vote & Claim</p>
+          </div>}
+        </div>
+        <div className="sidebar-footer">
+          <h3>B.Protocol community</h3>
+          <div className="social-icons">
+            <a href="https://github.com/backstop-protocol" target="_blank">
+              <img src={Github} />
+            </a>
+            <a href="https://twitter.com/bprotocoleth" target="_blank">
+              <img src={Twitter} />
+            </a>
+            <a href="https://medium.com/b-protocol" target="_blank">
+              <img src={require("../assets/medium-icon.svg")} />
+            </a>
+            <a href="https://discord.gg/3RmqN2K" target="_blank">
+              <img src={Discord} />
+            </a>
           </div>
           <div className="sidebar-footer">
             <h3>B.Protocol community</h3>
