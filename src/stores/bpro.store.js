@@ -75,6 +75,7 @@ class BproStore {
       if(amount){
         runInAction(()=> {
           this.claimable = fromWei(toBN(amount).sub(toBN(claimed)).toString())
+          this.claimable = parseFloat(this.claimable) >= 0 ? this.claimable : "0"
         })
       }
     }catch (err){
@@ -88,13 +89,11 @@ class BproStore {
     const currentScoreData = await res.json()
     const {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
     const {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
-    debugger
-    const unclaimable = fromWei(toBN(serverAmount).sub(toBN(ipfsAmount || 0)).toString())
+    const unclaimable = fromWei(toBN(serverAmount).sub(toBN(ipfsAmount || "0")).toString())
     if(serverAmount){
       runInAction(()=> {
         this.mScore = fromWei(toBN(makerAmount).toString())
         this.cScore = fromWei(toBN(serverAmount).sub(toBN(makerAmount)).toString())
-        debugger
         this.unclaimable = parseFloat(unclaimable) >= 0 ? unclaimable : "0"
       })
     }
