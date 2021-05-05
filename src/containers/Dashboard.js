@@ -69,7 +69,7 @@ class Dashboard extends Component {
         />
 
         <Flex style={{
-                paddingBottom: "40px", 
+                paddingBottom: "0px", 
                 flexWrap: "wrap" ,
                 justifyContent: "center",
                 alignItems: "center"
