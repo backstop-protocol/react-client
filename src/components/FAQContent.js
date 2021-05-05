@@ -43,44 +43,21 @@ const FAQContent = () => {
         <strong>D.</strong>Accumulate your mScore/cScore and share the liquidation proceeds every epoch (the current epoch ends in April 2021).
       </p>
 
-      <h4>5. What is the B.Protocol User Score?</h4>
+      <h4>5. What is the B.Protocol mScore, cScore and BPRO?</h4>
       <p className="item-content-text">
         <strong>A.</strong> User Score is the way for B.Protocol to calculate your part in the liquidation proceeds of the platform, and your weight in the protocol upgrade vote (both will occur in April 2021). A user’s Score is determined by his/her usage of B.Protocol and is being calculated differently for MakerDAO users (mScore) and for Compound users  (cScore).
-        <ul>
-          <li><strong>Maker users</strong> - for every 1k Dai debt, borrowed for 24 hours, a user will get approximately 1 bmScore (B.Protocol-MakerDAO Score).</li>
-          <li><strong>Compound users</strong> - The cScore accumulation rate is calculated in correlation to the COMP distribution rate, and the user supply and borrow balances.</li>
-        </ul>
-        <strong>The bScore is non-transferable</strong> and is not even an ERC20 token. Hence it cannot be traded, and can never be traded. While we technically cannot prevent future governance from tokenizing it, we will not actively support any outcome that will violate the applicable regulatory frameworks.
+        <strong>The Score is non-transferable</strong> and is not even an ERC20 token. Hence it cannot be traded, and can never be traded.
+        BPRO is the governance token of B.Protocol.
 
       </p>
-      <h4>6. What is the JAR Balance?</h4>
+      <h4>6. How do the Score and BPRO distibuted?</h4>
       <p className="item-content-text">
-        <strong>A.</strong> The JAR is where the users’ liquidation proceeds are being accumulated before being distributed to the community according to the User Score. Each platform has its separate Jar and distribution balance. Currently, the distribution balances of the Jars are as follows: 
-        <ul>
-          <li>MakerDAO - 1/2  goes to the Jar, 1/2 goes to the liquidators (e.g., 6.5% of each liquidation as the liquidation penalty is 13%).</li>
-          <li>Compound - 3/8 goes to the Jar, 5/8 goes to the liquidators (e.g., 3% to users, 5% to liquidators, as the liquidation penalty is 8%).</li>
-        </ul>
-        This distribution balance will hold for the first JAR distribution, which will take place at the end of April 2021 (6 months from the launch of B.Protocol). After that, the community will be able to vote on a new distribution model.
+      <strong>A.</strong> A fixed amount is distributed at every block, and each user get according to his total deposit and debt.
+        The exact details are subject to the decision of the protocol governance, and as of now a 3 month program (until end of July 2021) was approved,
+        and can be found <a href="https://forum.bprotocol.org/t/b-protocol-governance-token/48#user-incentives-post-april-26th-10">here.</a>
       </p>
-      <h4>
-        7. Will the Rating Score cover all lending platforms I’m using with
-        B.Protocol?
-      </h4>
-      <p className="item-content-text">
-        <strong>A.</strong> At this point in time, each lending platform will have its own B.Protocol User Score (mScore for Maker, cScore for Compound) and its own JAR to be distributed among them accordingly. Once B.Protocol governance is handed over to the community, new models can be offered by the community.
-      </p>
-      <h4>8. Who’s behind the development of B.Protocol?</h4>
-      <p className="item-content-text">
-        <strong>A.</strong> B.Protocol is being developed by Smart Future Labs LTD, an Israeli based LTD company, founded by Yaron Velner, ex-CTO of KyberNetwork, who was also part of the wBTC protocol dev team and Smart Pool, the first decentralized mining pool over Ethereum. Yaron holds a PhD in Computer Science from Tel Aviv University.{' '}
-      </p>
-      <h4>
-        9. Is it true B.Protocol devs not keeping any User Score for themselves?
-      </h4>
-      <p className="item-content-text">
-        <strong>A. </strong>True. No pre-mining to anyone. Not VCs, Not devs, No one. B. Protocol has a real use case and a real added value for all stakeholders - DeFi lending platforms, Liquidators, and users.
-      </p>
-      <h4>
-      10. B.Protocol is great, but what if I want to export my Vault back to MakerDAO CDP manager (Oasis)?
+      <h4>       
+      7. B.Protocol is great, but what if I want to export my Vault back to MakerDAO CDP manager (Oasis)?
       </h4>
       <p className="item-content-text">
         <strong>A. </strong>You can export your Vault back to MakerDAO at any time, 

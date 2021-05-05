@@ -101,6 +101,19 @@ const RiskContent = () => {
         such upgrade is subject to a time delay, in which the user could take
         action before the upgrade is triggered.
       </p>
+      <h4>Governance and BPRO token</h4>
+      <p className="risk-item-content-text">
+      B.Protocol governance does not control user funds. However the governance does control the liquidator’s proceed sharing process (including which liquidators to on-board, and the % of the proceed sharing). In addition the governance also control the BPRO distribution.
+        <br />
+        <br />
+        The data that is presented in the website with regards to BPRO distribution might not reflect the actual user distribution for two reasons:
+        <ol>
+          <li>The DAO can decide to change the distribution.</li>
+          <li>There might be calculation errors in the website front end.</li>
+        </ol>
+
+        Discussions with updated information on the governance can be found at the <a href="https://forum.bprotocol.org" target="_blank">community forum.</a>        
+      </p>      
     </p>
   );
 };

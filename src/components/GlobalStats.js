@@ -1,16 +1,17 @@
 import React, {Component} from "react";
 import InfoIcon from "../assets/i-icon.svg";
-import DollarIcon from "../assets/dollar-icon.svg";
+import DollarIcon from "../assets/bp-icon-gold.svg";
 import Pulser from "./Pulser";
 import Ticker from "./Ticker";
 import Tooltip from "./Tooltip";
 import {numm} from "../lib/Utils";
 import mainStore from "../stores/main.store"
+import bproStore from "../stores/bpro.store"
 import {Observer} from "mobx-react"
-import {VoteBanner} from "./voting/VotingStyleComponents"
-
-const ratingFactor = 24 * 60 * 60 * 1000;
-const ratingProgressTime = 3000;
+import AnimateNumberChange from "./style-components/AnimateNumberChange"
+import {SmallButton} from "./style-components/Buttons"
+import EventBus from "../lib/EventBus"
+import apyStore from "../stores/apy.store"
 
 export function toNDecimals(number, n) {
     if(!number) return 0;
@@ -22,78 +23,51 @@ export function toNDecimals(number, n) {
     return n;
 }
 
-// TODO: refactor this component to use main store values only 
-
 export default class GlobalStats extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            currentRating: null,
-            ratingProgress: null,
-            ratingInterval : null
-        }
     }
-
-    componentDidUpdate(prevProps, prevState, ss) {
-        const {userInfo} = this.props;
-        if (!userInfo) return;
-
-        const currRatingProgress = parseFloat(userInfo.userRatingInfo.userRatingProgressPerSec) / ratingFactor;
-        if (this.state.ratingProgress !== currRatingProgress) {
-            clearInterval(this.state.ratingInterval);
-            const interval = setInterval(this.updateUserRating, ratingProgressTime);
-            console.log("new interval", interval)
-            this.setState({ratingInterval : interval});
-
-            this.setState({ratingProgress: currRatingProgress});
-            this.setState({currentRating: parseFloat(userInfo.userRatingInfo.userRating / ratingFactor)});
-        }
-    }
-
-    updateUserRating = () => {
-        const currentRating = this.state.currentRating;
-        const nextRating = parseFloat(currentRating * 1 + this.state.ratingProgress * ratingProgressTime / 1000);
-        this.setState({currentRating: nextRating});
-    };
 
     render() {
-
-        const {userInfo} = this.props;
-        const {currentRating} = this.state;
-        const {votingBanner: voting} = window.appConfig
-
+        const scoreType = window.location.pathname.indexOf("maker") > -1 ? "mScore" : "cScore"
+        const {totalBproNotInWallet} = bproStore
         return (          
         <Observer>
             {() => 
                 <div className="overlay-container">
-                    <div className={`global-stats even ${voting ? "blur-fade": ""}`}>
+                    <div className={`global-stats even`}>
                         <div className="stats">
                             <div className="left">
                                 <h2>
-                                    mJar Balance
+                                    Monthly BPRO
                                     <span className="tooltip-container">
-                                        <Tooltip>{mainStore.jarBalanceEth} ETH</Tooltip>     
+                                        <Tooltip>The estimated amount of BPRO <br/> you will recive a month from now</Tooltip>     
                                         <img className="info-icon" src={InfoIcon} />
                                     </span>
                                 </h2>
                                 <div className="value">
-                                    $<Ticker value={mainStore.jarBalanceUsd} />
+                                    <Ticker value={toNDecimals(apyStore.apy, 5)} />
                                 </div>
+                                <h2 style={{margin: "7px 0", marginLeft: "-6px"}}>
+                                    <span style={{marginRight: "5px"}}>User {scoreType} </span>
+                                    <span> <Ticker small={true} value={toNDecimals(bproStore[scoreType], 9)} primary={5} /></span>
+                                </h2>
                             </div>
                             <div className="right">
-                                <h2>User mScore
+                                <h2>Accumulated BPRO
                                     <span className="tooltip-container">
                                         <Tooltip>
-                                            <small>Total Rating</small>
-                                            <h3>{numm(userInfo?userInfo.userRatingInfo.totalRating / ratingFactor:0,2)}</h3>
+                                            The estimated amount of <br/> BPRO you could claim
+                                            {/* <h3>{numm(bproStore.totalBproNotInWallet,2)}</h3> */}
                                         </Tooltip>
                                         <img className="info-icon" src={InfoIcon} />
                                     </span>
                                 </h2>
                                 <div className="value">
-                                    <Ticker value={toNDecimals(userInfo?currentRating:0,10)} primary={5} />
+                                    <Ticker value={toNDecimals(bproStore.totalBproNotInWallet, 9)} primary={5} />
                                 </div>
+                                <SmallButton style={{margin: "7px 0"}} onClick={bproStore.showClaimBproPopup}>CLAIM</SmallButton>
                             </div>
                         </div>
                         <div className="image-container">
@@ -103,9 +77,6 @@ export default class GlobalStats extends Component {
                         <div style={{backgroundColor: "red"}} className="image-container">
                         </div>
                     </div>
-                    {voting && <div className="overlay" >
-                        <VoteBanner/>
-                    </div>}
                 </div>
             } 
         </Observer>

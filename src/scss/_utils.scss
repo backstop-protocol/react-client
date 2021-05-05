@@ -175,8 +175,6 @@ span.ticker {
     transition: all 0.2s;
     color: transparentize(#ffffff, 0.5);
 
-    
-
     &.primary {
       color: #ffffff;
     }
@@ -269,6 +267,33 @@ span.ticker {
         font-size: 20px;
         max-width: 8.5px;
       }
+    }
+  }
+}
+
+span.ticker-small {
+  & > span {
+    display: inline-block;
+    text-align: left;
+    font-family: $titleFont;
+    transition: all 0.2s;
+    color: transparentize(#ffffff, 0.5);
+
+    &.primary {
+      color: #ffffff;
+    }
+
+    @media screen and (max-width: 1600px) {
+      font-weight: normal;
+    }
+
+    &.in {
+      opacity: 0;
+      animation: dropin 0.3s forwards;
+    }
+
+    &.s-primary {
+      color: #fff;
     }
   }
 }

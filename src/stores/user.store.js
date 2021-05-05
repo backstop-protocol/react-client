@@ -7,6 +7,8 @@ import makerStore from "./maker.store"
 import routerStore from "./router.store"
 import EventBus from "../lib/EventBus"
 import Web3 from "web3"
+import bproStore from "./bpro.store"
+import apyStore from "./apy.store"
 
 class UserStore {
 
@@ -72,17 +74,17 @@ class UserStore {
             this.loggedIn = true
             this.displayConnect = false
         })
-        this.fetchUserInfoBasedOnRouter()
+        this.userInfosPromise = this.fetchUserInfos()
+        await this.userInfosPromise
+        bproStore.onUserConnect()
+        apyStore.onUserConnect()
     }
 
-    fetchUserInfoBasedOnRouter () {
-        const page = routerStore.getRoute()
-        if(page.indexOf("compound") > -1) {
-            compoundStore.getUserInfo()
-            return // exit
-        }
-        // defaults to maker
-        makerStore.getUserInfo()
+    fetchUserInfos () {
+        return Promise.all([
+            compoundStore.getUserInfo(),
+            makerStore.getUserInfo()
+        ])
     }
 
     showConnect = () => {
