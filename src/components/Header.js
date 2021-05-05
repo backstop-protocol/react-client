@@ -3,13 +3,15 @@ import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
 import GlobalStats from "./GlobalStats";
 import BorrowLimit from "./BorrowLimit";
+import BorrowLimit2 from "./BorrowLimit2";
 import Tvl2 from "./Tvl2";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
 import userStore from "../stores/user.store"
 import {observer} from "mobx-react"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
-
+import Flex, {FlexItem} from "styled-flex-component";
+import {ResponsiveWidthHeader} from "./style-components/ResponsiveContainer"
 
 class Header extends Component {
     render() {
@@ -24,7 +26,7 @@ class Header extends Component {
 
         return (
             <div className="top-panel">
-                <div className="container">
+                <ResponsiveWidthHeader className="container">
                     <div className="split title-bar">
                         <img className="logo" src={logo} />
                         <div className="connect-container">
@@ -36,16 +38,24 @@ class Header extends Component {
                             </div>}
                         </div>
                     </div>
-                    <div className="header-stats split">
-                        <GlobalStats userInfo={info} />
-                        {info && 
-                            <BorrowLimit userInfo={info} />
+                    <Flex class="header-stats split" style={{
+                        paddingBottom: "40px", 
+                        flexWrap: "wrap" ,
+                        justifyContent: "space-around",
+                        alignContent: "center"
+                    }}>
+                        <Flex column style={{ paddingBottom: "20px" }}>
+                            <GlobalStats userInfo={info} />
+                        </Flex>
+                        <Flex column style={{ paddingBottom: "20px", alignItems: "center", justifyContent: "center" }}>                        {info && 
+                            <BorrowLimit2 userInfo={info} />
                         }
                         {!info &&
                             <Tvl2 tooltipData={tooltipData}/>
                         }
-                    </div>
-                </div>
+                        </Flex>
+                    </Flex>
+                </ResponsiveWidthHeader>
             </div>
         )
     }

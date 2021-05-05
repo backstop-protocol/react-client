@@ -9,6 +9,26 @@ import logo from "../assets/logo-maker-black.svg";
 import makerStore from "../stores/maker.store"
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
+import Flex, {FlexItem} from "styled-flex-component";
+import styled from "styled-components"
+import {device} from "../screenSizes";
+import ResponsiveWidthCol from "../components/style-components/ResponsiveContainer";
+
+const Overrides = styled.div`
+    overflow: hidden;
+    margin-bottom: 100px;
+    @media ${device.mobile} {
+      margin-top 40px;
+  } 
+`
+const Container = styled(ResponsiveWidthCol)`
+    border-radius: 12px;
+    border-style: solid;
+    border-width: 0.5px;
+    border-image-source: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4) 5%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0));
+    margin: 0;
+    margin-top: 40px;
+`
 
 class Dashboard extends Component {
 
@@ -41,26 +61,40 @@ class Dashboard extends Component {
     const { userInfo, userInfoUpdate } = makerStore
     console.log("userInfoUpdate ", userInfoUpdate)
     return (
-      <div className="content">
+      <Overrides className="content">
         <Header
           info={ userInfo !== null && userInfo}
           onConnect={this.onConnect}
           logo={logo}
         />
 
-        <div className="container currency-container split">
-          <EtheriumBox
-            userInfo={userInfo}
-            onPanelAction={this.onAction}
-          />
-          <DaiBox
-            userInfo={userInfo}
-            title={"DAI debt"}
-            icon={Etherium}
-            onPanelAction={this.onAction}
-          />
-        </div>
-      </div>
+        <Flex style={{
+                paddingBottom: "40px", 
+                flexWrap: "wrap" ,
+                justifyContent: "center",
+                alignItems: "center"
+              }}    
+              justifyCenter>
+            <Flex column style={{ padding: "10px" }}>
+              <Container>
+                <EtheriumBox
+                  userInfo={userInfo}
+                  onPanelAction={this.onAction}
+                />
+              </Container>
+            </Flex>
+            <Flex column style={{ padding: "10px" }}>
+              <Container>
+                <DaiBox
+                  userInfo={userInfo}
+                  title={"DAI debt"}
+                  icon={Etherium}
+                  onPanelAction={this.onAction}
+                />
+              </Container>
+            </Flex>
+        </Flex>
+      </Overrides>
     );
   }
 }
