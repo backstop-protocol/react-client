@@ -55,7 +55,6 @@ class CompoundStore {
     handleFirstFatch = ()=> {
         if(!this.firstUserInfoFetch){
             this.firstUserInfoFetch = true;
-            this.userInfoUpdateSideAffects()
         }
     }
 
@@ -67,6 +66,7 @@ class CompoundStore {
             this.processUserInfo(compUserInfo)
             compoundMigrationStore.getSupplyAndBorrow()
             this.handleFirstFatch()
+            this.userInfoUpdateSideAffects()
             userStore.removeConnectionWarning()
         } catch (err) {
             console.log(err)
@@ -92,7 +92,7 @@ class CompoundStore {
     }
 
     userInfoUpdateSideAffects = () => {
-        // sapyStore.onUserConnect()
+        apyStore.onUserConnect()
     }
 
     calcCompBlance = () => {        
