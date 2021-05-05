@@ -30,7 +30,7 @@ export default class GlobalStats extends Component {
     }
 
     render() {
-        const scoreType = window.location.pathname.indexOf("maker") > -1 ? "mScore" : "cScore"
+        const scoreType = window.location.href.indexOf("maker") > -1 ? "mScore" : "cScore"
         const {totalBproNotInWallet} = bproStore
         return (          
         <Observer>
