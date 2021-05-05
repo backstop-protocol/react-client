@@ -59,9 +59,11 @@ const App = observer(() => {
         <Router history={browserHistory}>
           {/* Default route */}
             <Route exact path="/">
-              <Redirect to="/app"/>
+              <Redirect to="/maker"/>
             </Route>
-            <Route exact path="/app" render={props =>(renderPage(props, Dashboard))} />
+            <Route exact path="/app">
+              <Redirect to="/maker"/>
+            </Route>
             <Route exact path="/maker" render={props =>(renderPage(props, Dashboard))} />
             <Route exact path="/compound" render={props =>(renderPage(props, Compound))} />
             <Route exact path="/faq" render={props =>(renderPage(props, FAQ))} />
