@@ -150,6 +150,15 @@ class Sidebar extends Component {
             </div>
             <div className="ln"> </div>
             <div
+              className={`product link-accesible`}
+            >
+              <a className="menu-item"
+                 href="https://forum.bprotocol.org"
+                 style={{ textDecoration: 'none' }}>
+                   Forum
+              </a>
+            </div>
+            <div
               className={`product link-accesible ${
                 pathname === "/faq" &&
                 "selected"
