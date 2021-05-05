@@ -84,7 +84,7 @@ class BproStore {
 
   getUnclaimableAmount = async () => {
     const {user, web3} = userStore
-    const res = await fetch("https://bpro.s3.amazonaws.com/score.json")
+    const res = await fetch("https://score.bprotocol.org")
     const currentScoreData = await res.json()
     const {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
     const {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
