@@ -19,7 +19,7 @@ class ApyStore {
   userDebt = 0
   userCollateral = 0
   userBproMonthlyYeald = 0
-  apy
+  apy = 0
 
   constructor(){
     makeAutoObservable(this)
@@ -37,8 +37,7 @@ class ApyStore {
     const {userInfo} = makerStore
     const makerDebt = userInfo.bCdpInfo.daiDebt.toString()
     const compoundDebt = compoundStore.totalBorrowedBalanceInUsd
-    debugger
-    this.userDebt = fromWei(toBN(toWei(makerDebt)).add(toBN(toWei(compoundDebt))).toString())
+    this.userDebt = (parseFloat(makerDebt) + parseFloat(compoundDebt)).toString()
   }
 
   getUserCollateral = async () => {
@@ -46,10 +45,9 @@ class ApyStore {
     const ethDeposit = userInfo.bCdpInfo.ethDeposit.toString()
     const spotPrice = userInfo.miscInfo.spotPrice.toString()
     
-    const makerColl = fromWei((toBN(toWei(ethDeposit)).mul(toBN(toWei(spotPrice)))).div(_1e18).toString())
+    const makerColl = (parseFloat(ethDeposit) * parseFloat(spotPrice)).toString()
     const compoundColl = compoundStore.totalDespositedBalanceInUsd
-    debugger
-    this.userCollateral = fromWei(toBN(toWei(makerColl)).add(toBN(toWei(compoundColl))).toString())
+    this.userCollateral = (parseFloat(makerColl) + parseFloat(compoundColl)).toString()
   }
 
   calcBproGrantForDebt = () => {
@@ -63,7 +61,7 @@ class ApyStore {
     const totalBproForCollateralMonthly = (50000/3)
     const userCollateralRatio = parseFloat(this.userCollateral)/parseFloat(this.totalCollateral)
     const userMontlyBproReturnOnCollateral = userCollateralRatio * totalBproForCollateralMonthly
-    debugger
+    return userMontlyBproReturnOnCollateral
     return userMontlyBproReturnOnCollateral
   }
 
@@ -83,7 +81,7 @@ class ApyStore {
       return res
 
     }catch (err){
-      console.error(err, "shmuel")
+      console.error(err)
     }
   }
   
@@ -100,7 +98,6 @@ class ApyStore {
   calcApy = async () => {
     const bproGrantForCollateral = this.calcBproGrantForCollateral()
     const bproGrantForDebt = this.calcBproGrantForDebt()
-    debugger
     this.apy = bproGrantForCollateral + bproGrantForDebt
   }
 
@@ -110,9 +107,8 @@ class ApyStore {
     const compoundTotalCollateral = await mainCompStore.tvlPromise
     const compoundTotalDebt = await this.calcCompoundTotalDebt()
     
-    this.totalDebt = fromWei(toBN(toWei(makerTotalDebt)).add(toBN(toWei(compoundTotalDebt))).toString())
-    debugger
-    this.totalCollateral = fromWei(toBN(toWei(makerTotalColl.toString())).add(toBN(toWei(compoundTotalCollateral.toString()))).toString())
+    this.totalDebt = (parseFloat(makerTotalDebt) + parseFloat(compoundTotalDebt)).toString()
+    this.totalCollateral = (makerTotalColl + compoundTotalCollateral).toString()
   }
 }
 

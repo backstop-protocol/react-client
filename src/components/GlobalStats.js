@@ -58,7 +58,7 @@ export default class GlobalStats extends Component {
                                 <h2>Accumulated BPRO
                                     <span className="tooltip-container">
                                         <Tooltip>
-                                            the estimated amount of <br/> BPRO you could claim
+                                            The estimated amount of <br/> BPRO you could claim
                                             {/* <h3>{numm(bproStore.totalBproNotInWallet,2)}</h3> */}
                                         </Tooltip>
                                         <img className="info-icon" src={InfoIcon} />
