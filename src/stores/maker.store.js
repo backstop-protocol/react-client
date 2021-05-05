@@ -15,7 +15,7 @@ class MakerStore {
     userInfoUpdate = 0
 
     constructor (){
-        // makeAutoObservable(this)
+        makeAutoObservable(this)
     }
 
     fetchAndUpdateUserInfo = async () => {
