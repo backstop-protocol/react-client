@@ -193,7 +193,7 @@ class Sidebar extends Component {
               <img src={Discord} />
             </a>
           </div>
-          <p className="credits">&copy; 2020 Smart Future Labs</p>
+          <p className="credits">&copy; 2021 Smart Future Labs</p>
         </div>
       </div>
     );
