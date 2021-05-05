@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
-import GlobalStats2 from "./GlobalStats2";
+import GlobalStats from "./GlobalStats";
 import BorrowLimit from "./BorrowLimit";
 import Tvl2 from "./Tvl2";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
@@ -38,7 +38,7 @@ class Header2 extends Component {
                         </div>
                     </div>
                     <div className="header-stats split">
-                        <GlobalStats2 />
+                        <GlobalStats />
                         <Transition
                             initial={null}
                             items={loggedIn}

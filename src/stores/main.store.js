@@ -28,10 +28,14 @@ class MainStore {
     stabilityFee = "0.0"
     ethMarketPrice = ""
     coinbaseLastUpdate
+    dataPromise
+    tvlDaiRaw = "0"
+    artToDaiRatio = "0"
+
 
     constructor (){
         makeAutoObservable(this)
-        this.fetchGeneralDappData()
+        this.dataPromise = this.fetchGeneralDappData()
     }
 
     async fetchGeneralDappData () {
@@ -47,11 +51,16 @@ class MainStore {
             this.originalInfoResponse = info
             info = ApiHelper.Humanize(info, web3);
             this.spotPrice = info.miscInfo.spotPrice
-            this.jarBalanceEth = parseFloat(info.userRatingInfo.jarBalance).toFixed(1);
-            this.jarBalanceUsd = parseFloat(info.userRatingInfo.jarBalance * this.spotPrice).toFixed(0)
+            this.jarBalanceEth = parseFloat(0).toFixed(1);
+            this.jarBalanceUsd = parseFloat(0 * this.spotPrice).toFixed(0)
         }catch (err){
             console.error("failed to fatch jar amount")
         }
+    }
+
+    async getTvlUsdNumeric () {
+        await this.dataPromise
+        return this.tvlUsdNumeric
     }
 
     async fetchTvl () {
@@ -61,6 +70,7 @@ class MainStore {
             this.tvlEth = parseFloat(web3.utils.fromWei(info.eth)).toFixed(1)
             this.tvlUsdNumeric = parseFloat(this.tvlEth * this.spotPrice)
             this.tvlUsd = toCommmSepratedString(this.tvlUsdNumeric.toFixed(1))
+            this.tvlDaiRaw = info.dai
             this.tvlDai = parseFloat(web3.utils.fromWei(info.dai)).toFixed(1)
             this.cdpi = info.cdpi
         }catch (err){
@@ -80,6 +90,7 @@ class MainStore {
             this.makerPriceFeedPriceNextPrice = parseFloat(data1.futurePrice).toFixed(2)
             this.defiexploreLastUpdate = data1.updatedAt  
             this.stabilityFee = data1.stabilityFee
+            this.artToDaiRatio = data1.rate
             this.coinbaseLastUpdate = data2.data.prices.latest_price.timestamp
             data2 = data2.data.prices.latest
             this.ethMarketPrice = parseFloat(data2).toFixed(2)    

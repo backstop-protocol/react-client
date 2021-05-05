@@ -88,6 +88,7 @@
       }
 
       .dollar-icon {
+        width: 40px;
         @media screen and (max-width: 1600px) {
           margin-top: 1px;
           width: 36px;
@@ -281,7 +282,7 @@
 
     img.floating {
       position: absolute;
-      left: calc(50% - 22px);
+      left: calc(50% - 20px);
       top: calc(50% - 24px);
       @media screen and (max-width: 1600px) {
         left: calc(50% - 19px);

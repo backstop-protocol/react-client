@@ -16,13 +16,21 @@ class MainCompStore {
     tvlNumeric = 0
     compoundAccounts = 0
     jar = "--,---"
+    coinMap = {}
     constructor (){
         makeAutoObservable(this)
         const web3 = new Web3(BP_API)
         this.compUserInfoPromise = getCompUserInfo(web3, 1, "0x0000000000000000000000000000000000000001", true)
-        this.fetchTvl()
+        this.tvlPromise = this.fetchTvl()
         this.fetchJar()
         this.setIntialStateApy()
+    }
+
+    async getTokenList () {
+        const compUserInfo = await this.compUserInfoPromise
+        return Object.keys(compUserInfo.tokenInfo).map(key=>{
+            return compUserInfo.tokenInfo[key].ctoken
+        })
     }
 
     async fetchJar () {
@@ -56,6 +64,7 @@ class MainCompStore {
                 numAccounts = tvlData.numAccounts
                 const [data, info] = [compUserInfo.bUser[address], compUserInfo.tokenInfo[address]]
                 const coin = new CToken(address, data, info)
+                this.coinMap[coin.cTokenAddress] = coin
                 const totalBalance = coin.getUnderlyingBalance(tvlData.ctokenBalance)
                 const totalBalanceUsd = coin.getUnderlyingBalanceInUsd(totalBalance)
                 tvl += parseFloat(totalBalanceUsd)
@@ -66,6 +75,7 @@ class MainCompStore {
                 this.tvl = toCommmSepratedString(this.tvlNumeric.toFixed(1))
                 this.compoundAccounts = numAccounts
             })
+            return this.tvlNumeric
         }catch (err){
             console.error("failed to fatch TVL for compound")
         }

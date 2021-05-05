@@ -4,8 +4,6 @@ import React, { Component } from "react";
 import logo from "../assets/compound-full-logo.svg";
 import Etherium from "../assets/etherium.svg";
 import Header2 from "../components/Header2";
-import EtheriumBox from "../components/EtheriumBox";
-import DaiBox from "../components/DaiBox";
 import { doApiAction } from "../lib/Actions";
 import compoundStore from "../stores/compound.store"
 import {observer} from "mobx-react"

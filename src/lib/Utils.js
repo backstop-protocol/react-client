@@ -9,3 +9,11 @@ export const isKovan = () => {
 }
 
 export const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+export const stringToFixed = (string, numbersAfterTheDeciamlPoint) => {
+    const decimalPointIndex = string.indexOf(".")
+    if(decimalPointIndex === -1){
+        return string
+    }
+    return string.slice(0, decimalPointIndex + numbersAfterTheDeciamlPoint)
+}
