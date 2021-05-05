@@ -47,7 +47,7 @@ export default class GlobalStats extends Component {
                                     </span>
                                 </h2>
                                 <div className="value">
-                                    <Ticker value={toNDecimals(apyStore.apy, 2)} />
+                                    <Ticker value={toNDecimals(apyStore.apy, 5)} />
                                 </div>
                                 <h2 style={{margin: "7px 0", marginLeft: "-6px"}}>
                                     <span style={{marginRight: "5px"}}>User {scoreType} </span>
