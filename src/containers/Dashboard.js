@@ -75,7 +75,7 @@ class Dashboard extends Component {
                 alignItems: "center"
               }}    
               justifyCenter>
-            <Flex column style={{ padding: "10px" }}>
+            <Flex column style={{ padding: "20px" }}>
               <Container>
                 <EtheriumBox
                   userInfo={userInfo}
@@ -83,7 +83,7 @@ class Dashboard extends Component {
                 />
               </Container>
             </Flex>
-            <Flex column style={{ padding: "10px" }}>
+            <Flex column style={{ padding: "20px" }}>
               <Container>
                 <DaiBox
                   userInfo={userInfo}
