@@ -289,12 +289,9 @@
       left: calc(50% - 20px);
       top: calc(50% - 24px);
       @media screen and (max-width: 1600px) {
-        left: calc(50% - 19px);
-        top: calc(50% - 23px);
-      }
-      @media screen and (max-width: 1366px) {
-        left: calc(50% - 19px);
-        top: calc(50% - 23px);
+        left: calc(50% - 17px);
+        top: calc(50% - 20px);
+        width: 31px;
       }
     }
   }

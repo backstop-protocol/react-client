@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Logo from "../assets/bprotocol.svg";
+import MenuLogo from "../assets/b-icon.svg";
 import Github from "../assets/github.svg";
 import Twitter from "../assets/twitter-icon.svg";
 import Linkedin from "../assets/linkedin.svg";
@@ -19,7 +20,6 @@ import userStore from "../stores/user.store"
 import styled from "styled-components"
 import MigrateFromCompound from "./compound-components/MigrateFromCompound"
 import {Transition} from 'react-spring/renderprops'
-import MenuLogo from "../assets/b-icon.svg";
 
 const MakerMigration = styled.div`
 
@@ -45,7 +45,6 @@ class Sidebar extends Component {
 
   resize() {
       this.setState({showSideBar : window.innerWidth >= 1050})
-      console.log(window.innerWidth);
   }
 
   getState(pathname) {
@@ -198,6 +197,7 @@ class Sidebar extends Component {
           </div>
         </div>
       </div>
+
     );
   }
 }
