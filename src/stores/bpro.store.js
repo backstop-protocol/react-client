@@ -88,12 +88,14 @@ class BproStore {
     const currentScoreData = await res.json()
     const {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
     const {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
-    console.log(this.claimable)
+    debugger
+    const unclaimable = fromWei(toBN(serverAmount).sub(toBN(ipfsAmount || 0)).toString())
     if(serverAmount){
       runInAction(()=> {
         this.mScore = fromWei(toBN(makerAmount).toString())
         this.cScore = fromWei(toBN(serverAmount).sub(toBN(makerAmount)).toString())
-        this.unclaimable = fromWei(toBN(serverAmount).sub(toBN(ipfsAmount || 0)).toString())
+        debugger
+        this.unclaimable = parseFloat(unclaimable) >= 0 ? unclaimable : "0"
       })
     }
     console.log(currentScoreData)
