@@ -87,8 +87,11 @@ class BproStore {
     const {user, web3} = userStore
     const res = await fetch("https://score.bprotocol.org")
     const currentScoreData = await res.json()
-    const {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
-    const {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
+    let {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
+    let {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
+    serverAmount = serverAmount || "0"
+    ipfsAmount = ipfsAmount || "0"
+    makerAmount = makerAmount || "0"
     const unclaimable = fromWei(toBN(serverAmount).sub(toBN(ipfsAmount || "0")).toString())
     if(serverAmount){
       runInAction(()=> {
