@@ -72,7 +72,7 @@ const getApy = (rate) => {
     // Calculating the APY Using Rate Per Block
     // https://compound.finance/docs#protocol-math
     const blockIntrest = parseFloat(fromWei(rate))
-    const blocksPerDay = 4 * 60 * 24 // based on 4 blocks occurring every minute
+    const blocksPerDay = 6570 // based on 4 blocks occurring every minute
     const daysPerYear = 365
 
     const APY = ((((blockIntrest * blocksPerDay + 1) ** daysPerYear - 1))) * 100

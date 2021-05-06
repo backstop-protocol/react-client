@@ -1,10 +1,13 @@
 import React, {Component} from "react";
-import {Observer} from "mobx-react"
+import {observer} from "mobx-react"
 import styled from 'styled-components';
 import Tooltip from "./Tooltip";
 import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../screenSizes";
-import mainStore from "../stores/main.store"
+import mainStore, {toCommmSepratedString} from "../stores/main.store"
+import mainCompStore from "../stores/main.comp.store"
+import AnimateNumberChange from "./style-components/AnimateNumberChange"
+import TvlTooltip from "./TvlTooltip"
 
 const TvlBox = styled.div`
     background-image: url("${require("../assets/tvl-bg.svg")}");
@@ -17,13 +20,13 @@ const TvlBox = styled.div`
     @media ${device.largeLaptop} {
         min-width: 505px;
         height: 116px;
-        padding: 18px 30px 23px 53px;
+        padding: 18px 62px 23px 53px;
     }
 
     @media ${device.laptop} {
         min-width: 466px;
         height: 103px;
-        padding: 17px 28px 21px 49px;
+        padding: 17px 59px 21px 49px;
         margin-top -6px;
     } 
 `
@@ -93,6 +96,7 @@ const TvlAmount = styled.div`
 `
 
 const Triangle = styled.div`
+    margin-left: 5px;
     display: inline-block;
     position: relative;
     transform: translateY(-80%);
@@ -123,48 +127,34 @@ const TvlGraphImg = styled.img`
 `
 
 const ToolTipLine = styled.div`
-    min-width: 160px;
+    min-width: 200px;
     padding: 5px;
     font-family: "Poppins", sans-serif;
     display: flex;
     justify-content: space-between;
 `
 
-export default class Tvl extends Component {
+class Tvl extends Component {
     render() {
+        const {tvlNumeric: compTvl} = mainCompStore
+        const {tvlUsdNumeric: makerTvl} = mainStore
+
+        // const tvl = toCommmSepratedString((compTvl + makerTvl).toFixed(1))
+        const tvl = (compTvl + makerTvl) 
        return (
            <div>
                <TvlBox>
-                   <Flex justifyStart>
+                   <Flex justifyBetween>
                        <FlexItem>
                             <TvlTitle>
                                 Total value locked
-                                <span className="tooltip-container">   
-                                    <Observer>
-                                        { ()=>                
-                                            <Tooltip>
-                                                <ToolTipLine> 
-                                                    <div> ETH deposits: </div> <div> { (mainStore.tvlEth / 1000).toFixed(2) }K </div>
-                                                </ToolTipLine>
-                                                <ToolTipLine> 
-                                                    <div> DAI debt: </div> <div> { (mainStore.tvlDai / 1000000).toFixed(2) }M </div>
-                                                </ToolTipLine>
-                                                <ToolTipLine> 
-                                                    <div> Number of Vaults: </div> <div> { mainStore.cdpi } </div>
-                                                </ToolTipLine>        
-                                            </Tooltip>
-                                        }
-                                    </Observer>
-                                    <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
-                                </span>
+                                <TvlTooltip/>
                             </TvlTitle>
-                            <Observer>
-                                { ()=> 
-                                    <TvlAmount>
-                                        ${mainStore.tvlUsd} <Triangle/>
-                                    </TvlAmount>
-                                }
-                            </Observer>
+                            <TvlAmount>
+                                {/* ${tvl} */}
+                                $<AnimateNumberChange decimals={1} val={tvl}/>
+                                <Triangle/> 
+                            </TvlAmount>
                        </FlexItem>
                        <FlexItem grow>
                             <TvlGraphImg src={require("../assets/tvl-graph.svg")}/>
@@ -175,3 +165,5 @@ export default class Tvl extends Component {
        )
     }
 }
+
+export default observer(Tvl)

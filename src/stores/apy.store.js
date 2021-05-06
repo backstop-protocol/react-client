@@ -14,12 +14,19 @@ const BP_API = "https://eth-node.b-protocol.workers.dev"
 
 class ApyStore {
 
-  totalDebt = 0
-  totalCollateral = 0
+  totalDebt = "0"
+  makerTotalDebt = "0"
+  CompoundTotalDebt = "0"
+  totalCollateral = "0"
+  makerTotalCollateral = "0"
+  compoundTotalCollateral = "0"
   userDebt = 0
   userCollateral = 0
   userBproMonthlyYeald = 0
-  apy = 0
+  apy = "0"
+  totalUsers = "0"
+  makerUsers = "0"
+  compoundUsers = "0"
 
   constructor(){
     makeAutoObservable(this)
@@ -101,14 +108,32 @@ class ApyStore {
     this.apy = bproGrantForCollateral + bproGrantForDebt
   }
 
+  getNumberOfUsers = async () =>{
+    this.makerUsers = await mainStore.dataPromise.then(()=>mainStore.cdpi)
+    this.compoundUsers = await mainCompStore.tvlPromise.then(()=>mainCompStore.compoundAccounts)
+
+    runInAction(()=> {
+      this.totalUsers = parseFloat(this.makerUsers)+ parseFloat(this.compoundUsers)
+    })
+  }
+
   init = async () => {
-    const makerTotalColl = await mainStore.getTvlUsdNumeric()
-    const makerTotalDebt = await this.calcMakerTotalDebt()
-    const compoundTotalCollateral = await mainCompStore.tvlPromise
-    const compoundTotalDebt = await this.calcCompoundTotalDebt()
-    
-    this.totalDebt = (parseFloat(makerTotalDebt) + parseFloat(compoundTotalDebt)).toString()
-    this.totalCollateral = (makerTotalColl + compoundTotalCollateral).toString()
+    this.getNumberOfUsers()
+    const [makerTotalColl, makerTotalDebt, compoundTotalCollateral, compoundTotalDebt] = await Promise.all([
+        mainStore.getTvlUsdNumeric(), 
+        this.calcMakerTotalDebt(),
+        mainCompStore.tvlPromise,
+        this.calcCompoundTotalDebt()
+      ])
+
+    runInAction(()=> {
+      this.totalDebt = (parseFloat(makerTotalDebt) + parseFloat(compoundTotalDebt)).toString()
+      this.totalCollateral = (makerTotalColl + compoundTotalCollateral).toString()
+      this.makerTotalDebt = makerTotalDebt
+      this.compoundTotalDebt = compoundTotalDebt
+      this.makerTotalCollateral = makerTotalColl
+      this.compoundTotalCollateral = compoundTotalCollateral
+    })
   }
 }
 
