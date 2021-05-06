@@ -7,7 +7,7 @@ const ResponsiveWidthCol = styled.div`
         width: 560px;
     }
     @media ${device.laptop} {
-        width: 498px;
+        width: 470px;
     }
     @media ${device.mobile} {
         width: 400px;
@@ -21,11 +21,10 @@ export const ResponsiveWidthHeader = styled.div`
         max-width: ${560 * 2 + 40}px;
     }
     @media ${device.laptop} {
-        max-width: ${498 * 2 + 40}px;
+        max-width: ${470 * 2 + 40}px;
         padding: 0;
     }
     @media ${device.mobile} {
-        width: auto;
         max-width: ${400 *2 + 40}px;
         padding: 0;
     }

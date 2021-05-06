@@ -18,7 +18,6 @@ const Overrides = styled.div`
     overflow: hidden;
     margin-bottom: 100px;
     @media ${device.mobile} {
-      margin-top 40px;
   } 
 `
 const Container = styled(ResponsiveWidthCol)`
@@ -27,7 +26,6 @@ const Container = styled(ResponsiveWidthCol)`
     border-width: 0.5px;
     border-image-source: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4) 5%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0));
     margin: 0;
-    margin-top: 40px;
 `
 
 class Dashboard extends Component {
@@ -75,7 +73,7 @@ class Dashboard extends Component {
                 alignItems: "center"
               }}    
               justifyCenter>
-            <Flex column style={{ padding: "20px" }}>
+            <Flex column style={{ padding: "10px" }}>
               <Container>
                 <EtheriumBox
                   userInfo={userInfo}
@@ -83,7 +81,7 @@ class Dashboard extends Component {
                 />
               </Container>
             </Flex>
-            <Flex column style={{ padding: "20px" }}>
+            <Flex column style={{ padding: "10px" }}>
               <Container>
                 <DaiBox
                   userInfo={userInfo}
