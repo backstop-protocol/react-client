@@ -18,6 +18,7 @@ const Overrides = styled.div`
     overflow: hidden;
     margin-bottom: 100px;
     @media ${device.mobile} {
+      margin-top 40px;
   } 
 `
 const Container = styled(ResponsiveWidthCol)`
@@ -73,7 +74,7 @@ class Dashboard extends Component {
                 alignItems: "center"
               }}    
               justifyCenter>
-            <Flex column style={{ padding: "10px" }}>
+            <Flex column style={{ padding: "20px" }}>
               <Container>
                 <EtheriumBox
                   userInfo={userInfo}
@@ -81,7 +82,7 @@ class Dashboard extends Component {
                 />
               </Container>
             </Flex>
-            <Flex column style={{ padding: "10px" }}>
+            <Flex column style={{ padding: "20px" }}>
               <Container>
                 <DaiBox
                   userInfo={userInfo}
