@@ -12,7 +12,7 @@ const borrowOval = require("../../assets/images/borrow-repay.png")
 
 const Container = styled(ResponsiveWidthCol)`
     position: relative;
-    margin: 0 10px;
+    margin: 0 20px;
     border-radius: 12px;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.22);
     background-image: radial-gradient(circle at 48% 100%, rgba(206, 255, 225, 0.3), rgba(212, 242, 224, 0) 55%), linear-gradient(to bottom, white, white);

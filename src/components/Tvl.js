@@ -10,6 +10,7 @@ const TvlBox = styled.div`
     background-image: url("${require("../assets/tvl-bg.svg")}");
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: contain;
+    background-position-x: center;
     min-width: 566px;
     height: 146px;
     padding: 20px 33.3px 10px 58px;
@@ -99,6 +100,7 @@ const Triangle = styled.div`
     width: 14px;
     height: 12px;
     background-image: url("${require("../assets/triangle.svg")}");
+    background-position-x: center;
 
     @media ${device.largeLaptop} {
         width: 12px;
@@ -135,7 +137,7 @@ export default class Tvl extends Component {
        return (
            <div>
                <TvlBox>
-                   <Flex justifyStart>
+                   <Flex justifyCenter>
                        <FlexItem>
                             <TvlTitle>
                                 Total value locked

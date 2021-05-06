@@ -12,6 +12,7 @@ const TvlBox = styled.div`
     background-image: url("${require("../assets/tvl-bg.svg")}");
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: contain;
+    background-position-x: center;
     min-width: 566px;
     height: 146px;
     padding: 20px 33.3px 10px 58px;
@@ -25,7 +26,7 @@ const TvlBox = styled.div`
     @media ${device.laptop} {
         min-width: 466px;
         height: 103px;
-        padding: 17px 59px 21px 49px;
+        padding: 17px 59px 21px 59px;
         margin-top -6px;
     } 
 `

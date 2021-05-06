@@ -15,7 +15,7 @@ import TermsAndConditionsContent from "./TermsAndConditionContent"
 import BproClaimModal from "./BproClaimModal"
 
 const Container = styled.div`
-  min-width: 554px;
+  min-width: 454px;
   min-height: 400px;
   border-radius: 4px;
   width: 80vw;
