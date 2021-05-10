@@ -27,7 +27,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "react-scripts start",
-    "build": "npm version patch && react-scripts build && cd build && cp index.html 404.html",
+    "build": "react-scripts build && cd build && cp index.html 404.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
