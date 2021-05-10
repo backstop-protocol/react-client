@@ -3,7 +3,7 @@ import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
 import GlobalStats from "./GlobalStats";
 import BorrowLimit from "./BorrowLimit";
-import Tvl2 from "./Tvl2";
+import Tvl from "./Tvl";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
 import userStore from "../stores/user.store"
 import {observer} from "mobx-react"
@@ -19,11 +19,6 @@ class Header2 extends Component {
 
         const {info, onConnect, logo} = this.props;
         const {loggedIn} = userStore
-        const tooltipData = {
-            "Maker": `$${mainStore.tvlUsd}`,
-            "Compound": `$${mainCompStore.tvl}`,
-            "Accounts": `${mainCompStore.compoundAccounts}` 
-        }
         return (
             <div style={{zIndex: -10}} className="top-panel">
                 <ResponsiveWidthHeader className="container">
@@ -57,7 +52,7 @@ class Header2 extends Component {
                                     {toggle =>
                                         toggle
                                         ? props => <div style={props}><HeaderBorrowLimit/></div>
-                                        : props => <div style={props}><Tvl2 tooltipData={tooltipData}/></div>
+                                        : props => <div style={props}><Tvl/></div>
                                     }
                                 </Transition>
                         </Flex>
