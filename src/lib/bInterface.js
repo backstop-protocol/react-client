@@ -23,7 +23,8 @@ const migrateAddress = "0xA30b9677A14ED10ecEb6BA87af73A27F51A17C89"
 
 const voteAndClaimAddress = "0x923e21308f2468377b5655cd470662e3c24ed404"
 
-const ETH_ILK = "0x4554482d41000000000000000000000000000000000000000000000000000000"
+const ETH_A_ILK = "0x4554482d41000000000000000000000000000000000000000000000000000000"
+const ETH_B_ILK = "0x4554482d42000000000000000000000000000000000000000000000000000000"
 
 const mainnetAddresses =
 {
@@ -39,6 +40,7 @@ const mainnetAddresses =
      "MCD_SPOT" : "0x65C79fcB50Ca1594B025960e539eD7A9a6D434A3",
      "PROXY_REGISTRY" : "0x4678f0a6958e4D2Bc4F1BAF7Bc52E8F3564f3fE4",
      "MCD_JOIN_ETH_A" : "0x2F0b23f53734252Bda2277357e97e1517d6B042A",
+     "MCD_JOIN_ETH_B" : "0x08638eF1A205bE6762A8b935F5da9b700Cf7322c",     
      "MCD_JOIN_DAI" : "0x9759A6Ac90977b93B58547b4A71c78317f391A28",
      "MCD_JUG" : "0x19c0976f590D67707E62397C87829d896Dc0f1F1",
      "MCD_DAI" : "0x6B175474E89094C44Da98b954EedeAC495271d0F"
@@ -60,6 +62,7 @@ const kovanAddresses =
     "MCD_SPOT" : "0x3a042de6413eDB15F2784f2f97cC68C7E9750b2D",
     "PROXY_REGISTRY" : "0x64A436ae831C1672AE81F674CAb8B6775df3475C",
     "MCD_JOIN_ETH_A" : "0x775787933e92b709f2a3C70aa87999696e74A9F8",
+    "MCD_JOIN_ETH_B" : "0xd19A770F00F89e6Dd1F12E6D6E6839b95C084D85",    
     "MCD_JOIN_DAI" : "0x5AA71a3ae1C0bd6ac27A1f28e1415fFFB6F15B8c",
     "MCD_JUG" : "0xcbB7718c9F39d05aEEDE1c472ca8Bf804b2f1EaD",
     "MCD_DAI" : "0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa"
@@ -73,10 +76,18 @@ function getAddress(name, networkId) {
     return mainnetAddresses[name]
 }
 
-export const getUserInfo = function(web3, networkId, user) {
+function getJoinAddress(ilk, networkId) {
+  if(ilk === ETH_A_ILK) return getAddress("MCD_JOIN_ETH_A", networkId)
+  if(ilk === ETH_B_ILK) return getAddress("MCD_JOIN_ETH_B", networkId)
+
+  assert(false, "unknown ilk " + ilk.toString())
+  //return null // TODO raise an exception
+}
+
+export const getUserInfo = function(web3, networkId, user, ilk) {
   const infoContract = new web3.eth.Contract(infoAbi,getAddress("INFO_ADDRESS",networkId))
   return infoContract.methods.getInfo(user,
-                                      ETH_ILK,
+                                      ilk,
                                       getAddress("BCDP_MANGER", networkId),
                                       getAddress("CDP_MANAGER", networkId),
                                       getAddress("GET_CDPS", networkId),
@@ -86,31 +97,31 @@ export const getUserInfo = function(web3, networkId, user) {
                                       getAddress("JAR", networkId)).call({gasLimit:10e6})
 }
 
-export const firstDeposit = function(web3, networkId, user) {
+export const firstDeposit = function(web3, networkId, user, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS", networkId))
   return actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY", networkId),
                                                                getAddress("BCDP_MANGER", networkId),
-                                                               getAddress("MCD_JOIN_ETH_A", networkId),
-                                                               ETH_ILK,
+                                                               getJoinAddress(ilk, networkId),
+                                                               ilk,
                                                                user)
 }
 
-export const depositETH = function(web3, networkId, userProxy, cdp) {
+export const depositETH = function(web3, networkId, userProxy, cdp, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS", networkId))
 
   const data = actionProxyContract.methods.lockETHViaCdp(getAddress("BCDP_MANGER", networkId),
-                                                         getAddress("MCD_JOIN_ETH_A", networkId),
+                                                         getJoinAddress(ilk, networkId),
                                                          cdp).encodeABI()
 
   const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
 }
 
-export const withdrawETH = function(web3, networkId, userProxy, cdp, wad) {
+export const withdrawETH = function(web3, networkId, userProxy, cdp, wad, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
 
   const data = actionProxyContract.methods.freeETH(getAddress("BCDP_MANGER", networkId),
-                                                   getAddress("MCD_JOIN_ETH_A", networkId),
+                                                   getJoinAddress(ilk, networkId),
                                                    cdp,
                                                    wad).encodeABI()
 
@@ -174,13 +185,13 @@ export const claimUnlockedCollateral = function(web3, networkId, userProxy, cdp,
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
 }
 
-export const migrateFresh = function(web3, networkId, userProxy, makerDaoCdp) {
+export const migrateFresh = function(web3, networkId, userProxy, makerDaoCdp, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
 
   const data = actionProxyContract.methods.openAndImportFromManager(getAddress("CDP_MANAGER",networkId),
                                                                     getAddress("BCDP_MANGER",networkId),
                                                                     makerDaoCdp,
-                                                                    ETH_ILK).encodeABI()
+                                                                    ilk).encodeABI()
 
   const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
@@ -199,54 +210,26 @@ export const migrateToExisting = function(web3, networkId, userProxy, makerDaoCd
 }
 
 // migrate from b protocol back to makerdao, with a new cdp number
-export const exportFresh = function(web3, networkId, userProxy, bCdp) {
+export const exportFresh = function(web3, networkId, userProxy, bCdp, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
 
   const data = actionProxyContract.methods.openAndImportFromManager(getAddress("BCDP_MANGER",networkId),
                                                                     getAddress("CDP_MANAGER",networkId),
                                                                     bCdp,
-                                                                    ETH_ILK).encodeABI()
+                                                                    ilk).encodeABI()
 
   const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
 }
 
 // this will be used only for testings
-export const openMakerDaoCdp = function(web3, networkId, user) {
+export const openMakerDaoCdp = function(web3, networkId, user, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
   return actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY",networkId),
                                                                getAddress("CDP_MANAGER",networkId),
-                                                               getAddress("MCD_JOIN_ETH_A",networkId),
-                                                               ETH_ILK,
+                                                               getJoinAddress(ilk, networkId),
+                                                               ilk,
                                                                user)
-}
-
-export const vote = function(web3, networkId, userProxy, cdp, proposalId) {
-  const voteAndClaim = new web3.eth.Contract(voteAndClaimABI, voteAndClaimAddress)
-  const data = voteAndClaim.methods.vote(proposalId, cdp).encodeABI()
-  const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
-  return proxyContract.methods['execute(address,bytes)'](voteAndClaimAddress,data)
-}
-
-export const claimJar = function(web3, networkId, userProxy, cdp) {
-  const voteAndClaim = new web3.eth.Contract(voteAndClaimABI, voteAndClaimAddress)
-  const data = voteAndClaim.methods.claim(cdp).encodeABI()
-  const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
-  return proxyContract.methods['execute(address,bytes)'](voteAndClaimAddress,data)
-}
-
-export const jarClaimedScore = function(web3) {
-  const jarAddress = "0x3C36cCf03dAB88c1b1AC1eb9C3Fb5dB0b6763cFF"
-  const { Contract } = web3.eth
-  const jar = new Contract(jarABI, jarAddress)
-  return jar.methods.scoreWithdrawn("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").call({gasLimit:10e6})
-}
-
-export const getVoteProposal = (web3, networkId, proposalId) => {
-  const { Contract } = web3.eth
-  const voteContract = new Contract(migrateAbi, migrateAddress)
-  
-  return voteContract.methods.proposals(proposalId).call({gasLimit:10e6})
 }
 
 export const getStats = function (web3, networkId){
