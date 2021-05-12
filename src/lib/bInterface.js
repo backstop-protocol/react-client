@@ -15,16 +15,10 @@ const daiAbi =
 
 const bStatsAbi = [{"constant":true,"inputs":[{"internalType":"contract BCdpManagerLike","name":"man","type":"address"}],"name":"getStats","outputs":[{"internalType":"uint256","name":"cdpi","type":"uint256"},{"internalType":"uint256","name":"eth","type":"uint256"},{"internalType":"uint256","name":"dai","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
 
-const voteAndClaimABI = [{"constant":false,"inputs":[{"internalType":"uint256","name":"cdp","type":"uint256"}],"name":"claim","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"},{"internalType":"uint256","name":"cdp","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]
-
-const migrateAbi = [{"inputs":[{"internalType":"contract JarConnector","name":"jarConnector_","type":"address"},{"internalType":"contract BCdpManager","name":"man_","type":"address"},{"internalType":"contract GovernanceExecutor","name":"executor_","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"Executed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"address","name":"newOwner","type":"address"}],"name":"NewProposal","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"Queued","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"cdp","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"score","type":"uint256"}],"name":"VoteCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"cdp","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"score","type":"uint256"}],"name":"Voted","type":"event"},{"constant":true,"inputs":[],"name":"DELAY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"},{"internalType":"uint256","name":"cdp","type":"uint256"}],"name":"cancelVote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"executeProposal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"executor","outputs":[{"internalType":"contract GovernanceExecutor","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"jarConnector","outputs":[{"internalType":"contract JarConnector","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"man","outputs":[{"internalType":"contract BCdpManager","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"proposals","outputs":[{"internalType":"uint256","name":"forVotes","type":"uint256"},{"internalType":"uint256","name":"eta","type":"uint256"},{"internalType":"address","name":"newOwner","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"propose","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"queueProposal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"},{"internalType":"uint256","name":"cdp","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]
-
-const migrateAddress = "0xA30b9677A14ED10ecEb6BA87af73A27F51A17C89" 
-
-const voteAndClaimAddress = "0x923e21308f2468377b5655cd470662e3c24ed404"
-
 const ETH_A_ILK = "0x4554482d41000000000000000000000000000000000000000000000000000000"
 const ETH_B_ILK = "0x4554482d42000000000000000000000000000000000000000000000000000000"
+
+const collateralFactor = { [ETH_A_ILK] : 1.5, [ETH_B_ILK] : 1.3 }
 
 const mainnetAddresses =
 {
@@ -45,8 +39,6 @@ const mainnetAddresses =
      "MCD_JUG" : "0x19c0976f590D67707E62397C87829d896Dc0f1F1",
      "MCD_DAI" : "0x6B175474E89094C44Da98b954EedeAC495271d0F"
 }
-
-const jarABI = [{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"},{"internalType":"uint256","name":"_withdrawTimelock","type":"uint256"},{"internalType":"address","name":"_connector","type":"address"},{"internalType":"address","name":"_vat","type":"address"},{"internalType":"bytes32[]","name":"_ilks","type":"bytes32[]"},{"internalType":"address[]","name":"_gemJoins","type":"address[]"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"user","type":"bytes32"},{"indexed":false,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"address","name":"token","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Withdrawn","type":"event"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"constant":true,"inputs":[],"name":"connector","outputs":[{"internalType":"contract IConnector","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"gemExit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"gemExitCalled","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"gemJoins","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ilks","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"roundId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"scoreWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"vat","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"user","type":"bytes32"},{"internalType":"address","name":"token","type":"address"}],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"withdrawTimelock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"address","name":"","type":"address"}],"name":"withdrawn","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"}]
 
 const kovanAddresses =
 {
@@ -251,6 +243,7 @@ export function toNumber(bignum,web3) {
 function calcNewBorrowAndLPrice(userInfo,
                                 dEth,
                                 dDai,
+                                ilk,
                                 web3) {
   dEth = toNumber(dEth,web3)
   dDai = toNumber(dDai,web3)
@@ -261,7 +254,7 @@ function calcNewBorrowAndLPrice(userInfo,
   const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3)
 
   if(ethDeposit == 0 && dEth > 0) {
-    const newMaxDaiDebt = spotPrice * dEth / 1.5; // todo - read 1.5 from the blockchain
+    const newMaxDaiDebt = spotPrice * dEth / collateralFactor[ilk]; // todo - read 1.5 from the blockchain
     return [web3.utils.toWei(newMaxDaiDebt.toFixed(17).toString()), web3.utils.toWei("0")]
   }
   if((ethDeposit == 0) || (ethDeposit + dEth == 0)) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
@@ -282,8 +275,8 @@ const liqudationMsg = "vault is being liqudated"
 const checkForActiveLiqudation = ({bCdpInfo: {bitten}}) => bitten ? [false,liqudationMsg] : [true,""]
 
 export const verifyDepositInput = function(userInfo,
-                                             dEth,
-                                             web3) {
+                                           dEth,
+                                           web3) {
   dEth = toNumber(dEth,web3)
   if(dEth <= 0) return [false, "Deposit amount must be positive"]
 
@@ -301,8 +294,8 @@ export const verifyDepositInput = function(userInfo,
 ////////////////////////////////////////////////////////////////////////////////
 
 export const verifyWithdrawInput = function(userInfo,
-                                              dEth,
-                                              web3) {
+                                            dEth,
+                                            web3) {
   const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo, web3)
   if(debtIsBiggerThanDust){
     return [false, debtIsBiggerThanDust]
@@ -312,7 +305,7 @@ export const verifyWithdrawInput = function(userInfo,
   if(dEth <= 0) return [false, "Withdraw amount must be positive"]
   if(dEth > toNumber(userInfo.bCdpInfo.ethDeposit,web3)) return [false, "Amount exceeds CDP deposit"]
 
-  const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,dEthMinus.toString(10),"0",web3)
+  const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,dEthMinus.toString(10),"0",null,web3)
   if(toNumber(maxDebt,web3) < toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds allowed withdrawal"]
 
   return checkForActiveLiqudation(userInfo)
