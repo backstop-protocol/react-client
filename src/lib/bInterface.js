@@ -80,7 +80,8 @@ function getJoinAddress(ilk, networkId) {
   if(ilk === ETH_A_ILK) return getAddress("MCD_JOIN_ETH_A", networkId)
   if(ilk === ETH_B_ILK) return getAddress("MCD_JOIN_ETH_B", networkId)
 
-  return null // TODO raise an exception
+  assert(false, "unknown ilk " + ilk.toString())
+  //return null // TODO raise an exception
 }
 
 export const getUserInfo = function(web3, networkId, user, ilk) {
@@ -128,12 +129,12 @@ export const withdrawETH = function(web3, networkId, userProxy, cdp, wad, ilk) {
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
 }
 
-export const generateDai = function(web3, networkId, userProxy, cdp, wad, ilk) {
+export const generateDai = function(web3, networkId, userProxy, cdp, wad) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
 
   const data = actionProxyContract.methods.draw(getAddress("BCDP_MANGER",networkId),
                                                 getAddress("MCD_JUG",networkId),
-                                                getJoinAddress(ilk, networkId),
+                                                getAddress("MCD_JOIN_DAI",networkId),
                                                 cdp,
                                                 wad).encodeABI()
 
