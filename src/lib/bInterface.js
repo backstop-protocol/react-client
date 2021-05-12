@@ -23,8 +23,6 @@ const migrateAddress = "0xA30b9677A14ED10ecEb6BA87af73A27F51A17C89"
 
 const voteAndClaimAddress = "0x923e21308f2468377b5655cd470662e3c24ed404"
 
-const ETH_ILK = "0x4554482d41000000000000000000000000000000000000000000000000000000"
-
 const mainnetAddresses =
 {
      "INFO_ADDRESS" : "0xbd19bcee71eb819bad8649bfc8883772fed176d8",
@@ -73,10 +71,11 @@ function getAddress(name, networkId) {
     return mainnetAddresses[name]
 }
 
-export const getUserInfo = function(web3, networkId, user) {
+export const getUserInfo = function(web3, networkId, user, ilk) {
+  debugger
   const infoContract = new web3.eth.Contract(infoAbi,getAddress("INFO_ADDRESS",networkId))
   return infoContract.methods.getInfo(user,
-                                      ETH_ILK,
+                                      ilk,
                                       getAddress("BCDP_MANGER", networkId),
                                       getAddress("CDP_MANAGER", networkId),
                                       getAddress("GET_CDPS", networkId),
@@ -86,12 +85,12 @@ export const getUserInfo = function(web3, networkId, user) {
                                       getAddress("JAR", networkId)).call({gasLimit:10e6})
 }
 
-export const firstDeposit = function(web3, networkId, user) {
+export const firstDeposit = function(web3, networkId, user, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS", networkId))
   return actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY", networkId),
                                                                getAddress("BCDP_MANGER", networkId),
                                                                getAddress("MCD_JOIN_ETH_A", networkId),
-                                                               ETH_ILK,
+                                                               ilk,
                                                                user)
 }
 
@@ -174,13 +173,13 @@ export const claimUnlockedCollateral = function(web3, networkId, userProxy, cdp,
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
 }
 
-export const migrateFresh = function(web3, networkId, userProxy, makerDaoCdp) {
+export const migrateFresh = function(web3, networkId, userProxy, makerDaoCdp, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
 
   const data = actionProxyContract.methods.openAndImportFromManager(getAddress("CDP_MANAGER",networkId),
                                                                     getAddress("BCDP_MANGER",networkId),
                                                                     makerDaoCdp,
-                                                                    ETH_ILK).encodeABI()
+                                                                    ilk).encodeABI()
 
   const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
@@ -199,25 +198,25 @@ export const migrateToExisting = function(web3, networkId, userProxy, makerDaoCd
 }
 
 // migrate from b protocol back to makerdao, with a new cdp number
-export const exportFresh = function(web3, networkId, userProxy, bCdp) {
+export const exportFresh = function(web3, networkId, userProxy, bCdp, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
 
   const data = actionProxyContract.methods.openAndImportFromManager(getAddress("BCDP_MANGER",networkId),
                                                                     getAddress("CDP_MANAGER",networkId),
                                                                     bCdp,
-                                                                    ETH_ILK).encodeABI()
+                                                                    ilk).encodeABI()
 
   const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
 }
 
 // this will be used only for testings
-export const openMakerDaoCdp = function(web3, networkId, user) {
+export const openMakerDaoCdp = function(web3, networkId, user, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
   return actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY",networkId),
                                                                getAddress("CDP_MANAGER",networkId),
                                                                getAddress("MCD_JOIN_ETH_A",networkId),
-                                                               ETH_ILK,
+                                                               ilk,
                                                                user)
 }
 
@@ -269,6 +268,7 @@ function calcNewBorrowAndLPrice(userInfo,
                                 dEth,
                                 dDai,
                                 web3) {
+                                  debugger
   dEth = toNumber(dEth,web3)
   dDai = toNumber(dDai,web3)
   const ethDeposit = toNumber(userInfo.bCdpInfo.ethDeposit,web3)
