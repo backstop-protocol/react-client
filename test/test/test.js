@@ -26,7 +26,7 @@ contract('B Interface', function (accounts) {
     assert(! userInfo.proxyInfo.hasProxy, "user is not expected to have a proxy")
 
     const depositVal = web3.utils.toWei("2") // 2 ETH
-    const txObject = B.firstDeposit(web3,networkId,user, ilk)
+    const txObject = B.firstDepositETH(web3,networkId,user, ilk)
     //console.log({txObject})
     const gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
     console.log({gasConsumption})
@@ -256,7 +256,7 @@ contract('B Interface', function (accounts) {
     assert.equal(newLiqPrice10.toString(10),"0")
 
     const depositVal = web3.utils.toWei("5") // 5 ETH
-    const txObject = B.firstDeposit(web3,networkId,user,ilk)
+    const txObject = B.firstDepositETH(web3,networkId,user,ilk)
     //console.log({txObject})
     const gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
     console.log({gasConsumption})
@@ -316,7 +316,7 @@ contract('B Interface', function (accounts) {
     const user = accounts[3]
 
     const depositVal = web3.utils.toWei("5") // 5 ETH
-    const txObject = B.firstDeposit(web3,networkId,user,ilk)
+    const txObject = B.firstDepositETH(web3,networkId,user,ilk)
     //console.log({txObject})
     const gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
     console.log({gasConsumption})
@@ -500,7 +500,7 @@ contract('B Interface', function (accounts) {
     const user = accounts[4]
 
     const depositVal = web3.utils.toWei("3") // 2 ETH
-    const txObject = B.firstDeposit(web3,networkId,user,ilk)
+    const txObject = B.firstDepositETH(web3,networkId,user,ilk)
     //console.log({txObject})
     let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
     console.log({gasConsumption})
@@ -548,7 +548,7 @@ contract('B Interface', function (accounts) {
     const user = accounts[5]
 
     const depositVal = web3.utils.toWei("3") // 2 ETH
-    const txObject = B.firstDeposit(web3,networkId,user,ilk)
+    const txObject = B.firstDepositETH(web3,networkId,user,ilk)
     //console.log({txObject})
     let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
     console.log({gasConsumption})
@@ -604,7 +604,7 @@ contract('B Interface', function (accounts) {
 
     const depositVal = web3.utils.toWei("6") // 6 ETH
 
-    let txObject = B.firstDeposit(web3,networkId,user,ilk)
+    let txObject = B.firstDepositETH(web3,networkId,user,ilk)
     //console.log({txObject})
     let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
     console.log({gasConsumption})
@@ -648,7 +648,7 @@ contract('B Interface', function (accounts) {
 
     const depositVal = web3.utils.toWei("6") // 6 ETH
 
-    let txObject = B.firstDeposit(web3,networkId,user,ilk)
+    let txObject = B.firstDepositETH(web3,networkId,user,ilk)
     //console.log({txObject})
     let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
     console.log({gasConsumption})
