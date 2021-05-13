@@ -3,7 +3,7 @@
  */
 import { runInAction, makeAutoObservable } from "mobx"
 import compoundStore from "./compound.store"
-import makerStore from "./maker.store"
+import makerStoreManager from "./maker.store"
 import routerStore from "./router.store"
 import EventBus from "../lib/EventBus"
 import Web3 from "web3"
@@ -82,8 +82,8 @@ class UserStore {
 
     fetchUserInfos () {
         return Promise.all([
+            makerStoreManager.getAllUserInfo(),
             compoundStore.getUserInfo(),
-            makerStore.getUserInfo()
         ])
     }
 

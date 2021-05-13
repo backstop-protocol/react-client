@@ -1,7 +1,7 @@
 import { runInAction, makeAutoObservable } from "mobx"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
-import makerStore from "../stores/maker.store"
+import {makerStores} from "../stores/maker.store"
 import compoundStore from "../stores/compound.store"
 import {getCompounndTotalDebt} from "../lib/ScoreInterface"
 import {ApiAction} from "../lib/ApiHelper"
@@ -40,19 +40,39 @@ class ApyStore {
     await this.calcApy()
   }
 
+  getMakerDebt = async () => {
+    let makerDebt = 0
+    await Promise.all(Object.values(makerStores).map(store => store.userInfoPromise))
+    Object.values(makerStores).forEach(store => {
+      const userInfo = store.userInfo
+      makerDebt += userInfo.bCdpInfo.daiDebt
+    })
+    return makerDebt.toString()
+  }
+
   getUserDebt = async () => {
-    const {userInfo} = makerStore
-    const makerDebt = userInfo.bCdpInfo.daiDebt.toString()
+    const makerDebt = await this.getMakerDebt()
+    await compoundStore.userInfoPromise
     const compoundDebt = compoundStore.totalBorrowedBalanceInUsd
     this.userDebt = (parseFloat(makerDebt) + parseFloat(compoundDebt)).toString()
   }
 
+  getMakerColl = async() => {
+    let makerColl = 0
+    await Promise.all(Object.values(makerStores).map(store => store.userInfoPromise))
+    Object.values(makerStores).forEach(store => {
+      const userInfo = store.userInfo
+      const ethDeposit = userInfo.bCdpInfo.ethDeposit.toString()
+      const spotPrice = userInfo.miscInfo.spotPrice.toString()
+      
+      makerColl += (parseFloat(ethDeposit) * parseFloat(spotPrice))
+    })
+    return makerColl.toString()
+  }
+
   getUserCollateral = async () => {
-    const {userInfo} = makerStore
-    const ethDeposit = userInfo.bCdpInfo.ethDeposit.toString()
-    const spotPrice = userInfo.miscInfo.spotPrice.toString()
-    
-    const makerColl = (parseFloat(ethDeposit) * parseFloat(spotPrice)).toString()
+    const makerColl = await this.getMakerColl()
+    await compoundStore.userInfoPromise
     const compoundColl = compoundStore.totalDespositedBalanceInUsd
     this.userCollateral = (parseFloat(makerColl) + parseFloat(compoundColl)).toString()
   }

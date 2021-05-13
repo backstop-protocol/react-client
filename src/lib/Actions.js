@@ -114,7 +114,7 @@ export async function migrateMakerDao() {
     }
     else { // first deposit
         return await ApiAction(
-            B.migrateFresh(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp),
+            B.migrateFresh(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.makerdaoCdpInfo.cdp, ilk),
             user,
             web3,
             0
@@ -140,7 +140,7 @@ export async function deposit(amountEth, onHash) {
     const {web3, networkType: networkId, user} = userStore
     const val = web3.utils.toWei(amountEth);
     if (userInfo.bCdpInfo.hasCdp) {
-        return await ApiAction(B.depositETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp), user, web3, val, onHash);
+        return await ApiAction(B.depositETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, ilk), user, web3, val, onHash);
     }
     else { // first deposit
         return await ApiAction(B.firstDeposit(web3, networkId, user, ilk), user, web3, val, onHash);
@@ -148,10 +148,10 @@ export async function deposit(amountEth, onHash) {
 }
 
 export async function withdraw(amountEth, onHash) {
-    const {userInfo} = makerStoreManager.getMakerStore()
+    const {userInfo, ilk} = makerStoreManager.getMakerStore()
     const {web3, networkType: networkId, user} = userStore
     const val = web3.utils.toWei(amountEth);
-    return await ApiAction(B.withdrawETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val), user, web3, 0, onHash);
+    return await ApiAction(B.withdrawETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val, ilk), user, web3, 0, onHash);
 }
 
 export async function borrow(amountDai, onHash) {

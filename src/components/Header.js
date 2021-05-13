@@ -9,13 +9,13 @@ import userStore from "../stores/user.store"
 import {observer} from "mobx-react"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
+import Tabs from "./style-components/Tabs"
+import makerStoreManager, {makerStoreNames} from "../stores/maker.store"
 
 
 class Header extends Component {
     render() {
-
         const {info, onConnect, logo} = this.props;
-
         return (
             <div className="top-panel">
                 <div className="container">
@@ -39,6 +39,7 @@ class Header extends Component {
                             <Tvl />
                         }
                     </div>
+                    <Tabs tabNames={makerStoreNames} selected={makerStoreManager.currentStore} onClick={makerStoreManager.switchStore}/>
                 </div>
             </div>
         )

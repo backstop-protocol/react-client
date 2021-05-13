@@ -135,7 +135,7 @@ class CurrencyBox extends Component {
 
     constructor(props) {
         super(props);
-
+        this.boxRef = React.createRef();
         this.state = {
             panel : null,
             prevPanel : null,
@@ -160,8 +160,23 @@ class CurrencyBox extends Component {
         }
         else {
             this.setState({panel, value: 0, hash: null});
+            if(panel){
+                this.scrollPannelInToView()
+            }
+
         }
     };
+
+    scrollPannelInToView = () => {
+        const {bottom} = this.boxRef.current.getBoundingClientRect();
+        const theBottomOfTheActionBoxIsNotInView = bottom + 300 > window.innerHeight
+        if(theBottomOfTheActionBoxIsNotInView){
+            // wait for it to open a bit then start scrolling it in to the  view
+            setTimeout(()=> {
+                this.boxRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+            }, 200)
+        }
+    }
 
     resetPanel = () => {
         this.showActionPanel(null);
@@ -211,7 +226,7 @@ class CurrencyBox extends Component {
 
     render() {
 
-        const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit} = this.props;
+        const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit, stabilityFee} = this.props;
         let {panel, actioning, value, loading, completed, failed, hash} = this.state;
 
         const showStabilityFee = currency === "DAI"
@@ -276,7 +291,7 @@ class CurrencyBox extends Component {
                             <div className="stability-fee" >
                             { showStabilityFee && 
                                 <div>
-                                    <AnimateNumberChange val={mainStore.stabilityFee} />%
+                                    <AnimateNumberChange val={stabilityFee} />%
                                 </div>
                             }
                             </div>
@@ -289,9 +304,9 @@ class CurrencyBox extends Component {
                             {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
                         </div>
                     </div>
-                    <div className={'currency-action-panel-container' + actionPanelContainerClass}>
+                    <div ref={this.boxRef} className={'currency-action-panel-container' + actionPanelContainerClass}>
                         {panel &&
-                        <CustomPanel onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
+                        <CustomPanel  onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
                                     actioning={actioning} value={value} currency={currency} hash={hash}
                                     completed={completed} failed={failed} />
                         }

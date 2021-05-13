@@ -79,11 +79,13 @@ function getAddress(name, networkId) {
 
 
 function getJoinAddress(ilk, networkId) {
-  if(ilk === ETH_A_ILK) return getAddress("MCD_JOIN_ETH_A", networkId)
-  if(ilk === ETH_B_ILK) return getAddress("MCD_JOIN_ETH_B", networkId)
-
-  assert(false, "unknown ilk " + ilk.toString())
-  //return null // TODO raise an exception
+  if(ilk === ETH_A_ILK) {
+    return getAddress("MCD_JOIN_ETH_A", networkId)
+  }
+  if(ilk === ETH_B_ILK) {
+    return getAddress("MCD_JOIN_ETH_B", networkId)
+  }
+  throw new Error("unknown ilk " + ilk)
 }
 
 export const getUserInfo = function(web3, networkId, user, ilk) {
@@ -254,7 +256,6 @@ function calcNewBorrowAndLPrice(userInfo,
                                 dEth,
                                 dDai,
                                 web3) {
-                                  debugger
   dEth = toNumber(dEth,web3)
   dDai = toNumber(dDai,web3)
   const ethDeposit = toNumber(userInfo.bCdpInfo.ethDeposit,web3)

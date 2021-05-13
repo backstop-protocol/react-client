@@ -14,7 +14,7 @@ import LeavUs from "../components/LeaveUs";
 import * as qs from "qs";
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
-import makerStore from "../stores/maker.store"
+import makerStoreManager from "../stores/maker.store"
 import userStore from "../stores/user.store"
 import styled from "styled-components"
 import MigrateFromCompound from "./compound-components/MigrateFromCompound"
@@ -59,7 +59,8 @@ class Sidebar extends Component {
     const { history } = routerStore.routeProps;
     const {search, pathname} = history.location
     const { loggedIn, showConnect } = userStore
-    const { userInfo } = makerStore
+    const {getMakerStore, storeChanges} = makerStoreManager
+    const { userInfo } = getMakerStore()
     const params = qs.parse(search, { ignoreQueryPrefix: true })
     const pathState = this.getState(pathname)
 
