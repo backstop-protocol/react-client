@@ -24,6 +24,7 @@ class ApyStore {
   userCollateral = 0
   userBproMonthlyYeald = 0
   apy = "0"
+  apyDataFetchErr = false
   totalUsers = "0"
   makerUsers = "0"
   compoundUsers = "0"
@@ -34,10 +35,14 @@ class ApyStore {
   }
 
   onUserConnect = async () => {
-    await this.initPromise
-    await this.getUserCollateral()
-    await this.getUserDebt()
-    await this.calcApy()
+    try{
+      await this.initPromise
+      await this.getUserCollateral()
+      await this.getUserDebt()
+      await this.calcApy()
+    } catch (err){
+      this.apyDataFetchErr = true
+    }
   }
 
   getMakerDebt = async () => {
@@ -93,23 +98,18 @@ class ApyStore {
   }
 
   calcCompoundTotalDebt = async () => {
-    try{
-      const tokenAddresses = await mainCompStore.getTokenList()
-      const web3 = new Web3(BP_API)
-      const tvlInfo = await getCompounndTotalDebt(web3, tokenAddresses)
-      let totalDebt = toBN("0")
-      tvlInfo.ctokenBorrow.map((debt, index)=> {
-        const coin = mainCompStore.coinMap[tokenAddresses[index]]
-        const borrowed = coin.getBorrowed(debt)
-        const debtInUsd = coin.getBorrowedInUsd(borrowed)
-        totalDebt = totalDebt.add(toBN(toWei(debtInUsd)))
-      })
-      const res = fromWei(totalDebt.toString())
-      return res
-
-    }catch (err){
-      console.error(err)
-    }
+    const tokenAddresses = await mainCompStore.getTokenList()
+    const web3 = new Web3(BP_API)
+    const tvlInfo = await getCompounndTotalDebt(web3, tokenAddresses)
+    let totalDebt = toBN("0")
+    tvlInfo.ctokenBorrow.map((debt, index)=> {
+      const coin = mainCompStore.coinMap[tokenAddresses[index]]
+      const borrowed = coin.getBorrowed(debt)
+      const debtInUsd = coin.getBorrowedInUsd(borrowed)
+      totalDebt = totalDebt.add(toBN(toWei(debtInUsd)))
+    })
+    const res = fromWei(totalDebt.toString())
+    return res
   }
   
   calcMakerTotalDebt = async () => {
@@ -138,22 +138,30 @@ class ApyStore {
   }
 
   init = async () => {
-    this.getNumberOfUsers()
-    const [makerTotalColl, makerTotalDebt, compoundTotalCollateral, compoundTotalDebt] = await Promise.all([
+    try {
+      this.getNumberOfUsers()
+      const [makerTotalColl, makerTotalDebt, compoundTotalCollateral, compoundTotalDebt] = await Promise.all([
         mainStore.getTvlUsdNumeric(), 
         this.calcMakerTotalDebt(),
         mainCompStore.tvlPromise,
         this.calcCompoundTotalDebt()
       ])
+      if(!makerTotalColl || !makerTotalDebt || !compoundTotalCollateral || !compoundTotalDebt || 
+          makerTotalColl == 0 || makerTotalDebt == 0 || compoundTotalCollateral == 0 || compoundTotalDebt == 0){
+        throw new Error("apyStore data fetch error")
+      }
 
-    runInAction(()=> {
-      this.totalDebt = (parseFloat(makerTotalDebt) + parseFloat(compoundTotalDebt)).toString()
-      this.totalCollateral = (makerTotalColl + compoundTotalCollateral).toString()
-      this.makerTotalDebt = makerTotalDebt
-      this.compoundTotalDebt = compoundTotalDebt
-      this.makerTotalCollateral = makerTotalColl
-      this.compoundTotalCollateral = compoundTotalCollateral
-    })
+      runInAction(()=> {
+        this.totalDebt = (parseFloat(makerTotalDebt) + parseFloat(compoundTotalDebt)).toString()
+        this.totalCollateral = (makerTotalColl + compoundTotalCollateral).toString()
+        this.makerTotalDebt = makerTotalDebt
+        this.compoundTotalDebt = compoundTotalDebt
+        this.makerTotalCollateral = makerTotalColl
+        this.compoundTotalCollateral = compoundTotalCollateral
+      })
+    } catch (err){
+      this.apyDataFetchErr = true
+    }
   }
 }
 
