@@ -18,8 +18,8 @@ const bStatsAbi = [{"constant":true,"inputs":[{"internalType":"contract BCdpMana
 const proxyRegistryAbi = [{"constant":false,"inputs":[],"name":"build","outputs":[{"name":"proxy","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"proxies","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"owner","type":"address"}],"name":"build","outputs":[{"name":"proxy","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"factory_","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
 
 
-const ETH_A_ILK =  "0x4554482d41000000000000000000000000000000000000000000000000000000"
-const ETH_B_ILK =  "0x4554482d42000000000000000000000000000000000000000000000000000000"
+const ETH_A_ILK = "0x4554482d41000000000000000000000000000000000000000000000000000000"
+const ETH_B_ILK = "0x4554482d42000000000000000000000000000000000000000000000000000000"
 const ETH_C_ILK = "0x4554482d43000000000000000000000000000000000000000000000000000000"
 const WBTC_A_ILK = "0x574254432d410000000000000000000000000000000000000000000000000000"
                    
