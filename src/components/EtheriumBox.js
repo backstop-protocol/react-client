@@ -4,7 +4,6 @@ import CurrencyBox from "./CurrencyBox";
 import Etherium from "../assets/etherium.svg";
 import Deposit from "./action-panels/Deposit";
 import Withdraw from "./action-panels/Withdraw";
-import {calcNewBorrowLimitAndLiquidationPrice} from "../lib/bInterface";
 import {observer} from "mobx-react"
 import userStore from "../stores/user.store"
 

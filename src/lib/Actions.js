@@ -21,13 +21,13 @@ function increaseABit(number) {
 
 // verification actions
 export function getLiquidationPrice(valEth, valDai) {
-    const {userInfo, originalUserInfo} = makerStoreManager.getMakerStore()
+    const {userInfo, originalUserInfo, ilk} = makerStoreManager.getMakerStore()
     const {web3} = userStore
     if (!userInfo) return 0;
 
     console.log(valEth, valDai);
 
-    const retVal = calcNewBorrowLimitAndLiquidationPrice(originalUserInfo, web3.utils.toWei(valEth.toString()), web3.utils.toWei(valDai.toString()), web3);
+    const retVal = calcNewBorrowLimitAndLiquidationPrice(originalUserInfo, web3.utils.toWei(valEth.toString()), web3.utils.toWei(valDai.toString()), ilk, web3);
     retVal[0] = web3.utils.fromWei(retVal[0]);
     retVal[1] = web3.utils.fromWei(retVal[1]);
     return retVal;
@@ -143,7 +143,7 @@ export async function deposit(amountEth, onHash) {
         return await ApiAction(B.depositETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, ilk), user, web3, val, onHash);
     }
     else { // first deposit
-        return await ApiAction(B.firstDeposit(web3, networkId, user, ilk), user, web3, val, onHash);
+        return await ApiAction(B.firstDepositETH(web3, networkId, user, ilk), user, web3, val, onHash);
     }
 }
 
