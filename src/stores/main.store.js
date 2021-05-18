@@ -71,6 +71,7 @@ class MainStore {
             ]
             let [{data: data1}, {data: data2}] = await Promise.all(dataPromises)
             const data3 = data1['tokenData']['ETH-B']
+            const data4 = data1['tokenData']['ETH-C']
             data1 = data1['tokenData']['ETH-A']
            
             this.makerPriceFeedPrice = parseFloat(data1.price).toFixed(2)
@@ -79,6 +80,7 @@ class MainStore {
             runInAction(()=> {
                 this.stabilityFee.set('ETH-A', data1.stabilityFee)
                 this.stabilityFee.set('ETH-B', data3.stabilityFee)
+                this.stabilityFee.set('ETH-C', data4.stabilityFee)
             })
 
             this.artToDaiRatio = data1.rate
