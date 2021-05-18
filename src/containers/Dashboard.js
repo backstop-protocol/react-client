@@ -19,8 +19,6 @@ class Dashboard extends Component {
 
   componentDidMount() {
     routerStore.setRouteProps(this.props.history) 
-    // TODO: Move this  inside the maker store manager
-    //makerStoreManager.getMakerStore().getUserInfo() 
   }
 
   onAction = async (action, value, onHash) => {
