@@ -4,6 +4,7 @@ import * as ApiHelper from "../lib/ApiHelper"
 import Web3 from "web3"
 import axios from "axios"
 import {toCommmSepratedString} from "../lib/Utils"
+import {makerStoreNames} from "./maker.store"
 const BP_API = "https://eth-node.b-protocol.workers.dev"
 
 
@@ -40,7 +41,7 @@ class MainStore {
     async fetchGeneralDappData () {
         await this.fetchPrices()
         await this.fetchTvl() // tvl requires the spot price
-        await this.fetchPrices()
+        await this.fetchstabilityFees()
     }
 
     async getTvlUsdNumeric () {
@@ -65,30 +66,29 @@ class MainStore {
 
     async fetchPrices () {
         try{
-            const dataPromises = [
-                axios.get('https://defiexplore.com/api/stats/globalInfo'),
-                axios.get('https://www.coinbase.com/api/v2/assets/prices/ethereum?base=USD')
-            ]
-            let [{data: data1}, {data: data2}] = await Promise.all(dataPromises)
-            const data3 = data1['tokenData']['ETH-B']
-            const data4 = data1['tokenData']['ETH-C']
-            data1 = data1['tokenData']['ETH-A']
-           
-            this.makerPriceFeedPrice = parseFloat(data1.price).toFixed(2)
-            this.makerPriceFeedPriceNextPrice = parseFloat(data1.futurePrice).toFixed(2)
-            this.defiexploreLastUpdate = data1.updatedAt
-            runInAction(()=> {
-                this.stabilityFee.set('ETH-A', data1.stabilityFee)
-                this.stabilityFee.set('ETH-B', data3.stabilityFee)
-                this.stabilityFee.set('ETH-C', data4.stabilityFee)
-            })
+            let {data} = await axios.get('https://www.coinbase.com/api/v2/assets/prices/ethereum?base=USD')
+            this.coinbaseLastUpdate = data.data.prices.latest_price.timestamp
+            data = data.data.prices.latest
+            this.spotPrice = parseFloat(data)
+            this.ethMarketPrice = parseFloat(data).toFixed(2)
+        }catch (err){
+            console.error(err)
+        } 
+    }
 
-            this.artToDaiRatio = data1.rate
-            this.coinbaseLastUpdate = data2.data.prices.latest_price.timestamp
-            data2 = data2.data.prices.latest
-            this.spotPrice = parseFloat(data2)
-            this.ethMarketPrice = parseFloat(data2).toFixed(2)
-            
+    async fetchstabilityFees () {
+        try{
+            let {data} = await axios.get('https://defiexplore.com/api/stats/globalInfo')
+            runInAction(()=> {
+                makerStoreNames.forEach(name=>{
+                    const {stabilityFee} = data['tokenData'][name]
+                    this.stabilityFee.set(name, stabilityFee)
+                })
+                this.makerPriceFeedPrice = parseFloat(data.price).toFixed(2)
+                this.makerPriceFeedPriceNextPrice = parseFloat(data.futurePrice).toFixed(2)
+                this.defiexploreLastUpdate = data.updatedAt
+                this.artToDaiRatio = data.rate
+            })
         }catch (err){
             console.error(err)
         } 
