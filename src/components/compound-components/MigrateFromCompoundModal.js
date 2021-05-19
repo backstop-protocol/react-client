@@ -9,6 +9,7 @@ import compoundMigrationStore from "../../stores/compoundMigration.store"
 import MigrationAssetList from "./MigrationAssetList";
 import infographic from "../../assets/images/compound-import-popup.png"
 import {device} from "../../screenSizes"
+import LoadingRing from "../LoadingRing";
 
 const Container = styled.div`
     width: 1075px;
@@ -185,7 +186,8 @@ class MigrateFromCompoundModal extends Component {
 
         this.state = {
             errorMsg: "",
-            hash: ""
+            hash: "",
+            migrationInProgress: false
         }
     }
     
@@ -196,8 +198,13 @@ class MigrateFromCompoundModal extends Component {
     migrate (supply, borrow) {
         // validateSupplyHasAllowance
         const supplyHasAllowance = compoundMigrationStore.validateSupplyHasAllowance(supply)
-        if(supplyHasAllowance){
+        if(supplyHasAllowance && this.state.migrationInProgress === false){
+            this.setState({migrationInProgress: true})
             compoundMigrationStore.migrateFromCompound(supply, borrow, this.closeModalBox)
+            .finally(()=> {
+                // settled (fulfilled or rejected)
+                this.setState({migrationInProgress: false})
+            })
         }
     }
 
@@ -237,13 +244,13 @@ class MigrateFromCompoundModal extends Component {
                             {compoundMigrationStore.validationErr}
                         </ErrText>
                         
-                        <ActionButton disabled={!borrowCanBeCoverd} onClick={()=> this.migrate(supply, borrow)}>
+                        <ActionButton className={borrowCanBeCoverd && !this.state.migrationInProgress ? "clickable" : ""} disabled={!borrowCanBeCoverd} onClick={()=> this.migrate(supply, borrow)}>
                             <div style={{
                                 position: "absolute",
                                 top: "50%",
                                 left: "50%",
                                 transform: "translate(-50%, -50%)"
-                            }}>IMPORT</div>
+                            }}>{this.state.migrationInProgress ? <LoadingRing /> : "IMPORT"}</div>
                         </ActionButton>
                         <Risks>
                             Read the <a href="/risk" target="_blank">risks</a> of using B.Protocol <br/>

@@ -4,6 +4,124 @@ import EventBus from '../lib/EventBus';
 import Close from "../assets/close.svg";
 import Loading from "./action-panels/Loading";
 import {getLiquidationPrice} from "../lib/Actions";
+import CurrencyBoxHeader from "./CurrencyBoxHeader"
+import styled from "styled-components"
+import {device} from "../screenSizes";
+import mainStore from "../stores/main.store"
+import {observer} from "mobx-react"
+import AnimateNumberChange from "./style-components/AnimateNumberChange"
+
+const Overider = styled.div`
+    .currency-meta{
+        max-width: calc(100% - 130px)
+    }
+    .currency-box{
+        height: 152px;
+    }
+
+    .currency-icon{
+        min-width: 46px;
+    }
+    .currency-actions{
+        margin-left: 20px;
+    }
+
+    .currency-value{
+        width 100%;
+        text-align: left;
+        padding-left: 20px;
+        p{
+            margin-top: 20px; 
+            margin-bottom:0;
+            font-size: 20px;
+        }
+    }
+
+    .currency-title{
+        white-space: nowrap;
+        font-size: 20px;
+        width: 85px;
+    }
+
+    .stability-fee{
+        font-size: 20px;
+        font-family: "NeueHaasGroteskDisp Pro Md";
+        letter-spacing: 1.1px;
+        min-width: 70px;
+        margin-left: 20px;
+    }
+
+    @media ${device.largeLaptop} {
+        .currency-box-container{
+            max-width: 560px;
+        }
+        .currency-meta{
+            max-width: calc(100% - 120px)
+        }
+        .currency-title{
+            white-space: nowrap;
+            width: 77px;
+            font-size: 18px;
+        }
+        .stability-fee{
+            font-size: 18px;
+            width: 70px;
+        }
+        .currency-value{
+            p{
+                margin-top: 20px;
+                margin-bottom: 0;
+                font-size: 18px;
+            }
+            small{
+                font-size: 13px;
+            }
+        }
+        .currency-action-button{
+            width: 100px;
+            font-size: 13px;
+        }
+    }
+    @media ${device.laptop} {
+        .currency-icon{
+            min-width: 40px;
+        }
+        .currency-box-container{
+            max-width: 500px;
+        }
+        .currency-title{
+            white-space: nowrap;
+            width: 73px;
+            font-size: 17px;
+            margin-left: 7.5px;
+        }
+
+        .stability-fee{
+            font-size: 17px;
+            margin-left: 7.5px;
+        }
+
+        .currency-value{
+            padding-left: 7.5px;
+            p{
+                margin-top: 20px;
+                margin-bottom: 0;
+                font-size: 17px;
+            }
+            small{
+                font-size: 12px;
+            }
+        }
+        .currency-action-button{
+            width: 94px;
+            font-size: 12px;
+        }
+
+        .currency-meta{
+            max-width: calc(100% - 114px)
+        }
+    }
+`
 
 function chop4(number) {
     return Math.floor(parseFloat(number) * 10000) / 10000
@@ -13,11 +131,11 @@ function chop2(number) {
     return Math.floor(parseFloat(number) * 100) / 100
 }
 
-export default class CurrencyBox extends Component {
+class CurrencyBox extends Component {
 
     constructor(props) {
         super(props);
-
+        this.boxRef = React.createRef();
         this.state = {
             panel : null,
             prevPanel : null,
@@ -42,8 +160,23 @@ export default class CurrencyBox extends Component {
         }
         else {
             this.setState({panel, value: 0, hash: null});
+            if(panel){
+                this.scrollPannelInToView()
+            }
+
         }
     };
+
+    scrollPannelInToView = () => {
+        const {bottom} = this.boxRef.current.getBoundingClientRect();
+        const theBottomOfTheActionBoxIsNotInView = bottom + 300 > window.innerHeight
+        if(theBottomOfTheActionBoxIsNotInView){
+            // wait for it to open a bit then start scrolling it in to the  view
+            setTimeout(()=> {
+                this.boxRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+            }, 200)
+        }
+    }
 
     resetPanel = () => {
         this.showActionPanel(null);
@@ -93,8 +226,10 @@ export default class CurrencyBox extends Component {
 
     render() {
 
-        const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit} = this.props;
+        const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit, stabilityFee} = this.props;
         let {panel, actioning, value, loading, completed, failed, hash} = this.state;
+
+        const showStabilityFee = currency === "DAI"
 
         let CustomPanel = null;
         if (panel) {
@@ -142,68 +277,79 @@ export default class CurrencyBox extends Component {
             (completed? ' completed':'')+ (failed? ' failed':'');
 
         return (
-            <div className={'currency-box-container'+containerClass}>
-                <div className="currency-box">
-                    <div className={"currency-box-close" + (panel? ' active':'')}>
-                        <img src={Close} onClick={() => this.resetPanel()} />
-                    </div>
-                    <div className="currency-meta">
-                        <div className="currency-icon"><img src={icon} /></div>
-                        <div className="currency-title">{title}</div>
-                        <div className="currency-value nowrap">
-                            <p>{formatValue(userInfo)} {currency}</p>
-                            <small>{calculateUsd(userInfo)} USD</small>
+            <Overider className={'currency-box-container'+containerClass}>
+                    <CurrencyBoxHeader showStabilityFee={showStabilityFee} />
+                    <div className="currency-box" >
+                        <div className={"currency-box-close" + (panel? ' active':'')}>
+                            <img src={Close} onClick={() => this.resetPanel()} />
+                        </div>
+                        <div className="currency-meta">
+                            <div className="currency-icon"><img src={icon} /></div>
+                            <div className="currency-title">
+                                {title}
+                            </div>
+                            <div className="stability-fee" >
+                            { showStabilityFee && 
+                                <div>
+                                    <AnimateNumberChange val={stabilityFee} />%
+                                </div>
+                            }
+                            </div>
+                            <div className="currency-value nowrap">
+                                <p>{formatValue(userInfo)} {currency}</p>
+                                <small>{calculateUsd(userInfo)} USD</small>
+                            </div>
+                        </div>
+                        <div className="currency-actions" >
+                            {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
                         </div>
                     </div>
-
-                    <div className="currency-actions">
-                        {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
-                    </div>
-                </div>
-                <div className={'currency-action-panel-container' + actionPanelContainerClass}>
-                    {panel &&
-                    <CustomPanel onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
-                                 actioning={actioning} value={value} currency={currency} hash={hash}
-                                 completed={completed} failed={failed} />
-                    }
-                    {(!loading && !completed && !failed && panel) &&
-                    <div className="currency-action-panel-footer">
-                        <div className="even">
-                            <div>
-                                <label>Current Wallet Balance</label>
-                                <div className="value">{walletBalance}</div>
-                            </div>
-                            <div>
-                                <label>Liquidation Price</label>
-                                <div className="value">
-                                    {liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)+' USD'}
+                    <div ref={this.boxRef} className={'currency-action-panel-container' + actionPanelContainerClass}>
+                        {panel &&
+                        <CustomPanel  onPanelAction={this.onPanelAction} onPanelInput={this.onPanelInput} userInfo={userInfo}
+                                    actioning={actioning} value={value} currency={currency} hash={hash}
+                                    completed={completed} failed={failed} />
+                        }
+                        {(!loading && !completed && !failed && panel) &&
+                        <div className="currency-action-panel-footer">
+                            <div className="even">
+                                <div>
+                                    <label>Current Wallet Balance</label>
+                                    <div className="value">{walletBalance}</div>
                                 </div>
-                            </div>
-                            <div>
-                                <label>Borrow Limit</label>
-                                <div className="value">
-                                    {liquidationPrice &&
-                                    <div>
-                                        <div className="limit-bar mini">
-                                        <div className="values">
-                                            <label>{/* Empty label is here to preserve orginal flex layout  */}</label> 
-                                            <label>{numm(liquidationPrice[0])} DAI</label>
-                                        </div>
-                                        <div className="limit-bar-inner">
-                                            <div className="limit-bar-track" style={{width: borrowLimit(userInfo,liquidationPrice[0], value * valueDir)+'%'}}>
-                                                <span>{borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+"%"}</span>
+                                <div>
+                                    <label>Liquidation Price</label>
+                                    <div className="value">
+                                        {liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)+' USD'}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>Borrow Limit</label>
+                                    <div className="value">
+                                        {liquidationPrice &&
+                                        <div>
+                                            <div className="limit-bar mini">
+                                            <div className="values">
+                                                <label>{/* Empty label is here to preserve orginal flex layout  */}</label> 
+                                                <label>{numm(liquidationPrice[0])} DAI</label>
+                                            </div>
+                                            <div className="limit-bar-inner">
+                                                <div className="limit-bar-track" style={{width: borrowLimit(userInfo,liquidationPrice[0], value * valueDir)+'%'}}>
+                                                    <span>{borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+"%"}</span>
+                                                </div>
+                                            </div>
                                             </div>
                                         </div>
-                                        </div>
+                                        }
                                     </div>
-                                    }
                                 </div>
                             </div>
                         </div>
+                        }
                     </div>
-                    }
-                </div>
-            </div>
+            </Overider>
         )
     }
 }
+
+export default observer(CurrencyBox)

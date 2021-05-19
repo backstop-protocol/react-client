@@ -9,6 +9,8 @@ import {initialState} from "../lib/compoundConfig/initialState"
 import {wApiAction} from "../lib/compound.util"
 import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
+import apyStore from "./apy.store"
+import {isFinished} from "../lib/Utils"
 
 const {BN, toWei, fromWei} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
@@ -25,6 +27,8 @@ class CompoundStore {
     compBalance = "0"
     userScore = "0"
     totalScore = "0"
+    originalUserScore = "0"
+    originaltotalScore = "0"
 
     totalDespositedBalanceInUsd = "0"
     totalBorrowedBalanceInUsd = "0"
@@ -33,6 +37,7 @@ class CompoundStore {
     coinsInTx = {}
     firstUserInfoFetch = false
     userScoreInterval
+    userInfoPromise
 
     constructor (){
         makeAutoObservable(this)
@@ -55,17 +60,33 @@ class CompoundStore {
         }
     }
 
+    // thin promise managmanet wrapper to the original getUserInfo
     getUserInfo = async () => {
+        const promiseFinshed = this.userInfoPromise ? await isFinished(this.userInfoPromise) : true
+        if(promiseFinshed){
+            //create a new userInfo promise
+            this.userInfoPromise = this._getUserInfo()
+        }
+        return this.userInfoPromise
+    }
+
+    _getUserInfo = async () => {
         try {
-            const { web3, networkType, user } = userStore
+            const { web3, networkType, user, loggedIn } = userStore
+            if(!loggedIn) return
             let compUserInfo = await getCompUserInfo(web3, networkType, user)
             this.processUserInfo(compUserInfo)
             compoundMigrationStore.getSupplyAndBorrow()
             this.handleFirstFatch()
+            this.userInfoUpdateSideAffects()
+            userStore.removeConnectionWarning()
         } catch (err) {
             console.log(err)
+            userStore.connectionWarning()
         }
     }
+
+    supportedCoins = (address) => this.coinMap[address].tokenInfo.btoken !== "0x0000000000000000000000000000000000000000"
 
     processUserInfo = (userInfo) => {
         runInAction(()=> {
@@ -77,9 +98,13 @@ class CompoundStore {
             this.calcBorrowedBalance()
             this.calcBorrowLimit()
             this.userInfoUpdate ++
-            this.coinList = Object.keys(this.userInfo.bUser)
+            this.coinList = Object.keys(this.userInfo.bUser).filter(this.supportedCoins) 
             this.showHideEmptyBalanceBoxs()
         })
+    }
+
+    userInfoUpdateSideAffects = () => {
+        apyStore.onUserConnect()
     }
 
     calcCompBlance = () => {        
@@ -89,6 +114,7 @@ class CompoundStore {
     }
 
     calcUserScore = () => {
+        
         const seconds = 3
         const obj = this.userInfo.scoreInfo
         if(!obj) return 
@@ -98,7 +124,8 @@ class CompoundStore {
         this.userScore = this.userScore == "0" ? fromWei(new BN(val.userScore).div(factor)) : this.userScore
         this.totalScore = (parseFloat(fromWei(new BN(val.totalScore).div(factor))) + 0.005).toFixed(2) // round up
         const progress = parseFloat(fromWei(new BN(val.userScoreProgressPerSec).div(factor)))
-
+        this.originalUserScore = fromWei(val.userScore)
+        this.originaltotalScore = fromWei(val.totalScore)
         if(this.userScoreInterval){
             clearInterval(this.userScoreInterval)
         }

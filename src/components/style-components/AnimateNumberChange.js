@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Spring, animated, interpolate} from 'react-spring/renderprops'
-import {toCommmSepratedString} from "../../stores/main.store"
+import {toCommmSepratedString} from "../../lib/Utils"
 
 export default class AnimateNumberChange extends Component{
 
@@ -22,6 +22,7 @@ export default class AnimateNumberChange extends Component{
     render () {
         const decimals = this.props.decimals || 2
         const duration = this.props.duration || 300
+        const commas = this.props.commas || true
 
         return (
             <Spring

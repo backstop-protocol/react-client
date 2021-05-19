@@ -6,9 +6,10 @@ import DaiBox from "../components/DaiBox";
 import { doApiAction } from "../lib/Actions";
 import EventBus from "../lib/EventBus";
 import logo from "../assets/logo-maker-black.svg";
-import makerStore from "../stores/maker.store"
+import makerStoreManager, {makerStoreNames, makerStores} from "../stores/maker.store"
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
+import mainStore from "../stores/main.store"
 
 class Dashboard extends Component {
 
@@ -18,13 +19,12 @@ class Dashboard extends Component {
 
   componentDidMount() {
     routerStore.setRouteProps(this.props.history) 
-    makerStore.getUserInfo()
   }
 
   onAction = async (action, value, onHash) => {
     try {
       const res = await doApiAction(action, value, null, onHash);
-      await makerStore.getUserInfo();
+      makerStoreManager.getMakerStore().getUserInfo() 
       return res;
     } catch (error) {
       EventBus.$emit("action-failed", null, action);
@@ -38,28 +38,34 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { userInfo, userInfoUpdate } = makerStore
+    const {getMakerStore, storeChanges, currentStore} = makerStoreManager
+    const { userInfo, userInfoUpdate } = getMakerStore()
     console.log("userInfoUpdate ", userInfoUpdate)
+
     return (
-      <div className="content">
+      <div className="content scroll-hide">
         <Header
           info={ userInfo !== null && userInfo}
           onConnect={this.onConnect}
           logo={logo}
         />
-
-        <div className="container currency-container split">
-          <EtheriumBox
-            userInfo={userInfo}
-            onPanelAction={this.onAction}
-          />
-          <DaiBox
-            userInfo={userInfo}
-            title={"DAI debt"}
-            icon={Etherium}
-            onPanelAction={this.onAction}
-          />
-        </div>
+        {makerStoreNames.map(name => {
+          return (
+            <div key={name} style={{display: name !== makerStoreManager.currentStore ? "none" : ""}} className="container currency-container split fade-in">
+              <EtheriumBox
+                userInfo={userInfo}
+                onPanelAction={this.onAction}
+              />
+              <DaiBox
+                stabilityFee={mainStore.stabilityFee.get(name) || "0.0"}
+                userInfo={userInfo}
+                title={"DAI debt"}
+                icon={Etherium}
+                onPanelAction={this.onAction}
+              />
+            </div>
+          )
+        })}
       </div>
     );
   }

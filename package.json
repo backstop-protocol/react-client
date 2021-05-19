@@ -1,8 +1,13 @@
 {
   "name": "bprotocol-react-client",
+<<<<<<< HEAD
   "version": "6.6.6",
+=======
+  "version": "1.0.7",
+>>>>>>> feature/multi_collateral_dai
   "private": true,
   "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.1.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -26,7 +31,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm version patch && react-scripts build && cd build && cp index.html 404.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",

@@ -70,7 +70,7 @@ class MigrationAssetList extends Component{
                 </ListHeader>
                 {list.map((coin, index)=> {
                     return (
-                        <ListItem>
+                        <ListItem key={index}>
                             <Flex justifyAround full center>
                                 <FlexItem style={{width: "33%"}}>
                                     <Flex alignCenter>

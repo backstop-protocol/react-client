@@ -72,7 +72,7 @@ const getApy = (rate) => {
     // Calculating the APY Using Rate Per Block
     // https://compound.finance/docs#protocol-math
     const blockIntrest = parseFloat(fromWei(rate))
-    const blocksPerDay = 4 * 60 * 24 // based on 4 blocks occurring every minute
+    const blocksPerDay = 6570 // based on 4 blocks occurring every minute
     const daysPerYear = 365
 
     const APY = ((((blockIntrest * blocksPerDay + 1) ** daysPerYear - 1))) * 100
@@ -86,6 +86,7 @@ export default class CToken {
     constructor (address, data, info, importInfo) {
         
         this.address = address
+        
         this.userData = data
         this.tokenInfo = info
         this.importInfo = importInfo
@@ -97,6 +98,7 @@ export default class CToken {
             // user logged in
             addressToSymbol = userStore.networkType == 42 ? kovanAddressToSymbol : mainnetAddressToSymbol
         }
+        this.cTokenAddress = this.tokenInfo.ctoken
         this.symbol = (addressToSymbol[this.tokenInfo.ctoken.toUpperCase()] || "").replace("c", "")
         this.icon = this.getIcon()
         this.underlyingBalanceStr = this.getUnderlyingBalance()
@@ -152,14 +154,13 @@ export default class CToken {
         return fromWei(underlyingBalanceUsd.toString()) // because underlyingPrice is taking the decimal
     }
 
-    getBorrowed = () => {
-        const {ctokenBorrowBalance} = this.userData
+    getBorrowed = (debt = this.userData.ctokenBorrowBalance) => {
         const {underlyingDecimals} = this.tokenInfo
-        return toUiDecimalPointFormat(new BN(ctokenBorrowBalance), underlyingDecimals)
+        return toUiDecimalPointFormat(new BN(debt), underlyingDecimals)
     }
 
-    getBorrowedInUsd = () => {
-        const borrowed = fromUiDeciamlPointFormat(this.borrowed, this.tokenInfo.underlyingDecimals)
+    getBorrowedInUsd = (borrowedAmount = this.borrowed) => {
+        const borrowed = fromUiDeciamlPointFormat(borrowedAmount, this.tokenInfo.underlyingDecimals)
         const borrowedInUsd = (borrowed.mul(new BN(this.tokenInfo.underlyingPrice))).div(_1e18)
         const borrowedInUsdStr = fromWei(borrowedInUsd.toString())
         return borrowedInUsdStr

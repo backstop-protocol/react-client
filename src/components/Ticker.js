@@ -30,13 +30,13 @@ class Ticker extends Component {
 
     render() {
         let {value, changes} = this.state;
-        let {primary} = this.props;
+        let {primary, small} = this.props;
         primary = primary ? primary : 6666;
 
         value = value ? value.toString().split('') : ['0'];
 
         return (
-          <span className="ticker">
+          <span className={`${ small ? "ticker-small" : "ticker" }`}>
             {value.map((n, index) => (
               <span
                 key={index}

@@ -10,6 +10,7 @@ import LoadingRing from "../LoadingRing";
 import { depositEth } from "../../lib/compound.interface";
 import {device} from "../../screenSizes";
 import WhiteBgViewIcon from "../../assets/view-icon.svg";
+import {isKovan} from "../../lib/Utils"
 
 const Text = styled.div`
     font-family: "Poppins", sans-serif;
@@ -74,7 +75,7 @@ class ImportAllowanceToggle extends Component{
     }
 
     render () {
-        const kovan = parseInt(window.ethereum.chainId) === parseInt("0x2A")
+        const kovan = isKovan()
         const {unlocking, locked, hash} = this.state
         const {coin} = this.props
         const text = locked ? `Unlock ${coin.symbol} to continue` : `${coin.symbol} is unlocked`
@@ -87,7 +88,7 @@ class ImportAllowanceToggle extends Component{
                             <img src={WhiteBgViewIcon} />
                         </a>
                     </div>}
-                    <div className={'tickbox'+(unlocking ? ' loading' : (locked? '':' active'))} onClick={this.onUnlock}>
+                    <div className={'tickbox'+(unlocking ? ' loading' : (locked? ' clickable':' active'))} onClick={this.onUnlock}>
                         {unlocking && <LoadingRing />}
                     </div>
                 </Flex>
