@@ -122,12 +122,7 @@ export const getUserInfo = function(web3, networkId, user, ilk) {
           return ret;
 }
 
-<<<<<<< HEAD
-export const firstDeposit = function(web3, networkId, user) {
-  console.log("yossi")
-=======
 export const firstDepositETH = function(web3, networkId, user, ilk) {
->>>>>>> feature/multi_collateral_dai
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS", networkId))
   const ret = actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY", networkId),
                                                                getAddress("BCDP_MANGER", networkId),
