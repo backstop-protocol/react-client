@@ -18,6 +18,7 @@ import makerStoreManager from "../stores/maker.store"
 import userStore from "../stores/user.store"
 import styled from "styled-components"
 import MigrateFromCompound from "./compound-components/MigrateFromCompound"
+import {makerStoreNames} from "../stores/maker.store"
 import {Transition} from 'react-spring/renderprops'
 
 const MakerMigration = styled.div`
@@ -77,7 +78,7 @@ class Sidebar extends Component {
                   { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
                     <div>
                       <div className="cdp-convert">
-                        <MakerMigrationButton />
+                        {makerStoreNames.map(makerCollType => <MakerMigrationButton key={makerCollType} makerCollType={makerCollType}/>)}
                         <div>
                           <p>
                             Import your Vault 
