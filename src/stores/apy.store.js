@@ -150,7 +150,7 @@ class ApyStore {
           makerTotalColl == 0 || makerTotalDebt == 0 || compoundTotalCollateral == 0 || compoundTotalDebt == 0){
         throw new Error("apyStore data fetch error")
       }
-
+      
       runInAction(()=> {
         this.totalDebt = (parseFloat(makerTotalDebt) + parseFloat(compoundTotalDebt)).toString()
         this.totalCollateral = (makerTotalColl + compoundTotalCollateral).toString()
@@ -160,6 +160,7 @@ class ApyStore {
         this.compoundTotalCollateral = compoundTotalCollateral
       })
     } catch (err){
+      console.error(err)
       this.apyDataFetchErr = true
     }
   }

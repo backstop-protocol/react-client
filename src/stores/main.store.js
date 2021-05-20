@@ -39,9 +39,13 @@ class MainStore {
     }
 
     async fetchGeneralDappData () {
-        await this.fetchPrices()
-        await this.fetchTvl() // tvl requires the spot price
-        await this.fetchstabilityFees()
+        try{
+            await this.fetchPrices()
+            await this.fetchTvl() // tvl requires the spot price
+            await this.fetchstabilityFees()
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     async getTvlUsdNumeric () {
@@ -50,48 +54,37 @@ class MainStore {
     }
 
     async fetchTvl () {
-        try{
-            const web3 = new Web3(BP_API)
-            let info = await B.getStats(web3, "1")
-            this.tvlEth = parseFloat(web3.utils.fromWei(info.eth)).toFixed(1)
-            this.tvlUsdNumeric = parseFloat(this.tvlEth * this.spotPrice)
-            this.tvlUsd = toCommmSepratedString(this.tvlUsdNumeric.toFixed(1))
-            this.tvlDaiRaw = info.dai
-            this.tvlDai = parseFloat(web3.utils.fromWei(info.dai)).toFixed(1)
-            this.cdpi = info.cdpi
-        }catch (err){
-            console.error("failed to fatch TVL")
-        }
+        const web3 = new Web3(BP_API)
+        let info = await B.getStats(web3, "1")
+        this.tvlEth = parseFloat(web3.utils.fromWei(info.eth)).toFixed(1)
+        this.tvlUsdNumeric = parseFloat(this.tvlEth * this.spotPrice)
+        this.tvlUsd = toCommmSepratedString(this.tvlUsdNumeric.toFixed(1))
+        this.tvlDaiRaw = info.dai
+        this.tvlDai = parseFloat(web3.utils.fromWei(info.dai)).toFixed(1)
+        this.cdpi = info.cdpi
     }
 
     async fetchPrices () {
-        try{
-            let {data} = await axios.get('https://www.coinbase.com/api/v2/assets/prices/ethereum?base=USD')
-            this.coinbaseLastUpdate = data.data.prices.latest_price.timestamp
-            data = data.data.prices.latest
-            this.spotPrice = parseFloat(data)
-            this.ethMarketPrice = parseFloat(data).toFixed(2)
-        }catch (err){
-            console.error(err)
-        } 
+        let {data} = await axios.get('https://www.coinbase.com/api/v2/assets/prices/ethereum?base=USD')
+        this.coinbaseLastUpdate = data.data.prices.latest_price.timestamp
+        data = data.data.prices.latest
+        this.spotPrice = parseFloat(data)
+        this.ethMarketPrice = parseFloat(data).toFixed(2)
     }
 
     async fetchstabilityFees () {
-        try{
-            let {data} = await axios.get('https://defiexplore.com/api/stats/globalInfo')
-            runInAction(()=> {
-                makerStoreNames.forEach(name=>{
-                    const {stabilityFee} = data['tokenData'][name]
-                    this.stabilityFee.set(name, stabilityFee)
-                })
-                this.makerPriceFeedPrice = parseFloat(data.price).toFixed(2)
-                this.makerPriceFeedPriceNextPrice = parseFloat(data.futurePrice).toFixed(2)
-                this.defiexploreLastUpdate = data.updatedAt
-                this.artToDaiRatio = data.rate
+        let {data} = await axios.get('https://defiexplore.com/api/stats/globalInfo')
+        runInAction(()=> {
+            makerStoreNames.forEach(name=>{
+                const {stabilityFee} = data['tokenData'][name]
+                this.stabilityFee.set(name, stabilityFee)
             })
-        }catch (err){
-            console.error(err)
-        } 
+            data = data['tokenData']["ETH-A"]
+            this.makerPriceFeedPrice = parseFloat(data.price).toFixed(2)
+            this.makerPriceFeedPriceNextPrice = parseFloat(data.futurePrice).toFixed(2)
+            this.defiexploreLastUpdate = data.updatedAt
+            this.artToDaiRatio = data.rate
+        })
     }
 }
 
