@@ -10,6 +10,7 @@ import {wApiAction} from "../lib/compound.util"
 import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
 import apyStore from "./apy.store"
+import {isFinished} from "../lib/Utils"
 
 const {BN, toWei, fromWei} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
@@ -36,6 +37,7 @@ class CompoundStore {
     coinsInTx = {}
     firstUserInfoFetch = false
     userScoreInterval
+    userInfoPromise
 
     constructor (){
         makeAutoObservable(this)
@@ -58,7 +60,17 @@ class CompoundStore {
         }
     }
 
+    // thin promise managmanet wrapper to the original getUserInfo
     getUserInfo = async () => {
+        const promiseFinshed = this.userInfoPromise ? await isFinished(this.userInfoPromise) : true
+        if(promiseFinshed){
+            //create a new userInfo promise
+            this.userInfoPromise = this._getUserInfo()
+        }
+        return this.userInfoPromise
+    }
+
+    _getUserInfo = async () => {
         try {
             const { web3, networkType, user, loggedIn } = userStore
             if(!loggedIn) return

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import MigrationDrawing from "../../assets/images/maker-migration.png";
 import EventBus from "../../lib/EventBus";
 import { migrateMakerDao } from "../../lib/Actions";
-import makerStore from "../../stores/maker.store"
+import makerStoreManager from "../../stores/maker.store"
 
 export default class MigrationModal extends Component {
     onMigrate = async () => {
@@ -11,7 +11,8 @@ export default class MigrationModal extends Component {
         try {
             await migrateMakerDao();
             EventBus.$emit("migration-completed");
-            makerStore.getUserInfo()       
+            const {getUserInfo} = makerStoreManager.getMakerStore()
+            getUserInfo()       
         }
         catch (e) {
             EventBus.$emit("migration-failed");

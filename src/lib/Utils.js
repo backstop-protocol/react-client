@@ -17,3 +17,12 @@ export const stringToFixed = (string, numbersAfterTheDeciamlPoint) => {
     }
     return string.slice(0, decimalPointIndex + numbersAfterTheDeciamlPoint)
 }
+
+const delay = (msec, value) => {
+    return new Promise(done => window.setTimeout((() => done(value)), msec));
+}
+
+export const isFinished = (promise) => {
+    return Promise.race([delay(0, false), promise.then(() => true, () => true)]);
+}
+  
