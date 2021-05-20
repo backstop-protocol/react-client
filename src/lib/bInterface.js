@@ -117,9 +117,6 @@ export const getUserInfo = function(web3, networkId, user, ilk) {
                                       getAddress("MCD_SPOT", networkId),
                                       getAddress("PROXY_REGISTRY", networkId),
                                       getAddress("JAR", networkId)).call({gasLimit:10e6})
-
-          console.log(getAddress("BBCDP_MANGER", networkId), await ret);
-          return ret;
 }
 
 export const firstDepositETH = function(web3, networkId, user, ilk) {
