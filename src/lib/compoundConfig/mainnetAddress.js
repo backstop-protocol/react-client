@@ -10,6 +10,8 @@ export const addresses = {
     "cZRX": "0xB3319f5D18Bc0D84dD1b4825Dcde5d5f7266d407",
     "cWBTC legacy": "0xC11b1268C1A384e55C48c2391d8d480264A3A7F4",
     "cWBTC": "0xccF4429DB6322D5C611ee964527D42E5d685DD6a",
+    "cTUSD": "0x12392f67bdf24fae0af363c24ac620a2f67dad86",
+    "cLINK": "0xface851a4921ce59e912d19329929ce6da6eb0c7",
     /* B.Compound specific addresses
     ===================================================================== */
     "compUserInfoAddress": "0xe8986fb27cb7ee2575ed14133da4820be4a38228",
