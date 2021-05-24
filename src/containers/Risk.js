@@ -13,7 +13,7 @@ export default class Risk extends Component {
     const { handleItemChange, history } = this.props;
     return (
       <div className="item-page-content">
-        <div className="menu-item-header" style={{ height: "276px" }}>
+        <div className="menu-item-header">
           <h1 className="risk-header">Risks</h1>
           <p className="item-header-small-text">
             Interacting with lending platforms does not come without risks,

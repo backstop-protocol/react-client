@@ -122,16 +122,25 @@
 
     .item-header-title {
       padding: 78px 91px 55px 132px;
+      @media screen and (max-width: 1023px){
+        padding: 78px 80px 55px 30px;
+      }
       font-size: 38px;
     }
   }
   .risk-header {
     padding: 18px 91px 4px 132px;
+    @media screen and (max-width: 1023px){
+      padding: 78px 80px 4px 30px;
+    }
     font-size: 34px;
   }
   .item-header-small-text {
     width: 50%;
     padding: 12px 91px 8px 132px;
+    @media screen and (max-width: 1023px){
+      padding: 12px 80px 8px 30px;
+    }
     font-size: 14px;
   }
   .item-header-icon-container {
