@@ -56,7 +56,7 @@ class Compound extends Component {
           onConnect={this.onConnect}
           logo={logo}
         />
-        <Flex style={{ marginTop: -30, paddingBottom: "15px"}} justifyCenter>
+        <Flex style={{ marginTop: -30, paddingBottom: "15px"}} justifyCenter wrap>
             <Flex column>
               <BalanceBox type="deposit" list={this.getList(CoinStatusEnum.deposited)} showBox={compoundStore.showDepositWithdrawBox}/>
               <CoinListBox type="deposit" list={this.getList(CoinStatusEnum.unDeposited)}/>
