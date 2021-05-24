@@ -10,10 +10,8 @@
     padding-left: 227px;
   }
   @media screen and (max-width: 1023px) {
-    padding-top: 50px;
-    padding-left: 15px;
-    padding-right: 15px;
-}
+    padding-left: 0px;
+  }
   .content {
     flex: 1;
   }
@@ -26,12 +24,10 @@
         $jumboBgEnd 115%
       ),
       linear-gradient(to bottom, $jumboBg, $jumboBg);
-    height: 462px;
 
-    @media screen and (max-width: 1600px) {
-      height: 412px;
-    }
-
+    @media screen and (max-width: 1023px) {
+      padding-top: 50px;
+    }                 
     .logo {
       width: 178px;
       height: 57px;
@@ -44,10 +40,10 @@
   }
 
   .header-stats {
-    // column display stuff
-    @media screen and (max-width: 1023px) {
-      flex-direction: column;
-    }
+    padding-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 
     h3 {
       font-size: 16px;
@@ -102,32 +98,15 @@
     }
 
     .borrow-limit {
-      min-width: 377px;
-      margin-left: 103px;
-      margin-right: 18px;
+      padding-right: 18px;
       flex: 1;
+      width: 100%;
+
       h3{
         margin-bottom: 42px; 
       }
 
-      @media screen and (max-width: 1600px) {
-        margin-left: 195px;
-      }
-      @media screen and (max-width: 1366px) {
-        margin-left: 155px;
-        min-width: 300px;
-      }
 
-      @media screen and (max-width: 1023px) {
-        margin-left: 110px;
-        width: 100%;
-        padding: 0 30px;
-
-        h3 {
-          margin-top: 10px;
-          text-align: center;
-        }
-      }
     }
   }
 
