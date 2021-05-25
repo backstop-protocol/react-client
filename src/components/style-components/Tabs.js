@@ -4,10 +4,7 @@ import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../../screenSizes"
 const Container = styled.div`
   position: relative;
-  bottom: 29px;
-  @media ${device.largeLaptop} {
-    bottom: -20px;
-  }
+  bottom: -6px;
 
   .shadow-cut{
     position: relative;

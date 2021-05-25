@@ -12,7 +12,7 @@ export default class FAQ extends Component {
     const { handleItemChange, history } = this.props;
     return (
       <div className="item-page-content">
-        <div className="menu-item-header" style={{ height: "176px" }}>
+        <div className="menu-item-header">
           <h1 className="risk-header">FAQ</h1>
           <p className="item-header-small-text">
             The following are the most common questions the B.Protocol team has been asked by new users of the protocol. 

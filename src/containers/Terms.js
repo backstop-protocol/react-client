@@ -13,7 +13,7 @@ export default class Terms extends Component {
     const { handleItemChange, history } = this.props;
     return (
       <div className="item-page-content">
-        <div className="menu-item-header" style={{ height: "176px" }}>
+        <div className="menu-item-header">
           <h1 className="item-header-title">Terms of Use</h1>
         </div>
         <div

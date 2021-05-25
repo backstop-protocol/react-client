@@ -31,6 +31,7 @@
 }
 
 .container {
+  width: 95%;
   margin: 0 auto;
   max-width: 1260px;
   transition: all 0.3s;
@@ -40,7 +41,6 @@
   }
 
   @media screen and (max-width: 1365px) {
-    width: 100%;
     max-width: 1036px;
   }
 
