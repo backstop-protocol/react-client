@@ -16,7 +16,6 @@ import {device} from "../screenSizes";
 import routerStore from "../stores/router.store"
 
 const Overides = styled.div`
-    overflow: hidden;
     margin-bottom: 100px;
 `
 

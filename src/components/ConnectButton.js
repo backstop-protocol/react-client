@@ -28,7 +28,7 @@ class ConnectButton extends Component {
             </div>
           </div>
         ) : (
-          <div className={"terms-wrapper"}>
+          <div className="terms-wrapper">
             <div className="term-text-btn">
               <span>
                 By using bprotocol, you agree to the{" "}

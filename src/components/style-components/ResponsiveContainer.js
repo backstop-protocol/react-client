@@ -11,11 +11,10 @@ const ResponsiveWidthCol = styled.div`
     @media ${device.laptop} {
         width: 450px;
     }
-    @media ${device.mobile} {
+    @media ${device.tablet} {
         max-width: 610px;
         width: calc(100vw - 20px)
-    } */
-
+    }
 `
 
 export const ResponsiveWidthHeader = styled.div`
@@ -27,7 +26,7 @@ export const ResponsiveWidthHeader = styled.div`
         max-width: ${498 * 2 + 40}px;
         padding: 0 5px;
     }
-    @media ${device.mobile} {
+    @media ${device.tablet} {
         padding: 0 15px;
     }
 `
@@ -44,6 +43,21 @@ export const HeaderItemContainer = styled.div`
         padding: 0 10px;
         min-width: 430px;    
         min-height: 257px;
+    }
+    @media ${device.laptop} {
+        padding: 0 10px;
+        min-width: 400px;    
+        min-height: 200px;
+    }
+    @media ${device.tablet} {
+        padding: 0 10px;
+        min-width: 390px;    
+        min-height: 200px;
+    }
+    @media ${device.mobile} {
+        padding: 0 10px;
+        min-width: 360px;    
+        min-height: 200px;
     }
 
 `

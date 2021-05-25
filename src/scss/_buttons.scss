@@ -30,6 +30,9 @@
     text-transform: none;
 
     max-width: 200px;
+    @media screen and (max-width: 600px){
+      max-width: 100px;
+    }
   }
 
   &:hover {
@@ -47,7 +50,13 @@
   display: flex;
   // max-width: 200px;
   height: 40px;
+  @media screen and (max-width: 600px){
+    flex-direction: column-reverse;
+    height: 120px;
+    justify-content: space-between;
+    max-width: 140px;
 
+  }
   .term-text-btn {
     font-size: 11px;
     line-height: 14px;
@@ -60,6 +69,9 @@
     padding: 0 10px;
     background-color: #d6f2e3;
     border-radius: 6px;
+    @media screen and (max-width: 600px){
+      padding: 10px;
+    }
   }
 }
 
