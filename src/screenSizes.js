@@ -4,12 +4,14 @@
 const size = {
     largeLaptop: 1600,
     laptop: 1366,
-    mobile: 1023
+    tablet: 1023,
+    mobile: 600,
 }
 
 export const device = {
     largeLaptop: `screen and (max-width: ${size.largeLaptop}px)`,
     laptop: `screen and (max-width: ${size.laptop}px)`,
+    tablet: `screen and (max-width: ${size.tablet}px)`,
     mobile: `screen and (max-width: ${size.mobile}px)`,
 }
 
