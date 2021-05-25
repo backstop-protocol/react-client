@@ -43,7 +43,7 @@ class Dashboard extends Component {
     console.log("userInfoUpdate ", userInfoUpdate)
 
     return (
-      <div className="content scroll-hide">
+      <div className="content">
         <Header
           info={ userInfo !== null && userInfo}
           onConnect={this.onConnect}
