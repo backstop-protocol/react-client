@@ -26,8 +26,9 @@ const Overider = styled.div`
         margin-left: 20px;
     }
     @media ${device.mobile} {
-        .currency-actions{
-            transition: opacity 0.3s ease-in-out;
+        .currency-action-button{
+            transition: all 0.3s ease-in-out;
+            z-index: -1;
             opacity: 0;
         }
         .currency-value{
@@ -35,8 +36,9 @@ const Overider = styled.div`
         }
 
         &:hover{
-            .currency-actions{
-                transition: opacity 0.3s ease-in-out;
+            .currency-action-button{
+                transition: all 0.3s ease-in-out;
+                z-index: 1;
                 opacity: 1;
             }
             .currency-value{
