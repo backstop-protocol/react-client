@@ -403,6 +403,9 @@
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
+  @media (max-width: 600px){
+    left: -24px;
+  }
   h3 {
     font-size: 14px;
     font-weight: 600;
