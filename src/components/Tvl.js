@@ -24,11 +24,21 @@ const TvlBox = styled.div`
     }
 
     @media ${device.laptop} {
-        min-width: 466px;
+        min-width: 414px;
         height: 103px;
-        padding: 17px 59px 21px 49px;
+        padding: 17px 10px 21px 29px;
         margin-top -6px;
     } 
+
+    @media ${device.tablet} {
+        min-width: 380px;
+        padding: 17px 5px 21px 19px;
+    }
+    
+    @media ${device.tablet} {
+        min-width: 360px;
+    }
+
 `
 
 const TvlTitle = styled.h2`
@@ -108,6 +118,9 @@ const Triangle = styled.div`
         width: 12px;
         height: 10px;
     }
+    @media ${device.tablet} {
+        display: none;
+    }
 `
 
 const TvlGraphImg = styled.img`
@@ -153,7 +166,7 @@ class Tvl extends Component {
                             <TvlAmount>
                                 {/* ${tvl} */}
                                 $<AnimateNumberChange decimals={1} val={tvl}/>
-                                <Triangle/> 
+                                <Triangle /> 
                             </TvlAmount>
                        </FlexItem>
                        <FlexItem grow>
