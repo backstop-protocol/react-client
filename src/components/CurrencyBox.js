@@ -25,6 +25,16 @@ const Overider = styled.div`
     .currency-actions{
         margin-left: 20px;
     }
+    @media ${device.mobile} {
+        .currency-actions{
+            visibility: hidden
+        }
+        &:hover{
+            .currency-actions{
+                visibility: visible;
+            }
+        }
+    }
 
     .currency-value{
         width 100%;
@@ -121,6 +131,7 @@ const Overider = styled.div`
             max-width: calc(100% - 114px)
         }
     }
+
 `
 
 function chop4(number) {
@@ -228,7 +239,7 @@ class CurrencyBox extends Component {
 
         const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit, stabilityFee} = this.props;
         let {panel, actioning, value, loading, completed, failed, hash} = this.state;
-
+        const [titlePart1, titlePart2] = title.split(" ")
         const showStabilityFee = currency === "DAI"
 
         let CustomPanel = null;
@@ -286,7 +297,7 @@ class CurrencyBox extends Component {
                         <div className="currency-meta">
                             <div className="currency-icon"><img src={icon} /></div>
                             <div className="currency-title">
-                                {title}
+                                <span>{titlePart1}</span> <span className="mobile-hide">{titlePart2}</span>
                             </div>
                             <div className="stability-fee" >
                             { showStabilityFee && 

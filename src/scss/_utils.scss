@@ -4,6 +4,12 @@
   width: 46px;
 }
 
+.mobile-hide {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+
 .result {
   width: 20px;
   opacity: 0;
