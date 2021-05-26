@@ -334,3 +334,18 @@ html::-webkit-scrollbar {
   width: 0 !important;
   display: none; 
 }
+.currency-input{
+  @media screen and (max-width:600px){
+      ::placeholder {
+          color: white;
+      }
+  }
+}
+
+.placeholder-hide {
+  @media screen and (max-width:1366px){
+    ::placeholder {
+        color: white;
+    }
+  }
+}

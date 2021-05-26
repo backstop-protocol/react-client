@@ -36,7 +36,7 @@
     position: relative;
     top: 0;
 
-    @media screen and (max-width: 1365px) {
+    @media screen and (max-width: 1366px) {
       width: 100%;
       margin-bottom: 20px;
 
@@ -53,7 +53,7 @@
       top: 0px;
       box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2), 0 16px 24px 2px rgba(0, 0, 0, 0.14);
 
-      @media screen and (max-width: 1365px) {
+      @media screen and (max-width: 1366px) {
         top: 0;
       }
     }
@@ -74,7 +74,7 @@
       height: 164px;
     }
 
-    @media screen and (max-width: 1365px) {
+    @media screen and (max-width: 1366px) {
       margin: 0;
 
     }
@@ -332,4 +332,8 @@
   text-transform: uppercase;
   letter-spacing: -0.4px;
   cursor: pointer;
+  @media screen and (max-width:1600px){
+    top: 7px;
+  }
+
 }
