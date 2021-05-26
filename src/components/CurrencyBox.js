@@ -27,11 +27,20 @@ const Overider = styled.div`
     }
     @media ${device.mobile} {
         .currency-actions{
-            visibility: hidden
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
         }
+        .currency-value{
+            opacity: 1;
+        }
+
         &:hover{
             .currency-actions{
-                visibility: visible;
+                transition: opacity 0.3s ease-in-out;
+                opacity: 1;
+            }
+            .currency-value{
+                opacity: 0;
             }
         }
     }
@@ -341,11 +350,11 @@ class CurrencyBox extends Component {
                                         <div>
                                             <div className="limit-bar mini">
                                             <div className="values">
-                                                <label>{/* Empty label is here to preserve orginal flex layout  */}</label> 
+                                                <label>{/* Empty label is here to preserve orginal flex layout */}</label> 
                                                 <label>{numm(liquidationPrice[0])} DAI</label>
                                             </div>
                                             <div className="limit-bar-inner">
-                                                <div className="limit-bar-track" style={{width: borrowLimit(userInfo,liquidationPrice[0], value * valueDir)+'%'}}>
+                                                <div className="limit-bar-track" style={{width: borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+'%'}}>
                                                     <span>{borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+"%"}</span>
                                                 </div>
                                             </div>
