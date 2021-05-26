@@ -26,6 +26,12 @@ const Container = styled.div`
         width: 387px;
         min-height: 112px;
     }
+    @media ${device.tablet} {
+        margin: 10px;
+    }
+    @media ${device.mobile} {
+        width: 300px;
+    }
 `
 
 const Title = styled.div`
