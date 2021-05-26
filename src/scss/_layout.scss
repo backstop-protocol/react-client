@@ -2,6 +2,13 @@
   display: flex;
   & > * {
     flex: 1;
+    padding-right: 5px;
+    &:last-child{
+      padding-right: 0;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    flex-wrap: wrap;
   }
 }
 

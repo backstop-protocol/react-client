@@ -201,6 +201,15 @@
         height: 89px;
         background-color: rgba(255, 221, 221, 0.2);
       }
+      @media screen and (max-width: 600px){
+        height: 100%;
+        .currency-action-panel { 
+          padding-top: 20px;
+        }
+        .currency-action-panel-footer { 
+          padding-bottom: 40px;
+        }
+      }
     }
   }
 
