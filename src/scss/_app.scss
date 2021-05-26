@@ -120,6 +120,7 @@
   }
 
   .menu-item-header {
+    position: fixed;
     width: 100%;
     background-image: linear-gradient(
         -182deg,
@@ -148,15 +149,19 @@
     width: 50%;
     padding: 12px 91px 8px 132px;
     @media screen and (max-width: 1023px){
-      padding: 12px 80px 8px 30px;
+      width: calc(100% - 60px);
+      padding: 12px 30px 8px 30px;
     }
     font-size: 14px;
   }
   .item-header-icon-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-
     padding: 10px 0;
+    a{
+      padding: 10px;
+    }
   }
   .item-page-content {
     flex: 1;
