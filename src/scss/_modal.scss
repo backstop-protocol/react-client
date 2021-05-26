@@ -29,6 +29,14 @@
     background-color: #ffffff;
     border-radius: 6px;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2), 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    @media screen and (max-width: 1023px){
+      width:80%;
+      min-height: 80%;
+    }
+    @media screen and (max-width: 600px){
+      width: 98%;
+      min-height: 90%;
+    }
   }
 
   &-close-btn {
