@@ -39,6 +39,11 @@ const Container = styled.div`
             margin-right: 7.5px;
         }
     }
+    @media ${device.mobile} {
+        .asset{
+            width: calc(40px + 7.5px + 30px + 7.5px);
+        }
+    }
 `
 
 class CurrencyBoxHeader extends Component {

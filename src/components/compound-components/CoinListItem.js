@@ -98,6 +98,11 @@ const Container = styled.div`
     &.hide {
         opacity: 0;
     }
+    @media ${device.mobile} {
+        .mobile-p-fix{
+            padding-left: 10px;
+        }
+    }
 `
 
 const CircleX = styled.div`
@@ -231,7 +236,7 @@ class CoinListItem extends Component {
                                     <Symbol> {coin.symbol} </Symbol>
                                 </Flex>
                             </FlexItem>
-                            <FlexItem style={{width: "25%"}}>
+                            <FlexItem className="mobile-p-fix" style={{width: "25%"}}>
                                 {displayNum(APY, 2)} %
                             </FlexItem>
                             <FlexItem  style={{width: "25%"}}>

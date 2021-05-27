@@ -3,7 +3,7 @@ import React from "react";
 export default function ModalClaimHeader(props) {
 
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="559" height="160" viewBox="0 0 559 160">
+        <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 559 160">
     <defs>
         <linearGradient id="itaqg1aprb" x1="37.782%" x2="37.782%" y1="67.575%" y2="122.53%">
             <stop offset="0%" stop-color="#25C068" stop-opacity="0"/>

@@ -4,6 +4,12 @@
   width: 46px;
 }
 
+.mobile-hide {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+
 .result {
   width: 20px;
   opacity: 0;
@@ -327,4 +333,19 @@ html {
 html::-webkit-scrollbar { 
   width: 0 !important;
   display: none; 
+}
+.currency-input{
+  @media screen and (max-width:600px){
+      ::placeholder {
+          color: white;
+      }
+  }
+}
+
+.placeholder-hide {
+  @media screen and (max-width:1366px){
+    ::placeholder {
+        color: white;
+    }
+  }
 }

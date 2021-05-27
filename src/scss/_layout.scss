@@ -2,6 +2,13 @@
   display: flex;
   & > * {
     flex: 1;
+    padding-right: 5px;
+    &:last-child{
+      padding-right: 0;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    flex-wrap: wrap;
   }
 }
 
@@ -40,7 +47,7 @@
     max-width: 1160px;
   }
 
-  @media screen and (max-width: 1365px) {
+  @media screen and (max-width: 1366px) {
     max-width: 1036px;
   }
 
