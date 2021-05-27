@@ -9,7 +9,7 @@ export const addresses = {
     "cDAI": "0xF0d0EB522cfa50B716B3b1604C4F0fA6f04376AD", 
     "Comptroller": "0x5eAe89DC1C671724A672ff0630122ee834098657",
 
-    "compUserInfoAddress": "0xA8dEAFa43a0D933d09fd10e01187D4c9058FD69C",
+    "compUserInfoAddress": "0x2df603eef6ff4a02c527164cbcdae77fa393dc3c",
     "bComptrollerAddress": "0x777f6369cc1cf921905c8899e127391d6ee5f009",
     "registryAddress": "0x0056186fbfcb8cd679343ae88764efef55ea12b2",
     "sugerDady": "0xA1A343B4245e4364e6b9c4574F9F7A3C1D849Ad6",
