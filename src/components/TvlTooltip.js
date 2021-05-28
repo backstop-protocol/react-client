@@ -37,7 +37,7 @@ class TvlTooltip extends React.Component {
         <a data-tip data-for="liquidation-price-tooltip">
           <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
         </a>
-        <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="right">
+        <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="bottom">
 
           <ToolTipLine>
             <div> total deposits: </div>
