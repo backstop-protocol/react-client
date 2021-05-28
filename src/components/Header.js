@@ -10,14 +10,13 @@ import userStore from "../stores/user.store"
 import {observer} from "mobx-react"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
-import Flex, {FlexItem} from "styled-flex-component";
-import {ResponsiveWidthHeader} from "./style-components/ResponsiveContainer"
+import Tabs from "./style-components/Tabs"
+import makerStoreManager, {makerStoreNames} from "../stores/maker.store"
+import {ResponsiveWidthHeader, HeaderItemContainer} from "./style-components/ResponsiveContainer"
 
 class Header extends Component {
     render() {
-
         const {info, onConnect, logo} = this.props;
-
         return (
             <div className="top-panel">
                 <ResponsiveWidthHeader className="container">
@@ -32,24 +31,23 @@ class Header extends Component {
                             </div>}
                         </div>
                     </div>
-                    <Flex class="header-stats split" style={{
-                        paddingBottom: "40px", 
-                        flexWrap: "wrap" ,
-                        justifyContent: "space-around",
-                        alignContent: "center"
-                    }}>
-                        <Flex column style={{ paddingBottom: "20px" }}>
+                    <div className="header-stats split">
+                        <HeaderItemContainer>
                             <GlobalStats userInfo={info} />
-                        </Flex>
-                        <Flex column style={{ paddingBottom: "20px", alignItems: "center", justifyContent: "center" }}>                        {info && 
-                            <BorrowLimit2 userInfo={info} />
-                        }
-                        {!info &&
-                            <Tvl />
-                        }
-                        </Flex>
-                    </Flex>
+                        </HeaderItemContainer>
+                        <HeaderItemContainer>
+                            {info && 
+                                <BorrowLimit userInfo={info} />
+                            }
+                            {!info &&
+                                <Tvl />
+                            }
+                        </HeaderItemContainer>
+                    </div>
                 </ResponsiveWidthHeader>
+                <div className="container">
+                    <Tabs tabNames={makerStoreNames} selected={makerStoreManager.currentStore} onClick={makerStoreManager.switchStore}/>
+                </div>
             </div>
         )
     }

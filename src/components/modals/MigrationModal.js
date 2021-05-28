@@ -2,19 +2,22 @@ import React, { Component } from "react";
 import MigrationDrawing from "../../assets/images/maker-migration.png";
 import EventBus from "../../lib/EventBus";
 import { migrateMakerDao } from "../../lib/Actions";
-import makerStore from "../../stores/maker.store"
+import makerStoreManager, {makerStores} from "../../stores/maker.store"
 
 export default class MigrationModal extends Component {
     onMigrate = async () => {
-        EventBus.$emit("migration-started");
+        const makerCollType = makerStoreManager.currentStore
+        EventBus.$emit(`migration-started-${makerCollType}`);
         EventBus.$emit("close-modal");
         try {
             await migrateMakerDao();
-            EventBus.$emit("migration-completed");
-            makerStore.getUserInfo()       
+            EventBus.$emit(`migration-completed-${makerCollType}`);
+            setTimeout(() => {
+                makerStores[makerCollType].getUserInfo()
+            }, 3000)
         }
         catch (e) {
-            EventBus.$emit("migration-failed");
+            EventBus.$emit(`migration-failed-${makerCollType}`);
         }
     };
 

@@ -10,12 +10,14 @@ export const addresses = {
     "cZRX": "0xB3319f5D18Bc0D84dD1b4825Dcde5d5f7266d407",
     "cWBTC legacy": "0xC11b1268C1A384e55C48c2391d8d480264A3A7F4",
     "cWBTC": "0xccF4429DB6322D5C611ee964527D42E5d685DD6a",
+    "cTUSD": "0x12392f67bdf24fae0af363c24ac620a2f67dad86",
+    "cLINK": "0xface851a4921ce59e912d19329929ce6da6eb0c7",
     /* B.Compound specific addresses
     ===================================================================== */
     "compUserInfoAddress": "0xe8986fb27cb7ee2575ed14133da4820be4a38228",
     "bComptrollerAddress": "0x9db10b9429989cc13408d7368644d4a1cb704ea3",
     "registryAddress": "0xbf698df5591caf546a7e087f5806e216afed666a",
-    "sugerDady": "0x35fFd6E268610E764fF6944d07760D0EFe5E40E5",
+    "sugerDady": "0xAaE0633E15200bc9C50d45cD762477D268E126BD",
     "compoundImportAddress": "0x035cccb015a826b754529b4d04587182b8210344",
     "flashImportAddress": "0xa5c48ef0301437bb2f5afdda8aedbe817f5e11d6",
     "jarConnector": "0xd24e557762589124d7cfef90d870df17c25bff8a",

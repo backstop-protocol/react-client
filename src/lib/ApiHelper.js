@@ -47,13 +47,22 @@ function increaseABit(number) {
     return parseInt(1.2 * number);
 }
 
+function validateTx(tx) {
+    tx.arguments.forEach(arg => {
+        if(!arg || arg === "0x0000000000000000000000000000000000000000"){
+            const msg = "one of the TX arguments is falsy or invalid and might send ETH to an invalid account"
+            console.error(msg)
+            throw new Error(msg)
+        }
+    })
+}
+
 export const ApiAction = async function (action, user, web3, value = 0, hashCb = null) {
     return new Promise(async (res, rej) => {
-
         try {
+            validateTx(action)
             const txObject = await action;
             const gasEstimate = await txObject.estimateGas({ value: value, from: user });
-            console.log("345345", gasEstimate)
             const gasConsumption = increaseABit(gasEstimate);
             const transaction = txObject.send({ gas: gasConsumption, value: value, from: user })
                 .once('transactionHash', (hash) => { if (hashCb) hashCb(hash) })

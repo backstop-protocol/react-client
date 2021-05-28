@@ -15,27 +15,28 @@ import LeavUs from "../components/LeaveUs";
 import * as qs from "qs";
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
-import makerStore from "../stores/maker.store"
+import makerStoreManager from "../stores/maker.store"
 import userStore from "../stores/user.store"
 import styled from "styled-components"
 import MigrateFromCompound from "./compound-components/MigrateFromCompound"
+import {makerStoreNames} from "../stores/maker.store"
 import {Transition} from 'react-spring/renderprops'
 
 const MakerMigration = styled.div`
 
 `
 
-const CompoundMigration = styled.div`
-
-`
-
 class Sidebar extends Component {
-  state = {
-    showSideBar: true
-  };
+
+  constructor (props) {
+    super(props)
+    this.state = {open: false}
+  }
+
   handleItemSelect = (location) => {
     this.resize();
     routerStore.routeProps.history.push(`/${location}`);
+    this.setState({open: false})
   };
 
   componentDidMount() {
@@ -60,46 +61,46 @@ class Sidebar extends Component {
     const { history } = routerStore.routeProps;
     const {search, pathname} = history.location
     const { loggedIn, showConnect } = userStore
-    const { userInfo } = makerStore
+    const {getMakerStore, storeChanges} = makerStoreManager
+    const { userInfo } = getMakerStore()
     const params = qs.parse(search, { ignoreQueryPrefix: true })
     const pathState = this.getState(pathname)
 
     return (
-      <div className="sidebar-container">
-        <div className="sidebar-activator" style={!this.state.showSideBar ? {} : { display: 'none' }}>
-          <button className="menu-button" onClick={() => this.setState({showSideBar: true }) }>
-            <img className="menu-icon filter-green" alt="Menu Logo" src={MenuLogo} />
-          </button>
+      <div className={`sidebar ${this.state.open ? "open" : ""}`}>
+        <div onClick={()=>this.setState({open: !this.state.open})} className="menu-toggle">
+          <div className={`hamburger hamburger--spin ${this.state.open ? "is-active" : ""}`}>
+            <div className="hamburger-box">
+              <div className="hamburger-inner"></div>
+            </div>
+          </div>
         </div>
-        <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
-          <img className="logo" alt="Logo" src={Logo} />
-          <div className="ln"> </div>
-          <div className="sidebar-content">
+        <img className="logo" alt="Logo" src={Logo} />
+        <div className="ln"> </div>
+        <div className="sidebar-content">
 
-            {pathState == "maker" 
-              ? 
-                <div >
-                  <MakerMigration>
-                    { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
-                      <div>
-                        <div className="cdp-convert">
-                          <MakerMigrationButton />
-                          <div>
-                            <p>
-                              Import your Vault 
-                              <br />
-                              from MakerDAO system <br />
-                              to B.Protocol
-                            </p>
-                            <div className="even">
-                              <div>
-                                <small><b><u>ETH Locked</u></b></small>
-                                <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
-                              </div>
-                              <div>
-                                <small><b><u>DAI Debt</u></b></small>
-                                <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
-                              </div>
+          {pathState == "maker" 
+            ? 
+              <div >
+                <MakerMigration>
+                  { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
+                      <div className="cdp-convert">
+                        {makerStoreNames.map(makerCollType => <MakerMigrationButton key={makerCollType} makerCollType={makerCollType}/>)}
+                        <div>
+                          <p>
+                            Import your Vault 
+                            <br />
+                            from MakerDAO system <br />
+                            to B.Protocol
+                          </p>
+                          <div className="even">
+                            <div>
+                              <small><b><u>ETH Locked</u></b></small>
+                              <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
+                            </div>
+                            <div>
+                              <small><b><u>DAI Debt</u></b></small>
+                              <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
                             </div>
                           </div>
                         </div>
@@ -203,7 +204,6 @@ class Sidebar extends Component {
             <p className="credits">&copy; 2021 Smart Future Labs</p>
           </div>
         </div>
-      </div>
 
     );
   }

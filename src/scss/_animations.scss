@@ -16,7 +16,6 @@
   0% {
     opacity: 0;
   }
-
   100% {
     opacity: 1;
   }
@@ -107,4 +106,9 @@
     opacity: 1;
   }
 
+}
+
+.fade-in{
+  animation: fadein 0.5s forwards;
+  animation-timing-function: ease-in-out;
 }
