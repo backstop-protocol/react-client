@@ -42,7 +42,7 @@ const Overider = styled.div`
                 opacity: 1;
             }
             .currency-value{
-                opacity: 0;
+                opacity: 1;
             }
         }
     }
