@@ -34,19 +34,9 @@ class Sidebar extends Component {
   }
 
   handleItemSelect = (location) => {
-    this.resize();
     routerStore.routeProps.history.push(`/${location}`);
     this.setState({open: false})
   };
-
-  componentDidMount() {
-      window.addEventListener("resize", this.resize.bind(this));
-      this.resize();
-  }
-
-  resize() {
-      this.setState({showSideBar : window.innerWidth >= 1050})
-  }
 
   getState(pathname) {
     if(pathname === "/maker" || pathname === "/app"){
