@@ -18,9 +18,6 @@ import routerStore from "../stores/router.store"
 const Overides = styled.div`
     margin-bottom: 100px;
 
-    @media ${device.mobile} {
-      margin-top 40px;
-  } 
 `
 
 class Compound extends Component {
