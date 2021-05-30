@@ -20,7 +20,7 @@ class Header2 extends Component {
         const {loggedIn} = userStore
         return (
             <div style={{zIndex: -10}} className="top-panel">
-                <ResponsiveWidthHeader className="container">
+                <ResponsiveWidthHeader className="container" style={{paddingBottom: "30px"}}>
                     <div className="split title-bar">
                         <img className="logo" src={logo} />
                         <div className="connect-container">
