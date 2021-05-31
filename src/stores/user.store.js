@@ -1,6 +1,7 @@
 /**
  * @format
  */
+import React, {Component} from "react";
 import { runInAction, makeAutoObservable } from "mobx"
 import compoundStore from "./compound.store"
 import makerStoreManager from "./maker.store"
@@ -9,6 +10,9 @@ import EventBus from "../lib/EventBus"
 import Web3 from "web3"
 import bproStore from "./bpro.store"
 import apyStore from "./apy.store"
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import {walletTypes, getMetaMask, getWalletConnect} from "../wallets/Wallets"
+import WalletSelectionModal from "../components/modals/WalletSelectionModal"
 
 class UserStore {
 
@@ -18,9 +22,20 @@ class UserStore {
     user
     displayConnect = false
     displayConnectTimeOut
+    walletType = null
+    provider
 
     constructor (){
         makeAutoObservable(this)
+    }
+
+    selectWallet = async () => {
+        return new Promise((resolve, reject) =>{
+            const noWrapper = true
+            EventBus.$emit('show-modal', <WalletSelectionModal/>, noWrapper);
+            EventBus.$on('close-modal', resolve)
+        })
+
     }
 
     handleAccountsChanged = async (accounts) => {
@@ -28,46 +43,38 @@ class UserStore {
         await this.onConnect(this.web3.utils.toChecksumAddress(user));// used by compound
     }
 
-    connect = async () => {
-        if (typeof window.ethereum == 'undefined') {
-            // error bus
-            EventBus.$emit("app-error", "Meta Mask is not connected");
-            return false;
+    connect = async () => { 
+        try{
+            if (this.loggedIn) return false;
+
+            await this.selectWallet()
+            if(!this.walletType) return 
+            
+            let wallet
+            if(this.walletType === walletTypes.META_MASK){
+                wallet = getMetaMask()
+            } else if (this.walletType === walletTypes.WALLET_CONNECT){
+                wallet = getWalletConnect()
+            }
+            this.web3 = wallet.web3
+            this.provider = wallet.provider
+            // connecting
+            const userAccount = await wallet.connectFn()
+            this.onConnect(this.web3.utils.toChecksumAddress(userAccount))
+            // setting event listeners
+            this.provider.on('chainChanged', (_chainId) => window.location.reload());
+            this.provider.on('accountsChanged', this.handleAccountsChanged)
+        } catch (e) {
+            console.error(e)
         }
-
-        if (this.loggedIn) return false;
-
-        this.web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-
-        this.networkType = await this.web3.eth.net.getId();
-        if (parseInt(this.networkType) !== parseInt(0x2a) && parseInt(this.networkType) !== parseInt(0x1) && parseInt(this.networkType) !== 1337) {
-            EventBus.$emit("app-error", "Only Mainnet and Kovan testnet are supported");
-            return false;
-        }
-
-        window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
-        window.ethereum.on('accountsChanged', this.handleAccountsChanged)
-
-        window.ethereum
-            .request({ method: "eth_requestAccounts" })
-            .then(this.handleAccountsChanged)
-            .catch((err) => {
-                if (err.code === 4001) {
-                    // EIP-1193 userRejectedRequest error
-                    // If this happens, the user rejected the connection request.
-                    EventBus.$emit("app-error", "Please connect to Meta Mask");
-                } else {
-                    EventBus.$emit("app-error", err.message);
-                }
-            });
     };
 
     async onConnect(user) {
         const networkType = await this.web3.eth.net.getId()
-        // if(networkType != 42 && ){
-        //     EventBus.$emit("app-error","Only Kovan testnet is supported");
-        //     return //exit
-        // }
+        if (parseInt(networkType) !== parseInt(0x2a) && parseInt(networkType) !== parseInt(0x1) && parseInt(networkType) !== 1337) {
+            EventBus.$emit("app-error", "Only Mainnet and Kovan testnet are supported");
+            return false;
+        }
         runInAction(()=> { 
             this.networkType = networkType
             this.user = user
