@@ -5,8 +5,7 @@ import Web3 from "web3"
 import axios from "axios"
 import {toCommmSepratedString} from "../lib/Utils"
 import {makerStoreNames} from "./maker.store"
-const BP_API = "https://eth-node.b-protocol.workers.dev"
-
+import {BP_API} from "../common/constants"
 
 /**
  * Main Store is desigend for general purpose app data
