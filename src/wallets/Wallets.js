@@ -1,9 +1,7 @@
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3"
 import EventBus from "../lib/EventBus"
-
-const BP_API = "https://eth-node.b-protocol.workers.dev"
-const KOVAN_BP_API = "https://kovan-node.b-protocol.workers.dev"
+import {BP_API, KOVAN_BP_API} from "../common/constants"
 
 /**
  * getWallet functions return a Consistent API
