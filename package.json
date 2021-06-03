@@ -27,8 +27,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "react-scripts start",
-    "build": "npm version patch && react-scripts build && npm run static",
-    "static": "cd build mkdir -p app && cp index.html && mkdir -p maker && cp index.html && mkdir -p compound && cp index.html && mkdir -p risk && cp index.html && mkdir -p terms && cp index.html && mkdir -p faq && cp index.html",
+    "build": "npm version patch && react-scripts build && ./generate-static.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
