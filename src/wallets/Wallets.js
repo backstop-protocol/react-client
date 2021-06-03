@@ -15,12 +15,8 @@ import { isAndroid, isIOS } from "react-device-detect";
 
 export const getMetaMask = () => {
   if (!window.ethereum) {
-    if(isAndroid) {
+    if(isAndroid || isIOS) {
       window.location.replace("https://metamask.app.link/dapp/app.bprotocol.org")
-      return
-    }
-    if(isIOS) {
-      window.location.replace("metamask://app.bprotocol.org")
       return
     }
     EventBus.$emit("app-error", "metamask is not connected");
