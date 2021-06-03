@@ -2,6 +2,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3"
 import EventBus from "../lib/EventBus"
 import {BP_API, KOVAN_BP_API} from "../common/constants"
+import { isAndroid, isIOS } from "react-device-detect";
 
 /**
  * getWallet functions return a Consistent API
@@ -14,8 +15,16 @@ import {BP_API, KOVAN_BP_API} from "../common/constants"
 
 export const getMetaMask = () => {
   if (!window.ethereum) {
-    EventBus.$emit("app-error", "wallet is not connected");
-    return false;
+    if(isAndroid) {
+      window.location.replace("https://metamask.app.link/dapp/app.bprotocol.org")
+      return
+    }
+    if(isIOS) {
+      window.location.replace("metamask://app.bprotocol.org")
+      return
+    }
+    EventBus.$emit("app-error", "metamask is not connected");
+    return;
   }
 
   const provider = window.ethereum

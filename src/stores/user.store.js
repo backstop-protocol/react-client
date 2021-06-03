@@ -48,7 +48,7 @@ class UserStore {
             if (this.loggedIn) return false;
 
             await this.selectWallet()
-            if(!this.walletType) return 
+            if(!this.walletType) return false
             
             let wallet
             if(this.walletType === walletTypes.META_MASK){
