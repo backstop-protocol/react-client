@@ -11,9 +11,9 @@ import {getBproDistribution, getBproBalance, getClaimedAmount, claimBpro} from "
 import {ApiAction} from "../lib/ApiHelper" 
 import userStore from "../stores/user.store"
 import BproClaimModal from "../components/modals/BproClaimModal"
+import {BP_API} from "../common/constants"
 
 const {toBN, toWei, fromWei} = Web3.utils
-const BP_API = "https://eth-node.b-protocol.workers.dev"
 
 class BproStore {
 
