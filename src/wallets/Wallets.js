@@ -3,6 +3,7 @@ import Web3 from "web3"
 import EventBus from "../lib/EventBus"
 import {BP_API, KOVAN_BP_API} from "../common/constants"
 import { isAndroid, isIOS } from "react-device-detect";
+import detectEthereumProvider from '@metamask/detect-provider'
 
 /**
  * getWallet functions return a Consistent API
@@ -13,8 +14,9 @@ import { isAndroid, isIOS } from "react-device-detect";
  *
  */
 
-export const getMetaMask = () => {
-  if (!window.ethereum) {
+export const getMetaMask = async () => {
+  const provider = window.ethereum || await detectEthereumProvider()
+  if (!provider) {
     if(isAndroid || isIOS) {
       window.location.replace("https://metamask.app.link/dapp/app.bprotocol.org")
       return
@@ -23,7 +25,6 @@ export const getMetaMask = () => {
     return;
   }
 
-  const provider = window.ethereum
   const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545")
 
   const connectFn = async () => {

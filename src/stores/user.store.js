@@ -52,9 +52,9 @@ class UserStore {
             
             let wallet
             if(this.walletType === walletTypes.META_MASK){
-                wallet = getMetaMask()
+                wallet = await getMetaMask()
             } else if (this.walletType === walletTypes.WALLET_CONNECT){
-                wallet = getWalletConnect()
+                wallet = await getWalletConnect()
             }
             this.web3 = wallet.web3
             this.provider = wallet.provider
