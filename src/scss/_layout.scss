@@ -2,6 +2,13 @@
   display: flex;
   & > * {
     flex: 1;
+    padding-right: 5px;
+    &:last-child{
+      padding-right: 0;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    flex-wrap: wrap;
   }
 }
 
@@ -31,6 +38,7 @@
 }
 
 .container {
+  width: 95%;
   margin: 0 auto;
   max-width: 1260px;
   transition: all 0.3s;
@@ -39,8 +47,7 @@
     max-width: 1160px;
   }
 
-  @media screen and (max-width: 1365px) {
-    width: 100%;
+  @media screen and (max-width: 1366px) {
     max-width: 1036px;
   }
 

@@ -25,27 +25,17 @@ const MakerMigration = styled.div`
 
 `
 
-const CompoundMigration = styled.div`
-
-`
-
 class Sidebar extends Component {
-  state = {
-    showSideBar: true
-  };
+
+  constructor (props) {
+    super(props)
+    this.state = {open: false}
+  }
+
   handleItemSelect = (location) => {
     routerStore.routeProps.history.push(`/${location}`);
+    this.setState({open: false})
   };
-
-  componentDidMount() {
-      window.addEventListener("resize", this.resize.bind(this));
-      this.resize();
-  }
-
-  resize() {
-      this.setState({showSideBar : window.innerWidth >= 1050})
-      console.log(window.innerWidth);
-  }
 
   getState(pathname) {
     if(pathname === "/maker" || pathname === "/app"){
@@ -66,7 +56,14 @@ class Sidebar extends Component {
     const pathState = this.getState(pathname)
 
     return (
-      <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
+      <div className={`sidebar ${this.state.open ? "open" : ""}`}>
+        <div onClick={()=>this.setState({open: !this.state.open})} className="menu-toggle">
+          <div className={`hamburger hamburger--spin ${this.state.open ? "is-active" : ""}`}>
+            <div className="hamburger-box">
+              <div className="hamburger-inner"></div>
+            </div>
+          </div>
+        </div>
         <img className="logo" alt="Logo" src={Logo} />
         <div className="ln"> </div>
         <div className="sidebar-content">

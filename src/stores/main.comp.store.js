@@ -4,12 +4,10 @@ import {getCompUserInfo} from "../lib/compound.interface"
 import CToken from "../lib/compound.util"
 import compoundStore from "./compound.store"
 import {toCommmSepratedString} from "../lib/Utils"
+import {BP_API} from "../common/constants"
 
 // const {API} = require("../../src/API")
 const {BN, fromWei, toWei} = Web3.utils
-
-// const BP_API = "https://bp-api.bprotocol.workers.dev"
-const BP_API = "https://eth-node.b-protocol.workers.dev"
 
 class MainCompStore {
     tvl = "--,---"

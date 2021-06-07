@@ -62,6 +62,9 @@ export default class Deposit extends Component {
                         </div>
                         <button className={(invalid || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>
                     </div>
+                    <div className="currency-secondary-input">
+                        <h3 style={{visibility:"hidden"}}>Unlock DAI to continue</h3>
+                    </div>
             </div>
         )
     }

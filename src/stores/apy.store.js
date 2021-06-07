@@ -5,12 +5,11 @@ import {makerStores} from "../stores/maker.store"
 import compoundStore from "../stores/compound.store"
 import {getCompounndTotalDebt} from "../lib/ScoreInterface"
 import {ApiAction} from "../lib/ApiHelper"
-import Web3 from "web3"
+import Web3 from "web3" 
+import {BP_API} from "../common/constants"
 
 const {toBN, fromWei, toWei} = Web3.utils
 const _1e18 = toBN("10").pow(toBN("18"))
-
-const BP_API = "https://eth-node.b-protocol.workers.dev"
 
 class ApyStore {
 
@@ -83,14 +82,14 @@ class ApyStore {
   }
 
   calcBproGrantForDebt = () => {
-    const totalBproForDebtMonthly = (200000/3)
+    const totalBproForDebtMonthly = (100000/3)
     const userDebtRatio = parseFloat(this.userDebt)/parseFloat(this.totalDebt)
     const userMontlyBproReturnOnDebt = userDebtRatio * totalBproForDebtMonthly
     return userMontlyBproReturnOnDebt
   }
 
   calcBproGrantForCollateral = () => {
-    const totalBproForCollateralMonthly = (50000/3)
+    const totalBproForCollateralMonthly = (25000/3)
     const userCollateralRatio = parseFloat(this.userCollateral)/parseFloat(this.totalCollateral)
     const userMontlyBproReturnOnCollateral = userCollateralRatio * totalBproForCollateralMonthly
     return userMontlyBproReturnOnCollateral
