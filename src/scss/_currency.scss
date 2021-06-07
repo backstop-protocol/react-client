@@ -186,27 +186,26 @@
     border-bottom-right-radius: 10px;
 
     &.active {
-      height: 100%;
+      height: 300px;
+      @media screen and (max-width: 600px) {
+        height: 100%;
+      }
       &.loading {
         height: 89px;
       }
-
       &.completed {
         height: 89px;
-
       }
-
       &.failed {
         height: 89px;
         background-color: rgba(255, 221, 221, 0.2);
       }
-      .currency-action-panel { 
-        padding-top: 40px;
-      }
-      .currency-action-panel-footer { 
-        padding-bottom: 40px;
-      }
-      
+      // .currency-action-panel { 
+      //   padding-top: 40px;
+      // }
+      // .currency-action-panel-footer { 
+      //   padding-bottom: 40px;
+      // }
     }
   }
 
@@ -247,6 +246,7 @@
       letter-spacing: 1.2px;
       font-weight: normal;
       margin-bottom: 7px;
+      margin-top: 7px;
       text-transform: uppercase;
 
       @media screen and (max-width: 1600px) {
