@@ -18,7 +18,8 @@ export const getMetaMask = async () => {
   const provider = window.ethereum || await detectEthereumProvider()
   if (!provider) {
     if(isAndroid || isIOS) {
-      window.location.replace("https://metamask.app.link/dapp/app.bprotocol.org")
+      const currentPath = window.location.pathname
+      window.location.replace("https://metamask.app.link/dapp/app.bprotocol.org" + currentPath)
       return
     }
     EventBus.$emit("app-error", "metamask is not connected");
