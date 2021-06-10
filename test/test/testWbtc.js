@@ -14,7 +14,8 @@ contract('B Interface', function (accounts) {
   beforeEach('initing', async () => {
     networkId = await web3.eth.net.getId()
     if(networkId === 42) wbtcWhale = "0xd921Ecdc928FA3aA6C1de5856D392C0279F6704B"
-    else assert(false, "not supported")
+    else wbtcWhale = "0xEe4a34b676961cF7EbB77E0c9AC2dEfC07325129"
+
     console.log({networkId})
   })
   afterEach(async () => {
@@ -41,10 +42,10 @@ contract('B Interface', function (accounts) {
     console.log("query user info")
     let userInfo = await B.getUserInfo(web3,networkId,user, ilk)
     assert(! userInfo.bCdpInfo.hasCdp, "user is not expected to have a cdp")
-    //assert(! userInfo.proxyInfo.hasProxy, "user is not expected to have a proxy")
+    assert(! userInfo.proxyInfo.hasProxy, "user is not expected to have a proxy")
 
     // open new proxy
-    //await doTx(B.openProxy(web3, networkId, user), user)
+    await doTx(B.openProxy(web3, networkId, user), user)
 
     console.log("query user info again")
     userInfo = await B.getUserInfo(web3,networkId,user, ilk)
