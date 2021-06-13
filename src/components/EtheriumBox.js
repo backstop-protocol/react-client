@@ -18,7 +18,7 @@ class EtheriumBox extends Component {
         if(this.props.symbol === "ETH"){
             return numm(userInfo.bCdpInfo.ethDeposit, 4); 
         } else {
-            return numm(userInfo.bCdpInfo.gemDeposit, 4); 
+            return numm(userInfo.bCdpInfo.gemDeposit, 5); 
         }
     }
 

@@ -145,6 +145,10 @@ const Overider = styled.div`
 
 `
 
+function chop5(number) {
+    return Math.floor(parseFloat(number) * 100000) / 100000
+}
+
 function chop4(number) {
     return Math.floor(parseFloat(number) * 10000) / 10000
 }
@@ -261,7 +265,7 @@ class CurrencyBox extends Component {
         let liquidationPrice;
         let walletBalance;
         const ethBalance = userInfo ? chop4(userInfo.userWalletInfo.ethBalance).toString() + " ETH" : "0 ETH";
-        const gemBalance = (userInfo ? chop4(userInfo.userWalletInfo.gemBalance).toString() : 0 ) + " " + currency;
+        const gemBalance = (userInfo ? chop5(userInfo.userWalletInfo.gemBalance).toString() : 0 ) + " " + currency;
         const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance).toString() + " DAI" : "0 DAI";
         let valueDir = 1;
         try {
@@ -270,11 +274,11 @@ class CurrencyBox extends Component {
             switch (panel.name) {
                 case 'Deposit':
                     liquidationPrice = getLiquidationPrice(value, 0);
-                    walletBalance = currency  === "ETH" ? ethBalance : gemBalance
+                    walletBalance = currency === "ETH" ? ethBalance : gemBalance;
                     break;
                 case 'Withdraw':
                     liquidationPrice = getLiquidationPrice(-value, 0);
-                    walletBalance = currency  === "ETH" ? ethBalance : gemBalance
+                    walletBalance = currency === "ETH" ? ethBalance : gemBalance;
                     valueDir = -1;
                     break;
                 case 'Borrow':
