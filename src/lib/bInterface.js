@@ -315,12 +315,13 @@ export const getStats = function (web3, networkId){
 ////////////////////////////////////////////////////////////////////////////////
 
 export const toNumber = (bignum) => Number(fromWei(bignum))
+export const gemToNumber = (bignum, userInfo) => Number(toUiDecimalPointFormat(bignum, userInfo.miscInfo.gemDecimals))
 
 const calcNewBorrowAndLPrice = (userInfo, dEth, dDai, ilk, isGem) => {
   const {gemDecimals} = userInfo.miscInfo
   dEth = toNumber(dEth)
   dDai = toNumber(dDai)
-  const deposit = isGem ? Number(toUiDecimalPointFormat(userInfo.bCdpInfo.ethDeposit, gemDecimals)) : toNumber(userInfo.bCdpInfo.ethDeposit)
+  const deposit = isGem ? gemToNumber(userInfo.bCdpInfo.ethDeposit, userInfo) : toNumber(userInfo.bCdpInfo.ethDeposit)
   const daiDebt = toNumber(userInfo.bCdpInfo.daiDebt)
 
   const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt)
@@ -347,13 +348,15 @@ const liqudationMsg = "vault is being liqudated"
 const checkForActiveLiqudation = ({bCdpInfo: {bitten}}) => bitten ? [false,liqudationMsg] : [true,""]
 
 export const verifyDepositInput = (userInfo, val, isGem) => {
-  val = toNumber(val)
-  if(val <= 0) return [false, "Deposit amount must be positive"]
+  debugger
+  val = isGem ? gemToNumber(val, userInfo) : toNumber(val)
+  if(val < 0) return [false, "Deposit amount must be positive"]
   if(isGem){
-    if(val >= toNumber(userInfo.userWalletInfo.gemBalance)) return [false, "Amount exceeds wallet balance"]
+    const balance = gemToNumber(userInfo.userWalletInfo.gemBalance, userInfo)
+    if(val > balance) return [false, "Amount exceeds wallet balance"]
   }else {
     // equality is also failure, because ETH is needed for gas
-    if(val > toNumber(userInfo.userWalletInfo.ethBalance)) return [false, "Amount exceeds wallet balance"]
+    if(val >= toNumber(userInfo.userWalletInfo.ethBalance)) return [false, "Amount exceeds wallet balance"]
   }
   const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo)
   if(debtIsBiggerThanDust){
