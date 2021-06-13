@@ -1,7 +1,6 @@
 'use strict'
 import Web3 from "web3"
 import {fromUiDeciamlPointFormat, toUiDecimalPointFormat} from "./Utils"
-
 const {fromWei, toWei, toBN} = Web3.utils
 
 const infoAbi =
@@ -332,7 +331,6 @@ const calcNewBorrowAndLPrice = (userInfo, dEth, dDai, ilk, isGem) => {
     return [toWei(newMaxDaiDebt.toFixed(17).toString()), toWei("0")]
   }
   if((deposit == 0) || (deposit + dEth == 0)) return [toWei("0"), toWei("0")]
-  debugger
   const newMaxDaiDebt = maxDaiDebt * (deposit + dEth) / deposit
   const liqRatio = deposit * spotPrice / maxDaiDebt
   // (total dai debt) * liqRatio = (total eth deposit) * liquidationPrice
@@ -375,7 +373,6 @@ export const verifyWithdrawInput = (userInfo, val, isGem, ilk) => {
   const valMinus = toBN(val).mul(toBN(-1))
   val = toNumber(val)
   if(val <= 0) return [false, "Withdraw amount must be positive"]
-  debugger
   const deposited = userInfo.bCdpInfo.ethDeposit
   if(isGem){
     const {gemDecimals} = userInfo.miscInfo
