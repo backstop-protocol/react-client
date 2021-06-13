@@ -1,5 +1,8 @@
 'use strict'
+import Web3 from "web3"
+import {fromUiDeciamlPointFormat, toUiDecimalPointFormat} from "./Utils"
 
+const {fromWei, toWei, toBN} = Web3.utils
 
 const infoAbi =
 [{"inputs":[{"internalType":"address","name":"dai_","type":"address"},{"internalType":"address","name":"weth_","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[],"name":"bitten","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"blockNumber","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"cdp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"dai","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"daiAllowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"daiBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"daiDebt","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"dustInWei","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ethBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ethDeposit","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"expectedDebtMissmatch","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"manager","type":"address"},{"internalType":"address","name":"guy","type":"address"},{"internalType":"bytes32","name":"ilk","type":"bytes32"},{"internalType":"contract VatLike","name":"vat","type":"address"},{"internalType":"contract GetCdps","name":"getCdp","type":"address"}],"name":"findFirstNonZeroInkCdp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gemAllowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gemBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gemDecimals","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"guy","type":"address"},{"internalType":"address","name":"manager","type":"address"},{"internalType":"bytes32","name":"ilk","type":"bytes32"},{"internalType":"contract VatLike","name":"vat","type":"address"},{"internalType":"contract GetCdps","name":"getCdp","type":"address"},{"internalType":"bool","name":"b","type":"bool"},{"internalType":"address","name":"gemJoin","type":"address"}],"name":"getCdpInfo","outputs":[{"components":[{"internalType":"bool","name":"hasCdp","type":"bool"},{"internalType":"bool","name":"bitten","type":"bool"},{"internalType":"uint256","name":"cdp","type":"uint256"},{"internalType":"uint256","name":"ethDeposit","type":"uint256"},{"internalType":"uint256","name":"daiDebt","type":"uint256"},{"internalType":"uint256","name":"maxDaiDebt","type":"uint256"},{"internalType":"uint256","name":"unlockedEth","type":"uint256"},{"internalType":"bool","name":"expectedDebtMissmatch","type":"bool"}],"internalType":"struct UserInfoStorage.CdpInfo","name":"info","type":"tuple"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"bytes32","name":"ilk","type":"bytes32"},{"internalType":"contract BCdpManager","name":"manager","type":"address"},{"internalType":"contract DssCdpManager","name":"makerDAOManager","type":"address"},{"internalType":"contract GetCdps","name":"getCdp","type":"address"},{"internalType":"contract VatLike","name":"vat","type":"address"},{"internalType":"contract SpotLike","name":"spot","type":"address"},{"internalType":"contract ProxyRegistryLike","name":"registry","type":"address"},{"internalType":"address","name":"jar","type":"address"},{"internalType":"address","name":"gemJoin","type":"address"}],"name":"getInfo","outputs":[{"components":[{"components":[{"internalType":"bool","name":"hasProxy","type":"bool"},{"internalType":"contract DSProxyLike","name":"userProxy","type":"address"}],"internalType":"struct UserInfoStorage.ProxyInfo","name":"proxyInfo","type":"tuple"},{"components":[{"internalType":"bool","name":"hasCdp","type":"bool"},{"internalType":"bool","name":"bitten","type":"bool"},{"internalType":"uint256","name":"cdp","type":"uint256"},{"internalType":"uint256","name":"ethDeposit","type":"uint256"},{"internalType":"uint256","name":"daiDebt","type":"uint256"},{"internalType":"uint256","name":"maxDaiDebt","type":"uint256"},{"internalType":"uint256","name":"unlockedEth","type":"uint256"},{"internalType":"bool","name":"expectedDebtMissmatch","type":"bool"}],"internalType":"struct UserInfoStorage.CdpInfo","name":"bCdpInfo","type":"tuple"},{"components":[{"internalType":"bool","name":"hasCdp","type":"bool"},{"internalType":"bool","name":"bitten","type":"bool"},{"internalType":"uint256","name":"cdp","type":"uint256"},{"internalType":"uint256","name":"ethDeposit","type":"uint256"},{"internalType":"uint256","name":"daiDebt","type":"uint256"},{"internalType":"uint256","name":"maxDaiDebt","type":"uint256"},{"internalType":"uint256","name":"unlockedEth","type":"uint256"},{"internalType":"bool","name":"expectedDebtMissmatch","type":"bool"}],"internalType":"struct UserInfoStorage.CdpInfo","name":"makerdaoCdpInfo","type":"tuple"},{"components":[{"internalType":"uint256","name":"spotPrice","type":"uint256"},{"internalType":"uint256","name":"dustInWei","type":"uint256"},{"internalType":"uint256","name":"blockNumber","type":"uint256"},{"internalType":"uint256","name":"gemDecimals","type":"uint256"}],"internalType":"struct UserInfoStorage.MiscInfo","name":"miscInfo","type":"tuple"},{"components":[{"internalType":"uint256","name":"ethBalance","type":"uint256"},{"internalType":"uint256","name":"gemBalance","type":"uint256"},{"internalType":"uint256","name":"gemAllowance","type":"uint256"},{"internalType":"uint256","name":"daiBalance","type":"uint256"},{"internalType":"uint256","name":"daiAllowance","type":"uint256"}],"internalType":"struct UserInfoStorage.UserWalletInfo","name":"userWalletInfo","type":"tuple"}],"internalType":"struct UserInfoStorage.UserState","name":"state","type":"tuple"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"contract ProxyRegistryLike","name":"registry","type":"address"},{"internalType":"address","name":"user","type":"address"}],"name":"getProxyInfo","outputs":[{"components":[{"internalType":"bool","name":"hasProxy","type":"bool"},{"internalType":"contract DSProxyLike","name":"userProxy","type":"address"}],"internalType":"struct UserInfoStorage.ProxyInfo","name":"info","type":"tuple"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"hasCdp","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"hasProxy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"makerdaoCdp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"makerdaoDaiDebt","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"makerdaoEthDeposit","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"makerdaoHasCdp","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"makerdaoMaxDaiDebt","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxDaiDebt","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"components":[{"components":[{"internalType":"bool","name":"hasProxy","type":"bool"},{"internalType":"contract DSProxyLike","name":"userProxy","type":"address"}],"internalType":"struct UserInfoStorage.ProxyInfo","name":"proxyInfo","type":"tuple"},{"components":[{"internalType":"bool","name":"hasCdp","type":"bool"},{"internalType":"bool","name":"bitten","type":"bool"},{"internalType":"uint256","name":"cdp","type":"uint256"},{"internalType":"uint256","name":"ethDeposit","type":"uint256"},{"internalType":"uint256","name":"daiDebt","type":"uint256"},{"internalType":"uint256","name":"maxDaiDebt","type":"uint256"},{"internalType":"uint256","name":"unlockedEth","type":"uint256"},{"internalType":"bool","name":"expectedDebtMissmatch","type":"bool"}],"internalType":"struct UserInfoStorage.CdpInfo","name":"bCdpInfo","type":"tuple"},{"components":[{"internalType":"bool","name":"hasCdp","type":"bool"},{"internalType":"bool","name":"bitten","type":"bool"},{"internalType":"uint256","name":"cdp","type":"uint256"},{"internalType":"uint256","name":"ethDeposit","type":"uint256"},{"internalType":"uint256","name":"daiDebt","type":"uint256"},{"internalType":"uint256","name":"maxDaiDebt","type":"uint256"},{"internalType":"uint256","name":"unlockedEth","type":"uint256"},{"internalType":"bool","name":"expectedDebtMissmatch","type":"bool"}],"internalType":"struct UserInfoStorage.CdpInfo","name":"makerdaoCdpInfo","type":"tuple"},{"components":[{"internalType":"uint256","name":"spotPrice","type":"uint256"},{"internalType":"uint256","name":"dustInWei","type":"uint256"},{"internalType":"uint256","name":"blockNumber","type":"uint256"},{"internalType":"uint256","name":"gemDecimals","type":"uint256"}],"internalType":"struct UserInfoStorage.MiscInfo","name":"miscInfo","type":"tuple"},{"components":[{"internalType":"uint256","name":"ethBalance","type":"uint256"},{"internalType":"uint256","name":"gemBalance","type":"uint256"},{"internalType":"uint256","name":"gemAllowance","type":"uint256"},{"internalType":"uint256","name":"daiBalance","type":"uint256"},{"internalType":"uint256","name":"daiAllowance","type":"uint256"}],"internalType":"struct UserInfoStorage.UserWalletInfo","name":"userWalletInfo","type":"tuple"}],"internalType":"struct UserInfoStorage.UserState","name":"state","type":"tuple"}],"name":"set","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"bytes32","name":"ilk","type":"bytes32"},{"internalType":"contract BCdpManager","name":"manager","type":"address"},{"internalType":"contract DssCdpManager","name":"makerDAOManager","type":"address"},{"internalType":"contract GetCdps","name":"getCdp","type":"address"},{"internalType":"contract VatLike","name":"vat","type":"address"},{"internalType":"contract SpotLike","name":"spot","type":"address"},{"internalType":"contract ProxyRegistryLike","name":"registry","type":"address"},{"internalType":"address","name":"jar","type":"address"},{"internalType":"address","name":"gemJoin","type":"address"}],"name":"setInfo","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"spotPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"unlockedEth","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"userProxy","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"weth","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"}]
@@ -312,35 +315,30 @@ export const getStats = function (web3, networkId){
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-export function toNumber(bignum,web3) {
-  return Number(web3.utils.fromWei(bignum))
-}
+export const toNumber = (bignum) => Number(fromWei(bignum))
 
-function calcNewBorrowAndLPrice(userInfo,
-                                dEth,
-                                dDai,
-                                ilk,
-                                web3) {
-  dEth = toNumber(dEth,web3)
-  dDai = toNumber(dDai,web3)
-  const ethDeposit = toNumber(userInfo.bCdpInfo.ethDeposit,web3)
-  const daiDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3)
+const calcNewBorrowAndLPrice = (userInfo, dEth, dDai, ilk, isGem) => {
+  const {gemDecimals} = userInfo.miscInfo
+  dEth = toNumber(dEth)
+  dDai = toNumber(dDai)
+  const deposit = isGem ? Number(toUiDecimalPointFormat(userInfo.bCdpInfo.ethDeposit, gemDecimals)) : toNumber(userInfo.bCdpInfo.ethDeposit)
+  const daiDebt = toNumber(userInfo.bCdpInfo.daiDebt)
 
-  const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt,web3)
-  const spotPrice = toNumber(userInfo.miscInfo.spotPrice,web3)
+  const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt)
+  const spotPrice = toNumber(userInfo.miscInfo.spotPrice)
 
-  if(ethDeposit == 0 && dEth > 0) {
+  if(deposit == 0 && dEth > 0) {
     const newMaxDaiDebt = spotPrice * dEth / collateralFactor[ilk]; // todo - read 1.5 from the blockchain
-    return [web3.utils.toWei(newMaxDaiDebt.toFixed(17).toString()), web3.utils.toWei("0")]
+    return [toWei(newMaxDaiDebt.toFixed(17).toString()), toWei("0")]
   }
-  if((ethDeposit == 0) || (ethDeposit + dEth == 0)) return [web3.utils.toWei("0"), web3.utils.toWei("0")]
-
-  const newMaxDaiDebt = maxDaiDebt * (ethDeposit + dEth) / ethDeposit
-  const liqRatio = ethDeposit * spotPrice / maxDaiDebt
+  if((deposit == 0) || (deposit + dEth == 0)) return [toWei("0"), toWei("0")]
+  debugger
+  const newMaxDaiDebt = maxDaiDebt * (deposit + dEth) / deposit
+  const liqRatio = deposit * spotPrice / maxDaiDebt
   // (total dai debt) * liqRatio = (total eth deposit) * liquidationPrice
-  const newLiquidationPrice = (daiDebt + dDai) * liqRatio / (ethDeposit + dEth)
-
-  return [web3.utils.toWei(newMaxDaiDebt.toFixed(17).toString()), web3.utils.toWei(newLiquidationPrice.toFixed(17).toString())]
+  const newLiquidationPrice = (daiDebt + dDai) * liqRatio / (deposit + dEth)
+  
+  return [toWei(newMaxDaiDebt.toFixed(17).toString()), toWei(newLiquidationPrice.toFixed(17).toString())]
 }
 
 export const calcNewBorrowLimitAndLiquidationPrice = calcNewBorrowAndLPrice
@@ -350,16 +348,16 @@ export const calcNewBorrowLimitAndLiquidationPrice = calcNewBorrowAndLPrice
 const liqudationMsg = "vault is being liqudated"
 const checkForActiveLiqudation = ({bCdpInfo: {bitten}}) => bitten ? [false,liqudationMsg] : [true,""]
 
-export const verifyDepositInput = function(userInfo,
-                                           dEth,
-                                           web3) {
-  dEth = toNumber(dEth,web3)
-  if(dEth <= 0) return [false, "Deposit amount must be positive"]
-
-  // equality is also failure, because ETH is needed for gas
-  if(dEth > toNumber(userInfo.userWalletInfo.ethBalance,web3)) return [false, "Amount exceeds wallet balance"]
-
-  const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo, web3)
+export const verifyDepositInput = (userInfo, val, isGem) => {
+  val = toNumber(val)
+  if(val <= 0) return [false, "Deposit amount must be positive"]
+  if(isGem){
+    if(val >= toNumber(userInfo.userWalletInfo.gemBalance)) return [false, "Amount exceeds wallet balance"]
+  }else {
+    // equality is also failure, because ETH is needed for gas
+    if(val > toNumber(userInfo.userWalletInfo.ethBalance)) return [false, "Amount exceeds wallet balance"]
+  }
+  const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo)
   if(debtIsBiggerThanDust){
     return [false, debtIsBiggerThanDust]
   }
@@ -369,20 +367,25 @@ export const verifyDepositInput = function(userInfo,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyWithdrawInput = function(userInfo,
-                                            dEth,
-                                            web3) {
-  const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo, web3)
+export const verifyWithdrawInput = (userInfo, val, isGem, ilk) => {
+  const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo)
   if(debtIsBiggerThanDust){
     return [false, debtIsBiggerThanDust]
   }
-  const dEthMinus = web3.utils.toBN(dEth).mul(web3.utils.toBN(-1))
-  dEth = toNumber(dEth,web3)
-  if(dEth <= 0) return [false, "Withdraw amount must be positive"]
-  if(dEth > toNumber(userInfo.bCdpInfo.ethDeposit,web3)) return [false, "Amount exceeds CDP deposit"]
+  const valMinus = toBN(val).mul(toBN(-1))
+  val = toNumber(val)
+  if(val <= 0) return [false, "Withdraw amount must be positive"]
+  debugger
+  const deposited = userInfo.bCdpInfo.ethDeposit
+  if(isGem){
+    const {gemDecimals} = userInfo.miscInfo
+    if(val > toUiDecimalPointFormat(deposited, gemDecimals)) return [false, "Amount exceeds CDP deposit"]
+  } else {
+    if(val > toNumber(deposited)) return [false, "Amount exceeds CDP deposit"]
+  }
 
-  const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,dEthMinus.toString(10),"0",null,web3)
-  if(toNumber(maxDebt,web3) < toNumber(userInfo.bCdpInfo.daiDebt,web3)) return [false,"Amount exceeds allowed withdrawal"]
+  const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,valMinus.toString(10), "0", null, ilk)
+  if(toNumber(maxDebt) < toNumber(userInfo.bCdpInfo.daiDebt)) return [false,"Amount exceeds allowed withdrawal"]
 
   return checkForActiveLiqudation(userInfo)
 }
@@ -434,9 +437,9 @@ export const verifyRepayInput = function(userInfo,
   return checkForActiveLiqudation(userInfo)
 }
 
-const checkDebtIsBiggerThanDust = (userInfo, web3) => {
-  const dust = toNumber(userInfo.miscInfo.dustInWei, web3)
-  const currentDebt = toNumber(userInfo.bCdpInfo.daiDebt,web3)
+const checkDebtIsBiggerThanDust = (userInfo) => {
+  const dust = toNumber(userInfo.miscInfo.dustInWei)
+  const currentDebt = toNumber(userInfo.bCdpInfo.daiDebt)
   if (currentDebt < dust && currentDebt > 0) { 
     return `the minimum debt Maker requires to preform the operation is ${dust.toString()} DAI`
   }
