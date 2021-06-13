@@ -1,3 +1,6 @@
+import Web3 from "web3"
+const {toBN, toWei, fromWei} = Web3.utils
+
 export const numm = (v,decPoint = null, max = Infinity) => {const r = parseFloat(Math.min(max, v)).toFixed(decPoint?decPoint:2); return (isNaN(r*1))?0:r}
 
 export const isKovan = () => {
@@ -24,5 +27,17 @@ const delay = (msec, value) => {
 
 export const isFinished = (promise) => {
     return Promise.race([delay(0, false), promise.then(() => true, () => true)]);
+}
+
+export const toUiDecimalPointFormat = (bn, decimalPoint) => {
+    const factor = toBN(10).pow(toBN(18 - decimalPoint))
+    const x = toBN(bn).mul(factor)
+    return fromWei(x) 
+}
+
+export const fromUiDeciamlPointFormat = (num, decimalPoint) => {
+    const factor = toBN(10).pow(toBN(18 - decimalPoint))
+    const x = toBN(toWei(num))
+    return x.div(factor)
 }
   
