@@ -258,10 +258,10 @@ class CurrencyBox extends Component {
             CustomPanel = panel;
             panel = new panel();
         }
-
         let liquidationPrice;
         let walletBalance;
         const ethBalance = userInfo ? chop4(userInfo.userWalletInfo.ethBalance).toString() + " ETH" : "0 ETH";
+        const gemBalance = (userInfo ? chop4(userInfo.userWalletInfo.gemBalance).toString() : 0 ) + " " + currency;
         const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance).toString() + " DAI" : "0 DAI";
         let valueDir = 1;
         try {
@@ -270,11 +270,11 @@ class CurrencyBox extends Component {
             switch (panel.name) {
                 case 'Deposit':
                     liquidationPrice = getLiquidationPrice(value, 0);
-                    walletBalance = ethBalance;
+                    walletBalance = currency  === "ETH" ? ethBalance : gemBalance
                     break;
                 case 'Withdraw':
                     liquidationPrice = getLiquidationPrice(-value, 0);
-                    walletBalance = ethBalance;
+                    walletBalance = currency  === "ETH" ? ethBalance : gemBalance
                     valueDir = -1;
                     break;
                 case 'Borrow':
@@ -306,7 +306,7 @@ class CurrencyBox extends Component {
                             <img src={Close} onClick={() => this.resetPanel()} />
                         </div>
                         <div className="currency-meta">
-                            <div className="currency-icon"><img src={icon} /></div>
+                            <div className="currency-icon"><img src={require(`../assets/coin-icons/${currency}.png`)} /></div>
                             <div className="currency-title">
                                 <span>{titlePart1}</span> <span className="mobile-hide">{titlePart2}</span>
                             </div>

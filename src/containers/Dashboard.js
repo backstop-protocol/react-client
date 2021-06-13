@@ -24,7 +24,7 @@ class Dashboard extends Component {
   onAction = async (action, value, onHash) => {
     try {
       const res = await doApiAction(action, value, null, onHash);
-      makerStoreManager.getMakerStore().getUserInfo() 
+      makerStoreManager.getMakerStore().getUserInfo()
       return res;
     } catch (error) {
       EventBus.$emit("action-failed", null, action);
@@ -39,7 +39,7 @@ class Dashboard extends Component {
 
   render() {
     const {getMakerStore, storeChanges, currentStore} = makerStoreManager
-    const { userInfo, userInfoUpdate } = getMakerStore()
+    const { userInfo, userInfoUpdate, symbol } = getMakerStore()
     console.log("userInfoUpdate ", userInfoUpdate)
 
     return (
@@ -53,6 +53,7 @@ class Dashboard extends Component {
           return (
             <div key={name} style={{display: name !== makerStoreManager.currentStore ? "none" : ""}} className="container currency-container split fade-in">
               <EtheriumBox
+                symbol={symbol}
                 userInfo={userInfo}
                 onPanelAction={this.onAction}
               />

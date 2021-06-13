@@ -2,7 +2,7 @@
  * @format
  */
 import { runInAction, makeAutoObservable, observable } from "mobx"
-import * as ApiHelper from "../lib/ApiHelper";
+import {humanize, gemHumanize} from "../lib/ApiHelper";
 import { setUserInfo } from "../lib/Actions";
 import * as B from "../lib/bInterface";
 import userStore from "./user.store"
@@ -21,13 +21,15 @@ class MakerStore {
         makeAutoObservable(this)
         this.name = name
         this.ilk = ilk
+        this.symbol = name.split("-")[0]
+        this.isGem = this.symbol !== "ETH"
     }
 
     fetchAndUpdateUserInfo = async () => {
         const { web3, networkType, user } = userStore
         let userInfo = await B.getUserInfo(web3, networkType, user, this.ilk);
-        this.originalUserInfo = userInfo;
-        userInfo = ApiHelper.Humanize(userInfo, web3);
+        this.originalUserInfo = userInfo
+        userInfo = gemHumanize(humanize(userInfo))
         setUserInfo(user, web3, networkType, userInfo, this.originalUserInfo);
         this.userInfo = userInfo
         runInAction(()=>{
@@ -69,7 +71,8 @@ class MakerStore {
 export const makerStores = {
     "ETH-A": new MakerStore("0x4554482d41000000000000000000000000000000000000000000000000000000", "ETH-A"),
     "ETH-B": new MakerStore("0x4554482d42000000000000000000000000000000000000000000000000000000", "ETH-B"),
-    "ETH-C": new MakerStore("0x4554482d43000000000000000000000000000000000000000000000000000000", "ETH-C")
+    "ETH-C": new MakerStore("0x4554482d43000000000000000000000000000000000000000000000000000000", "ETH-C"),
+    "WBTC-A": new MakerStore("0x574254432d410000000000000000000000000000000000000000000000000000", "WBTC-A")
 }
 
 export const makerStoreNames = Object.keys(makerStores)
