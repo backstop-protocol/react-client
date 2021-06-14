@@ -151,10 +151,12 @@ class GemModal extends Component {
 
   depositGem = async ()=> {
     this.setState({depositStatus: "depositing"})
-    await this.props.depoitFn()
+    await this.props.depositFn()
     this.setState({depositStatus: "done"})
     await makerStoreManager.getMakerStore().getUserInfo()
-    EventBus.$emit('close-modal')
+    setTimeout(() => {
+      EventBus.$emit('close-modal')
+    }, 3000)
   }
 
   render() {

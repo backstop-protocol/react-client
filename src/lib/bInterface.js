@@ -348,7 +348,6 @@ const liqudationMsg = "vault is being liqudated"
 const checkForActiveLiqudation = ({bCdpInfo: {bitten}}) => bitten ? [false,liqudationMsg] : [true,""]
 
 export const verifyDepositInput = (userInfo, val) => {
-  debugger
   val = gemToNumber(val, userInfo)
   if(val < 0) return [false, "Deposit amount must be positive"]
   const balance = userInfo.walletBalance

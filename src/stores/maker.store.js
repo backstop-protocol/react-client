@@ -37,7 +37,6 @@ class MakerStore {
             this.userInfoUpdate ++
         })
         this.makerUserInfoUpdateSideAffects()
-        debugger
     }
 
     renameUserInfoProps = (userInfo) => {
