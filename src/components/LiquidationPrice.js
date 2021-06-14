@@ -103,8 +103,12 @@ const LiquidationPrice = observer(
                                                     <span> {moment(mainStore.coinbaseLastUpdate).fromNow()} </span>
                                                 </ToolTipTitle>
                                                 <ToolTipLine>
-                                                    <div> Market price: </div>
+                                                    <div> ETH Market price: </div>
                                                     <div> ${mainStore.ethMarketPrice} </div>
+                                                </ToolTipLine>  
+                                                <ToolTipLine>
+                                                    <div> BTC Market price: </div>
+                                                    <div> ${mainStore.btcMarketPrice} </div>
                                                 </ToolTipLine>  
                                             </ReactTooltip>
                                         </span>
