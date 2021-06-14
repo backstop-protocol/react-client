@@ -3,6 +3,10 @@ const {toBN, toWei, fromWei} = Web3.utils
 
 export const numm = (v,decPoint = null, max = Infinity) => {const r = parseFloat(Math.min(max, v)).toFixed(decPoint?decPoint:2); return (isNaN(r*1))?0:r}
 
+export const maxAllowance = toBN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)
+const reallyLargeAllowance = toBN("8888888888888888888888888888888888888888888888888888888888888888", 16)
+export const hasAllowance = (allowance) => toBN(allowance).gt(reallyLargeAllowance)
+
 export const isKovan = () => {
     try{
         return parseInt(window.ethereum.chainId) === parseInt("0x2A")
