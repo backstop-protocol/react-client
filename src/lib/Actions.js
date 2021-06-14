@@ -26,32 +26,28 @@ function increaseABit(number) {
 
 // verification actions
 export function getLiquidationPrice(valEth, valDai) {
-    const {userInfo, originalUserInfo, ilk, isGem} = makerStoreManager.getMakerStore()
+    const {userInfo, originalUserInfo, ilk} = makerStoreManager.getMakerStore()
     const {web3} = userStore
     if (!userInfo) return 0;
 
     console.log(valEth, valDai);
 
-    const retVal = calcNewBorrowLimitAndLiquidationPrice(originalUserInfo, web3.utils.toWei(valEth.toString()), web3.utils.toWei(valDai.toString()), ilk, isGem);
+    const retVal = calcNewBorrowLimitAndLiquidationPrice(originalUserInfo, web3.utils.toWei(valEth.toString()), web3.utils.toWei(valDai.toString()), ilk);
     retVal[0] = web3.utils.fromWei(retVal[0]);
     retVal[1] = web3.utils.fromWei(retVal[1]);
     return retVal;
 }
 
 export function validateDeposit(val) {
-    const {originalUserInfo, isGem, userInfo} = makerStoreManager.getMakerStore() 
-    if(isGem){
-        val = fromUiDeciamlPointFormat(val, userInfo.miscInfo.gemDecimals).toString()
-    } else {
-        val = toWei(val.toString())
-    }
-    return verifyDepositInput(originalUserInfo, val, isGem) 
+    const {originalUserInfo, userInfo} = makerStoreManager.getMakerStore() 
+    val = fromUiDeciamlPointFormat(val, userInfo.miscInfo.gemDecimals).toString()
+    return verifyDepositInput(originalUserInfo, val) 
 }
 
 export function validateWithdraw(val) { 
-    const {originalUserInfo, isGem, ilk} = makerStoreManager.getMakerStore()
+    const {originalUserInfo, ilk} = makerStoreManager.getMakerStore()
     const {web3} = userStore
-    return verifyWithdrawInput(originalUserInfo, toWei(val.toString()), isGem, ilk) 
+    return verifyWithdrawInput(originalUserInfo, toWei(val.toString()), ilk) 
 }
 
 export function validateBorrow(val) { 
