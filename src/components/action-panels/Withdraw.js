@@ -47,12 +47,7 @@ export default class Withdraw extends Component {
 
     setMax = () => {
         const {userInfo, currency} = this.props
-        let val
-        if(currency === 'ETH'){
-            val = (Math.floor(userInfo.bCdpInfo.ethDeposit * 1000000)/1000000).toString();
-        } else {
-            val = (Math.floor(userInfo.bCdpInfo.gemDeposit * 1000000)/1000000).toString();
-        }
+        const val = (Math.floor(userInfo.collaeralDeposited * 1000000)/1000000).toString();
         const res = this.props.onPanelInput(val);
         if (res !== false) {
             this.setState({val: res});

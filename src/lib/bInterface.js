@@ -317,11 +317,11 @@ export const getStats = function (web3, networkId){
 export const toNumber = (bignum) => Number(fromWei(bignum))
 export const gemToNumber = (bignum, userInfo) => Number(toUiDecimalPointFormat(bignum, userInfo.miscInfo.gemDecimals))
 
-const calcNewBorrowAndLPrice = (userInfo, dEth, dDai, ilk, isGem) => {
+const calcNewBorrowAndLPrice = (userInfo, dEth, dDai, ilk) => {
   const {gemDecimals} = userInfo.miscInfo
   dEth = toNumber(dEth)
   dDai = toNumber(dDai)
-  const deposit = isGem ? gemToNumber(userInfo.bCdpInfo.ethDeposit, userInfo) : toNumber(userInfo.bCdpInfo.ethDeposit)
+  const deposit = gemToNumber(userInfo.collaeralDeposited, userInfo)
   const daiDebt = toNumber(userInfo.bCdpInfo.daiDebt)
 
   const maxDaiDebt = toNumber(userInfo.bCdpInfo.maxDaiDebt)
@@ -347,17 +347,12 @@ export const calcNewBorrowLimitAndLiquidationPrice = calcNewBorrowAndLPrice
 const liqudationMsg = "vault is being liqudated"
 const checkForActiveLiqudation = ({bCdpInfo: {bitten}}) => bitten ? [false,liqudationMsg] : [true,""]
 
-export const verifyDepositInput = (userInfo, val, isGem) => {
+export const verifyDepositInput = (userInfo, val) => {
   debugger
-  val = isGem ? gemToNumber(val, userInfo) : toNumber(val)
+  val = gemToNumber(val, userInfo)
   if(val < 0) return [false, "Deposit amount must be positive"]
-  if(isGem){
-    const balance = gemToNumber(userInfo.userWalletInfo.gemBalance, userInfo)
-    if(val > balance) return [false, "Amount exceeds wallet balance"]
-  }else {
-    // equality is also failure, because ETH is needed for gas
-    if(val >= toNumber(userInfo.userWalletInfo.ethBalance)) return [false, "Amount exceeds wallet balance"]
-  }
+  const balance = userInfo.walletBalance
+  if(val > gemToNumber(balance, userInfo)) return [false, "Amount exceeds wallet balance"]
   const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo)
   if(debtIsBiggerThanDust){
     return [false, debtIsBiggerThanDust]
@@ -368,7 +363,7 @@ export const verifyDepositInput = (userInfo, val, isGem) => {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export const verifyWithdrawInput = (userInfo, val, isGem, ilk) => {
+export const verifyWithdrawInput = (userInfo, val, ilk) => {
   const debtIsBiggerThanDust = checkDebtIsBiggerThanDust(userInfo)
   if(debtIsBiggerThanDust){
     return [false, debtIsBiggerThanDust]
@@ -376,13 +371,8 @@ export const verifyWithdrawInput = (userInfo, val, isGem, ilk) => {
   const valMinus = toBN(val).mul(toBN(-1))
   val = toNumber(val)
   if(val <= 0) return [false, "Withdraw amount must be positive"]
-  const deposited = userInfo.bCdpInfo.ethDeposit
-  if(isGem){
-    const {gemDecimals} = userInfo.miscInfo
-    if(val > toUiDecimalPointFormat(deposited, gemDecimals)) return [false, "Amount exceeds CDP deposit"]
-  } else {
-    if(val > toNumber(deposited)) return [false, "Amount exceeds CDP deposit"]
-  }
+  const deposited = gemToNumber(userInfo.collaeralDeposited, userInfo)
+  if(val > deposited) return [false, "Amount exceeds CDP deposit"]
 
   const [maxDebt,newPrice] = calcNewBorrowAndLPrice(userInfo,valMinus.toString(10), "0", null, ilk)
   if(toNumber(maxDebt) < toNumber(userInfo.bCdpInfo.daiDebt)) return [false,"Amount exceeds allowed withdrawal"]

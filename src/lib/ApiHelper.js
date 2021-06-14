@@ -10,19 +10,14 @@ const humanizeMustFields = [
 ]
 
 const humanizeExcludeFields = [
-    'userProxy', 'daiAllowance', 'gemAllowance', 'gemBalance', 'gemDeposit'
+    'userProxy', 'daiAllowance', 'gemAllowance'
 ];
 
-const gemDecimalPointDependentFields = [
-    'gemBalance', 'gemDeposit'
-]
+const gemHumanizeExcludeFields = [
+    'gemBalance', 'collaeralDeposited', 'walletBalance', 
+];
 
-//   shared properties that need to be copied from ETH to GEM 
-const ethGemSharedProps = [
-    'ethDeposit'
-]
-
-export const humanize = (result) => {
+export const humanize = (result, _humanizeExcludeFields = humanizeExcludeFields) => {
     let onlyNum = true, hasNum = false;
     for (let k in result) {
         if (isNaN(k * 1)) { onlyNum = false; }
@@ -36,10 +31,7 @@ export const humanize = (result) => {
                     res[k] = humanize(result[k]);
                 }
                 else {
-                    if (typeof result[k] === "string" && !isNaN(result[k] * 1) && humanizeExcludeFields.indexOf(k) === -1) {
-                        if (ethGemSharedProps.indexOf(k)> -1){
-                            res[k.replace('eth', 'gem')] = result[k];
-                        }
+                    if (typeof result[k] === "string" && !isNaN(result[k] * 1) && _humanizeExcludeFields.indexOf(k) === -1) {
                         res[k] = (result[k].length > 16 || humanizeMustFields.includes(k)) ? fromWei(result[k]) * 1 : result[k] * 1;
                     }
                     else {
@@ -56,9 +48,10 @@ export const humanize = (result) => {
 
 
 export const gemHumanize = (userInfo) => {
+    userInfo = humanize(userInfo, [...humanizeExcludeFields, ...gemHumanizeExcludeFields])
     const {gemDecimals} = userInfo.miscInfo
-    userInfo.userWalletInfo.gemBalance = toUiDecimalPointFormat(userInfo.userWalletInfo.gemBalance, gemDecimals)
-    userInfo.bCdpInfo.gemDeposit = toUiDecimalPointFormat(userInfo.bCdpInfo.gemDeposit, gemDecimals)
+    userInfo.walletBalance = toUiDecimalPointFormat(userInfo.walletBalance, gemDecimals)
+    userInfo.collaeralDeposited = toUiDecimalPointFormat(userInfo.collaeralDeposited, gemDecimals)
     return userInfo
 }
 

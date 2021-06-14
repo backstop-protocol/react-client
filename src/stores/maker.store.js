@@ -28,14 +28,24 @@ class MakerStore {
     fetchAndUpdateUserInfo = async () => {
         const { web3, networkType, user } = userStore
         let userInfo = await B.getUserInfo(web3, networkType, user, this.ilk);
+        userInfo = this.renameUserInfoProps(userInfo)
         this.originalUserInfo = userInfo
-        userInfo = gemHumanize(humanize(userInfo))
+        userInfo = this.isGem ? gemHumanize(userInfo) : humanize(userInfo)
         setUserInfo(user, web3, networkType, userInfo, this.originalUserInfo);
         this.userInfo = userInfo
         runInAction(()=>{
             this.userInfoUpdate ++
         })
         this.makerUserInfoUpdateSideAffects()
+        debugger
+    }
+
+    renameUserInfoProps = (userInfo) => {
+        const newProps = {
+            walletBalance: this.isGem ? userInfo.userWalletInfo.gemBalance : userInfo.userWalletInfo.ethBalance,
+            collaeralDeposited: userInfo.bCdpInfo.ethDeposit
+        }
+        return Object.assign({}, userInfo, newProps)
     }
 
     // thin promise managmanet wrapper to the original getUserInfo
