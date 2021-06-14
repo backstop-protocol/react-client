@@ -15,22 +15,14 @@ class EtheriumBox extends Component {
         if(!userInfo){ 
             return 0
         }
-        if(this.props.symbol === "ETH"){
-            return numm(userInfo.bCdpInfo.ethDeposit, 4); 
-        } else {
-            return numm(userInfo.bCdpInfo.gemDeposit, 5); 
-        }
+        return numm(userInfo.collaeralDeposited, 4); 
     }
 
     calculateUSD = (userInfo) => { 
         if(!userInfo){ 
             return 0
         }
-        if(this.props.symbol === "ETH"){
-            return numm(userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice, 2)
-        } else {
-            return numm(userInfo.bCdpInfo.gemDeposit * userInfo.miscInfo.spotPrice, 2)
-        }
+        return numm(userInfo.collaeralDeposited * userInfo.miscInfo.spotPrice, 2)
     }
 
     borrowLimit (userInfo, value) { 
