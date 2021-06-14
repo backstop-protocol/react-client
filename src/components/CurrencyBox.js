@@ -264,8 +264,7 @@ class CurrencyBox extends Component {
         }
         let liquidationPrice;
         let walletBalance;
-        const ethBalance = userInfo ? chop4(userInfo.userWalletInfo.ethBalance).toString() + " ETH" : "0 ETH";
-        const gemBalance = (userInfo ? chop5(userInfo.userWalletInfo.gemBalance).toString() : 0 ) + " " + currency;
+        const gemBalance = (userInfo ? chop4(userInfo.walletBalance).toString() : 0 ) + " " + currency;
         const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance).toString() + " DAI" : "0 DAI";
         let valueDir = 1;
         try {
@@ -274,11 +273,11 @@ class CurrencyBox extends Component {
             switch (panel.name) {
                 case 'Deposit':
                     liquidationPrice = getLiquidationPrice(value, 0);
-                    walletBalance = currency === "ETH" ? ethBalance : gemBalance;
+                    walletBalance = gemBalance;
                     break;
                 case 'Withdraw':
                     liquidationPrice = getLiquidationPrice(-value, 0);
-                    walletBalance = currency === "ETH" ? ethBalance : gemBalance;
+                    walletBalance = gemBalance;
                     valueDir = -1;
                     break;
                 case 'Borrow':
