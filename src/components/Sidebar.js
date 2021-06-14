@@ -181,7 +181,7 @@ class Sidebar extends Component {
             <a href="https://medium.com/b-protocol" target="_blank">
               <img src={require("../assets/medium-icon.svg")} />
             </a>
-            <a href="https://discord.gg/3RmqN2K" target="_blank">
+            <a href="https://discord.com/invite/bJ4guuw" target="_blank">
               <img src={Discord} />
             </a>
           </div>
