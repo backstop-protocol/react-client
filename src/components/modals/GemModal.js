@@ -8,6 +8,7 @@ import Toggle from "../style-components/Toggle"
 import {ModalButton} from "../style-components/Buttons"
 import makerStoreManager from "../../stores/maker.store"
 import {openProxy, unlockGem} from "../../lib/Actions"
+import {hasAllowance as _hasAllowance} from "../../lib/Utils"
 import BpLoader from "../style-components/BpLoader"
 import VIcon from "../../assets/v-icon-white.svg";
 import Web3 from "web3"
@@ -161,7 +162,7 @@ class GemModal extends Component {
     // to do listen to the user info change event here from Mobx
     if(!userInfo){ return null }
     const hasProxy = !!userInfo.proxyInfo.userProxy && userInfo.proxyInfo.userProxy !== "0x0000000000000000000000000000000000000000"
-    const hasAllowance = toBN(userInfo.userWalletInfo.gemAllowance).toString(16) === "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    const hasAllowance = _hasAllowance(userInfo.userWalletInfo.gemAllowance)
     return (
       <Container>
         <Header>

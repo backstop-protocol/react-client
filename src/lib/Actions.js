@@ -12,7 +12,7 @@ import { repayUnlocked } from "./ApiHelper";
 import makerStoreManager from "../../src/stores/maker.store"
 import userStore from "../../src/stores/user.store"
 import GemModal from "../components/modals/GemModal"
-import {fromUiDeciamlPointFormat} from "./Utils"
+import {fromUiDeciamlPointFormat, hasAllowance} from "./Utils"
 import Web3 from "web3"
 const {toWei} = Web3.utils
 
@@ -172,6 +172,7 @@ function openGemDepositModal(depositFn) {
     return new Promise((resolve, reject) => {
         const noWrapper = true
         EventBus.$emit('show-modal', <GemModal depositFn={depositFn}/>, noWrapper)
+        EventBus.$on('close-modal', reject)
     })
 }
 
@@ -180,7 +181,7 @@ export async function depositGem(amount, onHash) {
     const {web3, networkType: networkId, user} = userStore
     // check for user proxy
     let userProxy = userInfo.proxyInfo.userProxy
-    if(!userProxy || !userInfo.userWalletInfo.gemAllowance){
+    if(!userProxy || !hasAllowance(userInfo.userWalletInfo.gemAllowance)){
         return openGemDepositModal(()=> depositGem(amount, onHash))
     }
     // deposit
