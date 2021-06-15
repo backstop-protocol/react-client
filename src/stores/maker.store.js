@@ -102,7 +102,10 @@ class MakerStoreManager {
     switchStore = (storeName) => {
         this.currentStore = storeName
         this.storeChanges++
-        this.getMakerStore().getUserInfo() // fetch userInfo every time user switch tabs
+        // fetch userInfo every time user switch tabs
+        if(userStore.loggedIn){
+            this.getMakerStore().getUserInfo() 
+        }
     }
 
     getMakerStore = () => {
