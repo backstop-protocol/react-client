@@ -6,7 +6,7 @@ const B = require('./bInterface.js');
 
 const humanizeMustFields = [
     "ethDeposit", "daiDebt", "maxDaiDebt", "minEthDeposit","userRating","userRatingProgressPerSec","totalRating","totalRatingProgressPerSec","jarBalance",
-    "ethBalance", "daiBalance"
+    "ethBalance", "daiBalance", "collaeralDeposited"
 ]
 
 const humanizeExcludeFields = [
@@ -31,7 +31,9 @@ export const humanize = (result, _humanizeExcludeFields = humanizeExcludeFields)
                     res[k] = humanize(result[k]);
                 }
                 else {
-                    if (typeof result[k] === "string" && !isNaN(result[k] * 1) && _humanizeExcludeFields.indexOf(k) === -1) {
+                    const isNumericalString = typeof result[k] === "string" && !isNaN(result[k])
+                    const notExcluded = _humanizeExcludeFields.indexOf(k) === -1
+                    if (isNumericalString && notExcluded) {
                         res[k] = (result[k].length > 16 || humanizeMustFields.includes(k)) ? fromWei(result[k]) * 1 : result[k] * 1;
                     }
                     else {
