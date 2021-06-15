@@ -172,7 +172,7 @@ function openGemDepositModal(depositFn) {
     return new Promise((resolve, reject) => {
         const noWrapper = true
         EventBus.$emit('show-modal', <GemModal depositFn={depositFn}/>, noWrapper)
-        EventBus.$on('close-modal', reject)
+        EventBus.$on('close-modal', ()=> reject(new Error("GEM_MODAL_CLOSED")))
     })
 }
 

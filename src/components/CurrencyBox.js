@@ -220,6 +220,7 @@ class CurrencyBox extends Component {
     onPanelAction = async (action, value, actioning, silent = false) => {
         if (!silent) {
             EventBus.$on('action-completed', this.onCompleted);
+            EventBus.$on('close-action', this.resetPanel);
             EventBus.$on('action-failed', this.onFailed);
             this.setState({loading: true, prevPanel: this.state.panel, panel: Loading, actioning: actioning, value});
         }
