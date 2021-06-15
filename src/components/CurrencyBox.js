@@ -21,6 +21,7 @@ const Overider = styled.div`
     }
 
     .currency-icon{
+        max-width: 56px;
         min-width: 46px;
     }
     .currency-actions{
@@ -106,6 +107,7 @@ const Overider = styled.div`
     }
     @media ${device.laptop} {
         .currency-icon{
+            max-width: 56px;
             min-width: 40px;
         }
         .currency-box-container{
