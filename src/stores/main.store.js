@@ -4,7 +4,7 @@ import * as ApiHelper from "../lib/ApiHelper"
 import Web3 from "web3"
 import axios from "axios"
 import {toCommmSepratedString} from "../lib/Utils"
-import {makerStoreNames} from "./maker.store"
+import makerStoreManager, {makerStoreNames} from "./maker.store"
 import {BP_API} from "../common/constants"
 
 /**
@@ -21,8 +21,7 @@ class MainStore {
     tvlDai = "--,---"
     cdpi = 0
     spotPrice = null
-    makerPriceFeedPrice = ""
-    makerPriceFeedPriceNextPrice = ""
+    makerPriceFeed = {}
     defiexploreLastUpdate = ""
     stabilityFee = new Map()
     ethMarketPrice = ""
@@ -36,6 +35,13 @@ class MainStore {
     constructor (){
         makeAutoObservable(this)
         this.dataPromise = this.fetchGeneralDappData()
+    }
+
+    getIlkData () {
+        return this.makerPriceFeed[makerStoreManager.currentStore] || {
+            makerPriceFeedPrice: "",
+            makerPriceFeedPriceNextPrice: "",
+        }
     }
 
     async fetchGeneralDappData () {
@@ -82,17 +88,21 @@ class MainStore {
     }
 
     async fetchstabilityFees () {
-        let {data} = await axios.get('https://defiexplore.com/api/stats/globalInfo')
+        const {data} = await axios.get('https://defiexplore.com/api/stats/globalInfo')
         runInAction(()=> {
             makerStoreNames.forEach(name=>{
                 const {stabilityFee} = data['tokenData'][name]
                 this.stabilityFee.set(name, stabilityFee)
             })
-            data = data['tokenData']["ETH-A"]
-            this.makerPriceFeedPrice = parseFloat(data.price).toFixed(2)
-            this.makerPriceFeedPriceNextPrice = parseFloat(data.futurePrice).toFixed(2)
-            this.defiexploreLastUpdate = data.updatedAt
-            this.artToDaiRatio = data.rate
+            this.defiexploreLastUpdate = data['tokenData']["ETH-A"].updatedAt
+            this.artToDaiRatio = data['tokenData']["ETH-A"].rate
+            makerStoreNames.forEach(name=>{
+                const ilkdData = data['tokenData'][name]
+                this.makerPriceFeed[name] = {
+                    makerPriceFeedPrice: parseFloat(ilkdData.price).toFixed(2),
+                    makerPriceFeedPriceNextPrice: parseFloat(ilkdData.futurePrice).toFixed(2),
+                }
+            })
         })
     }
 }
