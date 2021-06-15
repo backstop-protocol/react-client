@@ -46,8 +46,8 @@ export default class Withdraw extends Component {
     };
 
     setMax = () => {
-        const {userInfo} = this.props
-        const val = (Math.floor(userInfo.bCdpInfo.ethDeposit * 1000000)/1000000).toString();
+        const {userInfo, currency} = this.props
+        const val = (Math.floor(userInfo.collaeralDeposited * 1000000)/1000000).toString();
         const res = this.props.onPanelInput(val);
         if (res !== false) {
             this.setState({val: res});
@@ -59,15 +59,15 @@ export default class Withdraw extends Component {
 
         const {invalid, val, error} = this.state;
         const noDaiDebt = this.props.userInfo.bCdpInfo.daiDebt === 0
-
+        const {currency} = this.props
         return (
             <div className="currency-action-panel">
                 <h2>Withdraw</h2>
-                <p>How much ETH would you like to withdraw?</p>
+                <p>How much {currency} would you like to withdraw?</p>
                 <div className="currency-input">
                     <div className="tooltip-container">
                         {noDaiDebt && <div className="set-max" onClick={this.setMax}>Set Max</div>}
-                        <input type="text" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
+                        <input type="text" value={val} onChange={this.onChange} placeholder={`Amount in ${currency}`} ref={e => this.input = e} />
                         {error && <Tooltip bottom={true} className={'warning'}>{error}</Tooltip>}
                     </div>
                     <button className={(invalid || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>

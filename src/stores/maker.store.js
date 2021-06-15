@@ -2,7 +2,7 @@
  * @format
  */
 import { runInAction, makeAutoObservable, observable } from "mobx"
-import * as ApiHelper from "../lib/ApiHelper";
+import {humanize, gemHumanize} from "../lib/ApiHelper";
 import { setUserInfo } from "../lib/Actions";
 import * as B from "../lib/bInterface";
 import userStore from "./user.store"
@@ -21,19 +21,30 @@ class MakerStore {
         makeAutoObservable(this)
         this.name = name
         this.ilk = ilk
+        this.symbol = name.split("-")[0]
+        this.isGem = this.symbol !== "ETH"
     }
 
     fetchAndUpdateUserInfo = async () => {
         const { web3, networkType, user } = userStore
         let userInfo = await B.getUserInfo(web3, networkType, user, this.ilk);
-        this.originalUserInfo = userInfo;
-        userInfo = ApiHelper.Humanize(userInfo, web3);
+        userInfo = this.renameUserInfoProps(userInfo)
+        this.originalUserInfo = userInfo
+        userInfo = this.isGem ? gemHumanize(userInfo) : humanize(userInfo)
         setUserInfo(user, web3, networkType, userInfo, this.originalUserInfo);
         this.userInfo = userInfo
         runInAction(()=>{
             this.userInfoUpdate ++
         })
         this.makerUserInfoUpdateSideAffects()
+    }
+
+    renameUserInfoProps = (userInfo) => {
+        const newProps = {
+            walletBalance: this.isGem ? userInfo.userWalletInfo.gemBalance : userInfo.userWalletInfo.ethBalance,
+            collaeralDeposited: userInfo.bCdpInfo.ethDeposit
+        }
+        return Object.assign({}, userInfo, newProps)
     }
 
     // thin promise managmanet wrapper to the original getUserInfo
@@ -68,6 +79,7 @@ class MakerStore {
 
 export const makerStores = {
     "ETH-A": new MakerStore("0x4554482d41000000000000000000000000000000000000000000000000000000", "ETH-A"),
+    "WBTC-A": new MakerStore("0x574254432d410000000000000000000000000000000000000000000000000000", "WBTC-A"),
     "ETH-B": new MakerStore("0x4554482d42000000000000000000000000000000000000000000000000000000", "ETH-B"),
     "ETH-C": new MakerStore("0x4554482d43000000000000000000000000000000000000000000000000000000", "ETH-C")
 }
@@ -90,6 +102,10 @@ class MakerStoreManager {
     switchStore = (storeName) => {
         this.currentStore = storeName
         this.storeChanges++
+        // fetch userInfo every time user switch tabs
+        if(userStore.loggedIn){
+            this.getMakerStore().getUserInfo() 
+        }
     }
 
     getMakerStore = () => {

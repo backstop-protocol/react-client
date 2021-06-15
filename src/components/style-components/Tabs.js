@@ -19,8 +19,13 @@ const Tab = styled.div`
   padding: 15px 30px;
   font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
   font-size: 18px;
+  white-space: nowrap;
   @media ${device.largeLaptop} {
     font-size: 16px;
+  }
+  @media ${device.mobile} {
+    font-size: 14px;
+    padding: 15px 20px;
   }
 
   font-weight: normal;

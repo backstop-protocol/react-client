@@ -15,7 +15,7 @@ export default class AppError extends Component {
 
     componentDidMount() {
         EventBus.$on('app-error',(err) => {
-            this.setState({error: true, errorMessage: err || "A MetaMask error has occured"});
+            this.setState({error: true, errorMessage: err || "An error has occured"});
             console.error(err)
             setTimeout(() => {
                 this.setState({error: false});

@@ -1,3 +1,4 @@
+import React, {Component} from "react"
 import * as Api from "./ApiHelper";
 import * as B from "./bInterface"
 import EventBus from "./EventBus";
@@ -10,6 +11,10 @@ import { verifyRepayInput } from "./bInterface";
 import { repayUnlocked } from "./ApiHelper";
 import makerStoreManager from "../../src/stores/maker.store"
 import userStore from "../../src/stores/user.store"
+import GemModal from "../components/modals/GemModal"
+import {fromUiDeciamlPointFormat, hasAllowance} from "./Utils"
+import Web3 from "web3"
+const {toWei} = Web3.utils
 
 export const refreshUserInfo = () => {
     makerStoreManager.getMakerStore().getUserInfo()
@@ -27,22 +32,22 @@ export function getLiquidationPrice(valEth, valDai) {
 
     console.log(valEth, valDai);
 
-    const retVal = calcNewBorrowLimitAndLiquidationPrice(originalUserInfo, web3.utils.toWei(valEth.toString()), web3.utils.toWei(valDai.toString()), ilk, web3);
+    const retVal = calcNewBorrowLimitAndLiquidationPrice(originalUserInfo, web3.utils.toWei(valEth.toString()), web3.utils.toWei(valDai.toString()), ilk);
     retVal[0] = web3.utils.fromWei(retVal[0]);
     retVal[1] = web3.utils.fromWei(retVal[1]);
     return retVal;
 }
 
-export function validateDeposit(val) { 
-    const {originalUserInfo} = makerStoreManager.getMakerStore()
-    const {web3} = userStore
-    return verifyDepositInput(originalUserInfo, web3.utils.toWei(val.toString()), web3) 
+export function validateDeposit(val) {
+    const {originalUserInfo, userInfo} = makerStoreManager.getMakerStore() 
+    val = fromUiDeciamlPointFormat(val, userInfo.miscInfo.gemDecimals).toString()
+    return verifyDepositInput(originalUserInfo, val) 
 }
 
 export function validateWithdraw(val) { 
-    const {originalUserInfo} = makerStoreManager.getMakerStore()
+    const {originalUserInfo, ilk} = makerStoreManager.getMakerStore()
     const {web3} = userStore
-    return verifyWithdrawInput(originalUserInfo, web3.utils.toWei(val.toString()), web3) 
+    return verifyWithdrawInput(originalUserInfo, toWei(val.toString()), ilk) 
 }
 
 export function validateBorrow(val) { 
@@ -136,7 +141,10 @@ export async function exportBackToMakerDao(onHash) {
 }
 
 export async function deposit(amountEth, onHash) {
-    const {userInfo, ilk} = makerStoreManager.getMakerStore()
+    const {userInfo, ilk, isGem} = makerStoreManager.getMakerStore()
+    if(isGem){
+        return depositGem(amountEth, onHash)
+    }
     const {web3, networkType: networkId, user} = userStore
     const val = web3.utils.toWei(amountEth);
     if (userInfo.bCdpInfo.hasCdp) {
@@ -147,11 +155,63 @@ export async function deposit(amountEth, onHash) {
     }
 }
 
-export async function withdraw(amountEth, onHash) {
+export async function openProxy () {
+    const {web3, networkType: networkId, user} = userStore
+    const tx = B.openProxy(web3, networkId, user)
+    return await ApiAction(tx, user, web3, 0)
+}
+
+export async function unlockGem () {
+    const {web3, networkType: networkId, user} = userStore
     const {userInfo, ilk} = makerStoreManager.getMakerStore()
+    const tx = B.unlockGem(web3, networkId, userInfo.proxyInfo.userProxy, ilk)
+    return await ApiAction(tx, user, web3, 0)
+}
+
+function openGemDepositModal(depositFn) {
+    return new Promise((resolve, reject) => {
+        const noWrapper = true
+        EventBus.$emit('show-modal', <GemModal depositFn={depositFn}/>, noWrapper)
+        EventBus.$on('close-modal', reject)
+    })
+}
+
+export async function depositGem(amount, onHash) {
+    const {userInfo, ilk} = makerStoreManager.getMakerStore()
+    const {web3, networkType: networkId, user} = userStore
+    // check for user proxy
+    let userProxy = userInfo.proxyInfo.userProxy
+    if(!userProxy || !hasAllowance(userInfo.userWalletInfo.gemAllowance)){
+        return openGemDepositModal(()=> depositGem(amount, onHash))
+    }
+    // deposit
+    const val = 0
+    const amt = fromUiDeciamlPointFormat(amount, userInfo.miscInfo.gemDecimals)
+    if (userInfo.bCdpInfo.hasCdp) {
+        const tx = B.depositGem(web3, networkId, userProxy, userInfo.bCdpInfo.cdp, amt, ilk)
+        return ApiAction(tx, user, web3, val, onHash);
+    }
+    else { // first deposit
+        const tx = B.firstDepositGem(web3, networkId, userProxy, amt, ilk)
+        return ApiAction(tx, user, web3, val, onHash);
+    }
+}
+
+export async function withdraw(amountEth, onHash) {
+    const {userInfo, ilk, isGem} = makerStoreManager.getMakerStore()
+    if(isGem) {
+        return withdrawGem(amountEth, onHash)
+    }
     const {web3, networkType: networkId, user} = userStore
     const val = web3.utils.toWei(amountEth);
     return await ApiAction(B.withdrawETH(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val, ilk), user, web3, 0, onHash);
+}
+
+export async function withdrawGem(amount, onHash) {
+    const {userInfo, ilk} = makerStoreManager.getMakerStore()
+    const {web3, networkType: networkId, user} = userStore
+    const val = fromUiDeciamlPointFormat(amount, userInfo.miscInfo.gemDecimals)
+    return await ApiAction(B.withdrawGem(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, val, ilk), user, web3, 0, onHash);
 }
 
 export async function borrow(amountDai, onHash) {

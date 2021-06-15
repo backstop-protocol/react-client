@@ -26,6 +26,7 @@ class MainStore {
     defiexploreLastUpdate = ""
     stabilityFee = new Map()
     ethMarketPrice = ""
+    wbtcMarketPrice = ""
     coinbaseLastUpdate
     dataPromise
     tvlDaiRaw = "0"

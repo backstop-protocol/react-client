@@ -130,7 +130,6 @@ const Button = styled.div`
       color: #12c164!important;
     }
   }
-
 `
 
 class BproClaimModal extends Component {

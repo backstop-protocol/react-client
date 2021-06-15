@@ -10,6 +10,7 @@ import {device} from "../screenSizes";
 import mainStore from "../stores/main.store"
 import {observer} from "mobx-react"
 import AnimateNumberChange from "./style-components/AnimateNumberChange"
+import {chop, symbolToDisplayDecimalPointMap as symbol2decimal} from "../lib/Utils"
 
 const Overider = styled.div`
     .currency-meta{
@@ -20,6 +21,7 @@ const Overider = styled.div`
     }
 
     .currency-icon{
+        max-width: 56px;
         min-width: 46px;
     }
     .currency-actions{
@@ -105,6 +107,7 @@ const Overider = styled.div`
     }
     @media ${device.laptop} {
         .currency-icon{
+            max-width: 56px;
             min-width: 40px;
         }
         .currency-box-container{
@@ -144,14 +147,6 @@ const Overider = styled.div`
     }
 
 `
-
-function chop4(number) {
-    return Math.floor(parseFloat(number) * 10000) / 10000
-}
-
-function chop2(number) {
-    return Math.floor(parseFloat(number) * 100) / 100
-}
 
 class CurrencyBox extends Component {
 
@@ -258,11 +253,10 @@ class CurrencyBox extends Component {
             CustomPanel = panel;
             panel = new panel();
         }
-
         let liquidationPrice;
         let walletBalance;
-        const ethBalance = userInfo ? chop4(userInfo.userWalletInfo.ethBalance).toString() + " ETH" : "0 ETH";
-        const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance).toString() + " DAI" : "0 DAI";
+        const gemBalance = userInfo ? chop(userInfo.walletBalance, symbol2decimal[currency]).toString() : 0 
+        const daiBalance = userInfo ? chop(userInfo.userWalletInfo.daiBalance, symbol2decimal[currency]).toString() : 0
         let valueDir = 1;
         try {
 
@@ -270,11 +264,11 @@ class CurrencyBox extends Component {
             switch (panel.name) {
                 case 'Deposit':
                     liquidationPrice = getLiquidationPrice(value, 0);
-                    walletBalance = ethBalance;
+                    walletBalance = gemBalance;
                     break;
                 case 'Withdraw':
                     liquidationPrice = getLiquidationPrice(-value, 0);
-                    walletBalance = ethBalance;
+                    walletBalance = gemBalance;
                     valueDir = -1;
                     break;
                 case 'Borrow':
@@ -306,7 +300,7 @@ class CurrencyBox extends Component {
                             <img src={Close} onClick={() => this.resetPanel()} />
                         </div>
                         <div className="currency-meta">
-                            <div className="currency-icon"><img src={icon} /></div>
+                            <div className="currency-icon"><img src={require(`../assets/coin-icons/${currency}.png`)} /></div>
                             <div className="currency-title">
                                 <span>{titlePart1}</span> <span className="mobile-hide">{titlePart2}</span>
                             </div>
@@ -337,7 +331,7 @@ class CurrencyBox extends Component {
                             <div className="even">
                                 <div>
                                     <label>Current Wallet Balance</label>
-                                    <div className="value">{walletBalance}</div>
+                                    <div className="value">{walletBalance} {currency}</div>
                                 </div>
                                 <div>
                                     <label>Liquidation Price</label>
