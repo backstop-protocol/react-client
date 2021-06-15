@@ -150,6 +150,10 @@ class GemModal extends Component {
   }
 
   depositGem = async ()=> {
+    const depositInProcess = this.state.depositStatus
+    if(depositInProcess){
+      return // exit
+    }
     this.setState({depositStatus: "depositing"})
     await this.props.depositFn()
     this.setState({depositStatus: "done"})

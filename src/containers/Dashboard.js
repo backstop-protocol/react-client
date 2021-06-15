@@ -27,6 +27,10 @@ class Dashboard extends Component {
       makerStoreManager.getMakerStore().getUserInfo()
       return res;
     } catch (error) {
+      if(error.message === "GEM_MODAL_CLOSED"){
+        EventBus.$emit("close-action")
+        return 
+      }
       EventBus.$emit("action-failed", null, action);
       let errorMsg = null;
       if(action.toString() === "repay")
