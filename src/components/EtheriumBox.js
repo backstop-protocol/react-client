@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {numm} from "../lib/Utils";
+import {numm, symbolToDisplayDecimalPointMap as symbol2decimal} from "../lib/Utils";
 import CurrencyBox from "./CurrencyBox";
 import Etherium from "../assets/etherium.svg";
 import Deposit from "./action-panels/Deposit";
@@ -15,14 +15,14 @@ class EtheriumBox extends Component {
         if(!userInfo){ 
             return 0
         }
-        return numm(userInfo.collaeralDeposited, 4); 
+        return numm(userInfo.collaeralDeposited, symbol2decimal[this.props.symbol]); 
     }
 
     calculateUSD = (userInfo) => { 
         if(!userInfo){ 
             return 0
         }
-        return numm(userInfo.collaeralDeposited * userInfo.miscInfo.spotPrice, 2)
+        return numm(userInfo.collaeralDeposited * userInfo.miscInfo.spotPrice, symbol2decimal['USD'])
     }
 
     borrowLimit (userInfo, value) { 

@@ -1,7 +1,28 @@
 import Web3 from "web3"
 const {toBN, toWei, fromWei} = Web3.utils
 
-export const numm = (v,decPoint = null, max = Infinity) => {const r = parseFloat(Math.min(max, v)).toFixed(decPoint?decPoint:2); return (isNaN(r*1))?0:r}
+/**
+ * 
+ * @param {*} v 
+ * @param {*} decPoint 
+ * @param {*} max 
+ */
+export const numm = (v,decPoint = 2, max = Infinity) => {const r = parseFloat(Math.min(max, v)).toFixed(decPoint); return (isNaN(r*1))?0:r}
+ 
+/**
+  * 
+  * @param {*} number 
+  * @param {*} decimalPoint 
+  */
+export const chop = (number, decimalPoint) => Math.floor(parseFloat(number) * Math.pow(10, decimalPoint)) / Math.pow(10, decimalPoint)
+
+
+export const symbolToDisplayDecimalPointMap = {
+    USD: 2,
+    DAI: 2,
+    ETH: 4,
+    WBTC: 5,
+}
 
 export const maxAllowance = toBN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)
 const reallyLargeAllowance = toBN("8888888888888888888888888888888888888888888888888888888888888888", 16)

@@ -10,6 +10,7 @@ import {device} from "../screenSizes";
 import mainStore from "../stores/main.store"
 import {observer} from "mobx-react"
 import AnimateNumberChange from "./style-components/AnimateNumberChange"
+import {chop, symbolToDisplayDecimalPointMap as symbol2decimal} from "../lib/Utils"
 
 const Overider = styled.div`
     .currency-meta{
@@ -145,18 +146,6 @@ const Overider = styled.div`
 
 `
 
-function chop5(number) {
-    return Math.floor(parseFloat(number) * 100000) / 100000
-}
-
-function chop4(number) {
-    return Math.floor(parseFloat(number) * 10000) / 10000
-}
-
-function chop2(number) {
-    return Math.floor(parseFloat(number) * 100) / 100
-}
-
 class CurrencyBox extends Component {
 
     constructor(props) {
@@ -264,8 +253,8 @@ class CurrencyBox extends Component {
         }
         let liquidationPrice;
         let walletBalance;
-        const gemBalance = (userInfo ? chop4(userInfo.walletBalance).toString() : 0 ) + " " + currency;
-        const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance).toString() + " DAI" : "0 DAI";
+        const gemBalance = userInfo ? chop(userInfo.walletBalance, symbol2decimal[currency]).toString() : 0 
+        const daiBalance = userInfo ? chop(userInfo.userWalletInfo.daiBalance, symbol2decimal[currency]).toString() : 0
         let valueDir = 1;
         try {
 
@@ -340,7 +329,7 @@ class CurrencyBox extends Component {
                             <div className="even">
                                 <div>
                                     <label>Current Wallet Balance</label>
-                                    <div className="value">{walletBalance}</div>
+                                    <div className="value">{walletBalance} {currency}</div>
                                 </div>
                                 <div>
                                     <label>Liquidation Price</label>

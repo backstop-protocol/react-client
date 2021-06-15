@@ -26,7 +26,7 @@ class MainStore {
     defiexploreLastUpdate = ""
     stabilityFee = new Map()
     ethMarketPrice = ""
-    btcMarketPrice = ""
+    wbtcMarketPrice = ""
     coinbaseLastUpdate
     dataPromise
     tvlDaiRaw = "0"
@@ -67,15 +67,11 @@ class MainStore {
     }
 
     async fetchPrices () {
-        const btcPricePromise = axios.get('https://www.coinbase.com/api/v2/assets/prices/bitcoin?base=USD')
         let {data} = await axios.get('https://www.coinbase.com/api/v2/assets/prices/ethereum?base=USD')
         this.coinbaseLastUpdate = data.data.prices.latest_price.timestamp
         data = data.data.prices.latest
         this.spotPrice = parseFloat(data)
         this.ethMarketPrice = parseFloat(data).toFixed(2)
-        const data2 = await btcPricePromise
-        this.btcMarketPrice = parseFloat(data2.data.data.prices.latest).toFixed(2)
-
     }
 
     async fetchBTCPrices () {

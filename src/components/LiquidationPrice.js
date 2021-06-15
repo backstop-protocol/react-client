@@ -8,10 +8,6 @@ import mainStore from "../stores/main.store"
 import {observer} from "mobx-react"
 import moment from "moment"
 
-const chop4 = number => Math.floor(parseFloat(number) * 10000) / 10000
-
-const chop2 = number => Math.floor(parseFloat(number) * 100) / 100
-
 const LpContainer = styled.div`
     height: 100%;
     border-left: solid 1.8px rgba(151, 151, 151, 0.12);
@@ -108,7 +104,7 @@ const LiquidationPrice = observer(
                                                 </ToolTipLine>  
                                                 <ToolTipLine>
                                                     <div> BTC Market price: </div>
-                                                    <div> ${mainStore.btcMarketPrice} </div>
+                                                    <div> ${mainStore.wbtcMarketPrice} </div>
                                                 </ToolTipLine>  
                                             </ReactTooltip>
                                         </span>
