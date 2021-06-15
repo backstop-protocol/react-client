@@ -40,6 +40,7 @@ class MainStore {
     async fetchGeneralDappData () {
         try{
             await this.fetchPrices()
+            await this.fetchBTCPrices()
             await this.fetchTvl() // tvl requires the spot price
             await this.fetchstabilityFees()
         } catch (err) {
@@ -56,7 +57,8 @@ class MainStore {
         const web3 = new Web3(BP_API)
         let info = await B.getStats(web3, "1")
         this.tvlEth = parseFloat(web3.utils.fromWei(info.eth)).toFixed(1)
-        this.tvlUsdNumeric = parseFloat(this.tvlEth * this.spotPrice)
+        this.tvlWbtc = parseFloat(web3.utils.fromWei(info.wbtc)).toFixed(2)
+        this.tvlUsdNumeric = parseFloat(this.tvlEth * this.ethMarketPrice) + parseFloat(this.tvlWbtc * this.wbtcMarketPrice)
         this.tvlUsd = toCommmSepratedString(this.tvlUsdNumeric.toFixed(1))
         this.tvlDaiRaw = info.dai
         this.tvlDai = parseFloat(web3.utils.fromWei(info.dai)).toFixed(1)
@@ -69,6 +71,13 @@ class MainStore {
         data = data.data.prices.latest
         this.spotPrice = parseFloat(data)
         this.ethMarketPrice = parseFloat(data).toFixed(2)
+    }
+
+    async fetchBTCPrices () {
+        let {data} = await axios.get('https://www.coinbase.com/api/v2/assets/prices/bitcoin?base=USD')
+        this.coinbaseLastUpdate = data.data.prices.latest_price.timestamp
+        data = data.data.prices.latest
+        this.wbtcMarketPrice = parseFloat(data).toFixed(2)
     }
 
     async fetchstabilityFees () {
