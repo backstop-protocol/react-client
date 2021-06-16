@@ -1,44 +1,28 @@
 @import "colors";
 @import "fonts";
 
-.menu-toggle{
-  position: absolute;
-  right: -60px;
-  top: 15px;
-  width: 50px;
-  height: 50px;
-  display: none;
-  @media screen and (max-width: 1023px) {
-    display: initial;
-  }
-}
+
 
 .sidebar {
-  transition: all 0.3s ease-in-out;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
+  min-height: 100vh;
   padding: 47px 0;
   width: 264px;
   background-color: $sidebarBg;
   color: $sidebarColor;
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.24), 0 0 7px 0 rgba(0, 0, 0, 0.12);
-  z-index: 20000;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   align-self: stretch;
 
+
+
   @media screen and (max-width: 1600px) {
     width: 227px;
     padding: 27px 0;
-  }
-
-  @media screen and (max-width: 1023px) {
-    transform: translateX(-227px);
-    &.open{
-      transform: translateX(0);
-    }
   }
 
   &-content {
@@ -91,6 +75,7 @@
 
   .link-accesible {
     cursor: pointer;
+    
   }
 
   .cdp-convert-info {

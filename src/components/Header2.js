@@ -8,7 +8,7 @@ import ConnectWallet from "../assets/connect-your-wallet.svg";
 import userStore from "../stores/user.store"
 import {observer} from "mobx-react"
 import HeaderBorrowLimit from "../components/compound-components/HeaderBorrowLimit"
-import {ResponsiveWidthHeader, HeaderItemContainer} from "./style-components/ResponsiveContainer"
+import {ResponsiveWidthHeader} from "./style-components/ResponsiveContainer"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import {Transition} from 'react-spring/renderprops'
@@ -20,7 +20,7 @@ class Header2 extends Component {
         const {loggedIn} = userStore
         return (
             <div style={{zIndex: -10}} className="top-panel">
-                <ResponsiveWidthHeader className="container" style={{paddingBottom: "30px"}}>
+                <ResponsiveWidthHeader className="container">
                     <div className="split title-bar">
                         <img className="logo" src={logo} />
                         <div className="connect-container">
@@ -33,23 +33,19 @@ class Header2 extends Component {
                         </div>
                     </div>
                     <div className="header-stats split">
-                        <HeaderItemContainer>
-                            <GlobalStats />
-                        </HeaderItemContainer>
-                        <HeaderItemContainer>
-                            <Transition
-                                initial={null}
-                                items={loggedIn}
-                                from={{ display: "none", opacity: 0 }}
-                                enter={{ display: "initial", opacity: 1 }}
-                                leave={{ display: "none", opacity: 0 }}>
-                                {toggle =>
-                                    toggle
-                                    ? props => <div style={props}><HeaderBorrowLimit/></div>
-                                    : props => <div style={props}><Tvl /></div>
-                                }
-                            </Transition>
-                        </HeaderItemContainer>
+                        <GlobalStats />
+                        <Transition
+                            initial={null}
+                            items={loggedIn}
+                            from={{ display: "none", opacity: 0 }}
+                            enter={{ display: "initial", opacity: 1 }}
+                            leave={{ display: "none", opacity: 0 }}>
+                            {toggle =>
+                                toggle
+                                ? props => <div style={props}><HeaderBorrowLimit/></div>
+                                : props => <div style={props}><Tvl /></div>
+                            }
+                        </Transition>
                     </div>
                 </ResponsiveWidthHeader>
             </div>

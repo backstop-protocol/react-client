@@ -10,7 +10,6 @@ import {device} from "../screenSizes";
 import mainStore from "../stores/main.store"
 import {observer} from "mobx-react"
 import AnimateNumberChange from "./style-components/AnimateNumberChange"
-import {chop, symbolToDisplayDecimalPointMap as symbol2decimal} from "../lib/Utils"
 
 const Overider = styled.div`
     .currency-meta{
@@ -21,32 +20,10 @@ const Overider = styled.div`
     }
 
     .currency-icon{
-        max-width: 56px;
         min-width: 46px;
     }
     .currency-actions{
         margin-left: 20px;
-    }
-    @media ${device.mobile} {
-        .currency-action-button{
-            transition: all 0.3s ease-in-out;
-            z-index: -1;
-            opacity: 0;
-        }
-        .currency-value{
-            opacity: 1;
-        }
-
-        &:hover{
-            .currency-action-button{
-                transition: all 0.3s ease-in-out;
-                z-index: 1;
-                opacity: 1;
-            }
-            .currency-value{
-                opacity: 0;
-            }
-        }
     }
 
     .currency-value{
@@ -107,7 +84,6 @@ const Overider = styled.div`
     }
     @media ${device.laptop} {
         .currency-icon{
-            max-width: 56px;
             min-width: 40px;
         }
         .currency-box-container{
@@ -145,8 +121,15 @@ const Overider = styled.div`
             max-width: calc(100% - 114px)
         }
     }
-
 `
+
+function chop4(number) {
+    return Math.floor(parseFloat(number) * 10000) / 10000
+}
+
+function chop2(number) {
+    return Math.floor(parseFloat(number) * 100) / 100
+}
 
 class CurrencyBox extends Component {
 
@@ -220,7 +203,6 @@ class CurrencyBox extends Component {
     onPanelAction = async (action, value, actioning, silent = false) => {
         if (!silent) {
             EventBus.$on('action-completed', this.onCompleted);
-            EventBus.$on('close-action', this.resetPanel);
             EventBus.$on('action-failed', this.onFailed);
             this.setState({loading: true, prevPanel: this.state.panel, panel: Loading, actioning: actioning, value});
         }
@@ -246,7 +228,7 @@ class CurrencyBox extends Component {
 
         const {userInfo, title, icon, currency, actions, calculateUsd, formatValue, borrowLimit, stabilityFee} = this.props;
         let {panel, actioning, value, loading, completed, failed, hash} = this.state;
-        const [titlePart1, titlePart2] = title.split(" ")
+
         const showStabilityFee = currency === "DAI"
 
         let CustomPanel = null;
@@ -254,10 +236,11 @@ class CurrencyBox extends Component {
             CustomPanel = panel;
             panel = new panel();
         }
+
         let liquidationPrice;
         let walletBalance;
-        const gemBalance = userInfo ? chop(userInfo.walletBalance, symbol2decimal[currency]).toString() : 0 
-        const daiBalance = userInfo ? chop(userInfo.userWalletInfo.daiBalance, symbol2decimal[currency]).toString() : 0
+        const ethBalance = userInfo ? chop4(userInfo.userWalletInfo.ethBalance).toString() + " ETH" : "0 ETH";
+        const daiBalance = userInfo ? chop2(userInfo.userWalletInfo.daiBalance).toString() + " DAI" : "0 DAI";
         let valueDir = 1;
         try {
 
@@ -265,11 +248,11 @@ class CurrencyBox extends Component {
             switch (panel.name) {
                 case 'Deposit':
                     liquidationPrice = getLiquidationPrice(value, 0);
-                    walletBalance = gemBalance;
+                    walletBalance = ethBalance;
                     break;
                 case 'Withdraw':
                     liquidationPrice = getLiquidationPrice(-value, 0);
-                    walletBalance = gemBalance;
+                    walletBalance = ethBalance;
                     valueDir = -1;
                     break;
                 case 'Borrow':
@@ -301,9 +284,9 @@ class CurrencyBox extends Component {
                             <img src={Close} onClick={() => this.resetPanel()} />
                         </div>
                         <div className="currency-meta">
-                            <div className="currency-icon"><img src={require(`../assets/coin-icons/${currency}.png`)} /></div>
+                            <div className="currency-icon"><img src={icon} /></div>
                             <div className="currency-title">
-                                <span>{titlePart1}</span> <span className="mobile-hide">{titlePart2}</span>
+                                {title}
                             </div>
                             <div className="stability-fee" >
                             { showStabilityFee && 
@@ -332,7 +315,7 @@ class CurrencyBox extends Component {
                             <div className="even">
                                 <div>
                                     <label>Current Wallet Balance</label>
-                                    <div className="value">{walletBalance} {currency}</div>
+                                    <div className="value">{walletBalance}</div>
                                 </div>
                                 <div>
                                     <label>Liquidation Price</label>
@@ -347,11 +330,11 @@ class CurrencyBox extends Component {
                                         <div>
                                             <div className="limit-bar mini">
                                             <div className="values">
-                                                <label>{/* Empty label is here to preserve orginal flex layout */}</label> 
+                                                <label>{/* Empty label is here to preserve orginal flex layout  */}</label> 
                                                 <label>{numm(liquidationPrice[0])} DAI</label>
                                             </div>
                                             <div className="limit-bar-inner">
-                                                <div className="limit-bar-track" style={{width: borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+'%'}}>
+                                                <div className="limit-bar-track" style={{width: borrowLimit(userInfo,liquidationPrice[0], value * valueDir)+'%'}}>
                                                     <span>{borrowLimit(userInfo, liquidationPrice[0], value * valueDir)+"%"}</span>
                                                 </div>
                                             </div>

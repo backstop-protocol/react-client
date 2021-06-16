@@ -4,8 +4,6 @@ import FragLoader from '../FragLoader';
 import VIcon from '../../assets/v-icon.svg';
 import XIcon from '../../assets/red-x-icon.svg';
 import MigrationModal from '../modals/MigrationModal';
-import makerStoreManager from "../../stores/maker.store"
-import {observer} from "mobx-react"
 
 const MigrationStatus = {
     none: 'none',
@@ -14,7 +12,7 @@ const MigrationStatus = {
     failed: 'failed'
 }
 
-class MigrationButton extends Component {
+export default class MigrationButton extends Component {
     constructor(props) {
         super(props);
         this.state = { status: MigrationStatus.none };
@@ -22,12 +20,12 @@ class MigrationButton extends Component {
     }
 
     componentDidMount() {
-        EventBus.$on(`migration-started-${this.props.makerCollType}`, () => {
+        EventBus.$on('migration-started', () => {
             this.setState({
                 status: MigrationStatus.pending
             });
         });
-        EventBus.$on(`migration-failed-${this.props.makerCollType}`, () => {
+        EventBus.$on('migration-failed', () => {
             this.setState({
                 status: MigrationStatus.failed
             });
@@ -36,9 +34,9 @@ class MigrationButton extends Component {
                 this.setState({
                     status: MigrationStatus.none
                 })
-            }, 3000);
+            }, 1500);
         });
-        EventBus.$on(`migration-completed-${this.props.makerCollType}`, () => {
+        EventBus.$on('migration-completed', () => {
             this.setState({
                 status: MigrationStatus.success
             });
@@ -52,10 +50,6 @@ class MigrationButton extends Component {
     }
 
     render() {
-        if(makerStoreManager.currentStore !== this.props.makerCollType){
-            return null
-        }
-
         const { status } = this.state;
         let text = "", icon = null;
 
@@ -96,5 +90,3 @@ class MigrationButton extends Component {
         );
     }
 }
-
-export default observer(MigrationButton)

@@ -2,16 +2,6 @@ import React, {Component} from "react";
 import {numm} from "../lib/Utils";
 import Flex, {FlexItem} from "styled-flex-component";
 import LiquidationPrice from './LiquidationPrice'
-import styled from "styled-components"
-import {device} from "../screenSizes";
-
-const Container = styled.div`
-    width: 567px;
-    display: flex;
-    @media ${device.largeLaptop} {
-        width: 414px;
-    }
-`
 
 export default class BorrowLimit extends Component {
 
@@ -21,8 +11,8 @@ export default class BorrowLimit extends Component {
         const collateralToBorrowRatio = (userInfo && userInfo.bCdpInfo.maxDaiDebt?numm(userInfo.bCdpInfo.daiDebt / userInfo.bCdpInfo.maxDaiDebt * 100):0)
         const ratioPositionStyle = collateralToBorrowRatio > 50 ? {right: '0%'} : {left: '100%'}
         return (
-            <Container>
-                <FlexItem grow="1">
+            <Flex full>
+                <FlexItem>
                     <div className="borrow-limit">
                         <h3>Borrow Limit</h3>
                             <div className="limit-bar-inner" style={{margin:0}}>
@@ -39,7 +29,7 @@ export default class BorrowLimit extends Component {
                 <FlexItem>
                     <LiquidationPrice userInfo={userInfo} />
                 </FlexItem>
-            </Container>
+            </Flex>
         )
     }
 }

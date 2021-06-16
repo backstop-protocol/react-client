@@ -14,8 +14,7 @@ contract('B Interface', function (accounts) {
   beforeEach('initing', async () => {
     networkId = await web3.eth.net.getId()
     if(networkId === 42) wbtcWhale = "0xd921Ecdc928FA3aA6C1de5856D392C0279F6704B"
-    else wbtcWhale = "0xEe4a34b676961cF7EbB77E0c9AC2dEfC07325129"
-
+    else assert(false, "not supported")
     console.log({networkId})
   })
   afterEach(async () => {
@@ -42,10 +41,10 @@ contract('B Interface', function (accounts) {
     console.log("query user info")
     let userInfo = await B.getUserInfo(web3,networkId,user, ilk)
     assert(! userInfo.bCdpInfo.hasCdp, "user is not expected to have a cdp")
-    assert(! userInfo.proxyInfo.hasProxy, "user is not expected to have a proxy")
+    //assert(! userInfo.proxyInfo.hasProxy, "user is not expected to have a proxy")
 
     // open new proxy
-    await doTx(B.openProxy(web3, networkId, user), user)
+    //await doTx(B.openProxy(web3, networkId, user), user)
 
     console.log("query user info again")
     userInfo = await B.getUserInfo(web3,networkId,user, ilk)
@@ -65,7 +64,7 @@ contract('B Interface', function (accounts) {
     //console.log({userInfo})
     assert(userInfo.bCdpInfo.hasCdp, "user is expected to have a cdp")
     assert(userInfo.proxyInfo.hasProxy, "user is expected to have a proxy")
-    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10), toWbtcWei("2"), "unexpected ink")
+    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10), web3.utils.toWei("2"), "unexpected ink")
   })
 
   it('repay gem', async function () {
@@ -82,7 +81,7 @@ contract('B Interface', function (accounts) {
     //console.log({userInfo})
     assert(userInfo.bCdpInfo.hasCdp, "user is expected to have a cdp")
     assert(userInfo.proxyInfo.hasProxy, "user is expected to have a proxy")
-    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10), toWbtcWei("1.9"), "unexpected ink")
+    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10), web3.utils.toWei("1.9"), "unexpected ink")
   })
 
   it('second deposit', async function () {
@@ -99,7 +98,7 @@ contract('B Interface', function (accounts) {
     //console.log({userInfo})
     assert(userInfo.bCdpInfo.hasCdp, "user is expected to have a cdp")
     assert(userInfo.proxyInfo.hasProxy, "user is expected to have a proxy")
-    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10), toWbtcWei("2"), "unexpected ink")
+    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10), web3.utils.toWei("2"), "unexpected ink")
   })
 
   it('generate dai', async function () {

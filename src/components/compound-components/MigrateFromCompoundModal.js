@@ -26,12 +26,6 @@ const Container = styled.div`
     @media ${device.laptop} {
         width: 894px;
     }
-    @media ${device.tablet} {
-        width: 80vw;
-    }
-    @media ${device.mobile} {
-        width: calc(100vw - 20px);
-    }
 `
 
 const GreenRectangle = styled.div`
@@ -126,9 +120,6 @@ const ExplainerText = styled.div`
     @media ${device.laptop} {
         font-size: 11px;
         margin-top: 33px;
-    }
-    @media ${device.tablet} {
-        width: 80%;
     }
 `
 
@@ -236,7 +227,7 @@ class MigrateFromCompoundModal extends Component {
                             Import your account
                         </Title>
                         <AssetsLists disabled={!borrowCanBeCoverd}>
-                            <Flex justifyCenter alignStart wrap>
+                            <Flex justifyCenter alignStart>
                             {!!supply.length && <MigrationAssetList type="deposit" list={supply}/>}
                             {!!borrow.length && <MigrationAssetList type="borrow" list={borrow}/>}
                             </Flex>

@@ -7,11 +7,14 @@ import compoundStore from "../../stores/compound.store";
 import {displayNum} from "../../lib/compound.util"
 import Web3 from "web3"
 import ClaimComp from "./ClaimComp"
+import ResponsiveWidthCol from "../style-components/ResponsiveContainer"
 import {device} from "../../screenSizes";
 
 const {BN, toWei, fromWei} = Web3.utils
 
-const Container = styled.div`
+const Container = styled(ResponsiveWidthCol)`
+    /* width: 610px; */
+    height: 100%;
     font-family: "Poppins", sans-serif;
     font-size: 12px;
     font-weight: 500;
@@ -20,18 +23,6 @@ const Container = styled.div`
     line-height: normal;
     letter-spacing: normal;
     color: #0b0412;
-    @media ${device.largeLaptop} {
-        max-width: 500px;
-    }
-    @media ${device.laptop} {
-        max-width: 400px;
-    }
-    @media ${device.tablet} {
-        max-width: 400px;
-    }
-    @media ${device.mobile} {
-        max-width: 360px;
-    }
 `
 
 const Parallelogram = styled.div`
@@ -88,12 +79,6 @@ const Amount = styled.div`
     }
     @media ${device.laptop} {
         font-size: 15px;
-    }
-    @media ${device.tablet} {
-        font-size: 14px;
-    }
-    @media ${device.mobile} {
-        font-size: 12px;
     }
 `
 

@@ -23,9 +23,6 @@ const Container = styled.div`
   background: white;
   border-radius: 5px;
   box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  @media ${device.mobile} {
-    min-width: 360px;
-  }
 `
 
 const Header = styled.div`

@@ -34,10 +34,10 @@ export default class ModalContainer extends Component {
         const cls = show ? 'modal-container active' : 'modal-container';
 
         return (
-            <div className={cls} onClick={() => noWrapper ? EventBus.$emit('close-modal') : ""}>
+            <div className={cls} onClick={() => noWrapper ? this.closeModalBox() : ""}>
                 {this.state.component && !noWrapper &&
                     <div className="modal-dialog">
-                        <div className="modal-close-btn" onClick={() => EventBus.$emit('close-modal')}>
+                        <div className="modal-close-btn" onClick={this.closeModalBox}>
                             <img src={XIcon} />
                         </div>
                         <div >

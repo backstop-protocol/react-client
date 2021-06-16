@@ -18,24 +18,33 @@ import makerStoreManager from "../stores/maker.store"
 import userStore from "../stores/user.store"
 import styled from "styled-components"
 import MigrateFromCompound from "./compound-components/MigrateFromCompound"
-import {makerStoreNames} from "../stores/maker.store"
 import {Transition} from 'react-spring/renderprops'
 
 const MakerMigration = styled.div`
 
 `
 
+const CompoundMigration = styled.div`
+
+`
+
 class Sidebar extends Component {
-
-  constructor (props) {
-    super(props)
-    this.state = {open: false}
-  }
-
+  state = {
+    showSideBar: true
+  };
   handleItemSelect = (location) => {
     routerStore.routeProps.history.push(`/${location}`);
-    this.setState({open: false})
   };
+
+  componentDidMount() {
+      window.addEventListener("resize", this.resize.bind(this));
+      this.resize();
+  }
+
+  resize() {
+      this.setState({showSideBar : window.innerWidth >= 1050})
+      console.log(window.innerWidth);
+  }
 
   getState(pathname) {
     if(pathname === "/maker" || pathname === "/app"){
@@ -56,14 +65,7 @@ class Sidebar extends Component {
     const pathState = this.getState(pathname)
 
     return (
-      <div className={`sidebar ${this.state.open ? "open" : ""}`}>
-        <div onClick={()=>this.setState({open: !this.state.open})} className="menu-toggle">
-          <div className={`hamburger hamburger--spin ${this.state.open ? "is-active" : ""}`}>
-            <div className="hamburger-box">
-              <div className="hamburger-inner"></div>
-            </div>
-          </div>
-        </div>
+      <div className="sidebar" style={this.state.showSideBar ? {} : { display: 'none' }}>
         <img className="logo" alt="Logo" src={Logo} />
         <div className="ln"> </div>
         <div className="sidebar-content">
@@ -75,7 +77,7 @@ class Sidebar extends Component {
                   { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
                     <div>
                       <div className="cdp-convert">
-                        {makerStoreNames.map(makerCollType => <MakerMigrationButton key={makerCollType} makerCollType={makerCollType}/>)}
+                        <MakerMigrationButton />
                         <div>
                           <p>
                             Import your Vault 
@@ -181,7 +183,7 @@ class Sidebar extends Component {
             <a href="https://medium.com/b-protocol" target="_blank">
               <img src={require("../assets/medium-icon.svg")} />
             </a>
-            <a href="https://discord.com/invite/bJ4guuw" target="_blank">
+            <a href="https://discord.gg/3RmqN2K" target="_blank">
               <img src={Discord} />
             </a>
           </div>

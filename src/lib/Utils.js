@@ -1,32 +1,4 @@
-import Web3 from "web3"
-const {toBN, toWei, fromWei} = Web3.utils
-
-/**
- * 
- * @param {*} v 
- * @param {*} decPoint 
- * @param {*} max 
- */
-export const numm = (v,decPoint = 2, max = Infinity) => {const r = parseFloat(Math.min(max, v)).toFixed(decPoint); return (isNaN(r*1))?0:r}
- 
-/**
-  * 
-  * @param {*} number 
-  * @param {*} decimalPoint 
-  */
-export const chop = (number, decimalPoint) => Math.floor(parseFloat(number) * Math.pow(10, decimalPoint)) / Math.pow(10, decimalPoint)
-
-
-export const symbolToDisplayDecimalPointMap = {
-    USD: 2,
-    DAI: 2,
-    ETH: 4,
-    WBTC: 5,
-}
-
-export const maxAllowance = toBN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)
-const reallyLargeAllowance = toBN("8888888888888888888888888888888888888888888888888888888888888888", 16)
-export const hasAllowance = (allowance) => toBN(allowance).gt(reallyLargeAllowance)
+export const numm = (v,decPoint = null, max = Infinity) => {const r = parseFloat(Math.min(max, v)).toFixed(decPoint?decPoint:2); return (isNaN(r*1))?0:r}
 
 export const isKovan = () => {
     try{
@@ -52,17 +24,5 @@ const delay = (msec, value) => {
 
 export const isFinished = (promise) => {
     return Promise.race([delay(0, false), promise.then(() => true, () => true)]);
-}
-
-export const toUiDecimalPointFormat = (bn, decimalPoint) => {
-    const factor = toBN(10).pow(toBN(18 - decimalPoint))
-    const x = toBN(bn).mul(factor)
-    return fromWei(x) 
-}
-
-export const fromUiDeciamlPointFormat = (num, decimalPoint) => {
-    const factor = toBN(10).pow(toBN(18 - decimalPoint))
-    const x = toBN(toWei(num))
-    return x.div(factor)
 }
   

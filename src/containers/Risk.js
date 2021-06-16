@@ -5,22 +5,15 @@ import RiskContent from "../components/RiskContent";
 
 export default class Risk extends Component {
 
-  constructor (props) {
-    super(props)
-    this.state = {height:0}
-  }
-
   componentDidMount() {
     routerStore.setRouteProps(this.props.history) 
-    const height = document.querySelector('.menu-item-header').clientHeight;
-    this.setState({ height });
   }
 
   render() {
     const { handleItemChange, history } = this.props;
     return (
       <div className="item-page-content">
-        <div className="menu-item-header">
+        <div className="menu-item-header" style={{ height: "276px" }}>
           <h1 className="risk-header">Risks</h1>
           <p className="item-header-small-text">
             Interacting with lending platforms does not come without risks,
@@ -61,7 +54,7 @@ export default class Risk extends Component {
         </div>
         <div
           className="faq-content-container"
-          style={{ marginTop: `${this.state.height}px` }}
+          style={{ height: "calc(100vh - 276px) " }}
         >
           <RiskContent />
         </div>

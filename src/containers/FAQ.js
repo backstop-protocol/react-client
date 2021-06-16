@@ -4,22 +4,15 @@ import routerStore from "../stores/router.store"
 
 export default class FAQ extends Component {
 
-  constructor (props) {
-    super(props)
-    this.state = {height:0}
-  }
-
   componentDidMount() {
     routerStore.setRouteProps(this.props.history) 
-    const height = document.querySelector('.menu-item-header').clientHeight;
-    this.setState({ height });
   }
 
   render() {
     const { handleItemChange, history } = this.props;
     return (
       <div className="item-page-content">
-        <div className="menu-item-header">
+        <div className="menu-item-header" style={{ height: "176px" }}>
           <h1 className="risk-header">FAQ</h1>
           <p className="item-header-small-text">
             The following are the most common questions the B.Protocol team has been asked by new users of the protocol. 
@@ -29,7 +22,7 @@ export default class FAQ extends Component {
         {/* <p dangerouslySetInnerHTML={{ __html: Content.faq }}></p> */}
         <div
           className="faq-content-container"
-          style={{ marginTop: `${this.state.height}px` }}
+          style={{ height: "calc(100vh - 176px)" }}
         >
           <FAQContent />
         </div>
