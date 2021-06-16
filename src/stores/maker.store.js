@@ -42,7 +42,8 @@ class MakerStore {
     renameUserInfoProps = (userInfo) => {
         const newProps = {
             walletBalance: this.isGem ? userInfo.userWalletInfo.gemBalance : userInfo.userWalletInfo.ethBalance,
-            collaeralDeposited: userInfo.bCdpInfo.ethDeposit
+            collaeralDeposited: userInfo.bCdpInfo.ethDeposit,
+            makerDaoDeposited: userInfo.makerdaoCdpInfo.ethDeposit
         }
         return Object.assign({}, userInfo, newProps)
     }

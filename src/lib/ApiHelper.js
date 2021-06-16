@@ -14,7 +14,7 @@ const humanizeExcludeFields = [
 ];
 
 const gemHumanizeExcludeFields = [
-    'gemBalance', 'collaeralDeposited', 'walletBalance', 
+    'gemBalance', 'collaeralDeposited', 'walletBalance', 'makerDaoDeposited'
 ];
 
 export const humanize = (result, _humanizeExcludeFields = humanizeExcludeFields) => {
@@ -54,6 +54,7 @@ export const gemHumanize = (userInfo) => {
     const {gemDecimals} = userInfo.miscInfo
     userInfo.walletBalance = toUiDecimalPointFormat(userInfo.walletBalance, gemDecimals)
     userInfo.collaeralDeposited = toUiDecimalPointFormat(userInfo.collaeralDeposited, gemDecimals)
+    userInfo.makerDaoDeposited = toUiDecimalPointFormat(userInfo.makerDaoDeposited, gemDecimals)
     return userInfo
 }
 
