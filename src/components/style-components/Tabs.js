@@ -4,10 +4,7 @@ import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../../screenSizes"
 const Container = styled.div`
   position: relative;
-  bottom: 29px;
-  @media ${device.largeLaptop} {
-    bottom: -20px;
-  }
+  bottom: -6px;
 
   .shadow-cut{
     position: relative;
@@ -22,8 +19,13 @@ const Tab = styled.div`
   padding: 15px 30px;
   font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
   font-size: 18px;
+  white-space: nowrap;
   @media ${device.largeLaptop} {
     font-size: 16px;
+  }
+  @media ${device.mobile} {
+    font-size: 14px;
+    padding: 15px 20px;
   }
 
   font-weight: normal;

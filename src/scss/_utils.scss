@@ -4,6 +4,12 @@
   width: 46px;
 }
 
+.mobile-hide {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+
 .result {
   width: 20px;
   opacity: 0;
@@ -89,7 +95,7 @@
   &-container {
     position: fixed;
     top: 0;
-    z-index: 666;
+    z-index: 100000;
     width: 100%;
   }
 }
@@ -136,6 +142,18 @@
 
   @media screen and (max-width: 1600px) {
     width: 414px;
+    height: 250px;
+  }
+  @media screen and (max-width: 1366px) {
+    width: 400px;
+    height: 250px;
+  }
+  @media screen and (max-width: 1023px) {
+    width: 390px;
+    height: 250px;
+  }
+  @media screen and (max-width: 600px) {
+    width: 360px;
     height: 250px;
   }
 
@@ -315,4 +333,19 @@ html {
 html::-webkit-scrollbar { 
   width: 0 !important;
   display: none; 
+}
+.currency-input{
+  @media screen and (max-width:600px){
+      ::placeholder {
+          color: white;
+      }
+  }
+}
+
+.placeholder-hide {
+  @media screen and (max-width:1366px){
+    ::placeholder {
+        color: white;
+    }
+  }
 }

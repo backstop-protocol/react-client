@@ -34,15 +34,13 @@ const Container = styled.div`
     .currency-input-button{
         text-transform: uppercase;
     }
-    .set-max{
-        margin-top: 4px;
+    .set-max.comp{
         font-size: 14px;
+        top: 13px;
         @media ${device.largeLaptop} {
-            margin-top: 1.5px;
             font-size: 13px;
         }
         @media ${device.laptop} {
-            margin-top: 2px;
             font-size: 12px;
         }
     }
@@ -220,6 +218,7 @@ class ActionBox extends Component {
         const { transactionInProgress, hash, err, val, success, inputErrMsg, inputIsValid } = store
         const actioning = action.charAt(0).toUpperCase() + action.slice(1) + "ing"
         const [symbol] = coin.symbol.split(" ")
+        const showSetMax = this.showSetMax()
         return (
             <Container ref={this.boxRef} open={isOpen} tx={transactionInProgress}>
                     <AnimatedContent open={isOpen && transactionInProgress && !err && !success}>
@@ -238,8 +237,8 @@ class ActionBox extends Component {
                         <Flex >
                             <Flex style={{minWidth: "50%"}} column>
             
-                                <div className="currency-input tooltip-container">
-                                {this.showSetMax() && <div className="set-max" onClick={this.setMax}>Set Max</div>}
+                                <div className={`currency-input tooltip-container ${showSetMax ? "placeholder-hide" : ""}`}>
+                                {showSetMax && <div className="set-max comp" onClick={this.setMax}>Set Max</div>}
                                     <input type="text" value={val} onChange={this.onInputChange} placeholder={`Amount in ${symbol}`} ref={e => this.input = e} />
                                     {inputErrMsg && <Tooltip bottom={true} className={'warning limited-width'}>{inputErrMsg}</Tooltip>}
                                 </div>

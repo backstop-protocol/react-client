@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "@cloudflare/kv-asset-handler": "^0.1.0",
+    "@metamask/detect-provider": "^1.2.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@walletconnect/web3-provider": "1.4.1",
     "axios": "^0.21.0",
     "detect-browser": "^5.1.1",
     "esm": "^3.2.25",
@@ -15,6 +17,7 @@
     "moment": "^2.29.1",
     "qs": "^6.9.4",
     "react": "^16.13.1",
+    "react-device-detect": "^1.17.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
@@ -27,7 +30,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "react-scripts start",
-    "build": "npm version patch && react-scripts build && cd build && cp index.html 404.html",
+    "build": "npm version patch && react-scripts build && ./generate-static.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",

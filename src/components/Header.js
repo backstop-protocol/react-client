@@ -11,14 +11,14 @@ import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import Tabs from "./style-components/Tabs"
 import makerStoreManager, {makerStoreNames} from "../stores/maker.store"
-
+import {ResponsiveWidthHeader, HeaderItemContainer} from "./style-components/ResponsiveContainer"
 
 class Header extends Component {
     render() {
         const {info, onConnect, logo} = this.props;
         return (
             <div className="top-panel">
-                <div className="container">
+                <ResponsiveWidthHeader className="container">
                     <div className="split title-bar">
                         <img className="logo" src={logo} />
                         <div className="connect-container">
@@ -31,14 +31,20 @@ class Header extends Component {
                         </div>
                     </div>
                     <div className="header-stats split">
-                        <GlobalStats userInfo={info} />
-                        {info && 
-                            <BorrowLimit userInfo={info} />
-                        }
-                        {!info &&
-                            <Tvl />
-                        }
+                        <HeaderItemContainer>
+                            <GlobalStats userInfo={info} />
+                        </HeaderItemContainer>
+                        <HeaderItemContainer>
+                            {info && 
+                                <BorrowLimit userInfo={info} />
+                            }
+                            {!info &&
+                                <Tvl />
+                            }
+                        </HeaderItemContainer>
                     </div>
+                </ResponsiveWidthHeader>
+                <div className="container">
                     <Tabs tabNames={makerStoreNames} selected={makerStoreManager.currentStore} onClick={makerStoreManager.switchStore}/>
                 </div>
             </div>

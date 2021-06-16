@@ -50,17 +50,20 @@ export default class Deposit extends Component {
     render() {
 
         const {invalid, val, error} = this.state;
-
+        const {currency} = this.props 
         return (
             <div className="currency-action-panel">
                 <h2>Deposit</h2>
-                <p>How much ETH would you like to deposit?</p>
+                <p>How much {currency} would you like to deposit?</p>
                     <div className="currency-input">
                         <div className="tooltip-container">
-                            <input type="text" value={val} onChange={this.onChange} placeholder="Amount in ETH" ref={e => this.input = e} />
+                            <input type="text" value={val} onChange={this.onChange} placeholder={`Amount in ${currency}`} ref={e => this.input = e} />
                             {error && <Tooltip bottom={true} className={'warning'}>{error}</Tooltip>}
                         </div>
                         <button className={(invalid || !(val*1))?'disabled':''} onClick={this.doAction}>{this.name}</button>
+                    </div>
+                    <div className="currency-secondary-input">
+                        <h3 style={{visibility:"hidden"}}>Unlock DAI to continue</h3>
                     </div>
             </div>
         )

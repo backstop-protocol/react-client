@@ -5,12 +5,9 @@ import styled from "styled-components"
 import {device} from "../screenSizes"
 import {getLiquidationPrice} from "../lib/Actions"
 import mainStore from "../stores/main.store"
+import makerStoreManager from "../stores/maker.store"
 import {observer} from "mobx-react"
 import moment from "moment"
-
-const chop4 = number => Math.floor(parseFloat(number) * 10000) / 10000
-
-const chop2 = number => Math.floor(parseFloat(number) * 100) / 100
 
 const LpContainer = styled.div`
     height: 100%;
@@ -65,8 +62,9 @@ const LiquidationPrice = observer(
 
             const {userInfo} = this.props;
             const liquidationPrice = getLiquidationPrice(0, 0)
-            const collateralRatio = ((((userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100) || 0).toFixed(2)
-
+            const collateralRatio = ((((userInfo.collaeralDeposited * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100) || 0).toFixed(2)
+            const {makerPriceFeed} = mainStore
+            const makerData = mainStore.getIlkData()
             return (
                 <LpContainer >
                     <Flex full column justifyBetween >
@@ -92,19 +90,23 @@ const LiquidationPrice = observer(
                                                 </ToolTipTitle>
                                                 <ToolTipLine>
                                                     <div> Maker price feed: </div>
-                                                    <div> ${mainStore.makerPriceFeedPrice} </div>
+                                                    <div> ${makerData.makerPriceFeedPrice} </div>
                                                 </ToolTipLine>
                                                 <ToolTipLine>
                                                     <div> Maker price feed Next price: </div>
-                                                    <div> ${mainStore.makerPriceFeedPriceNextPrice} </div>
+                                                    <div> ${makerData.makerPriceFeedPriceNextPrice} </div>
                                                 </ToolTipLine>
                                                 <ToolTipTitle>
                                                     <span> coinbase.com </span>
                                                     <span> {moment(mainStore.coinbaseLastUpdate).fromNow()} </span>
                                                 </ToolTipTitle>
                                                 <ToolTipLine>
-                                                    <div> Market price: </div>
+                                                    <div> ETH Market price: </div>
                                                     <div> ${mainStore.ethMarketPrice} </div>
+                                                </ToolTipLine>  
+                                                <ToolTipLine>
+                                                    <div> BTC Market price: </div>
+                                                    <div> ${mainStore.wbtcMarketPrice} </div>
                                                 </ToolTipLine>  
                                             </ReactTooltip>
                                         </span>

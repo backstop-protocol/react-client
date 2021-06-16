@@ -20,5 +20,24 @@
     font-weight: normal;
     letter-spacing: 1.6px;
   }
-
+  @media (max-width: 1023px){
+    width: 90%;
+    min-height: 90%!important;
+    padding: 0 5%;
+    text-align: center;
+    h2{
+      font-size:26px;
+    }
+  }
+  @media (max-width: 600px){
+    h2{
+      font-size: 20px;
+    }
+    .migration-drawing {
+      margin: 20px 0;
+      img {
+        max-width: 100%;
+      }
+    }
+  }
 }

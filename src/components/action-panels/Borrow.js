@@ -59,6 +59,9 @@ export default class Borrow extends Component {
                     </div>
                     <button className={invalid?'disabled':''} onClick={this.doAction}>{this.name}</button>
                 </div>
+                <div className="currency-secondary-input">
+                    <h3 style={{visibility:"hidden"}}>Unlock DAI to continue</h3>
+                </div>
             </div>
         )
     }

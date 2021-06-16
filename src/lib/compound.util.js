@@ -4,9 +4,9 @@ import userStore from "../stores/user.store"
 import { ApiAction } from "./ApiHelper";
 import * as CI from "./compound.interface"
 import ActionBox from "../components/compound-components/ActionBox";
-import Web3 from "web3"
 import compoundStore from "../stores/compound.store"
-
+import {toUiDecimalPointFormat, fromUiDeciamlPointFormat} from "./Utils"
+import Web3 from "web3"
 const {BN, toWei, fromWei} = Web3.utils
 const _1E = (powerOf) =>  new BN(10).pow(new BN(powerOf))
 const _1e18 = _1E(18)
@@ -42,18 +42,6 @@ export const wApiAction = async(...args) => {
 
 export const ActionEnum = Object.freeze({"deposit": "deposit", "withdraw": "withdraw", "borrow": "borrow", "repay": "repay"})
 export const CoinStatusEnum = Object.freeze({"deposited": "deposited", "borrowed": "borrowed", "unBorrowed": "unBorrowed", "unDeposited": "unDeposited"})
-
-const toUiDecimalPointFormat = (bn, decimalPoint) => {
-    const factor = new BN(10).pow(new BN(18 - decimalPoint))
-    const x = new BN(bn).mul(factor)
-    return fromWei(x) 
-}
-
-const fromUiDeciamlPointFormat = (num, decimalPoint) => {
-    const factor = new BN(10).pow(new BN(18 - decimalPoint))
-    const x = new BN(toWei(num))
-    return x.div(factor)
-}
 
 const getUnderlying = (data, info) => {
     return (new BN(data.ctokenBalance).mul(new BN(info.ctokenExchangeRate))).div(_1e18)

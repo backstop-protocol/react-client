@@ -23,90 +23,17 @@ const Container = styled.div`
   background: white;
   border-radius: 5px;
   box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.1);
-
-/**
- * ----------------------------------------
- * animation heartbeat
- * ----------------------------------------
- */
-@-webkit-keyframes heartbeat {
-  from {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
+  @media ${device.mobile} {
+    width: 360px;
   }
-  10% {
-    -webkit-transform: scale(0.91);
-            transform: scale(0.91);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  17% {
-    -webkit-transform: scale(0.98);
-            transform: scale(0.98);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-  33% {
-    -webkit-transform: scale(0.87);
-            transform: scale(0.87);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  45% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-}
-@keyframes heartbeat {
-  from {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-  10% {
-    -webkit-transform: scale(0.91);
-            transform: scale(0.91);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  17% {
-    -webkit-transform: scale(0.98);
-            transform: scale(0.98);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-  33% {
-    -webkit-transform: scale(0.87);
-            transform: scale(0.87);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  45% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-}
-
-
-#flip-animation {
-	/* -webkit-animation: heartbeat 1.5s ease-in-out 3s both;
-	        animation: heartbeat 1.5s ease-in-out 3s both; */
-}
-
 `
 
 const Header = styled.div`
   width: 100%;
   height: 157px;
-
+  @media ${device.mobile} {
+    width: 360px;
+  }
 `
 
 const Title = styled.div`
@@ -120,6 +47,9 @@ const Title = styled.div`
   line-height: normal;
   letter-spacing: 1px;
   color: #17111e;
+  @media ${device.mobile} {
+    margin-top: 0px;
+  }
 `
 
 const Balance = styled.div`
@@ -146,6 +76,9 @@ const ContentBox = styled.div`
   background-color: white;
   div:not(:last-child) {
     border-bottom: solid 0.8px rgba(0,0,0,0.1);
+  }
+  @media ${device.mobile}{
+    width: 300px;
   }
 `
 
@@ -197,7 +130,6 @@ const Button = styled.div`
       color: #12c164!important;
     }
   }
-
 `
 
 class BproClaimModal extends Component {
