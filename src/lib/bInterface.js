@@ -32,9 +32,11 @@ const mainnetAddresses =
      "INFO_ADDRESS" : "0xe423e5a5f434c0c63C377fe13888CD8D252D68C0",
      "ACTION_PROXY_ADDRESS" : "0x5eAe7715D1970867E4d57C58b08e6AcF405A094d",
      "JAR" : "0x3C36cCf03dAB88c1b1AC1eb9C3Fb5dB0b6763cFF",
-     "BCDP_MANGER" : "0x3f30c2381CD8B917Dd96EB2f1A4F96D91324BBed",
-     "BSTATS" : "0x6546f6cc31a207863F14439d57AAed4baa9B6F99",
-
+     "BCDP_MANGER" : "0x5ef30b9986345249bc32d8928B7ee64DE9435E39",
+     "BBCDP_MANGER" : "0x183994267258E85CB9335a31C0Ef46469C12e28a",
+     "BBCDP_MANGER_TVL" : "0x3f30c2381CD8B917Dd96EB2f1A4F96D91324BBed",     
+       
+     "BSTATS" : "0xAA89884477f05c6C563D76721c6A1C8186015f10",
      "CDP_MANAGER" : "0x5ef30b9986345249bc32d8928B7ee64DE9435E39",
      "GET_CDPS" : "0x36a724Bd100c39f0Ea4D3A20F7097eE01A8Ff573",
      "MCD_VAT" : "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B",
@@ -55,9 +57,9 @@ const kovanAddresses =
     "INFO_ADDRESS" : "0x5702Abb17C6eEDe8AbD342F3067ea541e00e55Bc",
     "ACTION_PROXY_ADDRESS" : "0x8dbFA8A8534B7dA6348a6a4355364063bE3EEaCd",
     "JAR" : "0x92E3B48d3C86A1c809a2a5334a4ad3c9d0bf3758",
-    "BCDP_MANGER" : "0x0470000Ff279d3951F0Fb4893443C25EA4E0ec69",
-    "BSTATS" : "0xfA730332e64c2a8a181c53Aee18d98429DDdFb35",
-
+    "BBCDP_MANGER" : "0xf38D41940B37050Bb4E9806DE2FbCb8817930350",    
+    "BSTATS" : "0xcd628C30c97d702874939dd729a4D0FdDb25DA90",
+    "BCDP_MANGER" : "0x1476483dD8C35F25e568113C5f70249D3976ba21",    
     "CDP_MANAGER" : "0x1476483dD8C35F25e568113C5f70249D3976ba21",
     "GET_CDPS" : "0x592301a23d37c591C5856f28726AF820AF8e7014",
     "MCD_VAT" : "0xbA987bDB501d131f766fEe8180Da5d81b34b69d9",
@@ -80,7 +82,6 @@ function getAddress(name, networkId) {
     // was wrong
     return mainnetAddresses[name]
 }
-
 
 function getJoinAddress(ilk, networkId) {
   if(ilk === ETH_A_ILK) {
@@ -109,7 +110,7 @@ export const getUserInfo = function(web3, networkId, user, ilk) {
   const infoContract = new web3.eth.Contract(infoAbi,getAddress("INFO_ADDRESS",networkId))
   return infoContract.methods.getInfo(user,
                                       ilk,
-                                      getAddress("BCDP_MANGER", networkId),
+                                      getAddress("BBCDP_MANGER", networkId),
                                       getAddress("CDP_MANAGER", networkId),
                                       getAddress("GET_CDPS", networkId),
                                       getAddress("MCD_VAT", networkId),
@@ -121,11 +122,13 @@ export const getUserInfo = function(web3, networkId, user, ilk) {
 
 export const firstDepositETH = function(web3, networkId, user, ilk) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS", networkId))
-  return actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY", networkId),
+  const ret = actionProxyContract.methods.openLockETHAndGiveToProxy(getAddress("PROXY_REGISTRY", networkId),
                                                                getAddress("BCDP_MANGER", networkId),
                                                                getJoinAddress(ilk, networkId),
                                                                ilk,
                                                                user)
+  console.log(ret.encodeABI())
+  return ret
 }
 
 export const firstDepositGem = function(web3, networkId, userProxy, amt, ilk) {
