@@ -246,6 +246,7 @@ contract('B Interface', function (accounts) {
     const factor = (ilk === ETH_A_ILK) ? 1.5 : 1.3 
 
     let userInfo = await B.getUserInfo(web3,networkId,user,ilk)
+    userInfo.collaeralDeposited = userInfo.bCdpInfo.ethDeposit
 
     const [maxDebt0,newLiqPrice0] = B.calcNewBorrowLimitAndLiquidationPrice(userInfo,web3.utils.toWei("0"),web3.utils.toWei("1"),ilk,web3)
     assert.equal(maxDebt0.toString(10),"0")
@@ -280,6 +281,7 @@ contract('B Interface', function (accounts) {
 
     console.log("query user info again")
     userInfo = await B.getUserInfo(web3,networkId,user,ilk)
+    userInfo.collaeralDeposited = userInfo.bCdpInfo.ethDeposit    
 
     const [maxDebt,newLiqPrice] = B.calcNewBorrowLimitAndLiquidationPrice(userInfo,web3.utils.toWei("0"),web3.utils.toWei("0"),ilk,web3)
     assert(closeEnough(web3.utils.fromWei(newLiqPrice),(5050 * factor/5).toString()))
@@ -325,6 +327,7 @@ contract('B Interface', function (accounts) {
     await mineBlock()
 
     let userInfo = await B.getUserInfo(web3,networkId,user,ilk)
+    userInfo.collaeralDeposited = userInfo.bCdpInfo.ethDeposit    
     const cdp = userInfo.bCdpInfo.cdp
     console.log({cdp})
 
@@ -345,6 +348,8 @@ contract('B Interface', function (accounts) {
 
     console.log("query user info again")
     userInfo = await B.getUserInfo(web3,networkId,user,ilk)
+    userInfo.collaeralDeposited = userInfo.bCdpInfo.ethDeposit
+    userInfo.walletBalance = userInfo.userWalletInfo.ethBalance
 
     // verify deposit
     const [succ1,msg1] = B.verifyDepositInput(userInfo, web3.utils.toWei("-1"),web3)
@@ -500,7 +505,7 @@ contract('B Interface', function (accounts) {
   it('repayAllDai', async function () {
     const user = accounts[4]
 
-    const depositVal = web3.utils.toWei("3") // 2 ETH
+    const depositVal = web3.utils.toWei("4") // 2 ETH
     const txObject = B.firstDepositETH(web3,networkId,user,ilk)
     //console.log({txObject})
     let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
@@ -548,7 +553,7 @@ contract('B Interface', function (accounts) {
   it('export to makerdao', async function () {
     const user = accounts[5]
 
-    const depositVal = web3.utils.toWei("3") // 2 ETH
+    const depositVal = web3.utils.toWei("6") // 2 ETH
     const txObject = B.firstDepositETH(web3,networkId,user,ilk)
     //console.log({txObject})
     let gasConsumption = increaseABit(await txObject.estimateGas({value:depositVal,from:user}))
@@ -570,7 +575,7 @@ contract('B Interface', function (accounts) {
     console.log("query user info again")
     userInfo = await B.getUserInfo(web3,networkId,user,ilk)
     assert.equal(userInfo.bCdpInfo.daiDebt.toString(10),web3.utils.toWei("5050").toString(10),"user debt should be 5050")
-    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10),web3.utils.toWei("3").toString(10),"user depost should be 3")
+    assert.equal(userInfo.bCdpInfo.ethDeposit.toString(10),web3.utils.toWei("6").toString(10),"user depost should be 6")
     assert(userInfo.bCdpInfo.hasCdp, "user should have a B cdp")
     assert(! userInfo.makerdaoCdpInfo.hasCdp, "user should not have a makerdao cdp")
 
@@ -586,7 +591,7 @@ contract('B Interface', function (accounts) {
     userInfo = await B.getUserInfo(web3,networkId,user,ilk)
 
     assert.equal(userInfo.makerdaoCdpInfo.daiDebt.toString(10),web3.utils.toWei("5050").toString(10),"user debt should be 5050")
-    assert.equal(userInfo.makerdaoCdpInfo.ethDeposit.toString(10),web3.utils.toWei("3").toString(10),"user depost should be 3")
+    assert.equal(userInfo.makerdaoCdpInfo.ethDeposit.toString(10),web3.utils.toWei("6").toString(10),"user depost should be 3")
     assert(userInfo.makerdaoCdpInfo.hasCdp, "user should have a maker cdp")
 
     assert.equal(userInfo.bCdpInfo.daiDebt.toString(10),web3.utils.toWei("0").toString(10),"user debt should be 5050")
