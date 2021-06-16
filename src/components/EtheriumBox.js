@@ -34,9 +34,8 @@ class EtheriumBox extends Component {
         const {userInfo, onPanelAction, onOpenPanel, symbol} = this.props;
         const {showConnect} = userStore
          
-        const currencyValue = userInfo ? userInfo.bCdpInfo.ethDeposit : 0 
         return (
-            <CurrencyBox userInfo={userInfo} title={symbol + " Locked"} currency={symbol} currencyValue={currencyValue} showConnect={showConnect}
+            <CurrencyBox userInfo={userInfo} title={symbol + " Locked"} currency={symbol} showConnect={showConnect}
                          formatValue={this.formatValue} calculateUsd={this.calculateUSD} borrowLimit={this.borrowLimit} onPanelAction={onPanelAction}
                           actions={{ Deposit, Withdraw }} />
         )

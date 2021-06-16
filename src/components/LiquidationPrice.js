@@ -62,7 +62,7 @@ const LiquidationPrice = observer(
 
             const {userInfo} = this.props;
             const liquidationPrice = getLiquidationPrice(0, 0)
-            const collateralRatio = ((((userInfo.bCdpInfo.ethDeposit * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100) || 0).toFixed(2)
+            const collateralRatio = ((((userInfo.collaeralDeposited * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100) || 0).toFixed(2)
             const {makerPriceFeed} = mainStore
             const makerData = mainStore.getIlkData()
             return (
