@@ -5,7 +5,7 @@ import { ApiAction } from "./ApiHelper";
 import * as CI from "./compound.interface"
 import ActionBox from "../components/compound-components/ActionBox";
 import compoundStore from "../stores/compound.store"
-import {toUiDecimalPointFormat, fromUiDeciamlPointFormat} from "./Utils"
+import {toUiDecimalPointFormat, fromUiDeciamlPointFormat, percentage} from "./Utils"
 import Web3 from "web3"
 const {BN, toWei, fromWei} = Web3.utils
 const _1E = (powerOf) =>  new BN(10).pow(new BN(powerOf))
@@ -56,10 +56,6 @@ export const displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {
     return numericalString
 }
 
-const percentage = (partialValue, totalValue) => {
-    debugger
-    return (100 * partialValue) / totalValue;
- } 
 
 const getApy = (rate) => {
     // Calculating the APY Using Rate Per Block
