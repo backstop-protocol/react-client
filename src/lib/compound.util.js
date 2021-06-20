@@ -56,6 +56,11 @@ export const displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {
     return numericalString
 }
 
+const percentage = (partialValue, totalValue) => {
+    debugger
+    return (100 * partialValue) / totalValue;
+ } 
+
 const getApy = (rate) => {
     // Calculating the APY Using Rate Per Block
     // https://compound.finance/docs#protocol-math
@@ -321,19 +326,20 @@ export default class CToken {
         return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
     }
 
-    repay = async (amount, onHash) => {
+    repay = async (repayAmount, onHash) => {
         const {web3, networkType, user} = userStore
-        const reapyAmount = fromUiDeciamlPointFormat(amount, this.tokenInfo.underlyingDecimals)
+        const reapyAmount = fromUiDeciamlPointFormat(repayAmount, this.tokenInfo.underlyingDecimals)
         let ethToSendWithTransaction
         let txPromise
         if(this.symbol === "ETH"){
             txPromise = CI.repayEth(web3, networkType, this.address)
             ethToSendWithTransaction = reapyAmount
-        }else {
-            const isMax = this.getMaximum(ActionEnum.repay) === amount
+        }else { 
+            const debt = this.getMaximum(ActionEnum.repay)
+            const repayAmountIs99Point99PrecentOfDebt = percentage(repayAmount, debt) >= 99.99
             const canRepayAll = parseFloat(this.borrowed) <= parseFloat(this.WalletBalanceStr)
             let repayAll = false
-            if(isMax && canRepayAll){
+            if(repayAmountIs99Point99PrecentOfDebt && canRepayAll){
                 repayAll = true
             }
             txPromise = CI.repayToken(web3, networkType, reapyAmount, this.address, repayAll)
