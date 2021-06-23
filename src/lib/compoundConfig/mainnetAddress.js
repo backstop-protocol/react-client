@@ -12,6 +12,7 @@ export const addresses = {
     "cWBTC": "0xccF4429DB6322D5C611ee964527D42E5d685DD6a",
     "cTUSD": "0x12392f67bdf24fae0af363c24ac620a2f67dad86",
     "cLINK": "0xface851a4921ce59e912d19329929ce6da6eb0c7",
+    "COMP": "0xc00e94cb662c3520282e6f5717214004a7f26888",
     /* B.Compound specific addresses
     ===================================================================== */
     "compUserInfoAddress": "0xe8986fb27cb7ee2575ed14133da4820be4a38228",
