@@ -324,21 +324,21 @@ export default class CToken {
 
     repay = async (repayAmount, onHash) => {
         const {web3, networkType, user} = userStore
-        const reapyAmount = fromUiDeciamlPointFormat(repayAmount, this.tokenInfo.underlyingDecimals)
+        const repayAmountBn = fromUiDeciamlPointFormat(repayAmount, this.tokenInfo.underlyingDecimals)
         let ethToSendWithTransaction
         let txPromise
         if(this.symbol === "ETH"){
             txPromise = CI.repayEth(web3, networkType, this.address)
-            ethToSendWithTransaction = reapyAmount
+            ethToSendWithTransaction = repayAmountBn
         }else { 
-            const debt = this.getMaximum(ActionEnum.repay)
+            const debt = this.borrowed
             const repayAmountIs99Point99PrecentOfDebt = percentage(repayAmount, debt) >= 99.99
             const canRepayAll = parseFloat(this.borrowed) <= parseFloat(this.WalletBalanceStr)
             let repayAll = false
             if(repayAmountIs99Point99PrecentOfDebt && canRepayAll){
                 repayAll = true
             }
-            txPromise = CI.repayToken(web3, networkType, reapyAmount, this.address, repayAll)
+            txPromise = CI.repayToken(web3, networkType, repayAmountBn, this.address, repayAll)
             ethToSendWithTransaction = 0
         }
         return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
