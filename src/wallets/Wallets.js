@@ -30,8 +30,8 @@ export const getMetaMask = async () => {
 
   const connectFn = async () => {
     try{
-        const accounts = await provider.request({ method: "eth_requestAccounts" })
-        return accounts[0]
+      const accounts = await provider.request({ method: "eth_requestAccounts" })
+      return accounts[0]
     }
     catch(err) {
       if (err.code === 4001) {
