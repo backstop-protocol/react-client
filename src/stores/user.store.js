@@ -87,8 +87,11 @@ class UserStore {
     autoConnect = async () => {
         // read from the localstorage the wallet type
         this.walletType = window.localStorage.getItem("walletType")
+        if(!this.walletType){
+            return // exit
+        }
         // try to establish a connection to the previously connected wallet
-        const newConnection = false
+        const newConnection = false // overrides the default behavior that would try to establish a new connection
         this.connect(newConnection)
     }
 
