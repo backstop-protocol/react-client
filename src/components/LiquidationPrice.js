@@ -65,6 +65,7 @@ const LiquidationPrice = observer(
             const collateralRatio = ((((userInfo.collaeralDeposited * userInfo.miscInfo.spotPrice) / userInfo.bCdpInfo.daiDebt) * 100) || 0).toFixed(2)
             const {makerPriceFeed} = mainStore
             const makerData = mainStore.getIlkData()
+            const cdpNumber = userInfo ? userInfo.bCdpInfo.cdp : 0
             return (
                 <LpContainer >
                     <Flex full column justifyBetween >
@@ -76,6 +77,10 @@ const LiquidationPrice = observer(
                                             <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
                                         </a>
                                         <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="left">
+                                                {cdpNumber > 0 && <ToolTipLine>
+                                                    <div> CDP Number: </div>
+                                                    <div> {cdpNumber} </div>
+                                                </ToolTipLine>}
                                                 <ToolTipLine>
                                                     <div> Liquidation price: </div>
                                                     <div> ${liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)} </div>
