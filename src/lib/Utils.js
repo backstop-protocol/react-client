@@ -70,7 +70,7 @@ export const fromUiDeciamlPointFormat = (num, decimalPoint) => {
   
 export const gasToEth = async (gas, web3) => {
     const gasPrice = await web3.eth.getGasPrice()
-    const cost = gas * gasPrice
+    const cost = toBN(gas).mul(toBN(gasPrice))
     const result = web3.utils.fromWei(cost.toString())
     return result
 }
