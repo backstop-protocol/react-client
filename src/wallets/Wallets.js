@@ -51,9 +51,12 @@ export const getMetaMask = async () => {
   }
 }
 
-export const getWalletConnect = () => {
-  // wallet connect caches things we need to remove
-  window.localStorage.removeItem("walletconnect")
+export const getWalletConnect = (newConnection) => {
+  // wallet connect caches last connection
+  if(newConnection){
+    // removing the stored connection to force a new one
+    window.localStorage.removeItem("walletconnect")
+  }
   //  Create WalletConnect Provider
   const provider = new WalletConnectProvider({
       // indexd by chain ID

@@ -19,11 +19,12 @@ class UserStore {
     loggedIn = false
     web3
     networkType
-    user
+    user = ""
     displayConnect = false
     displayConnectTimeOut
     walletType = null
     provider
+    connecting = false
 
     constructor (){
         makeAutoObservable(this)
@@ -31,9 +32,17 @@ class UserStore {
 
     selectWallet = async () => {
         return new Promise((resolve, reject) =>{
+            this.walletSelectionResult = null
             const noWrapper = true
             EventBus.$emit('show-modal', <WalletSelectionModal/>, noWrapper);
-            EventBus.$on('close-modal', resolve)
+            EventBus.$on('close-modal', ()=>{
+                if(this.walletSelectionResult){
+                    this.walletType = this.walletSelectionResult
+                    resolve()
+                } else {
+                    reject(new Error("no wallet selection"))
+                }
+            })
         })
 
     }
@@ -43,18 +52,18 @@ class UserStore {
         await this.onConnect(this.web3.utils.toChecksumAddress(user));// used by compound
     }
 
-    connect = async () => { 
+    connect = async (newConnection = true) => { 
+        this.connecting = true
         try{
-            if (this.loggedIn) return false;
-
-            await this.selectWallet()
-            if(!this.walletType) return false
+            if(newConnection){
+                await this.selectWallet()
+            }
             
             let wallet
             if(this.walletType === walletTypes.META_MASK){
-                wallet = await getMetaMask()
+                wallet = await getMetaMask(newConnection)
             } else if (this.walletType === walletTypes.WALLET_CONNECT){
-                wallet = await getWalletConnect()
+                wallet = await getWalletConnect(newConnection)
             }
             this.web3 = wallet.web3
             this.provider = wallet.provider
@@ -65,11 +74,30 @@ class UserStore {
             this.provider.on('chainChanged', (_chainId) => window.location.reload());
             this.provider.on('accountsChanged', this.handleAccountsChanged)
         } catch (e) {
+            if(e.message === "no wallet selection"){
+                return
+            }
             console.error(e)
         }
-    };
+        finally {
+            this.connecting = false
+        }
+    }
+
+    autoConnect = async () => {
+        // read from the localstorage the wallet type
+        this.walletType = window.localStorage.getItem("walletType")
+        if(!this.walletType){
+            return // exit
+        }
+        // try to establish a connection to the previously connected wallet
+        const newConnection = false // overrides the default behavior that would try to establish a new connection
+        this.connect(newConnection)
+    }
 
     async onConnect(user) {
+        // save connection data to local storage
+        window.localStorage.setItem("walletType", this.walletType)
         const networkType = await this.web3.eth.net.getId()
         if (parseInt(networkType) !== parseInt(0x2a) && parseInt(networkType) !== parseInt(0x1) && parseInt(networkType) !== 1337) {
             EventBus.$emit("app-error", "Only Mainnet and Kovan testnet are supported");
@@ -111,4 +139,8 @@ class UserStore {
     }
 }
 
-export default new UserStore()
+const userStore = new UserStore()
+
+userStore.autoConnect()
+
+export default userStore
