@@ -16,14 +16,17 @@ const {toBN} = Web3.utils
 
 const Container = styled.div`
   overflow: hidden;
-  min-width: 360px;
-  width: 40vw;
+  min-width: 300px;
+  width: 90vw;
+  max-width: 600px;
   background: white;
   border-radius: 5px;
   padding-bottom: 40px;
   box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.1);
   @media ${device.mobile} {
-    min-width: 300px;
+    .toggle-text{
+      display: none;
+    }
   }
 `
 
@@ -67,7 +70,7 @@ const Body = styled.div`
 `
 
 const ContentBox = styled.div`
-  width: 33vw;
+  width: 80%;
   border-radius: 9.9px;
   overflow: hidden;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.22);
@@ -76,7 +79,7 @@ const ContentBox = styled.div`
     border-bottom: solid 0.8px rgba(0,0,0,0.1);
   }
   @media ${device.mobile}{
-    width: 300px;
+    width: 90%;
   }
 
   .step-text{
