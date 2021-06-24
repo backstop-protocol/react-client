@@ -40,9 +40,7 @@ export default class ModalContainer extends Component {
                         <div className="modal-close-btn" onClick={() => EventBus.$emit('close-modal')}>
                             <img src={XIcon} />
                         </div>
-                        <div >
-                            {component}
-                        </div>
+                        {component}
                     </div>
                 }
                 {this.state.component && noWrapper && 

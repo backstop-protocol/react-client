@@ -19,6 +19,15 @@ const Container = styled.div`
     background-color: white;
     overflow: hidden;
     overflow-y: scroll;
+    /* this will hide the scrollbar in mozilla based browsers */
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
+    /* this will hide the scrollbar in internet explorers */
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar { 
+        width: 0 !important;
+        display: none; 
+    }
     max-height: 90vh;
     @media ${device.largeLaptop} {
         width: 994px;
@@ -194,8 +203,6 @@ class MigrateFromCompoundModal extends Component {
         super(props);
 
         this.state = {
-            errorMsg: "",
-            hash: "",
             migrationInProgress: false
         }
     }
@@ -205,9 +212,18 @@ class MigrateFromCompoundModal extends Component {
     }
 
     migrate (supply, borrow) {
+        // validate flash loan can cover debt
+        const borrowCanBeCoverd = compoundMigrationStore.validateBorrowCanBeCovered(borrow)
+        if(!borrowCanBeCoverd){
+             return //exit
+        }
         // validateSupplyHasAllowance
         const supplyHasAllowance = compoundMigrationStore.validateSupplyHasAllowance(supply)
-        if(supplyHasAllowance && this.state.migrationInProgress === false){
+        if(!supplyHasAllowance){
+            return //exit
+        }
+
+        if(this.state.migrationInProgress === false){
             this.setState({migrationInProgress: true})
             compoundMigrationStore.migrateFromCompound(supply, borrow, this.closeModalBox)
             .finally(()=> {
@@ -218,8 +234,7 @@ class MigrateFromCompoundModal extends Component {
     }
 
     render () {
-        const {supply, borrow} = compoundMigrationStore
-        const borrowCanBeCoverd = compoundMigrationStore.validateBorrowCanBeCovered(borrow)
+        const {supply, borrow, validationErr} = compoundMigrationStore
 
         return (
             <Container>
@@ -235,7 +250,7 @@ class MigrateFromCompoundModal extends Component {
                         <Title>
                             Import your account
                         </Title>
-                        <AssetsLists disabled={!borrowCanBeCoverd}>
+                        <AssetsLists >
                             <Flex justifyCenter alignStart wrap>
                             {!!supply.length && <MigrationAssetList type="deposit" list={supply}/>}
                             {!!borrow.length && <MigrationAssetList type="borrow" list={borrow}/>}
@@ -250,10 +265,10 @@ class MigrateFromCompoundModal extends Component {
                         </ExplainerText>
 
                         <ErrText>
-                            {compoundMigrationStore.validationErr}
+                            {validationErr}
                         </ErrText>
                         
-                        <ActionButton className={borrowCanBeCoverd && !this.state.migrationInProgress ? "clickable" : ""} disabled={!borrowCanBeCoverd} onClick={()=> this.migrate(supply, borrow)}>
+                        <ActionButton className={!validationErr && !this.state.migrationInProgress ? "clickable" : ""} disabled={validationErr} onClick={()=> this.migrate(supply, borrow)}>
                             <div style={{
                                 position: "absolute",
                                 top: "50%",

@@ -28,6 +28,15 @@ class CompoundMigrationStore {
         makeAutoObservable(this)
     }
 
+    setValidationError = (errMsg) => {
+        this.validationErr = errMsg
+        setTimeout(()=> {
+            runInAction(() => {
+                this.validationErr = ""
+            })
+        }, 5000)
+    }
+
     setStatus = (status) => this.status = status
 
     onHash = (hash) => this.hash = hash
@@ -65,12 +74,7 @@ class CompoundMigrationStore {
     validateSupplyHasAllowance = (supply) => {
         const supplyWithoutAllowance = supply.filter(coin => !coin.hasMigrationAllowance())
         if(supplyWithoutAllowance.length > 0){
-            this.validationErr = "must unlock all collateral before import"
-            setTimeout(()=> {
-                runInAction(() => {
-                    this.validationErr = ""
-                })
-            }, 4000)
+            this.setValidationError("must unlock all collateral before import")
             return false
         }
         return true
@@ -86,7 +90,7 @@ class CompoundMigrationStore {
         const [{availableEthBalance}] = Object.values(compoundStore.userInfo.importInfo)
         const flashLoanCovrage = ETH.getUnderlyingBalanceInUsd(fromWei(availableEthBalance))
         if(borrowedAmountInUsd > (parseFloat(flashLoanCovrage) * 0.5)){
-            this.validationErr = "flash loan liquidity is currently not enough to support the import of your account"
+            this.setValidationError("flash loan liquidity is currently not enough to support the import of your account")
             return false
         }
         return true
