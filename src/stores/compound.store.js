@@ -7,6 +7,7 @@ import {getCompUserInfo, claimComp, claimCompEfficiently, getBalanceOfcomp} from
 import CToken, { CoinStatusEnum } from "../lib/compound.util"
 import {initialState} from "../lib/compoundConfig/initialState"
 import {wApiAction} from "../lib/compound.util"
+import {ApiAction} from "../lib/ApiHelper";
 import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
 import apyStore from "./apy.store"
@@ -239,13 +240,21 @@ class CompoundStore {
     claimComp = async (onHash, onlyGasEstimate) => {
         const {web3, networkType, user} = userStore
         const txPromise = claimComp(web3, networkType, user)
-        return wApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        if(onlyGasEstimate){
+            return ApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        }else{
+            return wApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        }
     }
 
     claimCompEfficiently = async (onHash, onlyGasEstimate) => {
         const {web3, networkType, user} = userStore
         const txPromise = claimCompEfficiently(web3, networkType, user)
-        return wApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        if(onlyGasEstimate){
+            return ApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        }else{
+            return wApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        }    
     }
 }
 
