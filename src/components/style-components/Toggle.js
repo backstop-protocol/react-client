@@ -29,6 +29,9 @@ const Text = styled.div`
     @media ${device.laptop} {
         font-size: 13px;
     }
+    @media ${device.mobile} {
+        display: none;
+    }
 `
 const Container = styled.div`
     visibility: ${({hide})=> hide ? "hidden" : "visible"}; 
@@ -91,7 +94,7 @@ class Toggle extends Component{
         return (
             <Container disable={unlocked} >
                 <Flex justifyEnd>
-                    <Text>
+                    <Text className="toggle-text">
                         {text}
                     </Text>
                     <div className={'tickbox'+(waiting ? ' loading' : (unlocked? " active": " clickable"))} onClick={this.onToggle}>
