@@ -38,6 +38,8 @@ export const isKovan = () => {
 
 export const toCommmSepratedString = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
+export const percentage = (partialValue, totalValue) =>  (100 * partialValue) / totalValue;
+
 export const stringToFixed = (string, numbersAfterTheDeciamlPoint) => {
     const decimalPointIndex = string.indexOf(".")
     if(decimalPointIndex === -1){
@@ -66,3 +68,9 @@ export const fromUiDeciamlPointFormat = (num, decimalPoint) => {
     return x.div(factor)
 }
   
+export const gasToEth = async (gas, web3) => {
+    const gasPrice = await web3.eth.getGasPrice()
+    const cost = toBN(gas).mul(toBN(gasPrice))
+    const result = web3.utils.fromWei(cost.toString())
+    return result
+}

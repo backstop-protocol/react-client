@@ -3,10 +3,11 @@
  */
 import { runInAction, makeAutoObservable, observable } from "mobx"
 import userStore from "./user.store"
-import {getCompUserInfo, claimComp} from "../lib/compound.interface"
+import {getCompUserInfo, claimComp, claimCompEfficiently, getBalanceOfcomp} from "../lib/compound.interface"
 import CToken, { CoinStatusEnum } from "../lib/compound.util"
 import {initialState} from "../lib/compoundConfig/initialState"
 import {wApiAction} from "../lib/compound.util"
+import {ApiAction} from "../lib/ApiHelper";
 import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
 import apyStore from "./apy.store"
@@ -25,6 +26,9 @@ class CompoundStore {
     showBorrowReapyBox = false
     showDepositWithdrawBox = false
     compBalance = "0"
+    avatarCompBalance = "0"
+    compClaimGasEstimate = "0"
+    efficientCompClaimGasEstimate = "0"
     userScore = "0"
     totalScore = "0"
     originalUserScore = "0"
@@ -107,10 +111,36 @@ class CompoundStore {
         apyStore.onUserConnect()
     }
 
-    calcCompBlance = () => {        
+    calcCompBlance = async () => {
+        const {web3, networkType, loggedIn} = userStore || {}
+        if(!loggedIn){
+            return
+        }
         const obj = this.userInfo.compTokenInfo || {} 
         const val = obj[Object.keys(obj)[0]] || {}
-        this.compBalance = fromWei(val.compBalance || "0")
+        const [{avatar}] = Object.values(this.userInfo.importInfo)
+        const avatarCompBalance = await getBalanceOfcomp(web3, networkType, avatar)
+        runInAction(()=> {        
+            this.compBalance = fromWei(val.compBalance || "0")
+            this.avatarCompBalance = fromWei(avatarCompBalance)
+        })
+        this.calcClaimCompGasEstimation()
+    }
+
+    calcClaimCompGasEstimation = async () => {
+        try{
+            const [claimGas, fullClaimGas] = await Promise.all([
+              this.claimCompEfficiently(null, true),
+              this.claimComp(null, true)
+            ])
+
+            runInAction(()=> {
+                this.efficientCompClaimGasEstimate = claimGas.toString()
+                this.compClaimGasEstimate = fullClaimGas.toString()
+            })
+        }catch(err){
+            console.error(err)
+        }
     }
 
     calcUserScore = () => {
@@ -207,10 +237,24 @@ class CompoundStore {
         this.borrowLimitInUsd = fromWei(borrowLimitInUsd)
     }
 
-    claimComp = async (onHash) => {
+    claimComp = async (onHash, onlyGasEstimate) => {
         const {web3, networkType, user} = userStore
         const txPromise = claimComp(web3, networkType, user)
-        return await wApiAction(txPromise, user, web3, 0, onHash)
+        if(onlyGasEstimate){
+            return ApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        }else{
+            return wApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        }
+    }
+
+    claimCompEfficiently = async (onHash, onlyGasEstimate) => {
+        const {web3, networkType, user} = userStore
+        const txPromise = claimCompEfficiently(web3, networkType, user)
+        if(onlyGasEstimate){
+            return ApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        }else{
+            return wApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
+        }    
     }
 }
 
