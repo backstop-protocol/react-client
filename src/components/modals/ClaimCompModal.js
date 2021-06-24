@@ -157,7 +157,7 @@ class ClaimCompModal extends Component {
             <ExplainerText>
               Full calim process that will retrive 100% of COMP but with less gas efficiency.
             </ExplainerText>
-            <ModalButton onClick={() => this.claim()}>
+            <ModalButton onClick={() => this.claim(false)}>
               <span>Full Claim</span>
             </ModalButton>
           </Body>
