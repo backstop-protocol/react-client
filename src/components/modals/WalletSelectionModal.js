@@ -78,7 +78,7 @@ const WalletIcon = styled.img`
 class WalletSelectionModal extends Component {
 
   selectWallet (wallet){
-    userStore.walletType = wallet
+    userStore.walletSelectionResult = wallet
     EventBus.$emit('close-modal');
   }
 

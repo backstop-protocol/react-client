@@ -4,9 +4,9 @@ import userStore from "../stores/user.store"
 import { ApiAction } from "./ApiHelper";
 import * as CI from "./compound.interface"
 import ActionBox from "../components/compound-components/ActionBox";
-import Web3 from "web3"
 import compoundStore from "../stores/compound.store"
-
+import {toUiDecimalPointFormat, fromUiDeciamlPointFormat, percentage} from "./Utils"
+import Web3 from "web3"
 const {BN, toWei, fromWei} = Web3.utils
 const _1E = (powerOf) =>  new BN(10).pow(new BN(powerOf))
 const _1e18 = _1E(18)
@@ -43,18 +43,6 @@ export const wApiAction = async(...args) => {
 export const ActionEnum = Object.freeze({"deposit": "deposit", "withdraw": "withdraw", "borrow": "borrow", "repay": "repay"})
 export const CoinStatusEnum = Object.freeze({"deposited": "deposited", "borrowed": "borrowed", "unBorrowed": "unBorrowed", "unDeposited": "unDeposited"})
 
-const toUiDecimalPointFormat = (bn, decimalPoint) => {
-    const factor = new BN(10).pow(new BN(18 - decimalPoint))
-    const x = new BN(bn).mul(factor)
-    return fromWei(x) 
-}
-
-const fromUiDeciamlPointFormat = (num, decimalPoint) => {
-    const factor = new BN(10).pow(new BN(18 - decimalPoint))
-    const x = new BN(toWei(num))
-    return x.div(factor)
-}
-
 const getUnderlying = (data, info) => {
     return (new BN(data.ctokenBalance).mul(new BN(info.ctokenExchangeRate))).div(_1e18)
 }
@@ -67,6 +55,7 @@ export const displayNum = (numericalString, numbersAfterTheDeciamlPoint) => {
     // number is integer nothing to slice returning it as is
     return numericalString
 }
+
 
 const getApy = (rate) => {
     // Calculating the APY Using Rate Per Block
@@ -333,22 +322,23 @@ export default class CToken {
         return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)
     }
 
-    repay = async (amount, onHash) => {
+    repay = async (repayAmount, onHash) => {
         const {web3, networkType, user} = userStore
-        const reapyAmount = fromUiDeciamlPointFormat(amount, this.tokenInfo.underlyingDecimals)
+        const repayAmountBn = fromUiDeciamlPointFormat(repayAmount, this.tokenInfo.underlyingDecimals)
         let ethToSendWithTransaction
         let txPromise
         if(this.symbol === "ETH"){
             txPromise = CI.repayEth(web3, networkType, this.address)
-            ethToSendWithTransaction = reapyAmount
-        }else {
-            const isMax = this.getMaximum(ActionEnum.repay) === amount
+            ethToSendWithTransaction = repayAmountBn
+        }else { 
+            const debt = this.borrowed
+            const repayAmountIs99Point99PrecentOfDebt = percentage(repayAmount, debt) >= 99.99
             const canRepayAll = parseFloat(this.borrowed) <= parseFloat(this.WalletBalanceStr)
             let repayAll = false
-            if(isMax && canRepayAll){
+            if(repayAmountIs99Point99PrecentOfDebt && canRepayAll){
                 repayAll = true
             }
-            txPromise = CI.repayToken(web3, networkType, reapyAmount, this.address, repayAll)
+            txPromise = CI.repayToken(web3, networkType, repayAmountBn, this.address, repayAll)
             ethToSendWithTransaction = 0
         }
         return await wApiAction(txPromise, user, web3, ethToSendWithTransaction, onHash)

@@ -12,12 +12,13 @@ export const addresses = {
     "cWBTC": "0xccF4429DB6322D5C611ee964527D42E5d685DD6a",
     "cTUSD": "0x12392f67bdf24fae0af363c24ac620a2f67dad86",
     "cLINK": "0xface851a4921ce59e912d19329929ce6da6eb0c7",
+    "COMP": "0xc00e94cb662c3520282e6f5717214004a7f26888",
     /* B.Compound specific addresses
     ===================================================================== */
     "compUserInfoAddress": "0xe8986fb27cb7ee2575ed14133da4820be4a38228",
     "bComptrollerAddress": "0x9db10b9429989cc13408d7368644d4a1cb704ea3",
     "registryAddress": "0xbf698df5591caf546a7e087f5806e216afed666a",
-    "sugerDady": "0xAaE0633E15200bc9C50d45cD762477D268E126BD",
+    "sugerDady": "0x4F868C1aa37fCf307ab38D215382e88FCA6275E2",
     "compoundImportAddress": "0x035cccb015a826b754529b4d04587182b8210344",
     "flashImportAddress": "0xa5c48ef0301437bb2f5afdda8aedbe817f5e11d6",
     "jarConnector": "0xd24e557762589124d7cfef90d870df17c25bff8a",
