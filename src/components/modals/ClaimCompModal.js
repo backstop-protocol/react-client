@@ -66,7 +66,7 @@ const Text = styled.span`
 
 const ExplainerText = styled.div`
   width: 95%;
-  margin: 40px 149px 20px 165px;
+  padding: 30px 10px;
   font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
   font-size: 11px;
   font-weight: normal;
