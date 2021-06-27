@@ -1,5 +1,5 @@
 import Web3 from "web3"
-import {fromUiDeciamlPointFormat, toUiDecimalPointFormat} from "./Utils"
+import {fromUiDeciamlPointFormat, toUiDecimalPointFormat, gasToEth} from "./Utils"
 const {fromWei, toWei} = Web3.utils
 const B = require('./bInterface.js');
 
@@ -14,7 +14,7 @@ const humanizeExcludeFields = [
 ];
 
 const gemHumanizeExcludeFields = [
-    'gemBalance', 'collaeralDeposited', 'walletBalance', 
+    'gemBalance', 'collaeralDeposited', 'walletBalance', 'makerDaoDeposited'
 ];
 
 export const humanize = (result, _humanizeExcludeFields = humanizeExcludeFields) => {
@@ -54,6 +54,7 @@ export const gemHumanize = (userInfo) => {
     const {gemDecimals} = userInfo.miscInfo
     userInfo.walletBalance = toUiDecimalPointFormat(userInfo.walletBalance, gemDecimals)
     userInfo.collaeralDeposited = toUiDecimalPointFormat(userInfo.collaeralDeposited, gemDecimals)
+    userInfo.makerDaoDeposited = toUiDecimalPointFormat(userInfo.makerDaoDeposited, gemDecimals)
     return userInfo
 }
 
@@ -75,27 +76,31 @@ function validateTx(tx) {
     })
 }
 
-export const ApiAction = async function (action, user, web3, value = 0, hashCb = null) {
-    return new Promise(async (res, rej) => {
+export const ApiAction = async function (action, user, web3, value = 0, hashCb = null, onlyGasEstimate = false) {
+    return new Promise(async (resolve, reject) => {
         try {
             validateTx(action)
             const txObject = await action;
             const gasEstimate = await txObject.estimateGas({ value: value, from: user });
             const gasConsumption = increaseABit(gasEstimate);
+            if(onlyGasEstimate){
+                resolve(gasToEth(gasConsumption, web3))
+                return
+            }
             const transaction = txObject.send({ gas: gasConsumption, value: value, from: user })
                 .once('transactionHash', (hash) => { if (hashCb) hashCb(hash) })
-                .on('error', (error) => { console.log("hmmm?", error); rej(error) })
+                .on('error', (error) => { console.log("hmmm?", error); reject(error) })
                 .then((receipt) => {
-                    res(receipt);
+                    resolve(receipt);
                 })
                 .catch((error) => {
                     console.log("oh nooo")
-                    rej(error);
+                    reject(error);
                 })
 
         }
         catch (error) {
-            rej(error);
+            reject(error);
         }
     })
 };

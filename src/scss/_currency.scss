@@ -80,29 +80,35 @@
     }
 
     &-close {
+      width: 59px;
+      height: 59px;
       cursor: pointer;
       position: absolute;
       right: 20px;
       top: -30px;
       opacity: 0;
-      transition: all 0.5s;
-
+      transition: all 0.5s ease-out;
       @media screen and (max-width: 1600px) {
         right: 14px;
       }
 
       &.active {
         opacity: 1;
+        transition: all 0.5s ease-out;
+        z-index: 1000;
+        visibility: visible;
+        transform: rotate(180deg);
       }
 
       img {
-        width: 59px;
-        height: 59px;
+
         object-fit: contain;
 
-        @media screen and (max-width: 1600px) {
-          height: 52px;
-        }
+        // @media screen and (max-width: 1600px) {
+        //   height: 52px;
+        //   width: 52px;
+
+        // }
       }
     }
   }

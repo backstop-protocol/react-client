@@ -8,6 +8,7 @@ export const addresses = {
     "cBAT": "0x4a77fAeE9650b09849Ff459eA1476eaB01606C7a",
     "cDAI": "0xF0d0EB522cfa50B716B3b1604C4F0fA6f04376AD", 
     "Comptroller": "0x5eAe89DC1C671724A672ff0630122ee834098657",
+    "COMP": "0x61460874a7196d6a22d1ee4922473664b3e95270",
 
     "compUserInfoAddress": "0x2df603eef6ff4a02c527164cbcdae77fa393dc3c",
     "bComptrollerAddress": "0x777f6369cc1cf921905c8899e127391d6ee5f009",

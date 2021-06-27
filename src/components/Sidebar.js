@@ -51,7 +51,7 @@ class Sidebar extends Component {
     const {search, pathname} = history.location
     const { loggedIn, showConnect } = userStore
     const {getMakerStore, storeChanges} = makerStoreManager
-    const { userInfo } = getMakerStore()
+    const { userInfo, symbol } = getMakerStore()
     const params = qs.parse(search, { ignoreQueryPrefix: true })
     const pathState = this.getState(pathname)
 
@@ -85,8 +85,8 @@ class Sidebar extends Component {
                           </p>
                           <div className="even">
                             <div>
-                              <small><b><u>ETH Locked</u></b></small>
-                              <p>{numm(userInfo.makerdaoCdpInfo.ethDeposit, 4)} ETH</p>
+                              <small><b><u>{symbol}</u></b></small>
+                              <p>{numm(userInfo.makerDaoDeposited, 4)} {symbol}</p>
                             </div>
                             <div>
                               <small><b><u>DAI Debt</u></b></small>

@@ -17,12 +17,14 @@ class ConnectButton extends Component {
   }
 
   render() {
-    const { loggedIn, user } = userStore
-
+    const { loggedIn, user, connecting } = userStore
+    if(connecting) {
+      return null
+    }
     return (
       <div>
-        {loggedIn ? (
-          <div className={"connect-button" + (loggedIn ? " active" : "")}>
+        { loggedIn ? (
+          <div onClick={userStore.connect} className={"connect-button" + (loggedIn ? " active" : "")}>
             <div className="btn-inner">
               <span title={user}>{user}</span>
             </div>

@@ -9,6 +9,8 @@ import WhiteBgViewIcon from "../../assets/view-icon.svg";
 import VIcon from "../../assets/v-icon.svg";
 import XIcon from "../../assets/red-x-icon.svg";
 import {isKovan} from "../../lib/Utils"
+import EventBus from "../../lib/EventBus"
+import ClaimCompModal from "../modals/ClaimCompModal"
 
 const Overide = styled.div`
     border: none;
@@ -86,8 +88,25 @@ class ClaimComp extends Component{
                 this.reset()
             }, 5000)
         }
+    }
 
-        
+    efficientClaim = async () => {
+        try{
+            this.setState({status: ClaimStatus.inProgress})
+            await compoundStore.claimCompEfficiently(this.onHash)
+            this.setState({status: ClaimStatus.success})
+        } catch (err){
+            this.setState({status: ClaimStatus.failed})
+        } finally {
+            setTimeout(()=> {
+                this.reset()
+            }, 5000)
+        }
+    }
+
+    openClaimCompModal = () => {
+        const noWrapper = true
+        EventBus.$emit('show-modal', <ClaimCompModal fullClaim={this.claim} efficientClaim={this.efficientClaim}/> , noWrapper)
     }
 
     render () {
@@ -101,8 +120,8 @@ class ClaimComp extends Component{
                     {status == ClaimStatus.none && 
                         <React.Fragment>
                         <img src={require("../../assets/com-icon-bl.svg")}/>
-                        <button onClick={this.claim} className={`currency-input-button ${disabled ? "disabled" : ""}`} disabled={disabled}>
-                                <span>Claim Comp</span>
+                        <button onClick={() => this.openClaimCompModal()} className={`currency-input-button ${disabled ? "disabled" : ""}`} disabled={disabled}>
+                            <span>Claim Comp</span>
                         </button>
                         </React.Fragment>
                     }
