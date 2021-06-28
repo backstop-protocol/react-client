@@ -186,11 +186,20 @@ export const claimComp = (web3, networkId, user) => {
   return bComptrollerContract.methods.claimComp(user)
 }
 
-export const claimCompEfficiently = (web3, networkId, user) => {
+export const claimCompEfficiently = (web3, networkId, user, bTokens=[]) => {
   const { Contract } = web3.eth
   const bComptrollerAddress = getAddress("bComptrollerAddress", networkId)
   const bComptrollerContract = new Contract(ABI.Comptroller, bComptrollerAddress)
-  return bComptrollerContract.methods.claimComp(user, [])
+  return bComptrollerContract.methods.claimComp(user, bTokens)
+}
+
+export const getCompByBtokens = (web3, networkId, user, bTokens) => {
+  const { Contract } = web3.eth
+  const compClaimDataAddress = getAddress("compClaimData", networkId)
+  const compClaimDataContract = new Contract(ABI.compClaimData, compClaimDataAddress)
+  const bComptrollerAddress = getAddress("bComptrollerAddress", networkId)
+  const compAddress = getAddress("COMP", networkId)
+  return compClaimDataContract.methods.profit(bComptrollerAddress, compAddress, user, bTokens).call({gasLimit:10e6})
 }
 
 export const getBalanceOfcomp = (web3, networkId, userAddress) => {
