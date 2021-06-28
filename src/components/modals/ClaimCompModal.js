@@ -117,8 +117,8 @@ class ClaimCompModal extends Component {
   }
 
   render() {
-    const {avatarCompBalance, compBalance, efficientCompClaimGasEstimate, compClaimGasEstimate} = compoundStore
-    const efficientClaimPrecentage = parseInt(percentage(avatarCompBalance, compBalance))
+    const {efficentClaimCompBalance, compBalance, efficientCompClaimGasEstimate, compClaimGasEstimate} = compoundStore
+    const efficientClaimPrecentage = parseInt(percentage(efficentClaimCompBalance, compBalance))
     return (
       <Container>
         <Header>
@@ -129,7 +129,7 @@ class ClaimCompModal extends Component {
             <ContentBox>
                 <Flex style={{padding: "22px"}} justifyBetween>
                   <Text>COMP</Text>
-                  <Text>{displayNum(avatarCompBalance, 4)} COMP</Text>
+                  <Text>{displayNum(efficentClaimCompBalance, 4)} COMP</Text>
                 </Flex>
                 <Flex style={{padding: "22px"}} justifyBetween>
                   <Text>Gas</Text>

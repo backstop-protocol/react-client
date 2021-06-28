@@ -17,5 +17,6 @@ export const addresses = {
     "compoundImportAddress": "0x3545a9AB6a57B1172690769175A3242a644f1574",
     "flashImportAddress": "0xF9fa648c46bb1e1f249ABA973397077CDc20fC78",
     "jarConnector": "0x061133BE90f97B6Eb7f73eD9Dc50eFB1DD96ED72",
-    "jar": "0x18DB5F7711d57974d825f9ca45D21627353bEb72"
+    "jar": "0x18DB5F7711d57974d825f9ca45D21627353bEb72",
+    "compClaimData": "0x8A4D0ad9005154fa4b7A9A9896d97fb88Ee7f9aa"
   }
