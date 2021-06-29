@@ -134,7 +134,7 @@ class CompoundStore {
             const compByBtokens = await getCompByBtokens(web3, networkType, user, this.bTokens)
             const totalComp = toWei(this.compBalance)
             this.bTokensForEfficientCompClaim = []
-            let efficentClaimCompBalance = 0
+            let efficentClaimCompBalance = "0"
             compByBtokens.forEach((compAmount, index)=> {
                 if(compAmount == 0){
                     return
@@ -236,7 +236,7 @@ class CompoundStore {
     }
 
     calcBorrowedBalance = () => {
-        
+
         let borrowedInUsd = new BN(0)
         Object.values(this.coinMap).forEach(coin => {
             borrowedInUsd = borrowedInUsd.add(new BN(toWei(coin.borrowedUsd).toString()))
