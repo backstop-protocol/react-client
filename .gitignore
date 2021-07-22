@@ -30,4 +30,7 @@ API.json
 /test/run-tests.bash
 test/ganache-kovan.sh
 .vscode/launch.json
+
+# CF worker site
 wrangler.toml
+/workers-site
