@@ -51,7 +51,7 @@ class Liquity extends Component {
     console.log("comp userInfoUpdate ", userInfoUpdate)
     return (
       <iframe 
-        src="https://liquity.bprotocol.org"
+        src="/liquity-app"
         width="100%"
         height="100%"
         frameBorder="0"
