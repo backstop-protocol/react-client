@@ -55,6 +55,9 @@ class Sidebar extends Component {
     const { userInfo, symbol } = getMakerStore()
     const params = qs.parse(search, { ignoreQueryPrefix: true })
     const pathState = this.getState(pathname)
+    const lunchDate = new Date("8/4/2021 12:00:00 GMT+0300").getTime()
+    const now = new Date().getTime()
+    const notLunched = now < lunchDate
 
     return (
       <div className={`sidebar ${this.state.open ? "open" : ""}`}>
@@ -143,6 +146,7 @@ class Sidebar extends Component {
               }`}
               onClick={() => this.handleItemSelect("liquity")}>
               <img src={LiquityLogo} />
+              {notLunched && <small>(Testnet)</small>}
             </div>
             <div className="product">
               <img src={AAVELogo} />
