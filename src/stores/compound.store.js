@@ -3,7 +3,7 @@
  */
 import { runInAction, makeAutoObservable, observable } from "mobx"
 import userStore from "./user.store"
-import {getCompUserInfo, claimComp, claimCompEfficiently, getBalanceOfcomp} from "../lib/compound.interface"
+import {getCompUserInfo, claimComp, claimCompEfficiently, getBalanceOfcomp, getCompByBtokens} from "../lib/compound.interface"
 import CToken, { CoinStatusEnum } from "../lib/compound.util"
 import {initialState} from "../lib/compoundConfig/initialState"
 import {wApiAction} from "../lib/compound.util"
@@ -12,8 +12,9 @@ import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
 import apyStore from "./apy.store"
 import {isFinished} from "../lib/Utils"
+import {percentage} from "../lib/Utils"
 
-const {BN, toWei, fromWei} = Web3.utils
+const {BN, toWei, fromWei, toBN} = Web3.utils
 const _1e18 = new BN(10).pow(new BN(18))
 
 class CompoundStore {
@@ -26,7 +27,7 @@ class CompoundStore {
     showBorrowReapyBox = false
     showDepositWithdrawBox = false
     compBalance = "0"
-    avatarCompBalance = "0"
+    efficentClaimCompBalance = "0"
     compClaimGasEstimate = "0"
     efficientCompClaimGasEstimate = "0"
     userScore = "0"
@@ -91,19 +92,21 @@ class CompoundStore {
     }
 
     supportedCoins = (address) => this.coinMap[address].tokenInfo.btoken !== "0x0000000000000000000000000000000000000000"
+    supportedBtokens = x => x !== "0x0000000000000000000000000000000000000000"
 
     processUserInfo = (userInfo) => {
         runInAction(()=> {
             this.userInfo = userInfo
+            this.bTokens = Object.values(this.userInfo.tokenInfo).map(({btoken}) => btoken).filter(this.supportedBtokens)
             this.initCoins()
             this.calcCompBlance()
             this.calcUserScore()
             this.calcDpositedBalance()
             this.calcBorrowedBalance()
             this.calcBorrowLimit()
-            this.userInfoUpdate ++
-            this.coinList = Object.keys(this.userInfo.bUser).filter(this.supportedCoins) 
+            this.coinList = Object.keys(this.userInfo.bUser).filter(this.supportedCoins)
             this.showHideEmptyBalanceBoxs()
+            this.userInfoUpdate ++
         })
     }
 
@@ -119,16 +122,33 @@ class CompoundStore {
         const obj = this.userInfo.compTokenInfo || {} 
         const val = obj[Object.keys(obj)[0]] || {}
         const [{avatar}] = Object.values(this.userInfo.importInfo)
-        const avatarCompBalance = await getBalanceOfcomp(web3, networkType, avatar)
         runInAction(()=> {        
             this.compBalance = fromWei(val.compBalance || "0")
-            this.avatarCompBalance = fromWei(avatarCompBalance)
         })
         this.calcClaimCompGasEstimation()
     }
 
     calcClaimCompGasEstimation = async () => {
         try{
+            const {web3, networkType, user} = userStore
+            const compByBtokens = await getCompByBtokens(web3, networkType, user, this.bTokens)
+            const totalComp = toWei(this.compBalance)
+            this.bTokensForEfficientCompClaim = []
+            let efficentClaimCompBalance = "0"
+            compByBtokens.forEach((compAmount, index)=> {
+                if(compAmount == 0){
+                    return
+                }
+                const percentOfTotalComp = percentage(compAmount, totalComp)
+                if(percentOfTotalComp < 10){
+                    return
+                }
+                this.bTokensForEfficientCompClaim.push(this.bTokens[index])
+                efficentClaimCompBalance = toBN(efficentClaimCompBalance).add(toBN(compAmount)).toString()
+            })
+            runInAction(()=> {
+                this.efficentClaimCompBalance = fromWei(efficentClaimCompBalance)
+            })
             const [claimGas, fullClaimGas] = await Promise.all([
               this.claimCompEfficiently(null, true),
               this.claimComp(null, true)
@@ -216,7 +236,7 @@ class CompoundStore {
     }
 
     calcBorrowedBalance = () => {
-        
+
         let borrowedInUsd = new BN(0)
         Object.values(this.coinMap).forEach(coin => {
             borrowedInUsd = borrowedInUsd.add(new BN(toWei(coin.borrowedUsd).toString()))
@@ -249,7 +269,7 @@ class CompoundStore {
 
     claimCompEfficiently = async (onHash, onlyGasEstimate) => {
         const {web3, networkType, user} = userStore
-        const txPromise = claimCompEfficiently(web3, networkType, user)
+        const txPromise = claimCompEfficiently(web3, networkType, user, this.bTokensForEfficientCompClaim)
         if(onlyGasEstimate){
             return ApiAction(txPromise, user, web3, 0, onHash, onlyGasEstimate)
         }else{
