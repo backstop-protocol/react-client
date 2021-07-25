@@ -137,7 +137,7 @@ class ClaimCompModal extends Component {
                 </Flex>
             </ContentBox>
             <ExplainerText>
-              Gas efficient claim process that will retrive {efficientClaimPrecentage}% of COMP
+              Gas efficient claim process that will retrieve {efficientClaimPrecentage}% of COMP
             </ExplainerText>
             <ModalButton onClick={()=> this.claim(true)}>
                <span>Efficient Claim</span>
@@ -155,7 +155,7 @@ class ClaimCompModal extends Component {
                 </Flex>
             </ContentBox>
             <ExplainerText>
-              Full calim process that will retrive 100% of COMP but with less gas efficiency.
+              Full claim process that will retrieve 100% of COMP but with less gas efficiency.
             </ExplainerText>
             <ModalButton onClick={() => this.claim(false)}>
               <span>Full Claim</span>
