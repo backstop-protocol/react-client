@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
@@ -15,8 +13,6 @@ class Liquity extends Component {
   }
 
   render() {
-    const { userInfo, userInfoUpdate, coinList } = compoundStore
-    console.log("comp userInfoUpdate ", userInfoUpdate)
     return (
       <iframe 
         src="https://liquity.bprotocol.org"
