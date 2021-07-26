@@ -42,7 +42,7 @@ export default class GlobalStats extends Component {
                                 <h2>
                                     Monthly BPRO
                                     <span className="tooltip-container">
-                                        <Tooltip>The estimated amount of BPRO <br/> you will receive a month from now</Tooltip>     
+                                        <Tooltip>new liquidity mining porgram is being voted by DAO</Tooltip>     
                                         <img className="info-icon" src={InfoIcon} />
                                     </span>
                                 </h2>

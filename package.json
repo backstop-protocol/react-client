@@ -1,6 +1,6 @@
 {
   "name": "bprotocol-react-client",
-  "version": "1.0.14",
+  "version": "1.0.18",
   "private": true,
   "dependencies": {
     "@cloudflare/kv-asset-handler": "^0.1.0",
@@ -25,7 +25,7 @@
     "react-tooltip": "^4.2.11",
     "styled-components": "^5.2.1",
     "styled-flex-component": "^3.0.5",
-    "web3": "^1.2.11"
+    "web3": "^1.4.0"
   },
   "scripts": {
     "dev": "react-scripts start",

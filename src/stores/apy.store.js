@@ -82,14 +82,14 @@ class ApyStore {
   }
 
   calcBproGrantForDebt = () => {
-    const totalBproForDebtMonthly = (100000/3)
+    const totalBproForDebtMonthly = (0)
     const userDebtRatio = parseFloat(this.userDebt)/parseFloat(this.totalDebt)
     const userMontlyBproReturnOnDebt = userDebtRatio * totalBproForDebtMonthly
     return userMontlyBproReturnOnDebt
   }
 
   calcBproGrantForCollateral = () => {
-    const totalBproForCollateralMonthly = (25000/3)
+    const totalBproForCollateralMonthly = (0)
     const userCollateralRatio = parseFloat(this.userCollateral)/parseFloat(this.totalCollateral)
     const userMontlyBproReturnOnCollateral = userCollateralRatio * totalBproForCollateralMonthly
     return userMontlyBproReturnOnCollateral
