@@ -39,7 +39,7 @@ class BproStore {
       await !this.smartContractScore ? this.init() : Promise.resolve(this.smartContractScore)
       await Promise.all([
         this.getClaimableAmount(),
-        this.getUnclaimableAmount(),
+        // this.getUnclaimableAmount(),
         this.getWalletBallance()
       ])
       runInAction(()=> {
