@@ -43,7 +43,7 @@ class BproStore {
         this.getWalletBallance()
       ])
       runInAction(()=> {
-        this.totalBproNotInWallet = fromWei(toBN(toWei(this.claimable)).add(toBN(toWei(this.unclaimable))).toString())
+        this.totalBproNotInWallet = fromWei(toBN(toWei(this.claimable)).toString())
       })
       this.cliamEnabled = true
     }catch(err){

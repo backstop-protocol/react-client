@@ -164,7 +164,7 @@ class BproClaimModal extends Component {
   }
   
   render () {
-    const {walletBalance, claimable, unclaimable, totalBproNotInWallet} = bproStore
+    const {walletBalance, claimable, totalBproNotInWallet} = bproStore
     const {actionState} = this.state
     const claimed = actionState == "done"
     const balance = stringToFixed(totalBproNotInWallet, 9)
@@ -184,10 +184,6 @@ class BproClaimModal extends Component {
               <Flex style={{padding: "22px"}} justifyBetween>
                 <Text>Wallet Balance</Text>
                 <Text><AnimateNumericalString val={walletBalance} decimals={9}/></Text>
-              </Flex>
-              <Flex style={{padding: "22px"}} justifyBetween>
-                <Text>Unclaimable Balance</Text>
-                <Text><AnimateNumericalString val={unclaimable} decimals={9}/></Text>
               </Flex>
               <Flex style={{padding: "22px"}} justifyBetween>
                 <Text>Claimable Balance</Text>
