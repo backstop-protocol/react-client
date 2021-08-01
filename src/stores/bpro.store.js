@@ -43,7 +43,7 @@ class BproStore {
         this.getWalletBallance()
       ])
       runInAction(()=> {
-        this.totalBproNotInWallet = fromWei(toBN(toWei(this.claimable)).add(toBN(toWei(this.unclaimable))).toString())
+        this.totalBproNotInWallet = fromWei(toBN(toWei(this.claimable)).toString())
       })
       this.cliamEnabled = true
     }catch(err){
@@ -96,7 +96,7 @@ class BproStore {
       runInAction(()=> {
         this.mScore = fromWei(toBN(makerAmount).toString())
         this.cScore = fromWei(toBN(serverAmount).sub(toBN(makerAmount)).toString())
-        this.unclaimable = parseFloat(unclaimable) >= 0 ? unclaimable : "0"
+        // this.unclaimable = parseFloat(unclaimable) >= 0 ? unclaimable : "0"
       })
     }
     console.log(currentScoreData)
