@@ -51,8 +51,10 @@ const RiskContent = () => {
       </p>
       <h4>Smart contract and software risks</h4>
       <p className="risk-item-content-text">
-        B.Protocol smart contracts were audited by Solidified (
-          <a href="https://github.com/solidified-platform/audits/blob/master/Audit%20Report%20-%20Backstop%20Protocol%20%5B02.10.2020%5D.pdf" target="_blank" >MakerDAO integration</a>, <a href="https://github.com/solidified-platform/audits/blob/60778395ae2f78fc1caec0085bfa96c6f70c4573/Audit%20Report%20-%20B-Protocol%20%5B16.02.2021%5D.pdf" target="_blank">Comound integration</a>).
+        B.Protocol smart contracts were audited (
+          <a href="https://github.com/solidified-platform/audits/blob/master/Audit%20Report%20-%20Backstop%20Protocol%20%5B02.10.2020%5D.pdf" target="_blank" >MakerDAO integration</a>, 
+          <a href="https://github.com/solidified-platform/audits/blob/60778395ae2f78fc1caec0085bfa96c6f70c4573/Audit%20Report%20-%20B-Protocol%20%5B16.02.2021%5D.pdf" target="_blank">Comound integration</a>,
+          <a href="https://github.com/Fixed-Point-Solutions/published-work/blob/master/SmartContractAudits/FPS_B.AMM_Liquity_Assessment_FINAL.pdf" target="_blank">Liquity integration</a>).
         <br />
         The audit was focused on verifying the security of user funds.
         The user incentive code was not part of the scope of the external audit, and was only reviewed internally by the team.
@@ -113,7 +115,16 @@ const RiskContent = () => {
         </ol>
 
         Discussions with updated information on the governance can be found at the <a href="https://forum.bprotocol.org" target="_blank">community forum.</a>        
-      </p>      
+      </p>
+      <h4>Liquity Integration</h4>
+      <p className="risk-item-content-text">
+      Using the Liquity integration has the following risks:
+        <ol>
+          <li>B.Protocol is another smart contract layer on top of Liquity’s stability pool. And even though it was audited the usual smart contract risks still apply.</li>
+          <li>Participating in the stability pool is not risk free, with or without B.Protocol interface. Pool participants get ETH with a 10% discount in return to LUSD, however there is always a risk that ETH price will go down by more than 10% before it is sold back to LUSD. B.Protocol mitigated this risk by offering it to sale on DEX aggregators, and by deploying a dedicated decentralized keepers from Gelato and Chainlink, however this does not fully mitigate the risk.</li>
+          <li>B.Protocol is built on top of Liquity protocol and Chain Link price oracle (and Liquity protocol itself is built on top of Chain Link price oracle itself). A bug in any of these two protocols could put B.Protocol users at risk.</li>          
+        </ol>
+      </p>            
     </p>
   );
 };
