@@ -29,7 +29,6 @@ class MainLiquityStore {
         const web3 = new Web3(BP_API)
         const lusd = await getBammLusd(web3, "1")
         const usd = parseFloat(fromWei(lusd))
-        debugger
         runInAction(()=>{
             this.liquityTvlNumeric = usd
         })
