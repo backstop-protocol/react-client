@@ -35,4 +35,3 @@ test/ganache-kovan.sh
 # CF worker site
 #===========================
 wrangler.toml
-/workers-site
