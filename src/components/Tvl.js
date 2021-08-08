@@ -152,8 +152,8 @@ class Tvl extends Component {
     render() {
         const { tvlNumeric: compTvl } = mainCompStore
         const { tvlUsdNumeric: makerTvl } = mainStore
-        const { liquityTvlNumeric: liquityTvl } = liquityStore
-        const tvl = (compTvl + makerTvl + liquityTvl) 
+        const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
+        const tvl = (compTvl + makerTvl + liquityTvl + othersTvlNumeric) 
        return (
            <div>
                <TvlBox>

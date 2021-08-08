@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx"
-import { getBammLusd } from "../lib/liquity.interface"
+import { getBammLusd, getBamms } from "../lib/liquity.interface"
 import Web3 from "web3"
 import {BP_API} from "../common/constants"
 
@@ -11,6 +11,7 @@ const { fromWei} = Web3.utils
 class MainLiquityStore {
 
     liquityTvlNumeric = 0
+    othersTvlNumeric = 0
 
     constructor (){
         makeAutoObservable(this)
@@ -27,10 +28,14 @@ class MainLiquityStore {
 
     async fetchBammUsd () {
         const web3 = new Web3(BP_API)
-        const lusd = await getBammLusd(web3, "1")
-        const usd = parseFloat(fromWei(lusd))
+        const bamms = await getBamms(web3, "1")
+        const bammsTvls = await Promise.all(bamms.map(async (bammAddress)=> {
+            const lusd = await getBammLusd(web3, "1", bammAddress)
+            return parseFloat(fromWei(lusd))
+        }))
         runInAction(()=>{
-            this.liquityTvlNumeric = usd
+            this.liquityTvlNumeric = bammsTvls.shift()
+            this.othersTvlNumeric = bammsTvls.reduce((x, y)=> x + y)
         })
     }
 }
