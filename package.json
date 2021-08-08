@@ -30,7 +30,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "react-scripts start",
-    "build": "npm version patch && react-scripts build && ./generate-static.sh && node ./sccripts/remove-iframe-deny.js",
+    "build": "npm version patch && react-scripts build && ./generate-static.sh && node ./scripts/remove-iframe-deny.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
