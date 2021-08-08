@@ -1,6 +1,6 @@
 {
   "name": "bprotocol-react-client",
-  "version": "1.0.19",
+  "version": "1.0.21",
   "private": true,
   "dependencies": {
     "@cloudflare/kv-asset-handler": "^0.1.0",
@@ -30,7 +30,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "react-scripts start",
-    "build": "npm version patch && react-scripts build && ./generate-static.sh",
+    "build": "npm version patch && react-scripts build && ./generate-static.sh && node ./scripts/remove-iframe-deny.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
