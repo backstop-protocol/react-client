@@ -6,6 +6,7 @@ import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../screenSizes";
 import mainStore, {toCommmSepratedString} from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
+import liquityStore from "../stores/main.liquity.store"
 import AnimateNumberChange from "./style-components/AnimateNumberChange"
 import TvlTooltip from "./TvlTooltip"
 
@@ -149,11 +150,10 @@ const ToolTipLine = styled.div`
 
 class Tvl extends Component {
     render() {
-        const {tvlNumeric: compTvl} = mainCompStore
-        const {tvlUsdNumeric: makerTvl} = mainStore
-
-        // const tvl = toCommmSepratedString((compTvl + makerTvl).toFixed(1))
-        const tvl = (compTvl + makerTvl) 
+        const { tvlNumeric: compTvl } = mainCompStore
+        const { tvlUsdNumeric: makerTvl } = mainStore
+        const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
+        const tvl = (compTvl + makerTvl + liquityTvl + othersTvlNumeric) 
        return (
            <div>
                <TvlBox>

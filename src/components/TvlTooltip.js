@@ -5,6 +5,7 @@ import ReactTooltip from "react-tooltip"
 import mainStore from "../stores/main.store"
 import apyStore from "../stores/apy.store"
 import {toCommmSepratedString} from '../lib/Utils'
+import liquityStore from "../stores/main.liquity.store"
 
 const ToolTipLine = styled.div`
     min-width: 160px;
@@ -30,15 +31,15 @@ const ToolTipTitle = styled.div`
 `
 
 class TvlTooltip extends React.Component {
-
+  
   render() {
+    const { liquityTvlNumeric, othersTvlNumeric } = liquityStore
     return (
       <span className="tooltip-container">
         <a data-tip data-for="liquidation-price-tooltip">
           <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
         </a>
         <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="right">
-
           <ToolTipLine>
             <div> total deposits: </div>
             <div> ${toCommmSepratedString(parseFloat(apyStore.totalCollateral).toFixed(2))} </div>
@@ -84,6 +85,18 @@ class TvlTooltip extends React.Component {
           <ToolTipLine withTab>
             <div> users: </div>
             <div> {apyStore.compoundUsers} </div>
+          </ToolTipLine>
+          <ToolTipTitle>
+            <span> Liquity </span>
+            <span>  </span>
+          </ToolTipTitle>
+          <ToolTipLine withTab>
+            <div style={{textTransform: "none"}}>bprotocol.org: </div>
+            <div> ${toCommmSepratedString((liquityTvlNumeric).toFixed(2))} </div>
+          </ToolTipLine>
+          <ToolTipLine withTab>
+            <div style={{textTransform: "none"}}> pickle.finance & others: </div>
+            <div> ${toCommmSepratedString((othersTvlNumeric).toFixed(2))} </div>
           </ToolTipLine>
         </ReactTooltip>
       </span>
