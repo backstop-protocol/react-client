@@ -6,7 +6,7 @@ const B = require('./bInterface.js');
 
 const humanizeMustFields = [
     "ethDeposit", "daiDebt", "maxDaiDebt", "minEthDeposit","userRating","userRatingProgressPerSec","totalRating","totalRatingProgressPerSec","jarBalance",
-    "ethBalance", "daiBalance", "collaeralDeposited"
+    "ethBalance", "daiBalance", "collaeralDeposited", "walletBalance"
 ]
 
 const humanizeExcludeFields = [
