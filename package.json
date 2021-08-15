@@ -32,6 +32,7 @@
     "start": "react-scripts start",
     "build": "npm version patch && react-scripts build && ./generate-static.sh && node ./scripts/remove-iframe-deny.js",
     "test": "react-scripts test",
+    "test:e2e": "SECRET_WORDS=$(grep SECRET_WORDS .env | cut -d '=' -f2) synpress run",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "check": "prettier --check ./src",
@@ -53,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@synthetixio/synpress": "^0.9.10",
     "eslint-plugin-react": "^7.22.0",
     "node-sass": "^4.14.1",
     "prettier": "^2.2.1",
