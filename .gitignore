@@ -40,3 +40,5 @@ wrangler.toml
 #===========================
 .env
 tests/e2e/videos
+tests/e2e/screenshots
+tests/snapshot-id.txt
