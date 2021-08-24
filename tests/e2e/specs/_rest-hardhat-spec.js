@@ -84,7 +84,8 @@ describe('intial setup', () => {
   })
 
   it('validates balance', () => {
-    cy.visit('/maker')
+    cy.resetMetamaskAccount() // fix 
+    cy.visit('/')
     cy.contains('Connect').click()
     cy.contains('Meta Mask').click()
     cy.wait(4 * 1000)
