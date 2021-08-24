@@ -1,5 +1,5 @@
-describe('resets hardhat', () => {
-  before('', () => {
+describe('intial setup', () => {
+  before('resets hardhat', () => {
     //read snapshot
     cy.readFile('./tests/snapshot-id.txt')
     .then(snapshotId => {
@@ -15,16 +15,7 @@ describe('resets hardhat', () => {
       cy.log("revert success: " + body.result)
     })
     
-    cy.wait(3000)
-    // mine one block
-    cy.request("POST", "http://localhost:8545", {
-      "jsonrpc":"2.0",
-      "method":"mine_block",
-      "params":[],
-      "id":1
-    })
-    cy.log("block mine success")
-    cy.wait(3000)
+    cy.wait(4*1000)
     // take new snapshot
     cy.request("POST", "http://localhost:8545", {
       "jsonrpc":"2.0",
@@ -48,10 +39,42 @@ describe('resets hardhat', () => {
     })
 
     cy.log("snapshot done! ")
-    cy.visit('/')
-    cy.contains('Connect').click()
-    cy.contains('Meta Mask').click()
-    cy.acceptMetamaskAccess()
+
+    cy.request("POST", "http://localhost:8545", {
+      "jsonrpc":"2.0",
+      "method":"mine_block",
+      "params":[],
+      "id":1
+    })
+
+    cy.request("POST", "http://localhost:8545", {
+      "jsonrpc":"2.0",
+      "method":"mine_block",
+      "params":[],
+      "id":1
+    })
+
+    cy.request("POST", "http://localhost:8545", {
+      "jsonrpc":"2.0",
+      "method":"mine_block",
+      "params":[],
+      "id":1
+    })
+
+    cy.request("POST", "http://localhost:8545", {
+      "jsonrpc":"2.0",
+      "method":"mine_block",
+      "params":[],
+      "id":1
+    })
+
+    cy.request("POST", "http://localhost:8545", {
+      "jsonrpc":"2.0",
+      "method":"mine_block",
+      "params":[],
+      "id":1
+    })
+    cy.log("mined 5 blocks")
   })
 
   it('validates address', () => {
@@ -61,8 +84,14 @@ describe('resets hardhat', () => {
   })
 
   it('validates balance', () => {
+    cy.visit('/maker')
+    cy.contains('Connect').click()
+    cy.contains('Meta Mask').click()
+    cy.wait(4 * 1000)
+    cy.acceptMetamaskAccess()
+    cy.wait(4 * 1000)
     cy.contains("Deposit").click()
-    cy.contains("16664.9482 ETH")
+    cy.wait(4 * 1000)
+    cy.contains("1111 ETH")
   })
-
 })
