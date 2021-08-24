@@ -120,8 +120,12 @@ export default class CToken {
 
     getIcon = () => {
         try{
-            return require(`../assets/coin-icons/${this.symbol}.png`)
-        } catch (err){
+            try{
+                return require(`../assets/coin-icons/${this.symbol}.svg`)
+            } catch (err){
+                return require(`../assets/coin-icons/${this.symbol}.png`)
+            }
+        }catch (err){
             return require(`../assets/coin-icons/COMP.png`) // defaults to COMP icon
         }
     }
