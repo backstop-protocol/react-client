@@ -12,6 +12,10 @@ export const addresses = {
     "cWBTC": "0xccF4429DB6322D5C611ee964527D42E5d685DD6a",
     "cTUSD": "0x12392f67bdf24fae0af363c24ac620a2f67dad86",
     "cLINK": "0xface851a4921ce59e912d19329929ce6da6eb0c7",
+    "cMKR": "0x95b4ef2869ebd94beb4eee400a99824bf5dc325b",
+    "cSUSHI": "0x4b0181102a0112a2ef11abee5563bb4a3176c9d7",
+    "cYFI": "0x80a2ae356fc9ef4305676f7a3e2ed04e12c33946",
+    "cAAVE": "0xe65cdb6479bac1e22340e4e755fae7e509ecd06c",
     "COMP": "0xc00e94cb662c3520282e6f5717214004a7f26888",
     /* B.Compound specific addresses
     ===================================================================== */

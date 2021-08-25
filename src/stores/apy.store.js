@@ -159,7 +159,6 @@ class ApyStore {
         this.compoundTotalCollateral = compoundTotalCollateral
       })
     } catch (err){
-      console.error(err)
       this.apyDataFetchErr = true
     }
   }

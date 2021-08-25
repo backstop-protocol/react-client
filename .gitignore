@@ -35,3 +35,10 @@ test/ganache-kovan.sh
 # CF worker site
 #===========================
 wrangler.toml
+
+# E2E tests
+#===========================
+.env
+tests/e2e/videos
+tests/e2e/screenshots
+tests/snapshot-id.txt

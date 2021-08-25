@@ -4,6 +4,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// last resort global exception catchers
+window.onError = function(message, source, lineno, colno, error) {
+  console.warn(`Error: ${error.msg} @: ${error.stack}`)
+  return true 
+}
+
+window.addEventListener('unhandledrejection', function (event) {
+  console.warn(`UNHANDLED PROMISE REJECTION: ${event.reason}`);
+  event.preventDefault();
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
