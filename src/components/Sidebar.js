@@ -146,7 +146,7 @@ class Sidebar extends Component {
               }`}
               onClick={() => this.handleItemSelect("liquity")}>
               <img src={LiquityLogo} />
-              {notLunched && <small>(Testnet)</small>}
+              {false && <small>(Testnet)</small>}
             </div>
             <div className="product">
               <img src={AAVELogo} />

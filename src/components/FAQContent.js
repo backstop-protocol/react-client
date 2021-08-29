@@ -9,7 +9,7 @@ const FAQContent = () => {
         <strong>A. </strong> B.Protocol makes lending platforms more stable by 
         incentivizing liquidity providers (keepers) to commit on liquidation of
         under collateralized loans while shifting the miners' extracted profits
-        back to the users of the platform.
+        back to the users of the platform. A detailed documentation of the protocol is available <a href="https://docs.bprotocol.org/" target="_blank">here.</a>
       </p>
 
       <h4>2. As a lending platform user, what should I do with B.Protocol?</h4>
@@ -20,7 +20,7 @@ const FAQContent = () => {
 
       <h4>3. Were the smart contracts audited?</h4>
       <p className="item-content-text">
-        <strong>A. </strong> Yes. B.Protocol smart contracts were by Solidified.
+        <strong>A. </strong> Yes. B.Protocol smart contracts were audited.
         <br/>
         <span className="item-sub-text">
           <strong>i. </strong>
@@ -31,6 +31,11 @@ const FAQContent = () => {
           <strong>ii. </strong>
           <a href="https://github.com/solidified-platform/audits/blob/60778395ae2f78fc1caec0085bfa96c6f70c4573/Audit%20Report%20-%20B-Protocol%20%5B16.02.2021%5D.pdf" target="_blank">Compound audit</a>
         </span>
+        <br/>
+        <span className="item-sub-text">
+          <strong>iii. </strong>
+          <a href="https://github.com/Fixed-Point-Solutions/published-work/blob/master/SmartContractAudits/FPS_B.AMM_Liquity_Assessment_FINAL.pdf" target="_blank">Liquity audit</a>
+        </span>        
       </p>
 
       <h4>4. How do I use B.protocol?</h4>
