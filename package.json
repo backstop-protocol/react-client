@@ -15,6 +15,7 @@
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
     "moment": "^2.29.1",
+    "node-sass": "^6.0.1",
     "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-device-detect": "^1.17.0",
@@ -23,6 +24,7 @@
     "react-scripts": "3.4.3",
     "react-spring": "^8.0.27",
     "react-tooltip": "^4.2.11",
+    "sass-loader": "^12.1.0",
     "styled-components": "^5.2.1",
     "styled-flex-component": "^3.0.5",
     "web3": "^1.4.0"
@@ -59,8 +61,6 @@
     "@synthetixio/synpress": "https://github.com/backstop-protocol/synpress.git",
     "eslint-plugin-react": "^7.22.0",
     "http-server": "^13.0.0",
-    "node-sass": "^4.14.1",
-    "prettier": "^2.2.1",
-    "sass-loader": "^10.0.1"
+    "prettier": "^2.2.1"
   }
 }
