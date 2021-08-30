@@ -25,7 +25,7 @@
     "react-tooltip": "^4.2.11",
     "styled-components": "^5.2.1",
     "styled-flex-component": "^3.0.5",
-    "web3": "^1.5.2"
+    "web3": "^1.4.0"
   },
   "scripts": {
     "dev": "react-scripts start",
