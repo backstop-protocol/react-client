@@ -3,6 +3,7 @@ describe('Wallet tests', () => {
     cy.visit('/')
     cy.contains('Connect').click()
     cy.contains('Meta Mask').click()
+    cy.wait(4 * 1000)
   })
 
   it('validates address', () => {
@@ -12,7 +13,6 @@ describe('Wallet tests', () => {
   })
 
   it('deposit 14.444 ether', () => {
-    cy.wait(4 * 1000)
     cy.get('button').contains("Deposit").click()
     cy.wait(4 * 1000)
     cy.get('[placeholder="Amount in ETH"]').type('14.444')
