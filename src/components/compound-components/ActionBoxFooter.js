@@ -70,11 +70,11 @@ class ActionBoxFooter extends Component {
                 <Flex>
                     <Flex column justifyBetween className="grey-divider" style={{width: "30%"}}>
                         <SmallTitle>Current Wallet Balance</SmallTitle>
-                        <Amount id={`wallet-balance-${symbol}`}>{displayNum(WalletBalanceStr, 4)} {symbol}</Amount>
+                        <Amount className="wallet-balance">{displayNum(WalletBalanceStr, 4)} {symbol}</Amount>
                     </Flex >
                     <Flex column justifyBetween className="grey-divider" style={{width: "30%"}}>
                         <SmallTitle>Total deposit</SmallTitle>
-                        <Amount id={`${action}-${symbol}-calculated-total-deposit-in-usd`}>${updatedTotalDeposit}</Amount>
+                        <Amount className="calculated-total-deposit-in-usd">${updatedTotalDeposit}</Amount>
                     </Flex >
                     <Flex column justifyBetween className="grey-divider" style={{width: "40%"}}>
                         <SmallTitle>Borrow Limit</SmallTitle>

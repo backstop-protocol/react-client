@@ -220,7 +220,7 @@ class ActionBox extends Component {
         const [symbol] = coin.symbol.split(" ")
         const showSetMax = this.showSetMax()
         return (
-            <Container ref={this.boxRef} open={isOpen} tx={transactionInProgress}>
+            <Container id={`${action}-${coin.symbol}-action-box`} ref={this.boxRef} open={isOpen} tx={transactionInProgress}>
                     <AnimatedContent open={isOpen && transactionInProgress && !err && !success}>
                         <Loading hash={hash} actioning={actioning} value={val} currency={coin.symbol} completed={success} failed={err} />
                     </AnimatedContent>
@@ -239,13 +239,13 @@ class ActionBox extends Component {
             
                                 <div className={`currency-input tooltip-container ${showSetMax ? "placeholder-hide" : ""}`}>
                                 {showSetMax && <div className="set-max comp" onClick={this.setMax}>Set Max</div>}
-                                    <input type="text" value={val} onChange={this.onInputChange} placeholder={`Amount in ${symbol}`} ref={e => this.input = e} id={`${action}-${symbol}-input`}/>
+                                    <input type="text" value={val} onChange={this.onInputChange} placeholder={`Amount in ${symbol}`} ref={e => this.input = e} />
                                     {inputErrMsg && <Tooltip bottom={true} className={'warning limited-width'}>{inputErrMsg}</Tooltip>}
                                 </div>
                                 <Unlock coin={coin} action={action}/>
                             </Flex>
                             <FlexItem style={{width: "50%"}}>
-                                <button id={`${action}-${coin.symbol}-input-btn`} onClick={this.doAction} className={`currency-input-button`}>
+                                <button onClick={this.doAction} className={`currency-input-button`}>
                                     {action}
                                 </button>
                             </FlexItem>
