@@ -7,7 +7,7 @@ describe('Wallet tests', () => {
     cy.wait(4 * 1000)
   })
 
-  context('testing maker gem user flow depositin WBTC', () =>{
+  context('testing maker gem user flow depositing WBTC', () =>{
 
     it('should switch tab', () => {
       cy.contains('WBTC-A').click()
