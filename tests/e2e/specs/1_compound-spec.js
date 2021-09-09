@@ -178,21 +178,55 @@ describe('compound basic user fllow', () => {
   })
 
   context('when user deposits some WBTC', () => {
+    
+    it('should show correct balance', () => {
+      cy.get('#deposit-WBTC').click({force: true})
+      cy.wait(4 * 1000)
+      cy.get('#deposit-WBTC-action-box').find('.wallet-balance').should('have.text', '1.5 WBTC')
+      cy.wait(4 * 1000)
+    })
 
+    it('should show a warrning when trying to deposit more then the actual balance', () => {
+      cy.get('#deposit-WBTC-action-box').find('input').type('2')
+      cy.get('.tooltip.warning').contains('Amount exceeds wallet balance')
+    })
 
+    it('should calculate and display the deposited amount in USD', () => {
+      cy.get('#deposit-WBTC-action-box').find('input').clear().type('1')
+      cy.get('#deposit-WBTC-action-box').find('.calculated-total-deposit-in-usd').should('have.text', '$374600.2635')
+    })
+
+    it('should calculate and display the borrow limit amount in USD', () => {
+      cy.get('#deposit-WBTC-action-box').find('input').clear().type('1.1')
+      cy.get('#deposit-WBTC-action-box').find('.calculated-borrow-limit').should('have.text', '$279,230.92')
+    })
+
+    it('should deposit WBTC and display the amount correctly', () => {
+      cy.get('#WBTC-deposited-usd').should('have.text', '0 USD')
+      cy.get('#WBTC-deposited').should('have.text', '0 WBTC')
+      cy.get('#deposit-WBTC-action-box').find('.currency-input-button').click()
+      cy.wait(4 * 1000)
+      cy.wait(4 * 1000)
+      cy.confirmMetamaskTransaction()
+      cy.wait(4 * 1000)
+      cy.get('#WBTC-deposited-usd').should('have.text', '54034.4195 USD')
+      cy.get('#WBTC-deposited').should('have.text', '1.0999 WBTC')    
+    })
 
   })
 
-  context('when user witdraws all WBTC', () => {
+  context('when user withdraws 1 WBTC', () => {
 
-
-
-  })
-
-  context('when user witdraws some ETH', () => {
-
-
-
+    it('should witdraw 1 WBTC', () => {
+      cy.get('#withdraw-WBTC').click({force: true})
+      cy.get('#withdraw-WBTC-action-box').find('input').type('1')
+      cy.get('#withdraw-WBTC-action-box').find('.currency-input-button').click({force: true})
+      cy.wait(4 * 1000)
+      cy.wait(4 * 1000)
+      cy.confirmMetamaskTransaction()
+      cy.wait(4 * 1000)
+      cy.get('#WBTC-deposited').should('have.text', '0.1 WBTC')    
+    })
   })
 
 })

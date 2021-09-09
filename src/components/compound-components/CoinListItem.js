@@ -241,8 +241,8 @@ class CoinListItem extends Component {
                             </FlexItem>
                             <FlexItem  style={{width: "25%"}}>
                                 <Flex column>
-                                    {displayNum(balanceInUsd, 4)} USD 
-                                    <GreyText>{displayNum(balance, 4)} {coin.symbol}</GreyText>
+                                    <span id={`${coin.symbol}-${isAssetColumn ? 'deposited' : 'borrowed'}-usd`}>{displayNum(balanceInUsd, 4)} USD</span> 
+                                    <GreyText id={`${coin.symbol}-${isAssetColumn ? 'deposited' : 'borrowed'}`}>{displayNum(balance, 4)} {coin.symbol}</GreyText>
                                 </Flex>
                             </FlexItem>
                             <Flex justifyEnd style={{width: "25%"}}>

@@ -294,7 +294,7 @@ class CurrencyBox extends Component {
             (completed? ' completed':'')+ (failed? ' failed':'');
 
         return (
-            <Overider className={'currency-box-container'+containerClass}>
+            <Overider id={`${currency}-box`} className={'currency-box-container'+containerClass}>
                     <CurrencyBoxHeader showStabilityFee={showStabilityFee} />
                     <div className="currency-box" >
                         <div className={"currency-box-close" + (panel? ' active':'')}>
@@ -318,7 +318,7 @@ class CurrencyBox extends Component {
                             </div>
                         </div>
                         <div className="currency-actions" >
-                            {!panel && Object.entries(actions).map(([key,v],i) => <button className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
+                            {!panel && Object.entries(actions).map(([key,v],i) => <button id={`${key}-${currency}`} className="currency-action-button" key={i} onClick={() => this.showActionPanel(v)}>{key}</button>)}
                         </div>
                     </div>
                     <div ref={this.boxRef} className={'currency-action-panel-container' + actionPanelContainerClass}>
@@ -332,11 +332,11 @@ class CurrencyBox extends Component {
                             <div className="even">
                                 <div>
                                     <label>Current Wallet Balance</label>
-                                    <div className="value">{walletBalance} {currency}</div>
+                                    <div  className="value wallet-balance">{walletBalance} {currency}</div>
                                 </div>
                                 <div>
                                     <label>Liquidation Price</label>
-                                    <div className="value">
+                                    <div className="value liquidation-price">
                                         {liquidationPrice && parseFloat(liquidationPrice[1]).toFixed(2)+' USD'}
                                     </div>
                                 </div>
