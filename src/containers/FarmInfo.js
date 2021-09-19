@@ -163,13 +163,12 @@ class FarmInfo extends Component {
           <Header>
             <ModalClaimHeader/>
             <Balance>
-              Farm Info (beta)
+              Farming Information (Beta)
             </Balance>
           </Header>
           <Flex full column alignCenter>
             <Title>
-              Liquidity Mining info for B.Protocol users for the LM2 phase<br/> (18th September - 17th December)<br/>
-              For more info read the <a target="_blank" href="https://docs.bprotocol.org/info/general">Docs</a>
+              Information for B.Protocol users for <a target="_blank" href="https://forum.bprotocol.org/t/bip-4-use-umas-kpi-options-program-for-users-liquidity-mining/">BIP #4</a><br/> (18th September - 17th December)<br/>
             </Title>
             <Title>
               Current TVL ${tvl}M <br/>
@@ -183,7 +182,7 @@ class FarmInfo extends Component {
                   <Cell>{"BPRO TVL > $150m"}</Cell>
                 </Flex>
                 <Flex  justifyBetween>
-                  <Cell>Rewards</Cell>
+                  <Cell>User Reward</Cell>
                   <Cell><ANS val={apyStore.apy}/>/month</Cell>
                   <Cell><ANS val={apyStore.apy}/>/month</Cell>
                   <Cell><ANS val={parseFloat(apyStore.apy)*3}/>/month</Cell>

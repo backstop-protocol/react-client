@@ -161,7 +161,7 @@ class Sidebar extends Component {
             }`}
             onClick={() => this.handleItemSelect("farm-info")}
           >
-            <p className="menu-item">Farm info</p>
+            <p className="menu-item">Farm Info</p>
             <small>(Beta)</small>
           </div>
           <div className="ln"> </div>
