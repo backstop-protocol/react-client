@@ -16,13 +16,14 @@ import {Transition} from 'react-spring/renderprops'
 class Header2 extends Component {
     render() {
 
-        const {info, onConnect, logo} = this.props;
+        const {info, onConnect, logo, fullPage, textLogo} = this.props;
         const {loggedIn} = userStore
         return (
             <div style={{zIndex: -10}} className="top-panel">
                 <ResponsiveWidthHeader className="container" style={{paddingBottom: "30px"}}>
                     <div className="split title-bar">
-                        <img className="logo" src={logo} />
+                        {logo && <img className="logo" src={logo} />}
+                        {textLogo && <h1 style={{fontWeight: 500}}>{textLogo}</h1>}
                         <div className="connect-container">
                             <ConnectButton onConnect={onConnect}/>
                             {(userStore.displayConnect || false)&& <div className="connect-wallet">
@@ -36,7 +37,7 @@ class Header2 extends Component {
                         <HeaderItemContainer>
                             <GlobalStats />
                         </HeaderItemContainer>
-                        <HeaderItemContainer>
+                        {!fullPage && <HeaderItemContainer>
                             <Transition
                                 initial={null}
                                 items={loggedIn}
@@ -49,7 +50,7 @@ class Header2 extends Component {
                                     : props => <div style={props}><Tvl /></div>
                                 }
                             </Transition>
-                        </HeaderItemContainer>
+                        </HeaderItemContainer>}
                     </div>
                 </ResponsiveWidthHeader>
             </div>
