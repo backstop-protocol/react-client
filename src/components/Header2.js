@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
-import GlobalStats from "./GlobalStats";
+import GlobalStatsEmpty from "./GlobalStatsEmpty";
 import BorrowLimit from "./BorrowLimit";
 import Tvl from "./Tvl";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
@@ -35,7 +35,7 @@ class Header2 extends Component {
                     </div>
                     <div className="header-stats split">
                         <HeaderItemContainer>
-                            <GlobalStats />
+                            <Tvl />
                         </HeaderItemContainer>
                         {!fullPage && <HeaderItemContainer>
                             <Transition
@@ -47,7 +47,7 @@ class Header2 extends Component {
                                 {toggle =>
                                     toggle
                                     ? props => <div style={props}><HeaderBorrowLimit/></div>
-                                    : props => <div style={props}><Tvl /></div>
+                                    : props => <div style={props}><GlobalStatsEmpty /></div>
                                 }
                             </Transition>
                         </HeaderItemContainer>}
