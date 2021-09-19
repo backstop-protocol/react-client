@@ -10,6 +10,7 @@ import {observer} from "mobx-react"
 import routerStore from "./stores/router.store"
 import { createBrowserHistory } from "history";
 import styled from "styled-components"
+import * as qs from "qs";
 
 const browserHistory = createBrowserHistory();
 routerStore.setRouteProps(browserHistory)
@@ -21,6 +22,7 @@ const Liquity = React.lazy(() => import("./containers/Liquity"));
 const Risk = React.lazy(() => import("./containers/Risk"));
 const TermsOfUse = React.lazy(() => import("./containers/Terms"));
 const FAQ = React.lazy(() => import("./containers/FAQ"));
+const FarmInfo = React.lazy(() => import("./containers/FarmInfo"));
 
 function renderPage (props, PageComponent) {
   return (
@@ -31,9 +33,11 @@ function renderPage (props, PageComponent) {
 }
 
 const App = observer(() => {
-
+  const { history } = routerStore.routeProps;
+  const {search, pathname} = history.location
+  const params = qs.parse(search, { ignoreQueryPrefix: true })
   return (
-    <div className="App">
+    <div className={params.hideNav ? "App hide-nav" : "App"}>
       <NotificationsContainer>
         <AppError />
         <AppAlert />
@@ -52,6 +56,7 @@ const App = observer(() => {
             <Route exact path="/faq" render={props =>(renderPage(props, FAQ))} />
             <Route exact path="/terms" render={props =>(renderPage(props, TermsOfUse))} />
             <Route exact path="/risk" render={props =>(renderPage(props, Risk))} />
+            <Route exact path="/farm-info" render={props =>(renderPage(props, FarmInfo))} />
         </Router>
     </div>
   );
