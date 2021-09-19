@@ -198,12 +198,13 @@ class FarmInfo extends Component {
             </ContentBox>
             <ContentBox>
                 <Flex  justifyBetween>
-                  <Text>cScore</Text>
-                  <Text><ANS val={bproStore.cScore}/></Text>
-                </Flex>
-                <Flex  justifyBetween>
                   <Text>mScore</Text>
                   <Text><ANS val={bproStore.mScore}/></Text>
+                </Flex>
+
+                <Flex  justifyBetween>
+                  <Text>cScore</Text>
+                  <Text><ANS val={bproStore.cScore}/></Text>
                 </Flex>
             </ContentBox>
           </Flex>
