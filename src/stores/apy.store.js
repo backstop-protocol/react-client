@@ -7,6 +7,9 @@ import {getCompounndTotalDebt} from "../lib/ScoreInterface"
 import {ApiAction} from "../lib/ApiHelper"
 import Web3 from "web3" 
 import {BP_API} from "../common/constants"
+import { getUserLiquityTvl } from "../lib/liquity.interface"
+import userStore from "../stores/user.store"
+import liquityStore from "../stores/main.liquity.store"
 
 const {toBN, fromWei, toWei} = Web3.utils
 const _1e18 = toBN("10").pow(toBN("18"))
@@ -19,6 +22,8 @@ class ApyStore {
   totalCollateral = "0"
   makerTotalCollateral = "0"
   compoundTotalCollateral = "0"
+  liquityTotalCollateral = "0"
+  liquityUserCollateral = "0"
   userDebt = 0
   userCollateral = 0
   userBproMonthlyYeald = 0
@@ -74,7 +79,15 @@ class ApyStore {
     return makerColl.toString()
   }
 
+  getLiquityColl = async() => {
+    const liquityColl = await getUserLiquityTvl(userStore.web3, userStore.networkType, userStore.user)
+    this.liquityUserCollateral = fromWei(liquityColl)
+    await liquityStore.dataPromise
+    this.liquityTotalCollateral = liquityStore.liquityTvlNumeric + liquityStore.othersTvlNumeric
+  }
+
   getUserCollateral = async () => {
+    await this.getLiquityColl()
     const makerColl = await this.getMakerColl()
     await compoundStore.userInfoPromise
     const compoundColl = compoundStore.totalDespositedBalanceInUsd
@@ -82,17 +95,16 @@ class ApyStore {
   }
 
   calcBproGrantForDebt = () => {
-    const totalBproForDebtMonthly = (0)
-    const userDebtRatio = parseFloat(this.userDebt)/parseFloat(this.totalDebt)
+    const totalBproForDebtMonthly = (8000)
+    const userDebtRatio = (parseFloat(this.userDebt) + parseFloat(this.liquityUserCollateral))/(parseFloat(this.totalDebt)+ parseFloat(this.liquityUserCollateral))
     const userMontlyBproReturnOnDebt = userDebtRatio * totalBproForDebtMonthly
     return userMontlyBproReturnOnDebt
   }
 
   calcBproGrantForCollateral = () => {
-    const totalBproForCollateralMonthly = (0)
-    const userCollateralRatio = parseFloat(this.userCollateral)/parseFloat(this.totalCollateral)
+    const totalBproForCollateralMonthly = (2000)
+    const userCollateralRatio = (parseFloat(this.userCollateral) + parseFloat(this.liquityUserCollateral))/(parseFloat(this.totalCollateral) + parseFloat(this.liquityUserCollateral))
     const userMontlyBproReturnOnCollateral = userCollateralRatio * totalBproForCollateralMonthly
-    return userMontlyBproReturnOnCollateral
     return userMontlyBproReturnOnCollateral
   }
 
