@@ -12,6 +12,9 @@ import Flex, {FlexItem} from "styled-flex-component"
 import AnimateNumericalString from "../components/style-components/AnimateNumericalString"
 import apyStore from "../stores/apy.store"
 import bproStore from "../stores/bpro.store"
+import mainStore from "../stores/main.store"
+import mainCompStore from "../stores/main.comp.store"
+import liquityStore from "../stores/main.liquity.store"
 
 const Container = styled.div`
     width: 100%;
@@ -150,6 +153,10 @@ class FarmInfo extends Component {
     const { history } = routerStore.routeProps;
     const {search, pathname} = history.location
     const params = qs.parse(search, { ignoreQueryPrefix: true })
+    const { tvlNumeric: compTvl } = mainCompStore
+    const { tvlUsdNumeric: makerTvl } = mainStore
+    const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
+    const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
     if(params.inIframe){
       return (
         <Container>
@@ -163,7 +170,11 @@ class FarmInfo extends Component {
             <Title>
               Liquidity Mining info for B.Protocol users for the LM2 phase<br/> (18th September - 17th December)<br/>
               For more info read the <a target="_blank" href="https://docs.bprotocol.org/info/general">Docs</a>
-          </Title>
+            </Title>
+            <Title>
+              Current TVL ${tvl}M <br/>
+              Target TVL ${150}M <br/>
+            </Title>
             <ContentBox>
                 <Flex Cell justifyBetween>
                   <Cell></Cell>
