@@ -1,3 +1,4 @@
+// TODO: test the top borrow limit bar
 describe('compound basic user fllow', () => {
   before('connect', () => {
     cy.visit('/compound')

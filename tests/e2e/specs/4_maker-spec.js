@@ -1,3 +1,4 @@
+// TODO: reapy some DAI before repay all
 describe('Wallet tests', () => {
   before('connect', () => {
     cy.visit('/')
