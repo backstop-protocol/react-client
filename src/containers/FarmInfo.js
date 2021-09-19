@@ -93,7 +93,7 @@ const Cell =styled(Text)`
 
 const ANS = props => {
   return (
-    <AnimateNumericalString val={props.val} decimals={1}>  </AnimateNumericalString>
+    <AnimateNumericalString val={props.val} decimals={3}>  </AnimateNumericalString>
   )
 }
 

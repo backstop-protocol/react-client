@@ -92,14 +92,19 @@ class BproStore {
 
   getUnclaimableAmount = async () => {
     const {user, web3} = userStore
-    const res = await fetch("https://bip4.bprotocol.org")
+    const res = await fetch("https://score.bprotocol.org")
+    const bip4 = await fetch("https://bip4.bprotocol.org")
+    const bipScoreData = await bip4.json()
     const currentScoreData = await res.json()
     let {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
+    let {amount: serverAmountBip4 } = bipScoreData.userData[user.toLowerCase()] || {}
     let {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
+
+    serverAmountBip4 = serverAmountBip4 || "0"
     serverAmount = serverAmount || "0"
     ipfsAmount = ipfsAmount || "0"
     makerAmount = makerAmount || "0"
-    const unclaimable = fromWei(toBN(serverAmount).sub(toBN(ipfsAmount || "0")).toString())
+    const unclaimable = fromWei(toBN(serverAmountBip4).sub(toBN(ipfsAmount || "0")).toString())
     if(serverAmount){
       runInAction(()=> {
         this.mScore = fromWei(toBN(makerAmount).toString())
