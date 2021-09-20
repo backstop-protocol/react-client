@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
-import GlobalStats from "./GlobalStats";
+import GlobalStatsEmpty from "./GlobalStatsEmpty";
 import BorrowLimit from "./BorrowLimit";
 import Tvl from "./Tvl";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
@@ -32,14 +32,14 @@ class Header extends Component {
                     </div>
                     <div className="header-stats split">
                         <HeaderItemContainer>
-                            <GlobalStats userInfo={info} />
+                            <Tvl />
                         </HeaderItemContainer>
                         <HeaderItemContainer>
                             {info && 
                                 <BorrowLimit userInfo={info} />
                             }
                             {!info &&
-                                <Tvl />
+                                <GlobalStatsEmpty userInfo={info} />
                             }
                         </HeaderItemContainer>
                     </div>

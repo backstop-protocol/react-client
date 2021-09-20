@@ -43,7 +43,7 @@ class BproStore {
         this.getWalletBallance()
       ])
       runInAction(()=> {
-        this.totalBproNotInWallet = fromWei(toBN(toWei(this.claimable)).toString())
+        this.totalBproNotInWallet = (parseFloat(this.claimable)+parseFloat(this.unclaimable)).toString()
       })
       this.cliamEnabled = true
     }catch(err){
@@ -57,46 +57,59 @@ class BproStore {
   }
 
   getWalletBallance = async () => {
-    const {user, web3} = userStore
-    const walletBallance = await getBproBalance(web3, user)
     runInAction(()=> {
-      this.walletBalance = fromWei(walletBallance)
+      this.walletBalance = "0"
     })
+    // const {user, web3} = userStore
+    // const walletBallance = await getBproBalance(web3, user)
+    // runInAction(()=> {
+    //   this.walletBalance = fromWei(walletBallance)
+    // })
   }
 
   getClaimableAmount = async () => {
-    try {
-      const {user, web3} = userStore
-      const claimed = await getClaimedAmount(web3, user)
+    runInAction(()=> {
+      this.claimable = "0"
+    })
+
+    // try {
+
+    //   const {user, web3} = userStore
+    //   const claimed = await getClaimedAmount(web3, user)
       
-      console.log(claimed)
-      const {amount} = this.smartContractScore.userData[user.toLowerCase()] || {}
-      if(amount){
-        runInAction(()=> {
-          this.claimable = fromWei(toBN(amount).sub(toBN(claimed)).toString())
-          this.claimable = parseFloat(this.claimable) >= 0 ? this.claimable : "0"
-        })
-      }
-    }catch (err){
-      console.error(err)
-    }
+    //   console.log(claimed)
+    //   const {amount} = this.smartContractScore.userData[user.toLowerCase()] || {}
+    //   if(amount){
+    //     runInAction(()=> {
+    //       this.claimable = fromWei(toBN(amount).sub(toBN(claimed)).toString())
+    //       this.claimable = parseFloat(this.claimable) >= 0 ? this.claimable : "0"
+    //     })
+    //   }
+    // }catch (err){
+    //   console.error(err)
+    // }
   }
 
   getUnclaimableAmount = async () => {
     const {user, web3} = userStore
     const res = await fetch("https://score.bprotocol.org")
+    const bip4 = await fetch("https://bip4.bprotocol.org")
+    const bipScoreData = await bip4.json()
     const currentScoreData = await res.json()
     let {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
+    let {amount: serverAmountBip4 } = bipScoreData.userData[user.toLowerCase()] || {}
     let {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
+
+    serverAmountBip4 = serverAmountBip4 || "0"
     serverAmount = serverAmount || "0"
     ipfsAmount = ipfsAmount || "0"
     makerAmount = makerAmount || "0"
-    const unclaimable = fromWei(toBN(serverAmount).sub(toBN(ipfsAmount || "0")).toString())
+    const unclaimable = fromWei(toBN(serverAmountBip4).sub(toBN(ipfsAmount || "0")).toString())
     if(serverAmount){
       runInAction(()=> {
         this.mScore = fromWei(toBN(makerAmount).toString())
         this.cScore = fromWei(toBN(serverAmount).sub(toBN(makerAmount)).toString())
-        // this.unclaimable = parseFloat(unclaimable) >= 0 ? unclaimable : "0"
+        this.unclaimable = parseFloat(unclaimable) >= 0 ? unclaimable : "0"
       })
     }
     console.log(currentScoreData)

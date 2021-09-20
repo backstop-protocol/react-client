@@ -36,10 +36,10 @@ class TvlTooltip extends React.Component {
     const { liquityTvlNumeric, othersTvlNumeric } = liquityStore
     return (
       <span className="tooltip-container">
-        <a data-tip data-for="liquidation-price-tooltip">
+        <a data-tip data-for="tvl-tooltip">
           <img className="info-icon" src={require("../assets/i-icon-green.svg")} />
         </a>
-        <ReactTooltip id="liquidation-price-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="right">
+        <ReactTooltip id="tvl-tooltip" className="react-tooltip-custom" effect='solid' type="light" place="right">
           <ToolTipLine>
             <div> total deposits: </div>
             <div> ${toCommmSepratedString(parseFloat(apyStore.totalCollateral).toFixed(2))} </div>

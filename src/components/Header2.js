@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {numm} from "../lib/Utils";
 import ConnectButton from "./ConnectButton";
-import GlobalStats from "./GlobalStats";
+import GlobalStatsEmpty from "./GlobalStatsEmpty";
 import BorrowLimit from "./BorrowLimit";
 import Tvl from "./Tvl";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
@@ -16,13 +16,14 @@ import {Transition} from 'react-spring/renderprops'
 class Header2 extends Component {
     render() {
 
-        const {info, onConnect, logo} = this.props;
+        const {info, onConnect, logo, fullPage, textLogo} = this.props;
         const {loggedIn} = userStore
         return (
             <div style={{zIndex: -10}} className="top-panel">
                 <ResponsiveWidthHeader className="container" style={{paddingBottom: "30px"}}>
                     <div className="split title-bar">
-                        <img className="logo" src={logo} />
+                        {logo && <img className="logo" src={logo} />}
+                        {textLogo && <h1 style={{fontWeight: 500}}>{textLogo}</h1>}
                         <div className="connect-container">
                             <ConnectButton onConnect={onConnect}/>
                             {(userStore.displayConnect || false)&& <div className="connect-wallet">
@@ -34,9 +35,9 @@ class Header2 extends Component {
                     </div>
                     <div className="header-stats split">
                         <HeaderItemContainer>
-                            <GlobalStats />
+                            <Tvl />
                         </HeaderItemContainer>
-                        <HeaderItemContainer>
+                        {!fullPage && <HeaderItemContainer>
                             <Transition
                                 initial={null}
                                 items={loggedIn}
@@ -46,10 +47,10 @@ class Header2 extends Component {
                                 {toggle =>
                                     toggle
                                     ? props => <div style={props}><HeaderBorrowLimit/></div>
-                                    : props => <div style={props}><Tvl /></div>
+                                    : props => <div style={props}><GlobalStatsEmpty /></div>
                                 }
                             </Transition>
-                        </HeaderItemContainer>
+                        </HeaderItemContainer>}
                     </div>
                 </ResponsiveWidthHeader>
             </div>
