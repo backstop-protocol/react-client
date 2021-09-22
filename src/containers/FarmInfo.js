@@ -178,8 +178,8 @@ class FarmInfo extends Component {
                 <Flex Cell justifyBetween>
                   <Cell></Cell>
                   <Cell>uBPRO-BIP4</Cell>
-                  <Cell>{"BPRO TVL < $150m"}</Cell>
-                  <Cell>{"BPRO TVL > $150m"}</Cell>
+                  <Cell>{"BPRO (If TVL < $150m)"}</Cell>
+                  <Cell>{"BPRO (If TVL > $150m)"}</Cell>
                 </Flex>
                 <Flex  justifyBetween>
                   <Cell>User Reward</Cell>
