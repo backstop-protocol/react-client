@@ -13,8 +13,12 @@ import bproStore, {uBproStore} from "../stores/bpro.store"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import liquityStore from "../stores/main.liquity.store"
+import userStore from "../stores/user.store"
 import BproClaimModal from "../components/modals/BproClaimModal"
 import EventBus from "../lib/EventBus"
+import ConnectButton from "../components/ConnectButton";
+import ConnectWallet from "../assets/connect-your-wallet.svg";
+
 
 const Container = styled.div`
     width: 100%;
@@ -23,7 +27,7 @@ const Container = styled.div`
 
 const Header = styled.div`
   width: 100%;
-  margin-top: -50px;
+  margin-top: -86px;
 `
 const Title = styled.div`
   margin-top: 18px;
@@ -169,6 +173,19 @@ class FarmInfo extends Component {
     if(params.inIframe){
       return (
         <Container>
+          <div class="container">
+            <div className="split title-bar">
+              <img className="logo" />
+              <div className="connect-container">
+                  <ConnectButton />
+                  {(userStore.displayConnect || false)&& <div className="connect-wallet">
+                      <i> </i>
+                      <h3>Connect your wallet</h3>
+                      <img src={ConnectWallet} />
+                  </div>}
+                </div>
+              </div>
+            </div>
           <Header>
             <ModalClaimHeader/>
             <Balance>
@@ -177,7 +194,7 @@ class FarmInfo extends Component {
           </Header>
           <Flex full column alignCenter>
             <Title>
-              Information for B.Protocol users for <a target="_blank" href="https://forum.bprotocol.org/t/bip-4-use-umas-kpi-options-program-for-users-liquidity-mining/">BIP #4</a><br/> (18th September - 17th December)<br/>
+              Information for B.Protocol users for <a target="_blank" href="https://docs.bprotocol.org/info/liquidity-mining">BIP #4</a><br/> (18th September - 17th December)<br/>
             </Title>
             <Title>
               Current TVL ${tvl}M <br/>
@@ -236,10 +253,10 @@ class FarmInfo extends Component {
                   <Text><ANS val={bproStore.cScore}/></Text>
                 </Flex>
             </ContentBox>
-
+            { bproStore.claimable !== '0' && <div>
             <Title>
               BPRO <br/>
-              Privious incentive program
+               previous program
             </Title>
 
             <ContentBox>
@@ -256,6 +273,7 @@ class FarmInfo extends Component {
                   </Button>
                 </Flex>
             </ContentBox>
+            </div>}
           </Flex>
         </Container>
       );
