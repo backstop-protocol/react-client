@@ -76,7 +76,6 @@ class BproStore {
       
       console.log(claimed)
       const {amount} = this.smartContractScore.userData[user.toLowerCase()] || {}
-      debugger
       if(amount){
         runInAction(()=> {
           this.claimable = fromWei(toBN(amount).sub(toBN(claimed)).toString())
@@ -112,8 +111,7 @@ class BproStore {
   claim = async () => {
     const {user, web3} = userStore
     const {cycle, index, amount, proof} = this.smartContractScore.userData[user.toLowerCase()]
-
-    const tx = claimBpro(web3, user, cycle, index, amount, proof, this.bproType)
+    const tx = claimBpro(web3, user, cycle, index.toString(), amount, proof, this.bproType)
     await ApiAction(tx, user, web3, 0)
     await this.onUserConnect()
   }

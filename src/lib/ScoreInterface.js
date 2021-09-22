@@ -25,7 +25,6 @@ export const getBproDistribution = (web3, type) => {
 }
 
 export const getClaimedAmount = (web3, userAddress, type) => {
-  debugger
   const { Contract } = web3.eth
   const distContract = new Contract(distributionAbi, bproTypes[type].distributionAddress)
   return distContract.methods.claimedAmounts(userAddress, bproTypes[type].tokenAddress).call({gasLimit:10e6})
