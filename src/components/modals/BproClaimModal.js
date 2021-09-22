@@ -160,6 +160,12 @@ class BproClaimModal extends Component {
       }
       this.setState({actionState: "waiting"})
       await bproStore.claim()
+      if(this.props.type === 'BPRO'){
+        await bproStore.claim()
+      }
+      else if (this.props.type === 'uBPRO-BIP4') {
+        await uBproStore.claim()
+      }
       this.setState({actionState: "done"})
     }catch(err){ 
       console.error(err)
