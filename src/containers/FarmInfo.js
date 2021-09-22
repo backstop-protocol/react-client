@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import Header2 from "../components/Header2";
 import {observer} from "mobx-react"
@@ -15,6 +13,8 @@ import bproStore from "../stores/bpro.store"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import liquityStore from "../stores/main.liquity.store"
+import BproClaimModal from "../components/modals/BproClaimModal"
+import EventBus from "../lib/EventBus"
 
 const Container = styled.div`
     width: 100%;
@@ -102,7 +102,7 @@ const ANS = props => {
 
 const Button = styled.div`
   transition: all 0.3s ease-in-out;
-  margin: 50px 0;
+  margin: 15px;
   min-width: 218px;
   padding: 0 10px;
   height: 48px;
@@ -143,10 +143,18 @@ class FarmInfo extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      actionState: null
+    }
   }
 
   componentDidMount() {
     routerStore.setRouteProps(this.props.history) 
+  }
+
+  openClaimModal (){
+    const noWrapper = true
+    EventBus.$emit('show-modal', <BproClaimModal />, noWrapper);
   }
 
   render() {
@@ -157,6 +165,7 @@ class FarmInfo extends Component {
     const { tvlUsdNumeric: makerTvl } = mainStore
     const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
     const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
+
     if(params.inIframe){
       return (
         <Container>
@@ -205,6 +214,20 @@ class FarmInfo extends Component {
                   <Cell><ANS val={0}/></Cell>
                   <Cell><ANS val={0}/> </Cell>
                 </Flex>
+            </ContentBox>
+            <ContentBox>
+              <Flex justifyBetween>
+                <Button onClick={()=>this.openClaimModal('BPRO')}>
+                  <span>
+                    Claim BPRO
+                  </span>
+                </Button>
+                <Button>
+                  <span>
+                    Claim uBPRO
+                  </span>
+                </Button>
+              </Flex>
             </ContentBox>
             <ContentBox>
                 <Flex  justifyBetween>
