@@ -113,7 +113,7 @@ class BproStore {
     const {cycle, index, amount, proof} = this.smartContractScore.userData[user.toLowerCase()]
     const tx = claimBpro(web3, user, cycle, index.toString(), amount, proof, this.bproType)
     await ApiAction(tx, user, web3, 0)
-    await this.onUserConnect()
+    await this.onUserConnect() // refresh state
   }
 
   init = async () => {

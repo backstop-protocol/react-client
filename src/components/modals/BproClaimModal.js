@@ -159,7 +159,6 @@ class BproClaimModal extends Component {
         return
       }
       this.setState({actionState: "waiting"})
-      await bproStore.claim()
       if(this.props.type === 'BPRO'){
         await bproStore.claim()
       }

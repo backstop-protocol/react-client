@@ -58,7 +58,13 @@ const Balance = styled.div`
   }
 `
 
+const TableContainer = styled.div`
+  overflow-y: scroll;
+  width: 100%;
+`
+
 const ContentBox = styled.div`
+  margin: auto;
   margin-top: 41px;
   margin-bottom: 41px;
   width: 900px;
@@ -75,7 +81,11 @@ const ContentBox = styled.div`
     width: 700px;
   }
   @media ${device.mobile}{
-    width: 100%;
+    ${props => {
+      if(!props.wideTable){
+        return "width: 90%;"
+      }
+    }}
   }
 `
 
@@ -200,48 +210,49 @@ class FarmInfo extends Component {
               Current TVL ${tvl}M <br/>
               Target TVL ${150}M <br/>
             </Title>
-            <ContentBox>
-                <Flex Cell justifyBetween>
-                  <Cell></Cell>
-                  <Cell>uBPRO-BIP4</Cell>
-                  <Cell>{"BPRO (If TVL < $150m)"}</Cell>
-                  <Cell>{"BPRO (If TVL > $150m)"}</Cell>
-                </Flex>
-                <Flex  justifyBetween>
-                  <Cell>User Reward</Cell>
-                  <Cell><ANS val={apyStore.apy}/>/month</Cell>
-                  <Cell><ANS val={apyStore.apy}/>/month</Cell>
-                  <Cell><ANS val={parseFloat(apyStore.apy)*3}/>/month</Cell>
-                </Flex>
-                <Flex  justifyBetween>
-                  <Cell>Accumulated</Cell>
-                  <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
-                  <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
-                  <Cell><ANS val={parseFloat(uBproStore.totalBproNotInWallet)*3}/></Cell>
-                </Flex>
-                <Flex  justifyBetween>
-                  <Cell> 
-                    Claimable
-                  </Cell>
-                  <Cell><ANS val={uBproStore.claimable}/></Cell>
-                  <Cell><ANS val={uBproStore.claimable}/> </Cell>
-                  <Cell><ANS val={parseFloat(uBproStore.claimable)*3}/> </Cell>
-                </Flex>
-                <Flex  justifyBetween>
-                  <Cell>Wallet Balance</Cell>
-                  <Cell><ANS val={uBproStore.walletBalance}/></Cell>
-                  <Cell><ANS val={uBproStore.walletBalance}/> </Cell>
-                  <Cell><ANS val={parseFloat(uBproStore.walletBalance)*3}/> </Cell>
-                </Flex>
-                <Flex justifyAround>
-                  <Button onClick={()=>this.openClaimModal('uBPRO-BIP4')}>
-                    <span>
-                      CLAIM uBPRO-BIP4
-                    </span>
-                  </Button>
-                </Flex>
-            </ContentBox>
-
+            <TableContainer>
+              <ContentBox wideTable={true}>
+                  <Flex Cell justifyBetween>
+                    <Cell></Cell>
+                    <Cell>uBPRO-BIP4</Cell>
+                    <Cell>BPRO <br/> {"(If TVL < $150m)"}</Cell>
+                    <Cell>BPRO <br/> {"(If TVL > $150m)"}</Cell>
+                  </Flex>
+                  <Flex  justifyBetween>
+                    <Cell>User Reward</Cell>
+                    <Cell><ANS val={apyStore.apy}/>/month</Cell>
+                    <Cell><ANS val={apyStore.apy}/>/month</Cell>
+                    <Cell><ANS val={parseFloat(apyStore.apy)*3}/>/month</Cell>
+                  </Flex>
+                  <Flex  justifyBetween>
+                    <Cell>Accumulated</Cell>
+                    <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
+                    <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
+                    <Cell><ANS val={parseFloat(uBproStore.totalBproNotInWallet)*3}/></Cell>
+                  </Flex>
+                  <Flex  justifyBetween>
+                    <Cell> 
+                      Claimable
+                    </Cell>
+                    <Cell><ANS val={uBproStore.claimable}/></Cell>
+                    <Cell><ANS val={uBproStore.claimable}/> </Cell>
+                    <Cell><ANS val={parseFloat(uBproStore.claimable)*3}/> </Cell>
+                  </Flex>
+                  <Flex  justifyBetween>
+                    <Cell>Wallet Balance</Cell>
+                    <Cell><ANS val={uBproStore.walletBalance}/></Cell>
+                    <Cell><ANS val={uBproStore.walletBalance}/> </Cell>
+                    <Cell><ANS val={parseFloat(uBproStore.walletBalance)*3}/> </Cell>
+                  </Flex>
+                  <Flex justifyAround>
+                    <Button onClick={()=>this.openClaimModal('uBPRO-BIP4')}>
+                      <span>
+                        CLAIM uBPRO-BIP4
+                      </span>
+                    </Button>
+                  </Flex>
+              </ContentBox>
+            </TableContainer>
             <ContentBox>
                 <Flex  justifyBetween>
                   <Text>mScore</Text>
