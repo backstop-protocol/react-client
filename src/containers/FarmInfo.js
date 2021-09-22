@@ -9,7 +9,7 @@ import {device} from "../screenSizes"
 import Flex, {FlexItem} from "styled-flex-component"
 import AnimateNumericalString from "../components/style-components/AnimateNumericalString"
 import apyStore from "../stores/apy.store"
-import bproStore from "../stores/bpro.store"
+import bproStore, {uBproStore} from "../stores/bpro.store"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import liquityStore from "../stores/main.liquity.store"
@@ -56,6 +56,7 @@ const Balance = styled.div`
 
 const ContentBox = styled.div`
   margin-top: 41px;
+  margin-bottom: 41px;
   width: 900px;
   border-radius: 9.9px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.22);
@@ -86,7 +87,7 @@ const Text = styled.span`
   padding: 22px;
 `
 
-const Cell =styled(Text)`
+const Cell = styled(Text)`
   width: 25%;
   text-align: right;
   &:first-child{
@@ -123,7 +124,6 @@ const Button = styled.div`
     letter-spacing: 0.7px;
     color: white;
     padding: 10px;
-    text-transform: uppercase;
   }
   &.disabled{
     background-color: #cccccc;
@@ -152,9 +152,9 @@ class FarmInfo extends Component {
     routerStore.setRouteProps(this.props.history) 
   }
 
-  openClaimModal (){
+  openClaimModal (bproType){
     const noWrapper = true
-    EventBus.$emit('show-modal', <BproClaimModal />, noWrapper);
+    EventBus.$emit('show-modal', <BproClaimModal type={bproType}/>, noWrapper);
   }
 
   render() {
@@ -198,37 +198,33 @@ class FarmInfo extends Component {
                 </Flex>
                 <Flex  justifyBetween>
                   <Cell>Accumulated</Cell>
-                  <Cell><ANS val={bproStore.totalBproNotInWallet}/></Cell>
-                  <Cell><ANS val={bproStore.totalBproNotInWallet}/></Cell>
-                  <Cell><ANS val={parseFloat(bproStore.totalBproNotInWallet)*3}/></Cell>
+                  <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
+                  <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
+                  <Cell><ANS val={parseFloat(uBproStore.totalBproNotInWallet)*3}/></Cell>
                 </Flex>
                 <Flex  justifyBetween>
-                  <Cell>Claimable</Cell>
-                  <Cell><ANS val={0}/></Cell>
-                  <Cell><ANS val={0}/> </Cell>
-                  <Cell><ANS val={0}/> </Cell>
+                  <Cell> 
+                    Claimable
+                  </Cell>
+                  <Cell><ANS val={uBproStore.claimable}/></Cell>
+                  <Cell><ANS val={uBproStore.claimable}/> </Cell>
+                  <Cell><ANS val={parseFloat(uBproStore.claimable)*3}/> </Cell>
                 </Flex>
                 <Flex  justifyBetween>
                   <Cell>Wallet Balance</Cell>
-                  <Cell><ANS val={0}/> </Cell>
-                  <Cell><ANS val={0}/></Cell>
-                  <Cell><ANS val={0}/> </Cell>
+                  <Cell><ANS val={uBproStore.walletBalance}/></Cell>
+                  <Cell><ANS val={uBproStore.walletBalance}/> </Cell>
+                  <Cell><ANS val={parseFloat(uBproStore.walletBalance)*3}/> </Cell>
+                </Flex>
+                <Flex justifyAround>
+                  <Button onClick={()=>this.openClaimModal('uBPRO-BIP4')}>
+                    <span>
+                      CLAIM uBPRO-BIP4
+                    </span>
+                  </Button>
                 </Flex>
             </ContentBox>
-            <ContentBox>
-              <Flex justifyBetween>
-                <Button onClick={()=>this.openClaimModal('BPRO')}>
-                  <span>
-                    Claim BPRO
-                  </span>
-                </Button>
-                <Button>
-                  <span>
-                    Claim uBPRO
-                  </span>
-                </Button>
-              </Flex>
-            </ContentBox>
+
             <ContentBox>
                 <Flex  justifyBetween>
                   <Text>mScore</Text>
@@ -238,6 +234,26 @@ class FarmInfo extends Component {
                 <Flex  justifyBetween>
                   <Text>cScore</Text>
                   <Text><ANS val={bproStore.cScore}/></Text>
+                </Flex>
+            </ContentBox>
+
+            <Title>
+              BPRO <br/>
+              Privious incentive program
+            </Title>
+
+            <ContentBox>
+               <Flex  justifyBetween>
+                  <Text>Claimable BPRO</Text>
+                  <Text><ANS val={bproStore.claimable}/></Text>
+                </Flex>
+
+                <Flex justifyAround>
+                  <Button onClick={()=>this.openClaimModal('BPRO')}>
+                    <span>
+                      CLAIM BPRO
+                    </span>
+                  </Button>
                 </Flex>
             </ContentBox>
           </Flex>
