@@ -27,7 +27,11 @@ class BproStore {
   cliamEnabled = false 
   dataFetchRetries = 0
   mScore = "0"
+  mScoreTotal = "0"
+  mScoreShare = "0"
   cScore = "0"
+  cStoreTotal = "0"
+  cScoreShare = "0"
 
   constructor (){
     makeAutoObservable(this)
@@ -99,6 +103,8 @@ class BproStore {
     let {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
     let {amount: serverAmountBip4 } = bipScoreData.userData[user.toLowerCase()] || {}
     let {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
+    let serverAmountTotal = Object.entries(currentScoreData.userData).map(([k,v]) => toBN(v.amount)).reduce((p, n) => p.add(n)) || "0"
+    let makerAmountTotal = Object.entries(currentScoreData.userData).map(([k,v]) => toBN(v.makerAmount)).reduce((p, n) => p.add(n)) || "0"
 
     serverAmountBip4 = serverAmountBip4 || "0"
     serverAmount = serverAmount || "0"
@@ -109,6 +115,10 @@ class BproStore {
       runInAction(()=> {
         this.mScore = fromWei(toBN(makerAmount).toString())
         this.cScore = fromWei(toBN(serverAmount).sub(toBN(makerAmount)).toString())
+        this.mScoreTotal = fromWei(makerAmountTotal.toString())
+        this.cScoreTotal = fromWei(serverAmountTotal.sub(makerAmountTotal).toString())
+        this.mScoreShare = ((this.mScore / this.mScoreTotal) * 100).toString()
+        this.cScoreShare = ((this.cScore / this.cScoreTotal) * 100).toString()
         this.unclaimable = parseFloat(unclaimable) >= 0 ? unclaimable : "0"
       })
     }
