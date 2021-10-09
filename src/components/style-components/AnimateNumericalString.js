@@ -19,17 +19,6 @@ export default class AnimateNumericalString extends Component{
         }
       }
 
-    numberWithSpaces(x) {
-        if(x >= 10000) {
-            var parts = x.toString().split(".")
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-            return parts.join(".")
-        }
-        else {
-            return x
-        }
-    }
-
     render () {
         const decimals = this.props.decimals || 2
         const duration = this.props.duration || 300
@@ -40,7 +29,7 @@ export default class AnimateNumericalString extends Component{
                 config={{duration}}
                 from={{ number: this.state.from }}
                 to={{ number: this.state.to }}>
-                {({number}) => <animated.span>{number.interpolate(x=> this.numberWithSpaces(parseFloat(x).toFixed(decimals)))}</animated.span>}
+                {({number}) => <animated.span>{number.interpolate(x=> toCommmSepratedString(parseFloat(x).toFixed(decimals)))}</animated.span>}
             </Spring>
         )
     }
