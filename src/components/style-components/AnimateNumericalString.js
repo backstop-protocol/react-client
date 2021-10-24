@@ -29,7 +29,7 @@ export default class AnimateNumericalString extends Component{
                 config={{duration}}
                 from={{ number: this.state.from }}
                 to={{ number: this.state.to }}>
-                {({number}) => <animated.span>{number.interpolate(x=> toCommmSepratedString(parseFloat(x).toFixed(decimals)))}</animated.span>}
+                {({number}) => <animated.span>{number.interpolate(x=> parseFloat(x).toFixed(decimals))}</animated.span>}
             </Spring>
         )
     }

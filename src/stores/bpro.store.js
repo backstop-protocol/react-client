@@ -105,7 +105,6 @@ export class BproStore {
     let serverAmountTotal = Object.entries(currentScoreData.userData).map(([k,v]) => toBN(v.amount)).reduce((p, n) => p.add(n)) || "0"
     let makerAmountTotal = Object.entries(currentScoreData.userData).map(([k,v]) => toBN(v.makerAmount)).reduce((p, n) => p.add(n)) || "0"
 
-    serverAmountBip4 = serverAmountBip4 || "0"
     serverAmount = serverAmount || "0"
     ipfsAmount = ipfsAmount || "0"
     makerAmount = makerAmount || "0"
