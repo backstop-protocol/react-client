@@ -15,7 +15,7 @@ import {BP_API} from "../common/constants"
 
 const {toBN, toWei, fromWei} = Web3.utils
 
-class BproStore {
+export class BproStore {
 
   userAgreesToTerms = false
   smartContractScore = null
@@ -28,12 +28,14 @@ class BproStore {
   dataFetchRetries = 0
   mScore = "0"
   cScore = "0"
+  instaUser = null
 
-  constructor (type){
+  constructor (type, instaUser){
     if(!validBproType(type)){
       throw new Error(type +' is invalid BPRO type')
     }
     this.bproType = type
+    this.instaUser = instaUser
     makeAutoObservable(this)
     this.init()
   }
@@ -61,7 +63,8 @@ class BproStore {
   }
 
   getWalletBallance = async () => {
-    const {user, web3} = userStore
+    let {user, web3} = userStore
+    user = this.instaUser || user
     const walletBallance = await getBproBalance(web3, user, this.bproType)
     runInAction(()=> {
       this.walletBalance = fromWei(walletBallance)
@@ -70,8 +73,8 @@ class BproStore {
 
   getClaimableAmount = async () => {
     try {
-
-      const {user, web3} = userStore
+      let {user, web3} = userStore
+      user = this.instaUser || user
       const claimed = await getClaimedAmount(web3, user, this.bproType)
       
       console.log(claimed)
@@ -88,7 +91,8 @@ class BproStore {
   }
 
   getUnclaimableAmount = async () => {
-    const {user, web3} = userStore
+    let {user, web3} = userStore
+    user = this.instaUser || user
     const api = this.bproType === 'BPRO' ? 'score' : 'bip4'
     const res = await fetch(`https://${api}.bprotocol.org`)
     const currentScoreData = await res.json()
@@ -109,7 +113,8 @@ class BproStore {
   }
 
   claim = async () => {
-    const {user, web3} = userStore
+    let {user, web3} = userStore
+    user = this.instaUser || user
     const {cycle, index, amount, proof} = this.smartContractScore.userData[user.toLowerCase()]
     const tx = claimBpro(web3, user, cycle, index.toString(), amount, proof, this.bproType)
     await ApiAction(tx, user, web3, 0)
