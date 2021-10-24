@@ -8,7 +8,7 @@ import makerStoreManager from "./maker.store"
 import routerStore from "./router.store"
 import EventBus from "../lib/EventBus"
 import Web3 from "web3"
-import bproStore from "./bpro.store"
+import bproStore, {uBproStore} from "./bpro.store"
 import apyStore from "./apy.store"
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import {walletTypes, getMetaMask, getWalletConnect} from "../wallets/Wallets"
@@ -112,6 +112,7 @@ class UserStore {
         this.userInfosPromise = this.fetchUserInfos()
         await this.userInfosPromise
         bproStore.onUserConnect()
+        uBproStore.onUserConnect()
         apyStore.onUserConnect()
     }
 

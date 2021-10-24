@@ -7,7 +7,7 @@ import compoundStore from "./compound.store"
 import routerStore from "./router.store"
 import EventBus from "../lib/EventBus"
 import Web3 from "web3"
-import {getBproDistribution, getBproBalance, getClaimedAmount, claimBpro} from "../lib/ScoreInterface" 
+import {getBproDistribution, getBproBalance, getClaimedAmount, claimBpro, validBproType} from "../lib/ScoreInterface" 
 import {ApiAction} from "../lib/ApiHelper" 
 import userStore from "../stores/user.store"
 import BproClaimModal from "../components/modals/BproClaimModal"
@@ -33,7 +33,11 @@ class BproStore {
   cStoreTotal = "0"
   cScoreShare = "0"
 
-  constructor (){
+  constructor (type){
+    if(!validBproType(type)){
+      throw new Error(type +' is invalid BPRO type')
+    }
+    this.bproType = type
     makeAutoObservable(this)
     this.init()
   }
@@ -61,47 +65,38 @@ class BproStore {
   }
 
   getWalletBallance = async () => {
+    const {user, web3} = userStore
+    const walletBallance = await getBproBalance(web3, user, this.bproType)
     runInAction(()=> {
-      this.walletBalance = "0"
+      this.walletBalance = fromWei(walletBallance)
     })
-    // const {user, web3} = userStore
-    // const walletBallance = await getBproBalance(web3, user)
-    // runInAction(()=> {
-    //   this.walletBalance = fromWei(walletBallance)
-    // })
   }
 
   getClaimableAmount = async () => {
-    runInAction(()=> {
-      this.claimable = "0"
-    })
+    try {
 
-    // try {
-
-    //   const {user, web3} = userStore
-    //   const claimed = await getClaimedAmount(web3, user)
+      const {user, web3} = userStore
+      const claimed = await getClaimedAmount(web3, user, this.bproType)
       
-    //   console.log(claimed)
-    //   const {amount} = this.smartContractScore.userData[user.toLowerCase()] || {}
-    //   if(amount){
-    //     runInAction(()=> {
-    //       this.claimable = fromWei(toBN(amount).sub(toBN(claimed)).toString())
-    //       this.claimable = parseFloat(this.claimable) >= 0 ? this.claimable : "0"
-    //     })
-    //   }
-    // }catch (err){
-    //   console.error(err)
-    // }
+      console.log(claimed)
+      const {amount} = this.smartContractScore.userData[user.toLowerCase()] || {}
+      if(amount){
+        runInAction(()=> {
+          this.claimable = fromWei(toBN(amount).sub(toBN(claimed)).toString())
+          this.claimable = parseFloat(this.claimable) >= 0 ? this.claimable : "0"
+        })
+      }
+    }catch (err){
+      console.error(err)
+    }
   }
 
   getUnclaimableAmount = async () => {
     const {user, web3} = userStore
-    const res = await fetch("https://score.bprotocol.org")
-    const bip4 = await fetch("https://bip4.bprotocol.org")
-    const bipScoreData = await bip4.json()
+    const api = this.bproType === 'BPRO' ? 'score' : 'bip4'
+    const res = await fetch(`https://${api}.bprotocol.org`)
     const currentScoreData = await res.json()
     let {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
-    let {amount: serverAmountBip4 } = bipScoreData.userData[user.toLowerCase()] || {}
     let {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
     let serverAmountTotal = Object.entries(currentScoreData.userData).map(([k,v]) => toBN(v.amount)).reduce((p, n) => p.add(n)) || "0"
     let makerAmountTotal = Object.entries(currentScoreData.userData).map(([k,v]) => toBN(v.makerAmount)).reduce((p, n) => p.add(n)) || "0"
@@ -110,7 +105,7 @@ class BproStore {
     serverAmount = serverAmount || "0"
     ipfsAmount = ipfsAmount || "0"
     makerAmount = makerAmount || "0"
-    const unclaimable = fromWei(toBN(serverAmountBip4).sub(toBN(ipfsAmount || "0")).toString())
+    const unclaimable = fromWei(toBN(serverAmount).sub(toBN(ipfsAmount || "0")).toString())
     if(serverAmount){
       runInAction(()=> {
         this.mScore = fromWei(toBN(makerAmount).toString())
@@ -128,16 +123,15 @@ class BproStore {
   claim = async () => {
     const {user, web3} = userStore
     const {cycle, index, amount, proof} = this.smartContractScore.userData[user.toLowerCase()]
-
-    const tx = claimBpro(web3, user, cycle, index, amount, proof)
+    const tx = claimBpro(web3, user, cycle, index.toString(), amount, proof, this.bproType)
     await ApiAction(tx, user, web3, 0)
-    await this.onUserConnect()
+    await this.onUserConnect() // refresh state
   }
 
   init = async () => {
     const web3 = new Web3(BP_API)
     // todo fetch data
-    const {contentHash} = await getBproDistribution(web3)
+    const {contentHash} = await getBproDistribution(web3, this.bproType)
     const res = await fetch("https://cloudflare-ipfs.com/ipfs/" + contentHash)
     this.smartContractScore = await res.json()
   }
@@ -155,8 +149,9 @@ class BproStore {
       return
     }
     const noWrapper = true
-    EventBus.$emit('show-modal', <BproClaimModal />, noWrapper);
+    EventBus.$emit('show-modal', <BproClaimModal type={this.bproType} />, noWrapper);
   }
 }
 
-export default new BproStore()
+export const uBproStore = new BproStore('uBPRO-BIP4')
+export default new BproStore('BPRO')
