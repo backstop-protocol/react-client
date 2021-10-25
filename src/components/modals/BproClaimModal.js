@@ -4,14 +4,14 @@ import styled from "styled-components"
 import EventBus from "../../lib/EventBus"
 import Flex, {FlexItem} from "styled-flex-component"
 import CoinStatusEnum from "../../lib/compound.util"
-import compoundMigrationStore from "../../stores/compoundMigration.store"
 import infographic from "../../assets/images/compound-import-popup.png"
 import {device} from "../../screenSizes"
 import LoadingRing from "../LoadingRing"
 import BpLoader from "../../components/style-components/BpLoader"
 import ModalClaimHeader from "../../components/style-components/ModalClaimHeader"
 import VIcon from "../../assets/v-icon.svg"
-import bproStore from "../../stores/bpro.store"
+import XIcon from "../../assets/red-x-icon.svg"
+import bproStore, {uBproStore} from "../../stores/bpro.store"
 import TermsAndConditionsModal from "./TermsAndConditionsModal"
 import AnimateNumericalString from "../../components/style-components/AnimateNumericalString"
 import {stringToFixed} from '../../lib/Utils'
@@ -122,6 +122,13 @@ const Button = styled.div`
     background-color: #cccccc;
     pointer-events: none;
   }
+  &.failed{
+    background-color: white;
+    pointer-events: none;
+    span{
+      color: black;
+    }
+  }
   &.done{
     background-color: white;
     border: 2px solid #12c164;
@@ -152,19 +159,27 @@ class BproClaimModal extends Component {
         return
       }
       this.setState({actionState: "waiting"})
-      await bproStore.claim()
+      if(this.props.type === 'BPRO'){
+        await bproStore.claim()
+      }
+      else if (this.props.type === 'uBPRO-BIP4') {
+        await uBproStore.claim()
+      }
       this.setState({actionState: "done"})
-      setTimeout(() => {
-        EventBus.$emit('close-modal');
-      }, 3000)
     }catch(err){ 
       console.error(err)
       this.setState({actionState: "failed"})
     }
+    finally {
+      setTimeout(() => {
+        EventBus.$emit('close-modal');
+      }, 3000)
+    }
   }
   
   render () {
-    const {walletBalance, claimable, totalBproNotInWallet} = bproStore
+    const {type} = this.props
+    const {walletBalance, claimable, totalBproNotInWallet} = type === 'BPRO' ? bproStore : uBproStore
     const {actionState} = this.state
     const claimed = actionState == "done"
     const balance = stringToFixed(totalBproNotInWallet, 9)
@@ -174,7 +189,7 @@ class BproClaimModal extends Component {
       <Container>
         <Header>
           <ModalClaimHeader/>
-          <Title>Claim BPRO</Title>
+          <Title>Claim {type}</Title>
         </Header>
         <Flex full column alignCenter>
           <Balance>
@@ -192,7 +207,7 @@ class BproClaimModal extends Component {
           </ContentBox>
           {agreed &&
           <Button onClick={()=>this.doAction()} 
-            className={`${disabled || balance === "0" ? "disabled" : ""} ${claimed ? "done" : ""}`}>
+            className={`${disabled || balance === "0" ? "disabled" : ""} ${actionState}`}>
             {actionState == "waiting" &&
               <BpLoader color="white"/>
             }
@@ -203,9 +218,17 @@ class BproClaimModal extends Component {
             }
             {actionState == "done" && 
               <Flex>
-                <img src={VIcon}/>
+                <img class="result" src={VIcon}/>
                 <span>
                   CLAIMED
+                </span>
+              </Flex>
+            }
+            {actionState == "failed" && 
+              <Flex>
+                <img class="result" src={XIcon}/>
+                <span>
+                  Failed
                 </span>
               </Flex>
             }

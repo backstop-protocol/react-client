@@ -319,6 +319,13 @@
   }
 }
 
+.hide-nav{
+  .sidebar{
+    display: none!important;
+  }
+  padding-left: 0!important;
+}
+
 .limit-bar {
   margin-top: 30px;
   display: flex;

@@ -156,6 +156,17 @@ class Sidebar extends Component {
           <div className="ln"> </div>
           <div
             className={`product link-accesible ${
+              pathname === "/farm-info" &&
+              "selected"
+            }`}
+            onClick={() => this.handleItemSelect("farm-info")}
+          >
+            <p className="menu-item">Farm Info</p>
+            <small>(Beta)</small>
+          </div>
+          <div className="ln"> </div>
+          <div
+            className={`product link-accesible ${
               pathname === "/faq" &&
               "selected"
             }`}
