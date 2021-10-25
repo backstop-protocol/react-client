@@ -14,7 +14,7 @@ import liquityStore from "../stores/main.liquity.store"
 const {toBN, fromWei, toWei} = Web3.utils
 const _1e18 = toBN("10").pow(toBN("18"))
 
-class ApyStore {
+export class ApyStore {
 
   totalDebt = "0"
   makerTotalDebt = "0"
@@ -32,9 +32,11 @@ class ApyStore {
   totalUsers = "0"
   makerUsers = "0"
   compoundUsers = "0"
+  instaUser = null
 
-  constructor(){
+  constructor(instaUser){
     makeAutoObservable(this)
+    this.instaUser = instaUser
     this.initPromise = this.init()
   }
 
