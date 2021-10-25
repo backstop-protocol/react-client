@@ -31,7 +31,7 @@ export class BproStore {
   mScoreShare = "0"
   cScore = "0"
   instaUser = null
-  cStoreTotal = "0"
+  cScoreTotal = "0"
   cScoreShare = "0"
 
   constructor (type, instaUser){
