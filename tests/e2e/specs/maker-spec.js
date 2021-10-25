@@ -91,7 +91,7 @@ describe('resets hardhat', () => {
     cy.contains('Connect').click()
     cy.contains('Meta Mask').click()
     cy.wait(wait.short)
-    cy.acceptMetamaskAccess()
+    // cy.acceptMetamaskAccess()
   })
 
   it('validates balance', () => {
