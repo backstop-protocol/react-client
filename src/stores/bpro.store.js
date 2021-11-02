@@ -15,7 +15,7 @@ import {BP_API} from "../common/constants"
 
 const {toBN, toWei, fromWei} = Web3.utils
 
-class BproStore {
+export class BproStore {
 
   userAgreesToTerms = false
   smartContractScore = null
@@ -27,13 +27,19 @@ class BproStore {
   cliamEnabled = false 
   dataFetchRetries = 0
   mScore = "0"
+  mScoreTotal = "0"
+  mScoreShare = "0"
   cScore = "0"
+  instaUser = null
+  cScoreTotal = "0"
+  cScoreShare = "0"
 
-  constructor (type){
+  constructor (type, instaUser){
     if(!validBproType(type)){
       throw new Error(type +' is invalid BPRO type')
     }
     this.bproType = type
+    this.instaUser = instaUser
     makeAutoObservable(this)
     this.init()
   }
@@ -61,7 +67,8 @@ class BproStore {
   }
 
   getWalletBallance = async () => {
-    const {user, web3} = userStore
+    let {user, web3} = userStore
+    user = this.instaUser || user
     const walletBallance = await getBproBalance(web3, user, this.bproType)
     runInAction(()=> {
       this.walletBalance = fromWei(walletBallance)
@@ -70,8 +77,8 @@ class BproStore {
 
   getClaimableAmount = async () => {
     try {
-
-      const {user, web3} = userStore
+      let {user, web3} = userStore
+      user = this.instaUser || user
       const claimed = await getClaimedAmount(web3, user, this.bproType)
       
       console.log(claimed)
@@ -88,12 +95,16 @@ class BproStore {
   }
 
   getUnclaimableAmount = async () => {
-    const {user, web3} = userStore
+    let {user, web3} = userStore
+    user = this.instaUser || user
     const api = this.bproType === 'BPRO' ? 'score' : 'bip4'
     const res = await fetch(`https://${api}.bprotocol.org`)
     const currentScoreData = await res.json()
     let {amount: serverAmount, makerAmount} = currentScoreData.userData[user.toLowerCase()] || {}
     let {amount: ipfsAmount} = this.smartContractScore.userData[user.toLowerCase()] || {}
+    let serverAmountTotal = Object.entries(currentScoreData.userData).map(([k,v]) => toBN(v.amount)).reduce((p, n) => p.add(n)) || "0"
+    let makerAmountTotal = Object.entries(currentScoreData.userData).map(([k,v]) => toBN(v.makerAmount)).reduce((p, n) => p.add(n)) || "0"
+
     serverAmount = serverAmount || "0"
     ipfsAmount = ipfsAmount || "0"
     makerAmount = makerAmount || "0"
@@ -102,6 +113,10 @@ class BproStore {
       runInAction(()=> {
         this.mScore = fromWei(toBN(makerAmount).toString())
         this.cScore = fromWei(toBN(serverAmount).sub(toBN(makerAmount)).toString())
+        this.mScoreTotal = fromWei(makerAmountTotal.toString())
+        this.cScoreTotal = fromWei(serverAmountTotal.sub(makerAmountTotal).toString())
+        this.mScoreShare = ((this.mScore / this.mScoreTotal) * 100).toString()
+        this.cScoreShare = ((this.cScore / this.cScoreTotal) * 100).toString()
         this.unclaimable = parseFloat(unclaimable) >= 0 ? unclaimable : "0"
       })
     }
@@ -109,7 +124,8 @@ class BproStore {
   }
 
   claim = async () => {
-    const {user, web3} = userStore
+    let {user, web3} = userStore
+    user = this.instaUser || user
     const {cycle, index, amount, proof} = this.smartContractScore.userData[user.toLowerCase()]
     const tx = claimBpro(web3, user, cycle, index.toString(), amount, proof, this.bproType)
     await ApiAction(tx, user, web3, 0)

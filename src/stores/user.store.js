@@ -10,6 +10,7 @@ import EventBus from "../lib/EventBus"
 import Web3 from "web3"
 import bproStore, {uBproStore} from "./bpro.store"
 import apyStore from "./apy.store"
+import instaStore from "./insta.store"
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import {walletTypes, getMetaMask, getWalletConnect} from "../wallets/Wallets"
 import WalletSelectionModal from "../components/modals/WalletSelectionModal"
@@ -114,6 +115,7 @@ class UserStore {
         bproStore.onUserConnect()
         uBproStore.onUserConnect()
         apyStore.onUserConnect()
+        instaStore.onUserConnect()
     }
 
     fetchUserInfos () {

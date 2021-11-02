@@ -14,10 +14,12 @@ import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import liquityStore from "../stores/main.liquity.store"
 import userStore from "../stores/user.store"
+import instaStore, {bproInstaStores} from "../stores/insta.store"
 import BproClaimModal from "../components/modals/BproClaimModal"
 import EventBus from "../lib/EventBus"
 import ConnectButton from "../components/ConnectButton";
 import ConnectWallet from "../assets/connect-your-wallet.svg";
+import InstaInfo from "../components/InstaInfo"
 
 
 const Container = styled.div`
@@ -29,7 +31,7 @@ const Header = styled.div`
   width: 100%;
   margin-top: -86px;
 `
-const Title = styled.div`
+export const Title = styled.div`
   margin-top: 18px;
   text-align: center;
   font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
@@ -58,12 +60,12 @@ const Balance = styled.div`
   }
 `
 
-const TableContainer = styled.div`
+export const TableContainer = styled.div`
   overflow-y: scroll;
   width: 100%;
 `
 
-const ContentBox = styled.div`
+export const ContentBox = styled.div`
   margin: auto;
   margin-top: 41px;
   margin-bottom: 41px;
@@ -101,7 +103,7 @@ const Text = styled.span`
   padding: 22px;
 `
 
-const Cell = styled(Text)`
+export const Cell = styled(Text)`
   width: 25%;
   text-align: right;
   &:first-child{
@@ -109,13 +111,13 @@ const Cell = styled(Text)`
   }
 `
 
-const ANS = props => {
+export const ANS = props => {
   return (
-    <AnimateNumericalString val={props.val} decimals={3}>  </AnimateNumericalString>
+    <AnimateNumericalString val={props.val} decimals={props.decimal || 3}>  </AnimateNumericalString>
   )
 }
 
-const Button = styled.div`
+export const Button = styled.div`
   transition: all 0.3s ease-in-out;
   margin: 15px;
   min-width: 218px;
@@ -166,9 +168,9 @@ class FarmInfo extends Component {
     routerStore.setRouteProps(this.props.history) 
   }
 
-  openClaimModal (bproType){
+  openClaimModal (bproStore){
     const noWrapper = true
-    EventBus.$emit('show-modal', <BproClaimModal type={bproType}/>, noWrapper);
+    EventBus.$emit('show-modal', <BproClaimModal bproStore={bproStore}/>, noWrapper);
   }
 
   render() {
@@ -179,6 +181,7 @@ class FarmInfo extends Component {
     const { tvlUsdNumeric: makerTvl } = mainStore
     const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
     const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
+    const instaAccounts = instaStore.accounts
 
     if(params.inIframe){
       return (
@@ -245,7 +248,7 @@ class FarmInfo extends Component {
                     <Cell><ANS val={parseFloat(uBproStore.walletBalance)*3}/> </Cell>
                   </Flex>
                   <Flex justifyAround>
-                    <Button onClick={()=>this.openClaimModal('uBPRO-BIP4')}>
+                    <Button onClick={()=>this.openClaimModal(uBproStore)}>
                       <span>
                         CLAIM uBPRO-BIP4
                       </span>
@@ -253,15 +256,26 @@ class FarmInfo extends Component {
                   </Flex>
               </ContentBox>
             </TableContainer>
+            {instaAccounts.map(account=> <InstaInfo openClaimModal={this.openClaimModal} account={account} bproStore={bproInstaStores[account]}/>)}
             <ContentBox>
+                <Flex Cell justifyBetween>
+                  <Cell></Cell>
+                  <Cell>Wallet</Cell>
+                  <Cell>Total</Cell>
+                  <Cell>Share</Cell>
+                </Flex>
                 <Flex  justifyBetween>
-                  <Text>mScore</Text>
-                  <Text><ANS val={bproStore.mScore}/></Text>
+                  <Cell>mScore</Cell>
+                  <Cell><ANS val={bproStore.mScore}/></Cell>
+                  <Cell><ANS val={bproStore.mScoreTotal}/></Cell>
+                  <Cell><ANS val={bproStore.mScoreShare}/>%</Cell>
                 </Flex>
 
                 <Flex  justifyBetween>
-                  <Text>cScore</Text>
-                  <Text><ANS val={bproStore.cScore}/></Text>
+                  <Cell>cScore</Cell>
+                  <Cell><ANS val={bproStore.cScore}/></Cell>
+                  <Cell><ANS val={bproStore.cScoreTotal}/></Cell>
+                  <Cell><ANS val={bproStore.cScoreShare}/>%</Cell>
                 </Flex>
             </ContentBox>
             { bproStore.claimable !== '0' && <div>
@@ -277,7 +291,7 @@ class FarmInfo extends Component {
                 </Flex>
 
                 <Flex justifyAround>
-                  <Button onClick={()=>this.openClaimModal('BPRO')}>
+                  <Button onClick={()=>this.openClaimModal(bproStore)}>
                     <span>
                       CLAIM BPRO
                     </span>
