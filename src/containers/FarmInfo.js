@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import Header2 from "../components/Header2";
 import {observer} from "mobx-react"
@@ -11,10 +9,18 @@ import {device} from "../screenSizes"
 import Flex, {FlexItem} from "styled-flex-component"
 import AnimateNumericalString from "../components/style-components/AnimateNumericalString"
 import apyStore from "../stores/apy.store"
-import bproStore from "../stores/bpro.store"
+import bproStore, {uBproStore} from "../stores/bpro.store"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import liquityStore from "../stores/main.liquity.store"
+import userStore from "../stores/user.store"
+import instaStore, {bproInstaStores} from "../stores/insta.store"
+import BproClaimModal from "../components/modals/BproClaimModal"
+import EventBus from "../lib/EventBus"
+import ConnectButton from "../components/ConnectButton";
+import ConnectWallet from "../assets/connect-your-wallet.svg";
+import InstaInfo from "../components/InstaInfo"
+
 
 const Container = styled.div`
     width: 100%;
@@ -23,9 +29,9 @@ const Container = styled.div`
 
 const Header = styled.div`
   width: 100%;
-  margin-top: -50px;
+  margin-top: -86px;
 `
-const Title = styled.div`
+export const Title = styled.div`
   margin-top: 18px;
   text-align: center;
   font-family: "NeueHaasGroteskDisp Pro Md", sans-serif;
@@ -54,8 +60,15 @@ const Balance = styled.div`
   }
 `
 
-const ContentBox = styled.div`
+export const TableContainer = styled.div`
+  overflow-y: scroll;
+  width: 100%;
+`
+
+export const ContentBox = styled.div`
+  margin: auto;
   margin-top: 41px;
+  margin-bottom: 41px;
   width: 900px;
   border-radius: 9.9px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.22);
@@ -70,7 +83,11 @@ const ContentBox = styled.div`
     width: 700px;
   }
   @media ${device.mobile}{
-    width: 100%;
+    ${props => {
+      if(!props.wideTable){
+        return "width: 90%;"
+      }
+    }}
   }
 `
 
@@ -86,7 +103,7 @@ const Text = styled.span`
   padding: 22px;
 `
 
-const Cell =styled(Text)`
+export const Cell = styled(Text)`
   width: 25%;
   text-align: right;
   &:first-child{
@@ -94,15 +111,15 @@ const Cell =styled(Text)`
   }
 `
 
-const ANS = props => {
+export const ANS = props => {
   return (
-    <AnimateNumericalString val={props.val} decimals={3}>  </AnimateNumericalString>
+    <AnimateNumericalString val={props.val} decimals={props.decimal || 3}>  </AnimateNumericalString>
   )
 }
 
-const Button = styled.div`
+export const Button = styled.div`
   transition: all 0.3s ease-in-out;
-  margin: 50px 0;
+  margin: 15px;
   min-width: 218px;
   padding: 0 10px;
   height: 48px;
@@ -123,7 +140,6 @@ const Button = styled.div`
     letter-spacing: 0.7px;
     color: white;
     padding: 10px;
-    text-transform: uppercase;
   }
   &.disabled{
     background-color: #cccccc;
@@ -143,10 +159,18 @@ class FarmInfo extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      actionState: null
+    }
   }
 
   componentDidMount() {
     routerStore.setRouteProps(this.props.history) 
+  }
+
+  openClaimModal (bproStore){
+    const noWrapper = true
+    EventBus.$emit('show-modal', <BproClaimModal bproStore={bproStore}/>, noWrapper);
   }
 
   render() {
@@ -157,9 +181,24 @@ class FarmInfo extends Component {
     const { tvlUsdNumeric: makerTvl } = mainStore
     const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
     const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
+    const instaAccounts = instaStore.accounts
+
     if(params.inIframe){
       return (
         <Container>
+          <div class="container">
+            <div className="split title-bar">
+              <img className="logo" />
+              <div className="connect-container">
+                  <ConnectButton />
+                  {(userStore.displayConnect || false)&& <div className="connect-wallet">
+                      <i> </i>
+                      <h3>Connect your wallet</h3>
+                      <img src={ConnectWallet} />
+                  </div>}
+                </div>
+              </div>
+            </div>
           <Header>
             <ModalClaimHeader/>
             <Balance>
@@ -168,55 +207,98 @@ class FarmInfo extends Component {
           </Header>
           <Flex full column alignCenter>
             <Title>
-              Information for B.Protocol users for <a target="_blank" href="https://forum.bprotocol.org/t/bip-4-use-umas-kpi-options-program-for-users-liquidity-mining/">BIP #4</a><br/> (18th September - 17th December)<br/>
+              Information for B.Protocol users for <a target="_blank" href="https://docs.bprotocol.org/info/liquidity-mining">BIP #4</a><br/> (18th September - 17th December)<br/>
             </Title>
             <Title>
               Current TVL ${tvl}M <br/>
               Target TVL ${150}M <br/>
             </Title>
+            <TableContainer>
+              <ContentBox wideTable={true}>
+                  <Flex Cell justifyBetween>
+                    <Cell></Cell>
+                    <Cell>uBPRO-BIP4</Cell>
+                    <Cell>BPRO <br/> {"(If TVL < $150m)"}</Cell>
+                    <Cell>BPRO <br/> {"(If TVL > $150m)"}</Cell>
+                  </Flex>
+                  <Flex  justifyBetween>
+                    <Cell>User Reward</Cell>
+                    <Cell><ANS val={apyStore.apy}/>/month</Cell>
+                    <Cell><ANS val={apyStore.apy}/>/month</Cell>
+                    <Cell><ANS val={parseFloat(apyStore.apy)*3}/>/month</Cell>
+                  </Flex>
+                  <Flex  justifyBetween>
+                    <Cell>Accumulated</Cell>
+                    <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
+                    <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
+                    <Cell><ANS val={parseFloat(uBproStore.totalBproNotInWallet)*3}/></Cell>
+                  </Flex>
+                  <Flex  justifyBetween>
+                    <Cell> 
+                      Claimable
+                    </Cell>
+                    <Cell><ANS val={uBproStore.claimable}/></Cell>
+                    <Cell><ANS val={uBproStore.claimable}/> </Cell>
+                    <Cell><ANS val={parseFloat(uBproStore.claimable)*3}/> </Cell>
+                  </Flex>
+                  <Flex  justifyBetween>
+                    <Cell>Wallet Balance</Cell>
+                    <Cell><ANS val={uBproStore.walletBalance}/></Cell>
+                    <Cell><ANS val={uBproStore.walletBalance}/> </Cell>
+                    <Cell><ANS val={parseFloat(uBproStore.walletBalance)*3}/> </Cell>
+                  </Flex>
+                  <Flex justifyAround>
+                    <Button onClick={()=>this.openClaimModal(uBproStore)}>
+                      <span>
+                        CLAIM uBPRO-BIP4
+                      </span>
+                    </Button>
+                  </Flex>
+              </ContentBox>
+            </TableContainer>
+            {instaAccounts.map(account=> <InstaInfo openClaimModal={this.openClaimModal} account={account} bproStore={bproInstaStores[account]}/>)}
             <ContentBox>
                 <Flex Cell justifyBetween>
                   <Cell></Cell>
-                  <Cell>uBPRO-BIP4</Cell>
-                  <Cell>{"BPRO (If TVL < $150m)"}</Cell>
-                  <Cell>{"BPRO (If TVL > $150m)"}</Cell>
+                  <Cell>Wallet</Cell>
+                  <Cell>Total</Cell>
+                  <Cell>Share</Cell>
                 </Flex>
                 <Flex  justifyBetween>
-                  <Cell>User Reward</Cell>
-                  <Cell><ANS val={apyStore.apy}/>/month</Cell>
-                  <Cell><ANS val={apyStore.apy}/>/month</Cell>
-                  <Cell><ANS val={parseFloat(apyStore.apy)*3}/>/month</Cell>
-                </Flex>
-                <Flex  justifyBetween>
-                  <Cell>Accumulated</Cell>
-                  <Cell><ANS val={bproStore.totalBproNotInWallet}/></Cell>
-                  <Cell><ANS val={bproStore.totalBproNotInWallet}/></Cell>
-                  <Cell><ANS val={parseFloat(bproStore.totalBproNotInWallet)*3}/></Cell>
-                </Flex>
-                <Flex  justifyBetween>
-                  <Cell>Claimable</Cell>
-                  <Cell><ANS val={0}/></Cell>
-                  <Cell><ANS val={0}/> </Cell>
-                  <Cell><ANS val={0}/> </Cell>
-                </Flex>
-                <Flex  justifyBetween>
-                  <Cell>Wallet Balance</Cell>
-                  <Cell><ANS val={0}/> </Cell>
-                  <Cell><ANS val={0}/></Cell>
-                  <Cell><ANS val={0}/> </Cell>
-                </Flex>
-            </ContentBox>
-            <ContentBox>
-                <Flex  justifyBetween>
-                  <Text>mScore</Text>
-                  <Text><ANS val={bproStore.mScore}/></Text>
+                  <Cell>mScore</Cell>
+                  <Cell><ANS val={bproStore.mScore}/></Cell>
+                  <Cell><ANS val={bproStore.mScoreTotal}/></Cell>
+                  <Cell><ANS val={bproStore.mScoreShare}/>%</Cell>
                 </Flex>
 
                 <Flex  justifyBetween>
-                  <Text>cScore</Text>
-                  <Text><ANS val={bproStore.cScore}/></Text>
+                  <Cell>cScore</Cell>
+                  <Cell><ANS val={bproStore.cScore}/></Cell>
+                  <Cell><ANS val={bproStore.cScoreTotal}/></Cell>
+                  <Cell><ANS val={bproStore.cScoreShare}/>%</Cell>
                 </Flex>
             </ContentBox>
+            { bproStore.claimable !== '0' && <div>
+            <Title>
+              BPRO <br/>
+               previous program
+            </Title>
+
+            <ContentBox>
+               <Flex  justifyBetween>
+                  <Text>Claimable BPRO</Text>
+                  <Text><ANS val={bproStore.claimable}/></Text>
+                </Flex>
+
+                <Flex justifyAround>
+                  <Button onClick={()=>this.openClaimModal(bproStore)}>
+                    <span>
+                      CLAIM BPRO
+                    </span>
+                  </Button>
+                </Flex>
+            </ContentBox>
+            </div>}
           </Flex>
         </Container>
       );

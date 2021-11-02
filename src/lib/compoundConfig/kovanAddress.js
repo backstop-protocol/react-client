@@ -14,7 +14,7 @@ export const addresses = {
     "bComptrollerAddress": "0x777f6369cc1cf921905c8899e127391d6ee5f009",
     "registryAddress": "0x0056186fbfcb8cd679343ae88764efef55ea12b2",
     "sugerDady": "0xA1A343B4245e4364e6b9c4574F9F7A3C1D849Ad6",
-    "compoundImportAddress": "0x3545a9AB6a57B1172690769175A3242a644f1574",
+    "compoundImportAddress": "0x40fa13c14e3f10a4d6915849e9a057148bda4fd6",
     "flashImportAddress": "0xF9fa648c46bb1e1f249ABA973397077CDc20fC78",
     "jarConnector": "0x061133BE90f97B6Eb7f73eD9Dc50eFB1DD96ED72",
     "jar": "0x18DB5F7711d57974d825f9ca45D21627353bEb72",

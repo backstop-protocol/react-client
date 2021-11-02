@@ -1,6 +1,6 @@
 {
   "name": "bprotocol-react-client",
-  "version": "1.0.22",
+  "version": "1.0.25",
   "private": true,
   "dependencies": {
     "@cloudflare/kv-asset-handler": "^0.1.0",
@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@walletconnect/web3-provider": "1.4.1",
+    "@walletconnect/web3-provider": "1.6.6",
     "axios": "^0.21.0",
     "detect-browser": "^5.1.1",
     "esm": "^3.2.25",
@@ -31,6 +31,7 @@
     "dev": "react-scripts start",
     "start": "react-scripts start",
     "build": "npm version patch && react-scripts build && ./generate-static.sh && node ./scripts/remove-iframe-deny.js",
+    "build:farm-info": "npm version patch && PUBLIC_URL=/farm-info react-scripts build && ./generate-farm-info.sh && node ./scripts/remove-iframe-deny.js",
     "test": "react-scripts test",
     "test:e2e": "SECRET_WORDS=$(grep SECRET_WORDS .env | cut -d '=' -f2) NETWORK_NAME=localhost synpress run",
     "hardhat:proxy": "http-server --proxy $(grep RPC_URL .env | cut -d '=' -f2) --port 8545",
