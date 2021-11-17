@@ -159,7 +159,7 @@ class ActionBoxState {
     inputIsValid = false
     inputErrMsg = ""
 
-    constructor (){
+    constructor () {
         makeAutoObservable(this)
     }
 

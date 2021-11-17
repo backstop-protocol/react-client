@@ -59,6 +59,11 @@ class Sidebar extends Component {
     const now = new Date().getTime()
     const notLunched = now < lunchDate
 
+    debugger
+    if (pathname === '/hundred') {
+      return null
+    }
+
     return (
       <div className={`sidebar ${this.state.open ? "open" : ""}`}>
         <div onClick={()=>this.setState({open: !this.state.open})} className="menu-toggle">

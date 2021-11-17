@@ -15,14 +15,8 @@ import * as qs from "qs";
 const browserHistory = createBrowserHistory();
 routerStore.setRouteProps(browserHistory)
 
-
-const Dashboard = React.lazy(() => import("./containers/Dashboard"));
-const Compound = React.lazy(() => import("./containers/Compound"));
-const Liquity = React.lazy(() => import("./containers/Liquity"));
-const Risk = React.lazy(() => import("./containers/Risk"));
+const Hundred = React.lazy(() => import("./containers/Hundred"));
 const TermsOfUse = React.lazy(() => import("./containers/Terms"));
-const FAQ = React.lazy(() => import("./containers/FAQ"));
-const FarmInfo = React.lazy(() => import("./containers/FarmInfo"));
 
 function renderPage (props, PageComponent) {
   return (
@@ -38,25 +32,22 @@ const App = observer(() => {
   const params = qs.parse(search, { ignoreQueryPrefix: true })
   return (
     <div className={params.hideNav ? "App hide-nav" : "App"}>
+      <link rel="stylesheet" href="pico.min.css"/>
+      <link rel="stylesheet" href="pico.custom.css"/>
       <NotificationsContainer>
         <AppError />
         <AppAlert />
       </NotificationsContainer>
       <ModalContainer></ModalContainer>
-      <Sidebar initialState="maker" />
         <Router history={browserHistory}>
           {/* Default route */}
             <Route exact path="/">
-              <Redirect to="/app"/>
+              <Redirect to="/hundred"/>
             </Route>
-            <Route exact path="/app" render={props =>(renderPage(props, Dashboard))} />
-            <Route exact path="/maker" render={props =>(renderPage(props, Dashboard))} />
-            <Route exact path="/compound" render={props =>(renderPage(props, Compound))} />
-            <Route exact path="/liquity" render={props =>(renderPage(props, Liquity))} />
-            <Route exact path="/faq" render={props =>(renderPage(props, FAQ))} />
+
+            <Route exact path="/hundred" render={props =>(renderPage(props, Hundred))} />
             <Route exact path="/terms" render={props =>(renderPage(props, TermsOfUse))} />
-            <Route exact path="/risk" render={props =>(renderPage(props, Risk))} />
-            <Route exact path="/farm-info" render={props =>(renderPage(props, FarmInfo))} />
+
         </Router>
     </div>
   );
