@@ -41,6 +41,19 @@
     }
   }
 
+  .scroll-box{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+  }
+
+  .scroll-box::-webkit-scrollbar {
+    display: none;
+  }
+
   &-content {
     flex: 1;
 
@@ -182,8 +195,10 @@
 
   .ln {
     margin: 30px 20px;
-    background-color: $sidebarSeparatorColor;
-    height: 1px;
+    border-bottom: 1px solid $sidebarSeparatorColor;
+    &.group{
+      margin-bottom: 15px;
+    }
   }
 
   p {
