@@ -76,6 +76,7 @@ class Sidebar extends Component {
               ? 
                 <div >
                   <MakerMigration>
+                    <div className="ln"> </div>
                     { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
                       <div>
                         <div className="cdp-convert">
@@ -99,7 +100,6 @@ class Sidebar extends Component {
                             </div>
                           </div>
                         </div>
-                        <div className="ln"> </div>
                       </div>
                     )}
                     {params.export && 
