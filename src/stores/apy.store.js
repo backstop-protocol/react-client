@@ -178,4 +178,4 @@ export class ApyStore {
   }
 }
 
-export default new ApyStore()
+export default "xxx"

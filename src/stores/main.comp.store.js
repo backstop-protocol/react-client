@@ -87,4 +87,4 @@ class MainCompStore {
     }
 }
 
-export default new  MainCompStore ()
+export default "xxx"

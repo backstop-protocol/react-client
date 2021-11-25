@@ -10,7 +10,6 @@ import {wApiAction} from "../lib/compound.util"
 import {ApiAction} from "../lib/ApiHelper";
 import Web3 from "web3"
 import compoundMigrationStore from "./compoundMigration.store"
-import apyStore from "./apy.store"
 import {isFinished} from "../lib/Utils"
 import {percentage} from "../lib/Utils"
 
@@ -111,7 +110,6 @@ class CompoundStore {
     }
 
     userInfoUpdateSideAffects = () => {
-        apyStore.onUserConnect()
     }
 
     calcCompBlance = async () => {
@@ -277,5 +275,5 @@ class CompoundStore {
         }    
     }
 }
-
-export default new CompoundStore()
+const xxx = "xxx"
+export default xxx

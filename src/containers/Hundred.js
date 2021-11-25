@@ -10,6 +10,7 @@ import {device} from "../screenSizes";
 import routerStore from "../stores/router.store"
 import SpActionBox from "../components/stability-pool/SpActionBox"
 import Navbar from "../components/stability-pool/Navbar"
+import hundredStore from "../stores/hudred.store"
 
 class Hundred extends Component {
 
@@ -41,7 +42,7 @@ class Hundred extends Component {
       <div className="content">
         <Navbar/>
         <div className="container">
-          {stabilityPools.map((sp, i)=> <SpActionBox key={i} {...sp}/>)}
+          {hundredStore.stabilityPools.map((sp, i)=> <SpActionBox key={i} {...sp}/>)}
         </div>
       </div>
     );

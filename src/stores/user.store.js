@@ -3,14 +3,10 @@
  */
 import React, {Component} from "react";
 import { runInAction, makeAutoObservable } from "mobx"
-import compoundStore from "./compound.store"
-import makerStoreManager from "./maker.store"
 import routerStore from "./router.store"
 import EventBus from "../lib/EventBus"
 import Web3 from "web3"
-import bproStore, {uBproStore} from "./bpro.store"
-import apyStore from "./apy.store"
-import instaStore from "./insta.store"
+import hundredStore from "./hudred.store"
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import {walletTypes, getMetaMask, getWalletConnect} from "../wallets/Wallets"
 import WalletSelectionModal from "../components/modals/WalletSelectionModal"
@@ -100,8 +96,9 @@ class UserStore {
         // save connection data to local storage
         window.localStorage.setItem("walletType", this.walletType)
         const networkType = await this.web3.eth.net.getId()
-        if (parseInt(networkType) !== parseInt(0x2a) && parseInt(networkType) !== parseInt(0x1) && parseInt(networkType) !== 1337) {
-            EventBus.$emit("app-error", "Only Mainnet and Kovan testnet are supported");
+        debugger
+        if (parseInt(networkType) !== parseInt(42161)) {
+            EventBus.$emit("app-error", "Only Arbitrum are supported");
             return false;
         }
         runInAction(()=> { 
@@ -110,19 +107,7 @@ class UserStore {
             this.loggedIn = true
             this.displayConnect = false
         })
-        this.userInfosPromise = this.fetchUserInfos()
-        await this.userInfosPromise
-        bproStore.onUserConnect()
-        uBproStore.onUserConnect()
-        apyStore.onUserConnect()
-        instaStore.onUserConnect()
-    }
-
-    fetchUserInfos () {
-        return Promise.all([
-            makerStoreManager.getAllUserInfo(),
-            compoundStore.getUserInfo(),
-        ])
+        hundredStore.onUserConnect()
     }
 
     showConnect = () => {

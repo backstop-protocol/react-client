@@ -11,7 +11,6 @@ import {Observer} from "mobx-react"
 import AnimateNumberChange from "./style-components/AnimateNumberChange"
 import {SmallButton} from "./style-components/Buttons"
 import EventBus from "../lib/EventBus"
-import apyStore from "../stores/apy.store"
 
 export function toNDecimals(number, n) {
     if(!number) return 0;

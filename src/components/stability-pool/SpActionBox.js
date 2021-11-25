@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {observer} from "mobx-react"
 import Flex, {FlexItem} from "styled-flex-component"
 import styled from "styled-components"
-import { makeAutoObservable, runInAction, observable} from "mobx"
+import { makeAutoObservable, runInAction, observable } from "mobx"
 
 const Close = styled.div`
   position: relative;
@@ -43,7 +43,7 @@ class SpActionBox extends Component {
   }
 
   render() {
-    const {asset, amount, apy, walletBalance} = this.props
+    const {asset, amount, apy, walletBalance, tvl} = this.props
     const {footerIsOpen, action} = this.store
     return (
     <article>
@@ -58,7 +58,7 @@ class SpActionBox extends Component {
             <small>APY</small>
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
-            <div>10000000</div>
+            <div>{tvl}</div>
             <small>TVL</small>
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 var(--spacing)"}}>
