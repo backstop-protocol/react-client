@@ -268,7 +268,7 @@ class MigrateFromCompoundModal extends Component {
                             {validationErr}
                         </ErrText>
                         
-                        <ActionButton className={!validationErr && !this.state.migrationInProgress ? "clickable" : ""} disabled={validationErr} onClick={()=> this.migrate(supply, borrow)}>
+                        <ActionButton id="coumpound-import-modal-import-btn" className={!validationErr && !this.state.migrationInProgress ? "clickable" : ""} disabled={validationErr} onClick={()=> this.migrate(supply, borrow)}>
                             <div style={{
                                 position: "absolute",
                                 top: "50%",

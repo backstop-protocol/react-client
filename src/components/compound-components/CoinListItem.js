@@ -221,7 +221,7 @@ class CoinListItem extends Component {
         
         return (
             <Container className={`${this.state.open ? "open" : "close"} ${!coinAddress ? "hide" : ""} ${lastItem ? "last-item" : ""}`}>
-                <CircleX className={`${this.state.open ? "show" : "hide"}`} onClick={()=> this.closeActionBox()}/>
+                <CircleX id={`close-btn-${coin.symbol}`} className={`${this.state.open ? "show" : "hide"}`} onClick={()=> this.closeActionBox()}/>
                 <Flex column style={{ background: "white", borderRadius: "0 0 14px 14px"}}>
                     <Flex center>
                         <FlexItem  style={{width: "40px"}}>
@@ -241,14 +241,14 @@ class CoinListItem extends Component {
                             </FlexItem>
                             <FlexItem  style={{width: "25%"}}>
                                 <Flex column>
-                                    {displayNum(balanceInUsd, 4)} USD 
-                                    <GreyText>{displayNum(balance, 4)} {coin.symbol}</GreyText>
+                                    <span id={`${coin.symbol}-${isAssetColumn ? 'deposited' : 'borrowed'}-usd`}>{displayNum(balanceInUsd, 4)} USD</span> 
+                                    <GreyText id={`${coin.symbol}-${isAssetColumn ? 'deposited' : 'borrowed'}`}>{displayNum(balance, 4)} {coin.symbol}</GreyText>
                                 </Flex>
                             </FlexItem>
                             <Flex justifyEnd style={{width: "25%"}}>
                                 <Flex column justifyAround>
-                                    <button onClick={()=>this.open(actionBtn1)} style={{marginBottom: "10px"}}  className="currency-action-button">{actionBtn1}</button>
-                                    <button onClick={()=>this.open(actionBtn2)} className="currency-action-button">{actionBtn2}</button>
+                                    <button id={`${actionBtn1}-${coin.symbol}`} onClick={()=>this.open(actionBtn1)} style={{marginBottom: "10px"}}  className="currency-action-button">{actionBtn1}</button>
+                                    <button id={`${actionBtn2}-${coin.symbol}`} onClick={()=>this.open(actionBtn2)} className="currency-action-button">{actionBtn2}</button>
                                 </Flex>
                             </Flex>
                         </Flex>

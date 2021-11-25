@@ -154,7 +154,7 @@ class HeaderBorrowLimit extends Component {
                                 <SubTitle>
                                     Supply Balance
                                 </SubTitle>
-                                <GridAmount>
+                                <GridAmount id="total-supply-balance">
                                     ${displayNum(deposited, 2)}
                                 </GridAmount>
                             </Flex>
@@ -164,7 +164,7 @@ class HeaderBorrowLimit extends Component {
                                 <SubTitle>
                                     Borrow Balance
                                 </SubTitle>
-                                <GridAmount>
+                                <GridAmount id="total-borrowed-balance">
                                     ${displayNum(borrowed, 2)}
                                 </GridAmount>
                             </Flex>
