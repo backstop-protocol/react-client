@@ -208,9 +208,13 @@ class FarmInfo extends Component {
           </Header>
           <Flex full column alignCenter>
             <Title>
-              Information for B.Protocol users for <a target="_blank" href="https://docs.bprotocol.org/info/liquidity-mining">BIP #4</a>
-              <br/> 
-              (Ended 17th December 21)<br/>
+              The Liquidity Mining Phase 2 ended. <br/>
+
+              Claim your uBPRO-BIP4 below. <br/>
+
+              Redeem your BPRO for your uBPRO-BIP4 <a target="_blank" href="https://projects.umaproject.org/0x863E77B0bFC12193d2f5D41cdcacE81f1bb5a09F">here</a> <br/>
+
+              Learn how to Redeem your BPRO rewards in  <a target="_blank" href="https://medium.com/b-protocol/how-to-redeem-your-bpro-from-the-umas-kpi-option-ubpro-bip4-d41b183095e5">this tutorial</a>.
             </Title>
             <div>
               <Title>
@@ -219,7 +223,7 @@ class FarmInfo extends Component {
 
               <ContentBox>
                 <Flex  justifyBetween>
-                    <Text>Claimable BPRO</Text>
+                    <Text>Claimable uBPRO-BIP4</Text>
                     <Text><ANS val={uBproStore.claimable}/></Text>
                   </Flex>
                   <Flex justifyAround>
@@ -239,14 +243,14 @@ class FarmInfo extends Component {
 
               <ContentBox>
                 <Flex justifyBetween>
-                    <Text>Claimable BPRO</Text>
+                    <Text>Claimable uBPRO-BIP4</Text>
                     <Text><ANS val={instaBproStore ? instaBproStore.claimable : "0"}/></Text>
                   </Flex>
 
                   <Flex justifyAround>
                     <Button className={instaBproStore ? "" : "disabled" } onClick={()=> this.openClaimModal(instaBproStore)}>
                       <span>
-                        CLAIM BPRO
+                        CLAIM uBPRO-BIP4
                       </span>
                     </Button>
                   </Flex>
