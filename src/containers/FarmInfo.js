@@ -259,7 +259,7 @@ class FarmInfo extends Component {
             <div>
               <Title>
                 BPRO <br/>
-                previous program
+                BIP #1 <a target="_blank" href="https://forum.bprotocol.org/t/bip-1-bpro-tokenomics-change-reward-liquidity-providers-on-sushiswap-and-uniswap/82">here</a> <br/>
               </Title>
 
               <ContentBox>
