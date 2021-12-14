@@ -208,7 +208,7 @@ class FarmInfo extends Component {
           </Header>
           <Flex full column alignCenter>
             <Title>
-              The Liquidity Mining Phase 2 ended. <br/>
+              The BIP4 Liquidity Mining Phase 2 ended. <br/>
 
               Claim your uBPRO-BIP4 below. <br/>
 
@@ -218,7 +218,9 @@ class FarmInfo extends Component {
             </Title>
             <div>
               <Title>
-                uBPRO-BIP4
+                <a target="_blank" href="https://projects.umaproject.org/0x863E77B0bFC12193d2f5D41cdcacE81f1bb5a09F">
+                  BIP #4
+                </a>
               </Title>
 
               <ContentBox>
@@ -237,8 +239,7 @@ class FarmInfo extends Component {
             </div>
             <div>
               <Title>
-                INSTADAPP accounts <br/>
-                {instaAccount}
+                INSTADAPP account {instaAccount}
               </Title>
 
               <ContentBox>
@@ -258,8 +259,9 @@ class FarmInfo extends Component {
             </div>
             <div>
               <Title>
-                BPRO <br/>
-                BIP #1 <a target="_blank" href="https://forum.bprotocol.org/t/bip-1-bpro-tokenomics-change-reward-liquidity-providers-on-sushiswap-and-uniswap/82">here</a> <br/>
+                <a target="_blank" href="https://forum.bprotocol.org/t/bip-1-bpro-tokenomics-change-reward-liquidity-providers-on-sushiswap-and-uniswap/82">
+                  BIP #1
+                </a>
               </Title>
 
               <ContentBox>
