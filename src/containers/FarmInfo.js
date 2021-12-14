@@ -208,21 +208,20 @@ class FarmInfo extends Component {
           </Header>
           <Flex full column alignCenter>
             <Title>
-              The BIP4 Liquidity Mining Phase 2 ended. <br/>
-
-              Claim your uBPRO-BIP4 below. <br/>
-
-              Redeem your BPRO for your uBPRO-BIP4 <a target="_blank" href="https://projects.umaproject.org/0x863E77B0bFC12193d2f5D41cdcacE81f1bb5a09F">here</a> <br/>
-
-              Learn how to Redeem your BPRO rewards in  <a target="_blank" href="https://medium.com/b-protocol/how-to-redeem-your-bpro-from-the-umas-kpi-option-ubpro-bip4-d41b183095e5">this tutorial</a>.
+              The <a target="_blank" href="https://forum.bprotocol.org/t/bip-4-use-umas-kpi-options-program-for-users-liquidity-mining/167">
+                BIP #4 
+              </a> Liquidity Mining ended. 
+            </Title>
+            <Title>
+                Claim your uBPRO-BIP4 below.
+            </Title>
+            <Title>
+                Redeem your BPRO for your uBPRO-BIP4 <a target="_blank" href="https://projects.umaproject.org/0x863E77B0bFC12193d2f5D41cdcacE81f1bb5a09F">here</a> 
+            </Title>
+            <Title>
+                Learn how to Redeem your BPRO rewards in  <a target="_blank" href="https://medium.com/b-protocol/how-to-redeem-your-bpro-from-the-umas-kpi-option-ubpro-bip4-d41b183095e5">this tutorial</a>.
             </Title>
             <div>
-              <Title>
-                <a target="_blank" href="https://projects.umaproject.org/0x863E77B0bFC12193d2f5D41cdcacE81f1bb5a09F">
-                  BIP #4
-                </a>
-              </Title>
-
               <ContentBox>
                 <Flex  justifyBetween>
                     <Text>Claimable uBPRO-BIP4</Text>
