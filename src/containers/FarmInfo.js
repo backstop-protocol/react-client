@@ -181,8 +181,9 @@ class FarmInfo extends Component {
     const { tvlUsdNumeric: makerTvl } = mainStore
     const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
     const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
-    const instaAccounts = instaStore.accounts
-
+    const instaAccount = instaStore.accounts[0]
+    const instaBproStore = bproInstaStores[instaAccount]
+    
     if(params.inIframe){
       return (
         <Container>
@@ -207,45 +208,24 @@ class FarmInfo extends Component {
           </Header>
           <Flex full column alignCenter>
             <Title>
-              Information for B.Protocol users for <a target="_blank" href="https://docs.bprotocol.org/info/liquidity-mining">BIP #4</a><br/> (18th September - 17th December)<br/>
+              <a target="_blank" href="https://forum.bprotocol.org/t/bip-4-use-umas-kpi-options-program-for-users-liquidity-mining/167">
+                BIP #4 
+              </a> Liquidity Mining ended. 
             </Title>
             <Title>
-              Current TVL ${tvl}M <br/>
-              Target TVL ${150}M <br/>
+                Claim your uBPRO-BIP4 below.
             </Title>
-            <TableContainer>
-              <ContentBox wideTable={true}>
-                  <Flex Cell justifyBetween>
-                    <Cell></Cell>
-                    <Cell>uBPRO-BIP4</Cell>
-                    <Cell>BPRO <br/> {"(If TVL < $150m)"}</Cell>
-                    <Cell>BPRO <br/> {"(If TVL > $150m)"}</Cell>
-                  </Flex>
-                  <Flex  justifyBetween>
-                    <Cell>User Reward</Cell>
-                    <Cell><ANS val={apyStore.apy}/>/month</Cell>
-                    <Cell><ANS val={apyStore.apy}/>/month</Cell>
-                    <Cell><ANS val={parseFloat(apyStore.apy)*3}/>/month</Cell>
-                  </Flex>
-                  <Flex  justifyBetween>
-                    <Cell>Accumulated</Cell>
-                    <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
-                    <Cell><ANS val={uBproStore.totalBproNotInWallet}/></Cell>
-                    <Cell><ANS val={parseFloat(uBproStore.totalBproNotInWallet)*3}/></Cell>
-                  </Flex>
-                  <Flex  justifyBetween>
-                    <Cell> 
-                      Claimable
-                    </Cell>
-                    <Cell><ANS val={uBproStore.claimable}/></Cell>
-                    <Cell><ANS val={uBproStore.claimable}/> </Cell>
-                    <Cell><ANS val={parseFloat(uBproStore.claimable)*3}/> </Cell>
-                  </Flex>
-                  <Flex  justifyBetween>
-                    <Cell>Wallet Balance</Cell>
-                    <Cell><ANS val={uBproStore.walletBalance}/></Cell>
-                    <Cell><ANS val={uBproStore.walletBalance}/> </Cell>
-                    <Cell><ANS val={parseFloat(uBproStore.walletBalance)*3}/> </Cell>
+            <Title>
+                Redeem your BPRO for your uBPRO-BIP4 <a target="_blank" href="https://projects.umaproject.org/0x863E77B0bFC12193d2f5D41cdcacE81f1bb5a09F">here</a> 
+            </Title>
+            <Title>
+                Learn how to Redeem your BPRO rewards in  <a target="_blank" href="https://medium.com/b-protocol/how-to-redeem-your-bpro-from-the-umas-kpi-option-ubpro-bip4-d41b183095e5">this tutorial</a>.
+            </Title>
+            <div>
+              <ContentBox>
+                <Flex  justifyBetween>
+                    <Text>Claimable uBPRO-BIP4</Text>
+                    <Text><ANS val={uBproStore.claimable}/></Text>
                   </Flex>
                   <Flex justifyAround>
                     <Button onClick={()=>this.openClaimModal(uBproStore)}>
@@ -255,8 +235,49 @@ class FarmInfo extends Component {
                     </Button>
                   </Flex>
               </ContentBox>
-            </TableContainer>
-            {instaAccounts.map(account=> <InstaInfo openClaimModal={this.openClaimModal} account={account} bproStore={bproInstaStores[account]}/>)}
+            </div>
+            <div>
+              <Title>
+                INSTADAPP account {instaAccount}
+              </Title>
+
+              <ContentBox>
+                <Flex justifyBetween>
+                    <Text>Claimable uBPRO-BIP4</Text>
+                    <Text><ANS val={instaBproStore ? instaBproStore.claimable : "0"}/></Text>
+                  </Flex>
+
+                  <Flex justifyAround>
+                    <Button className={instaBproStore ? "" : "disabled" } onClick={()=> this.openClaimModal(instaBproStore)}>
+                      <span>
+                        CLAIM uBPRO-BIP4
+                      </span>
+                    </Button>
+                  </Flex>
+              </ContentBox>
+            </div>
+            <div>
+              <Title>
+                <a target="_blank" href="https://forum.bprotocol.org/t/bip-1-bpro-tokenomics-change-reward-liquidity-providers-on-sushiswap-and-uniswap/82">
+                  BIP #1
+                </a>
+              </Title>
+
+              <ContentBox>
+                <Flex  justifyBetween>
+                    <Text>Claimable BPRO</Text>
+                    <Text><ANS val={bproStore.claimable}/></Text>
+                  </Flex>
+
+                  <Flex justifyAround>
+                    <Button onClick={()=>this.openClaimModal(bproStore)}>
+                      <span>
+                        CLAIM BPRO
+                      </span>
+                    </Button>
+                  </Flex>
+              </ContentBox>
+            </div>
             <ContentBox>
                 <Flex Cell justifyBetween>
                   <Cell></Cell>
@@ -278,27 +299,6 @@ class FarmInfo extends Component {
                   <Cell><ANS val={bproStore.cScoreShare}/>%</Cell>
                 </Flex>
             </ContentBox>
-            { bproStore.claimable !== '0' && <div>
-            <Title>
-              BPRO <br/>
-               previous program
-            </Title>
-
-            <ContentBox>
-               <Flex  justifyBetween>
-                  <Text>Claimable BPRO</Text>
-                  <Text><ANS val={bproStore.claimable}/></Text>
-                </Flex>
-
-                <Flex justifyAround>
-                  <Button onClick={()=>this.openClaimModal(bproStore)}>
-                    <span>
-                      CLAIM BPRO
-                    </span>
-                  </Button>
-                </Flex>
-            </ContentBox>
-            </div>}
           </Flex>
         </Container>
       );
