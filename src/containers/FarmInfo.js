@@ -183,7 +183,7 @@ class FarmInfo extends Component {
     const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
     const instaAccount = instaStore.accounts[0]
     const instaBproStore = bproInstaStores[instaAccount]
-    debugger
+    
     if(params.inIframe){
       return (
         <Container>
