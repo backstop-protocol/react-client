@@ -28,7 +28,6 @@ class PoolStore {
     const poolBalancePromise = await getPoolBallance(web3, this.tokenAddresses, this.poolAddresses);
     const [walletBalance, { eth, token }] = Promise.all([walletBalancePromise, poolBalancePromise])
     runInAction(()=> {
-      debugger
       this.walletBalance = walletBalance
     })
   }
