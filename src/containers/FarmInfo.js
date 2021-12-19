@@ -207,7 +207,7 @@ class FarmInfo extends Component {
           </Header>
           <Flex full column alignCenter>
             <Title>
-              Information for B.Protocol users for <a target="_blank" href="https://docs.bprotocol.org/info/liquidity-mining">BIP #4</a><br/> (18th September - 17th December)<br/>
+              Information for B.Protocol users for <a target="_blank" href="https://docs.bprotocol.org/info/liquidity-mining">BIP #4</a><br/> (18th September - 20th December)<br/>
             </Title>
             <Title>
               Current TVL ${tvl}M <br/>
