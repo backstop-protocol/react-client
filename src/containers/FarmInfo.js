@@ -14,7 +14,7 @@ import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import liquityStore from "../stores/main.liquity.store"
 import userStore from "../stores/user.store"
-import instaStore, {bproInstaStores} from "../stores/insta.store"
+import instaStore from "../stores/insta.store"
 import BproClaimModal from "../components/modals/BproClaimModal"
 import EventBus from "../lib/EventBus"
 import ConnectButton from "../components/ConnectButton";
@@ -111,11 +111,11 @@ export const Cell = styled(Text)`
   }
 `
 
-export const ANS = props => {
+export const ANS = observer((props) => {
   return (
     <AnimateNumericalString val={props.val} decimals={props.decimal || 3}>  </AnimateNumericalString>
   )
-}
+})
 
 export const Button = styled.div`
   transition: all 0.3s ease-in-out;
@@ -181,9 +181,7 @@ class FarmInfo extends Component {
     const { tvlUsdNumeric: makerTvl } = mainStore
     const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
     const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
-    const instaAccount = instaStore.accounts[0]
-    const instaBproStore = bproInstaStores[instaAccount]
-    
+
     if(params.inIframe){
       return (
         <Container>
@@ -236,26 +234,26 @@ class FarmInfo extends Component {
                   </Flex>
               </ContentBox>
             </div>
-            <div>
+            {Object.entries(instaStore.bproInstaStores).map(([account, store]) => <div>
               <Title>
-                INSTADAPP account {instaAccount}
+                INSTADAPP account {account}
               </Title>
 
               <ContentBox>
                 <Flex justifyBetween>
                     <Text>Claimable uBPRO-BIP4</Text>
-                    <Text><ANS val={instaBproStore ? instaBproStore.claimable : "0"}/></Text>
+                    <Text><ANS val={store.claimable} decimal={3}/></Text>
                   </Flex>
 
                   <Flex justifyAround>
-                    <Button className={instaBproStore ? "" : "disabled" } onClick={()=> this.openClaimModal(instaBproStore)}>
+                    <Button className={store ? "" : "disabled" } onClick={()=> this.openClaimModal(store)}>
                       <span>
                         CLAIM uBPRO-BIP4
                       </span>
                     </Button>
                   </Flex>
               </ContentBox>
-            </div>
+            </div>)}
             <div>
               <Title>
                 <a target="_blank" href="https://forum.bprotocol.org/t/bip-1-bpro-tokenomics-change-reward-liquidity-providers-on-sushiswap-and-uniswap/82">

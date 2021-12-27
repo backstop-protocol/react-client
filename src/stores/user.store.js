@@ -28,12 +28,12 @@ class UserStore {
     connecting = false
     userAgreesToTerms = false
 
-    iAgree = () => {
-        this.userAgreesToTerms = true
-    }
-
     constructor (){
         makeAutoObservable(this)
+    }
+
+    iAgree = () => {
+        this.userAgreesToTerms = true
     }
 
     selectWallet = async () => {
