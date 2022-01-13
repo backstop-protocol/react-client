@@ -15,3 +15,9 @@ export const device = {
     mobile: `screen and (max-width: ${size.mobile}px)`,
 }
 
+export const isMobile = () => {
+    const width = window.innerWidth
+    if(width <= size.mobile) {
+        return true
+    }
+}

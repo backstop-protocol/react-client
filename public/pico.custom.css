@@ -1,0 +1,31 @@
+[aria-busy="true"][type=checkbox][role=switch]:before {
+  display: inline-block;
+  width: calc(1.25em - (var(--border-width) * 2));
+  height: 100%;
+  background-color: transparent;
+  border: 0.1875em solid var(--color);
+  border-radius: 1em;
+  border-right-color: transparent;
+  content: '';
+  vertical-align: text-bottom;
+  vertical-align: 0;
+  animation: spinner 0.75s linear infinite;
+  opacity: var(--loading-spinner-opacity);
+}
+
+[aria-busy="true"][type=checkbox][role=switch]:before:not(:empty) {
+  margin-right: calc(var(--spacing) * 0.5);
+  margin-left: 0;
+  margin-inline-start: 0;
+  margin-inline-end: calc(var(--spacing) * 0.5);
+}
+
+[aria-busy="true"][type=checkbox][role=switch]:before:empty {
+  text-align: center;
+}
+
+@keyframes shortSpin {
+  to {
+    transform: rotate(180deg);
+  }
+}

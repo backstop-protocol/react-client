@@ -3,7 +3,7 @@ import {observer} from "mobx-react"
 import Flex, {FlexItem} from "styled-flex-component"
 import styled from "styled-components"
 import { makeAutoObservable, runInAction, observable} from "mobx"
-import Logo from "../../assets/bprotocol.svg";
+import Logo from "./Logo";
 import userStore from "../../stores/user.store"
 
 class Navbar extends Component {
@@ -23,7 +23,7 @@ class Navbar extends Component {
       <nav>
         <ul>
           <li>        
-            <img className="logo" alt="Logo" src={Logo} />
+            <Logo />
           </li>
         </ul>
         <ul>

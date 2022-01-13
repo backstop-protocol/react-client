@@ -42,7 +42,7 @@ class Hundred extends Component {
       <div className="content">
         <Navbar/>
         <div className="container">
-          {hundredStore.stabilityPools.map((sp, i)=> <SpActionBox key={i} {...sp}/>)}
+          {hundredStore.stabilityPools.map((sp, i)=> <SpActionBox key={i} store={sp}/>)}
         </div>
       </div>
     );

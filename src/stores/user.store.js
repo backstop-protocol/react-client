@@ -11,17 +11,27 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import {walletTypes, getMetaMask, getWalletConnect} from "../wallets/Wallets"
 import WalletSelectionModal from "../components/modals/WalletSelectionModal"
 
+const chainIdMap = {
+    1: "mainnet",
+    42: "kovan",
+    250: "fantom"
+}
+
 class UserStore {
 
     loggedIn = false
     web3
-    networkType
+    networkType = ""
     user = ""
     displayConnect = false
     displayConnectTimeOut
     walletType = null
     provider
     connecting = false
+
+    get chain() {
+        return chainIdMap[this.networkType]
+    }
 
     constructor (){
         makeAutoObservable(this)
@@ -97,11 +107,11 @@ class UserStore {
         window.localStorage.setItem("walletType", this.walletType)
         const networkType = await this.web3.eth.net.getId()
         debugger
-        if (parseInt(networkType) !== parseInt(42161)) {
-            EventBus.$emit("app-error", "Only Arbitrum are supported");
+        if (!chainIdMap[networkType]) {
+            EventBus.$emit("app-error", `chain id ${networkType} is not supported`);
             return false;
         }
-        runInAction(()=> { 
+        runInAction(()=> {
             this.networkType = networkType
             this.user = user
             this.loggedIn = true

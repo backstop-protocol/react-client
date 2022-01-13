@@ -74,9 +74,7 @@ export default class AppAlert extends Component {
     }
 
     render() {
-
         const {alert, alertMessage, actionBtn, actionFn, waiting} = this.state;
-
         return (
             <div>
                 {alert && 

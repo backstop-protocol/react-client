@@ -390,7 +390,6 @@ class ActionBoxState {
   }
 
   openFn = (footerType) => {
-    debugger
     this.footerType = footerType
   }
 

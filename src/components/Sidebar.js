@@ -58,7 +58,6 @@ class Sidebar extends Component {
     const now = new Date().getTime()
     const notLunched = now < lunchDate
 
-    debugger
     if (pathname === '/hundred') {
       return null
     }
