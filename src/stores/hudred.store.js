@@ -37,6 +37,14 @@ class PoolStore {
   collateralRatio = null
   usdRatio = null 
 
+  get collPercnet(){
+    return this.collateralRatio ? (parseFloat(this.collateralRatio) * 100).toFixed(2) : "0.00"
+  }
+
+  get usdPercnet(){
+    return this.usdRatio ? (parseFloat(this.usdRatio) * 100).toFixed(2) : "0.00"
+  }
+
   get inputIsInvalid() {
     return this.inputIsValid === false ? true : undefined;
   }
@@ -83,7 +91,7 @@ class PoolStore {
         return
       }
 
-      if(this.hasAllowance){
+      if(!this.hasAllowance){
         this.inputIsValid = false
         this.inputErrMsg = "Insufficient allowance, unlock to grant allowance"
         return

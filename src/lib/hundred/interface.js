@@ -197,15 +197,14 @@ export const getAssetDistrobution = async(web3, assetAddress, poolAddress) => {
   // TODO: instead of wallet Balance show pool ratio
   // calc the USD value of the asset
   // then divide by the TVL value
-  const [walletBalance, deciamls, symbol] = await Promise.all([
+  const [walletBalance, symbol] = await Promise.all([
     getWalletBallance(web3, poolAddress, assetAddress),
-    getDecimals(web3, assetAddress),
     getSymbol(web3, assetAddress)
   ])
 
   return {
     assetAddress,
-    poolBalance: normlize(walletBalance, deciamls),
+    poolBalance: walletBalance,
     symbol
   }
 }
@@ -221,7 +220,7 @@ export const getCollaterals = async(web3, poolAddress) => {
     promises.push(promise)
   }
   const collaterals = (await Promise.all(promises))
-    .filter(x => x && x.poolBalance >= 0.0001)
+  .filter(x=> x && x.poolBalance != "0")
   
   return collaterals
 }

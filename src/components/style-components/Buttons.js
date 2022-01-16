@@ -83,3 +83,28 @@ export const ModalButton = styled.div`
     }
   }
 `
+
+const CloseContainer = styled.div`
+  float: right;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover{
+    animation: shortSpin 0.3s;
+    animation-timing-function: ease-in-out;
+  }
+`
+
+export const Close = props => {
+  return (<CloseContainer {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25">
+        <g fill="none" fillRule="evenodd">
+            <g fill="var(--color)">
+                <path d="M1403.075 260.659L1400.695 258.28 1391.177 267.798 1381.659 258.28 1379.28 260.659 1388.798 270.177 1379.28 279.695 1381.659 282.075 1391.177 272.557 1400.695 282.075 1403.075 279.695 1393.557 270.177z" transform="translate(-1379 -258)"/>
+            </g>
+        </g>
+    </svg>
+  </CloseContainer>)
+}

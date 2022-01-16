@@ -3,6 +3,7 @@ import WhiteBgViewIcon from "../../assets/view-icon.svg";
 import BlacBgViewIcon from "../../assets/view-icon-opeq-bg.svg";
 import {isKovan} from "../../lib/Utils"
 
+// TODO: userStore.scannerUrl
 export default function View(props) {
   const {hash} = props
   const kovan = isKovan() 

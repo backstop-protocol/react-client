@@ -9,6 +9,7 @@ import BpLoader from "../style-components/BpLoader"
 import VIcon from "../../assets/v-icon.svg";
 import XIcon from "../../assets/red-x-icon.svg";
 import ANS from "../style-components/AnimateNumericalString"
+import {Close} from "../style-components/Buttons"
 
 const AnimatedContent = styled.div`
     height: 100%;
@@ -65,19 +66,11 @@ const Unlock = observer(({grantAllowance, hasAllowance, allowanceInProgress, ass
 
 const SpFooterContent = observer((props) => {
   const {footerIsOpen, txInProgress, action, err, inputErrMsg, inputIsValid, inputIsInvalid, hash, walletBalance, closeFooter, asset, onInputChange, val, collaterals, withdrawValues} = props.store
-  const {grantAllowance, hasAllowance, allowanceInProgress} = props.store
+  const {grantAllowance, hasAllowance, allowanceInProgress, collPercnet, usdPercnet } = props.store
   const doAction = action === "Deposit" ? props.store.deposit : props.store.withdraw
   return (
     <div>
-      <Close onClick={()=>closeFooter()}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25">
-              <g fill="none" fillRule="evenodd">
-                  <g fill="var(--color)">
-                      <path d="M1403.075 260.659L1400.695 258.28 1391.177 267.798 1381.659 258.28 1379.28 260.659 1388.798 270.177 1379.28 279.695 1381.659 282.075 1391.177 272.557 1400.695 282.075 1403.075 279.695 1393.557 270.177z" transform="translate(-1379 -258)"/>
-                  </g>
-              </g>
-          </svg>
-        </Close>
+      <Close onClick={()=>closeFooter()}/>
         <h2>{action}</h2>
         <div>
           <div>
@@ -104,11 +97,11 @@ const SpFooterContent = observer((props) => {
           <div style={{padding: "var(--spacing) 0"}}>Current Withdraw Values</div>
           <div className="grid">
             <p>
-              <small> 99.5% </small> <br/>
+              <small> {usdPercnet}% </small> <br/>
               <ANS val={withdrawValues.usd} decimals={4}/> <strong>{asset}</strong> 
             </p>
             <p>
-              <small> 0.5% in collateral ({collaterals.map(coll => <strong> {coll.symbol} </strong>)})</small> <br/>
+              <small> {collPercnet}% in collateral ({collaterals.map(coll => <strong>{coll.symbol} </strong>)})</small> <br/>
               <ANS val={withdrawValues.coll} decimals={4}/> <strong>{asset}</strong> <br/>
             </p>
           </div>
@@ -150,7 +143,7 @@ const SpTx = observer((props)=> {
               <TxMessage>{msg + "completed"}</TxMessage>
             </Flex>}
           {hash && 
-            <View hash={hash}/>}
+            <View hash={hash} />}
          </Flex>
       </Flex>
   )
@@ -176,18 +169,6 @@ const SpFooter = observer((props)=> {
     </AnimatedContainer>
   )
 })
-
-const Close = styled.div`
-  float: right;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: shortSpin 0.3s;
-  animation-delay: 0.5s;
-  animation-timing-function: ease-in-out;
-`
 
 class SpActionBox extends Component {
 

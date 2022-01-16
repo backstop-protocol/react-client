@@ -17,6 +17,12 @@ const chainIdMap = {
     250: "fantom"
 }
 
+const networkScannerMap = {
+    "mainnet": "etherscan.io/tx/",
+    "kovan": "kovan.etherscan.io/tx/",
+    "fantom": "ftmscan.com/tx/",
+}
+
 class UserStore {
 
     loggedIn = false
@@ -33,11 +39,21 @@ class UserStore {
         return chainIdMap[this.networkType]
     }
 
+    get scannerUrl() {
+        return networkScannerMap[this.chain]
+    }
+
     constructor (){
         makeAutoObservable(this)
     }
 
-    selectWallet = async () => {
+    selectWallet = walletType => {
+        if(!walletType) return
+        this.walletType = walletType
+        this.connect()
+    }
+
+    _selectWallet = async () => {
         return new Promise((resolve, reject) =>{
             this.walletSelectionResult = null
             const noWrapper = true
@@ -62,8 +78,8 @@ class UserStore {
     connect = async (newConnection = true) => { 
         this.connecting = true
         try{
-            if(newConnection){
-                await this.selectWallet()
+            if(!this.walletType){
+                return
             }
             
             let wallet
