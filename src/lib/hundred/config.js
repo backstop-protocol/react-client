@@ -16,7 +16,10 @@ const poolsByChain = {
       tokenName: "VST",
       decimals: 18,
       lensAddress: "0x3131ef0f8c63418322009235526206745fF01552",
-      rewardAddress: "0xa2f0cc74dfb91c57a21d65bfdde344f21037a532"
+      rewardAddress: "0xa2f0cc74dfb91c57a21d65bfdde344f21037a532",
+      platform: {
+        name: "Vesta"
+      }
     }
   ],
   "fantom": [

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import {observer} from "mobx-react"
 import Flex, {FlexItem} from "styled-flex-component"
 import styled from "styled-components"
@@ -11,23 +11,26 @@ import XIcon from "../../assets/red-x-icon.svg";
 import ANS from "../style-components/AnimateNumericalString"
 import {Close} from "../style-components/Buttons"
 
+const PlatformIcon = styled.img`
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  margin-right: var(--spacing);
+`
+
 const AnimatedContent = styled.div`
     height: 100%;
     transition: ${({open}) => open ? "all 0.3s ease-in-out 0.3s" : "" };
     visibility: ${({open}) => open ? "visible" : "hidden" }; 
     position: ${({open}) => open ? "initial" : "absolute" }; 
-    opacity: ${({open}) => open ? 1 : 0 }; 
+    opacity: ${({open}) => open ? 1 : 0 };
+    padding: 40px;
     padding-top: ${({open}) => open ? "40px" : 0 }; 
-    margin: 0 40px;
-    /* all childern */
-    & > * {
-        display: ${({open}) => open ? "" : "none" };
-    }
 `
 
 const AnimatedContainer = styled.div` 
-    transition: height 0.3s ease-in-out;
-    height: ${({open, height}) => open ? height || "400px" : 0 }; 
+    transition: all 0.3s ease-in-out;
+    height: ${({open, height}) => open ? height : 0 }px; 
 `
 
 const ErrorMessage = ({children}) => {
@@ -155,10 +158,13 @@ const ResIcon = styled.img`
 `
 
 const SpTx = observer((props)=> {
-  const {txInProgress, hash, action, val, asset, success, err} = props.store
-  const msg =`${action}ing ${val} ${asset} `
+  const {txInProgress, hash, action, val, asset, success, err, reward} = props.store
+  let msg =`${action}ing ${val} ${asset} `
+  if (action === "Claim"){
+    msg =`${action}ing ${parseFloat(reward.unclaimed).toFixed(2)} ${reward.symbol} `
+  }
   return (
-      <Flex column justifyCenter full>
+      <Flex column justifyCenter full style={{minHeight: "160px"}}>
         <Flex justifyBetween alignCenter full>
           {!err && !success && <Flex alignCenter>
               <BpLoader color="var(--contrast)"/>
@@ -181,13 +187,21 @@ const SpTx = observer((props)=> {
 })
 
 const SpFooter = observer((props)=> {
+  const [height, setHeight] = useState(0)
+  const ref = useRef(null)
+
+  useEffect(() => {
+      setHeight(ref.current.clientHeight)
+  })
+
   const {footerIsOpen, action, errMsg, tx, walletBalance, closeFooter, txInProgress} = props.store
   const depositBoxIsOpen = footerIsOpen && action == "Deposit" && !txInProgress
   const withdrawBoxIsOpen = footerIsOpen && action == "Withdraw" && !txInProgress
   const claimBoxIsOpen = footerIsOpen && action == "Claim" && !txInProgress
+  console.log({height})
   return (
-    <AnimatedContainer open={footerIsOpen} height={txInProgress ? "200px" : null}>
-      <footer style={{height: "100%"}}>
+    <AnimatedContainer open={footerIsOpen} height={height}>
+      <footer ref={ref}>
         <AnimatedContent open={depositBoxIsOpen}>
           <SpFooterContent store={props.store}/>
         </AnimatedContent>
@@ -212,11 +226,14 @@ class SpActionBox extends Component {
   }
 
   render() {
-    const {asset, userShareInUsd, apy, walletBalance, tvl, footerIsOpen, action, openFooter, closeFooter, reward} = this.props.store
+    const {asset, userShareInUsd, apy, walletBalance, tvl, footerIsOpen, action, openFooter, closeFooter, reward, config} = this.props.store
     return (
     <article>
       <Flex justifyBetween alignCenter wrap column={false}>
-          <strong>{asset}</strong>
+          <Flex alignCenter>
+            <PlatformIcon src={require("../../assets/platforms/" + config.platform.name + ".svg")} />
+            <strong>{asset}</strong>
+          </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
             <div>$<ANS val={userShareInUsd} decimals={2}/></div>
             <small>Balance</small>
@@ -229,7 +246,7 @@ class SpActionBox extends Component {
             <div>$<ANS val={tvl} decimals={2}/></div>
             <small>TVL</small>
           </Flex>
-          <Flex column alignCenter justifyBetween style={{padding: "0 var(--spacing)"}}>
+          <Flex column alignCenter justifyCenter style={{padding: "0 var(--spacing)", minHeight: "calc(var(--font-size) * 4.5)"}}>
             <a onClick={()=>openFooter("Deposit")}>Deposit</a>
             <a onClick={()=>openFooter("Withdraw")}>Withdraw</a>
             {reward && <a onClick={()=>openFooter("Claim")}>Claim</a>}

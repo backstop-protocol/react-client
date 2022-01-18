@@ -17,7 +17,7 @@ class PoolStore {
   totalToken = "0"
   tvl = "0"
   amount = "0"
-  apy = "0"
+  apy = "7"
   walletBalance = "0"
   footerIsOpen = false
   action = "Deposit"
@@ -36,7 +36,7 @@ class PoolStore {
   collaterals = []
   collateralRatio = null
   usdRatio = null 
-  reward = null 
+  reward = null
 
   get collPercnet(){
     return this.collateralRatio ? (parseFloat(this.collateralRatio) * 100).toFixed(2) : "0.00"
