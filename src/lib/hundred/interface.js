@@ -74,14 +74,14 @@ export const denormlize = (n, decimals) => {
 
 const GAS_LIMIT = { gasLimit: "1000000" }
 
-export const getDecimals = (web3, tokenAddress) => {
+export const getDecimals = ({web3, tokenAddress}) => {
   const { Contract } = web3.eth
   const erc20 = new Contract(abi.erc20, tokenAddress)
   return erc20.methods.decimals().call()
 
 }
 
-export const getAllowance = async (web3, user, tokenAddress, poolAddress) => {
+export const getAllowance = async ({web3, user, tokenAddress, poolAddress}) => {
   const { Contract } = web3.eth
   const erc20 = new Contract(abi.erc20, tokenAddress)
   return await erc20.methods.allowance(user, poolAddress).call()
@@ -94,14 +94,14 @@ export const grantAllowance = (web3, tokenAddress, poolAddress) => {
   return erc20.methods.approve(poolAddress, maxAllowance)
 }
 
-export const getWalletBallance = async (web3, userAddress, tokenAddress, decimals) => {
+export const getWalletBallance = async ({web3, user, tokenAddress, decimals}) => {
   const { Contract } = web3.eth
   const erc20 = new Contract(abi.erc20, tokenAddress)
-  const balance = await erc20.methods.balanceOf(userAddress).call()
+  const balance = await erc20.methods.balanceOf(user).call()
   return balance
 }
 
-export const getPoolBallance = async (web3, tokenAddress, poolAddress) => {
+export const getPoolBallance = async ({web3, tokenAddress, poolAddress}) => {
   const { Contract } = web3.eth
   const erc20 = new Contract(abi.erc20, tokenAddress)
   const [token, eth] = await Promise.all([
@@ -114,18 +114,34 @@ export const getPoolBallance = async (web3, tokenAddress, poolAddress) => {
   }
 }
 
-export const deposit = (web3, amount, poolAddress, decimals) => {
+export const deposit = ({web3, poolAddress, decimals}, amount) => {
+  debugger
   const { Contract } = web3.eth
   const bamm = new Contract(abi.bamm, poolAddress)
   const depositAmount = denormlize(amount, decimals)
   return bamm.methods.deposit(depositAmount)
 }
 
-export const getTvl = async(web3, poolAddress, tokenAddress, decimals) => {
-  
+
+
+const getLensUserInfo = async ({web3, user, lensAddress, rewardAddress, poolAddress}) => {
+  const { Contract } = web3.eth
+  const lens = new Contract(abi.lens, lensAddress)
+  const userInfo = await lens.methods.getUserInfo(user, poolAddress, rewardAddress)
+  debugger
+  return userInfo
+}
+
+export const getTvl = async(context) => {
+  const { web3, poolAddress, tokenAddress, decimals, lensAddress } = context
   const { Contract } = web3.eth
   const bamm = new Contract(abi.bamm, poolAddress)
   const erc20 = new Contract(abi.erc20, tokenAddress)
+  //lusdTotal
+  //let tokenValuePromise;
+  //if(lensAddress){
+    //tokenValuePromise = getLensUserInfo(web3, user, lensAddress, )
+  //}
   const [tokenValue, {succ: success, value: collateralValue}] = await Promise.all([
     erc20.methods.balanceOf(poolAddress).call(),
     bamm.methods.getCollateralValue().call()
@@ -135,9 +151,15 @@ export const getTvl = async(web3, poolAddress, tokenAddress, decimals) => {
     throw new Error("getTvl: failed to fetch collateral value")
   }
     const tvl = toBN(tokenValue).add(toBN(collateralValue)).toString()
-    const usdRatio = normlize((toBN(tokenValue).mul(toBN(1e18))).div(toBN(tvl)).toString(), 18)
-    const collRatio = normlize((toBN(collateralValue).mul(toBN(1e18))).div(toBN(tvl)).toString(), 18)
-    
+    let usdRatio, collRatio;
+    if (tvl == "0"){
+      usdRatio = "0"
+      collRatio = "0"
+    }else{
+      usdRatio = normlize((toBN(tokenValue).mul(toBN(1e18))).div(toBN(tvl)).toString(), 18)
+      collRatio = normlize((toBN(collateralValue).mul(toBN(1e18))).div(toBN(tvl)).toString(), 18)
+    }
+
     return {
       tvl,
       usdRatio,
@@ -158,31 +180,37 @@ const getUserShareAndTotalSupply = async(web3, userAddress, poolAddress) => {
   return {userShare, totalSupply}
 }
 
-export const usdToShare = async (web3, amount, poolAddress, tokenAddress, decimals) => {
+export const usdToShare = async (context, amount) => {
+  const {web3, poolAddress, tokenAddress, decimals} = context
   // amount * totalSupply / TVL
   const { Contract } = web3.eth
   const bamm = new Contract(abi.bamm, poolAddress)
   const totalSupplyPromise = bamm.methods.totalSupply().call()
-  const tvlPromise = getTvl(web3, poolAddress, tokenAddress, decimals)
+  const tvlPromise = getTvl(context)
   const [{tvl}, totalSupply] = await Promise.all([tvlPromise, totalSupplyPromise])
   const share = (toBN(denormlize(amount, decimals)).mul(toBN(totalSupply))).div(toBN(tvl))
   return share.toString()
 }
 
-export const withdraw = (web3, amountInHsares, poolAddress, tokenAddress, decimals) => {
+export const withdraw = ({web3, poolAddress, tokenAddress, decimals}, amountInShares) => {
   const { Contract } = web3.eth
   const bamm = new Contract(abi.bamm, poolAddress)
-  return bamm.methods.withdraw(amountInHsares)
+  return bamm.methods.withdraw(amountInShares)
 }
 
-export const getUserShareInUsd = async(web3, userAddress, poolAddress, tokenAddress, decimals) => {
-  
+export const getUserShareInUsd = async(context) => {
+  const {web3, user, poolAddress, tokenAddress, decimals} = context
   // tvl * userShare / totalSupply
-  const tvlPromise = getTvl(web3, poolAddress, tokenAddress, decimals)
-  const sharePromise = getUserShareAndTotalSupply(web3, userAddress, poolAddress)
+  const tvlPromise = getTvl(context)
+  const sharePromise = getUserShareAndTotalSupply(web3, user, poolAddress)
   const [{tvl}, {userShare, totalSupply}] = await Promise.all([tvlPromise, sharePromise])
   
-  const usdVal = (toBN(tvl).mul(toBN(userShare))).div(toBN(totalSupply)).toString()
+  let usdVal;
+  if(totalSupply == "0"){
+    usdVal = "0"
+  } else {
+    usdVal = (toBN(tvl).mul(toBN(userShare))).div(toBN(totalSupply)).toString()
+  }
   
   return usdVal
 }
@@ -193,12 +221,15 @@ export const getSymbol = (web3, tokenAddress) => {
   return erc20.methods.symbol().call()
 } 
 
-export const getAssetDistrobution = async(web3, assetAddress, poolAddress) => {
+export const getAssetDistrobution = async({web3, poolAddress, user}, assetAddress ) => {
   // TODO: instead of wallet Balance show pool ratio
   // calc the USD value of the asset
   // then divide by the TVL value
+  const { Contract } = web3.eth
+  const erc20 = new Contract(abi.erc20, assetAddress)
+  const balancePromise = erc20.methods.balanceOf(user).call()
   const [walletBalance, symbol] = await Promise.all([
-    getWalletBallance(web3, poolAddress, assetAddress),
+    balancePromise,
     getSymbol(web3, assetAddress)
   ])
 
@@ -209,13 +240,15 @@ export const getAssetDistrobution = async(web3, assetAddress, poolAddress) => {
   }
 }
 
-export const getCollaterals = async(web3, poolAddress) => {
+export const getCollaterals = async(context) => {
+  debugger
+  const { web3, poolAddress } = context
   const { Contract } = web3.eth
   const bamm = new Contract(abi.bamm, poolAddress)
   const promises = []
   for (let i = 0; i < 10; i++) {
     const promise = bamm.methods.collaterals(i).call()
-    .then(address => getAssetDistrobution(web3, address, poolAddress))
+    .then(address => getAssetDistrobution(context, address))
     .catch(err => null)
     promises.push(promise)
   }

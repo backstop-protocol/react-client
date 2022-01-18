@@ -14,13 +14,15 @@ import WalletSelectionModal from "../components/modals/WalletSelectionModal"
 const chainIdMap = {
     1: "mainnet",
     42: "kovan",
-    250: "fantom"
+    250: "fantom",
+    421611: "Arbitrum Testnet"
 }
 
 const networkScannerMap = {
-    "mainnet": "etherscan.io/tx/",
-    "kovan": "kovan.etherscan.io/tx/",
-    "fantom": "ftmscan.com/tx/",
+    "mainnet": "etherscan.io",
+    "kovan": "kovan.etherscan.io",
+    "fantom": "ftmscan.com",
+    "Arbitrum Testnet": "testnet.arbiscan.io/"
 }
 
 class UserStore {
@@ -39,7 +41,7 @@ class UserStore {
         return chainIdMap[this.networkType]
     }
 
-    get scannerUrl() {
+    get blockExplorer() {
         return networkScannerMap[this.chain]
     }
 

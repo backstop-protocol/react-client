@@ -155,7 +155,7 @@ class PoolStore {
         this.txInProgress = true
       })
       const {web3, user} = userStore
-      const tx = Interface.deposit(web3, amount, this.poolAddress, this.decimals)
+      const tx = Interface.deposit(this.context, amount)
       await ApiAction(tx, user, web3, 0, this.onHash)
       runInAction(()=> {
         this.success = true
@@ -181,9 +181,8 @@ class PoolStore {
         this.txInProgress = true
       })
       const {web3, user} = userStore
-      const amountInShare = await Interface.usdToShare(web3, amount, this.poolAddress, this.tokenAddress, this.decimals)
-      debugger
-      const tx = Interface.withdraw(web3, amountInShare, this.poolAddress, this.decimals)
+      const amountInShare = await Interface.usdToShare(this.context, amount)
+      const tx = Interface.withdraw(this.context, amountInShare)
       await ApiAction(tx, user, web3, 0, this.onHash)
       runInAction(()=> {
         this.success = true
@@ -200,24 +199,29 @@ class PoolStore {
     }
   }
 
-  constructor({poolAddress, tokenAddress, tokenName}) {
-    this.poolAddress = poolAddress
-    this.tokenAddress = tokenAddress
-    this.asset = tokenName
+  constructor(config) {
+    this.config = config
+    this.asset = config.tokenName
     makeAutoObservable(this)
     this.fetchData()
   }
 
+  get context(){
+    const {web3, user, chain} = userStore
+    return {
+      web3, user, chain, ...this.config
+    }
+  }
+
   fetchData = async () => {
     try{
-      const {web3, user} = userStore
-      this.decimals = await Interface.getDecimals(web3, this.tokenAddress)
-      const tvlPromise = Interface.getTvl(web3, this.poolAddress, this.tokenAddress, this.decimals)
-      const walletBalancePromise = Interface.getWalletBallance(web3, user, this.tokenAddress)
-      const poolBalancePromise = Interface.getPoolBallance(web3, this.tokenAddress, this.poolAddress);
-      const allowancePromise = Interface.getAllowance(web3, user, this.tokenAddress, this.poolAddress)
-      const userShareInUsdPromise = Interface.getUserShareInUsd(web3, user, this.poolAddress, this.tokenAddress, this.decimals)
-      const collateralsPromise = Interface.getCollaterals(web3, this.poolAddress, user)
+      this.decimals = await Interface.getDecimals(this.context)
+      const tvlPromise = Interface.getTvl(this.context)
+      const walletBalancePromise = Interface.getWalletBallance(this.context)
+      const poolBalancePromise = Interface.getPoolBallance(this.context)
+      const allowancePromise = Interface.getAllowance(this.context)
+      const userShareInUsdPromise = Interface.getUserShareInUsd(this.context)
+      const collateralsPromise = Interface.getCollaterals(this.context)
       // fetching in  parallel
       const [walletBalance, { eth, token }, {tvl, usdRatio, collRatio}, allowance, userShareInUsd, collaterals] = await Promise.all([
         walletBalancePromise, 
@@ -235,7 +239,6 @@ class PoolStore {
         this.userShareInUsd = Interface.normlize(userShareInUsd, this.decimals)
         this.collateralRatio = collRatio
         this.usdRatio = usdRatio
-        debugger
         this.collaterals.replace(collaterals)
       })
     }catch (err) {
