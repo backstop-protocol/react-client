@@ -67,14 +67,14 @@ const Unlock = observer(({grantAllowance, hasAllowance, allowanceInProgress, ass
 const SpFooterContent = observer((props) => {
   const {footerIsOpen, txInProgress, action, err, inputErrMsg, inputIsValid, inputIsInvalid, hash, walletBalance, closeFooter, asset, onInputChange, val, collaterals, withdrawValues} = props.store
   const {grantAllowance, hasAllowance, allowanceInProgress, collPercnet, usdPercnet } = props.store
-  const doAction = action === "Deposit" ? props.store.deposit : props.store.withdraw
+  let doAction = action === "Deposit" ? props.store.deposit : props.store.withdraw
   return (
     <div>
       <Close onClick={()=>closeFooter()}/>
         <h2>{action}</h2>
         <div>
           <div>
-            <p>How much {asset} would you like to {action}?</p>
+            <p>How much <strong>{asset}</strong> would you like to {action}?</p>
             <Flex wrap>
               <input value={val} onChange={onInputChange} style={{width: "50%", minWidth: "300px", marginRight: "var(--grid-spacing-horizontal)"}}type="number" step="0.01" placeholder={`Amount in ${asset}`} aria-invalid={inputIsInvalid} required/> 
               <div style={{width: "25%", minWidth: "180px"}}>
@@ -94,7 +94,7 @@ const SpFooterContent = observer((props) => {
             </div>
           </div>}
         {action == "Withdraw" && <div>
-          <div style={{padding: "var(--spacing) 0"}}>Current Withdraw Values</div>
+          <div style={{paddingTop: "var(--spacing)"}}>Current Withdraw Values</div>
           <div className="grid">
             <p>
               <small> {usdPercnet}% </small> <br/>
@@ -106,6 +106,37 @@ const SpFooterContent = observer((props) => {
             </p>
           </div>
         </div>}
+    </div>
+  )
+})
+
+const ClaimContent = observer((props) => {
+  const {footerIsOpen, txInProgress, action, err, inputErrMsg, inputIsValid, inputIsInvalid, hash, walletBalance, closeFooter, asset, onInputChange, val, collaterals, withdrawValues} = props.store
+  const {grantAllowance, hasAllowance, allowanceInProgress, collPercnet, usdPercnet, reward } = props.store
+  let doAction = props.store.claimReward
+  if(!reward) return null
+  return (
+    <div>
+      <Close onClick={()=>closeFooter()}/>
+        <h2>Claim Reward</h2>
+          <Flex column>
+            <div>
+              <h4>
+                <ANS val={reward.unclaimed} decimals={4}/> <strong>{reward.symbol}</strong>
+              </h4>
+              <div style={{width: "25%", minWidth: "180px"}}>
+                <button disabled={inputIsInvalid} onClick={()=> doAction(val)}>{action}</button>
+              </div>
+            </div>
+            <div>
+              <div style={{paddingTop: "var(--spacing)"}}>Wallet Balance</div>
+              <div className="grid">
+                <p>
+                  <ANS val={reward.balance} decimals={4}/> <strong>{reward.symbol}</strong>
+                </p>
+              </div>
+            </div>
+          </Flex>
     </div>
   )
 })
@@ -153,6 +184,7 @@ const SpFooter = observer((props)=> {
   const {footerIsOpen, action, errMsg, tx, walletBalance, closeFooter, txInProgress} = props.store
   const depositBoxIsOpen = footerIsOpen && action == "Deposit" && !txInProgress
   const withdrawBoxIsOpen = footerIsOpen && action == "Withdraw" && !txInProgress
+  const claimBoxIsOpen = footerIsOpen && action == "Claim" && !txInProgress
   return (
     <AnimatedContainer open={footerIsOpen} height={txInProgress ? "200px" : null}>
       <footer style={{height: "100%"}}>
@@ -161,6 +193,9 @@ const SpFooter = observer((props)=> {
         </AnimatedContent>
         <AnimatedContent open={withdrawBoxIsOpen}>
           <SpFooterContent store={props.store}/>
+        </AnimatedContent>
+        <AnimatedContent open={claimBoxIsOpen}>
+          <ClaimContent store={props.store}/>
         </AnimatedContent>
         <AnimatedContent open={txInProgress} >
           <SpTx store={props.store}/>
@@ -177,7 +212,7 @@ class SpActionBox extends Component {
   }
 
   render() {
-    const {asset, userShareInUsd, apy, walletBalance, tvl, footerIsOpen, action, openFooter, closeFooter} = this.props.store
+    const {asset, userShareInUsd, apy, walletBalance, tvl, footerIsOpen, action, openFooter, closeFooter, reward} = this.props.store
     return (
     <article>
       <Flex justifyBetween alignCenter wrap column={false}>
@@ -197,6 +232,7 @@ class SpActionBox extends Component {
           <Flex column alignCenter justifyBetween style={{padding: "0 var(--spacing)"}}>
             <a onClick={()=>openFooter("Deposit")}>Deposit</a>
             <a onClick={()=>openFooter("Withdraw")}>Withdraw</a>
+            {reward && <a onClick={()=>openFooter("Claim")}>Claim</a>}
           </Flex>
       </Flex>
       <SpFooter store={this.props.store}/>

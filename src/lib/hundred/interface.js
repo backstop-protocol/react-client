@@ -78,7 +78,6 @@ export const getDecimals = ({web3, tokenAddress}) => {
   const { Contract } = web3.eth
   const erc20 = new Contract(abi.erc20, tokenAddress)
   return erc20.methods.decimals().call()
-
 }
 
 export const getAllowance = async ({web3, user, tokenAddress, poolAddress}) => {
@@ -127,9 +126,7 @@ export const deposit = ({web3, poolAddress, decimals}, amount) => {
 const getLensUserInfo = async ({web3, user, lensAddress, rewardAddress, poolAddress}) => {
   const { Contract } = web3.eth
   const lens = new Contract(abi.lens, lensAddress)
-  const userInfo = await lens.methods.getUserInfo(user, poolAddress, rewardAddress)
-  debugger
-  return userInfo
+  return lens.methods.getUserInfo(user, poolAddress, rewardAddress).call(GAS_LIMIT)
 }
 
 export const getTvl = async(context) => {
@@ -137,13 +134,22 @@ export const getTvl = async(context) => {
   const { Contract } = web3.eth
   const bamm = new Contract(abi.bamm, poolAddress)
   const erc20 = new Contract(abi.erc20, tokenAddress)
-  //lusdTotal
-  //let tokenValuePromise;
-  //if(lensAddress){
-    //tokenValuePromise = getLensUserInfo(web3, user, lensAddress, )
-  //}
+  let tokenValuePromise;
+  if(true){
+    tokenValuePromise = getLensUserInfo(context)
+    .then(({lusdTotal})=> {
+      debugger
+      return lusdTotal
+    })
+    .catch(err => {
+      debugger
+      console.error(err)
+    })
+  } else {
+    tokenValuePromise = erc20.methods.balanceOf(poolAddress).call()
+  }
   const [tokenValue, {succ: success, value: collateralValue}] = await Promise.all([
-    erc20.methods.balanceOf(poolAddress).call(),
+    tokenValuePromise,
     bamm.methods.getCollateralValue().call()
   ])
 
@@ -216,26 +222,32 @@ export const getUserShareInUsd = async(context) => {
 }
 
 export const getSymbol = (web3, tokenAddress) => {
+  if (tokenAddress == "0x0000000000000000000000000000000000000000"){ // handel ETH
+    return "ETH"
+  }
   const { Contract } = web3.eth
   const erc20 = new Contract(abi.erc20, tokenAddress)
   return erc20.methods.symbol().call()
 } 
 
 export const getAssetDistrobution = async({web3, poolAddress, user}, assetAddress ) => {
-  // TODO: instead of wallet Balance show pool ratio
-  // calc the USD value of the asset
-  // then divide by the TVL value
-  const { Contract } = web3.eth
-  const erc20 = new Contract(abi.erc20, assetAddress)
-  const balancePromise = erc20.methods.balanceOf(user).call()
-  const [walletBalance, symbol] = await Promise.all([
+  let balancePromise;
+  if (assetAddress == "0x0000000000000000000000000000000000000000"){ // handel ETH
+    balancePromise = web3.eth.getBalance(poolAddress)
+  } else {
+    const { Contract } = web3.eth
+    const erc20 = new Contract(abi.erc20, assetAddress)
+    balancePromise = erc20.methods.balanceOf(user).call()
+  }
+
+  const [poolBalance, symbol] = await Promise.all([
     balancePromise,
     getSymbol(web3, assetAddress)
   ])
 
   return {
     assetAddress,
-    poolBalance: walletBalance,
+    poolBalance,
     symbol
   }
 }
@@ -256,4 +268,28 @@ export const getCollaterals = async(context) => {
   .filter(x=> x && x.poolBalance != "0")
   
   return collaterals
+}
+
+export const getReward = async({web3, user, lensAddress, poolAddress, rewardAddress}) => {
+  // todo fetch unclaimed reward
+  if(!lensAddress){ 
+    return null
+  }
+  const { Contract } = web3.eth
+  const lens = new Contract(abi.lens, lensAddress)
+  const erc20 = new Contract(abi.erc20, rewardAddress)
+  const [reward, symbol, decimal, balance] = await Promise.all([
+    lens.methods.getUnclaimedLqty(user, poolAddress, rewardAddress).call(),
+    getSymbol(web3, rewardAddress),
+    getDecimals({web3, tokenAddress: rewardAddress}),
+    erc20.methods.balanceOf(user).call()
+  ])
+  debugger
+
+  return {
+    unclaimed: normlize(reward, decimal), 
+    symbol,
+    balance: normlize(balance, decimal), 
+  }
+
 }

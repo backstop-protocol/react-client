@@ -40,11 +40,7 @@ const App = observer(() => {
       <ModalContainer></ModalContainer>
         <Router history={browserHistory}>
           {/* Default route */}
-            <Route exact path="/">
-              <Redirect to="/hundred"/>
-            </Route>
-
-            <Route exact path="/hundred" render={props =>(renderPage(props, Hundred))} />
+            <Route exact path="/" render={props =>(renderPage(props, Hundred))} />
             <Route exact path="/terms" render={props =>(renderPage(props, TermsOfUse))} />
 
         </Router>

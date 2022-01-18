@@ -10,7 +10,7 @@ import {device} from "../screenSizes";
 import routerStore from "../stores/router.store"
 import SpActionBox from "../components/stability-pool/SpActionBox"
 import Navbar from "../components/stability-pool/Navbar"
-import hundredStore from "../stores/hudred.store"
+import hundredStore from "../stores/hundred.store"
 
 class Hundred extends Component {
 

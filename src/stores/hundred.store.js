@@ -36,6 +36,7 @@ class PoolStore {
   collaterals = []
   collateralRatio = null
   usdRatio = null 
+  reward = null 
 
   get collPercnet(){
     return this.collateralRatio ? (parseFloat(this.collateralRatio) * 100).toFixed(2) : "0.00"
@@ -199,6 +200,30 @@ class PoolStore {
     }
   }
 
+  claimReward = async () => {
+    try{
+      runInAction(()=> {
+        this.txInProgress = true
+      })
+      const {web3, user} = userStore
+      const amountInShare = "0"
+      const tx = Interface.withdraw(this.context, amountInShare)
+      await ApiAction(tx, user, web3, 0, this.onHash)
+      runInAction(()=> {
+        this.success = true
+      })
+    }catch (err) {
+      console.error(err)
+      runInAction(()=> {
+        this.err = err
+      })
+    }finally{
+      await wait(5)
+      this.fetchData()
+      this.reset()
+    }
+  }
+
   constructor(config) {
     this.config = config
     this.asset = config.tokenName
@@ -222,14 +247,16 @@ class PoolStore {
       const allowancePromise = Interface.getAllowance(this.context)
       const userShareInUsdPromise = Interface.getUserShareInUsd(this.context)
       const collateralsPromise = Interface.getCollaterals(this.context)
+      const rewardPromise = Interface.getReward(this.context)
       // fetching in  parallel
-      const [walletBalance, { eth, token }, {tvl, usdRatio, collRatio}, allowance, userShareInUsd, collaterals] = await Promise.all([
+      const [walletBalance, { eth, token }, {tvl, usdRatio, collRatio}, allowance, userShareInUsd, collaterals, reward] = await Promise.all([
         walletBalancePromise, 
         poolBalancePromise,
         tvlPromise,
         allowancePromise,
         userShareInUsdPromise,
-        collateralsPromise
+        collateralsPromise,
+        rewardPromise
       ])
 
       runInAction(()=> {
@@ -240,6 +267,7 @@ class PoolStore {
         this.collateralRatio = collRatio
         this.usdRatio = usdRatio
         this.collaterals.replace(collaterals)
+        this.reward = reward
       })
     }catch (err) {
       console.error(`fetchData: ${err.message} @: ${err.stack}`)
