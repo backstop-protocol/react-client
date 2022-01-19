@@ -137,7 +137,7 @@ class PoolStore {
         this.allowanceInProgress = true
       })
       const {web3, user} = userStore
-      const tx = Interface.grantAllowance(web3, this.tokenAddress, this.poolAddress)
+      const tx = Interface.grantAllowance(this.context)
       await ApiAction(tx, user, web3, 0, ()=>{})
       await this.fetchData()
     } catch(err) {

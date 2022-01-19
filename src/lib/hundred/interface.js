@@ -86,7 +86,7 @@ export const getAllowance = async ({web3, user, tokenAddress, poolAddress}) => {
   return await erc20.methods.allowance(user, poolAddress).call()
 }
 
-export const grantAllowance = (web3, tokenAddress, poolAddress) => {
+export const grantAllowance = ({web3, tokenAddress, poolAddress}) => {
   const { Contract } = web3.eth
   const erc20 = new Contract(abi.erc20, tokenAddress)
   const maxAllowance = new  BN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)
