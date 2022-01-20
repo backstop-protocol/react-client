@@ -256,7 +256,7 @@ class VestaInfoPage extends Component {
                 Vesta Protocol
               </GiTitle>
               <GiText>
-                B.Protocol v2 and its novel Backstop AMM (B.AMM) automates the rebalancing of Liquity Stability Pool to maintain its strength. Read more on how the Liquity SP is working here.
+                B.Protocol v2 and its novel Backstop AMM (B.AMM) automates the rebalancing of Vesta Stability Pool to maintain its strength. Read more on how the Vesta SP is working here.
               </GiText>
             </GridItem>
             <GridItem>
@@ -266,7 +266,7 @@ class VestaInfoPage extends Component {
                 Yield on Your VST
               </GiTitle>
               <GiText>
-                By using B.Protocol to deposit your LUSD into Liquity Stability Pool, you can save the manual operation of selling your accumulated ETH back to LUSD every time a liquidation is taking place. Read more about how it’s done here.
+                By using B.Protocol to deposit your VST into Vesta Stability Pool, you can save the manual operation of selling your accumulated ETH back to VST every time a liquidation is taking place. Read more about how it’s done here.
               </GiText>
             </GridItem>
             <GridItem>
