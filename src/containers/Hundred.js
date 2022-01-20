@@ -35,15 +35,16 @@ class Hundred extends Component {
       },
 
     ]
+    const showInfoPage = !userStore.loggedIn && !userStore.connecting
     return (
       <div className="content">
-        {userStore.loggedIn && <div>
+        {!showInfoPage && <div>
           <Navbar/>
           <div className="container">
             {hundredStore.stabilityPools.map((sp, i)=> <SpActionBox key={i} store={sp}/>)}
           </div>
         </div>}
-        {!userStore.loggedIn && <VestaInfoPage/>}
+        {showInfoPage && <VestaInfoPage/>}
       </div>
     );
   }

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import {observer} from "mobx-react"
 import styled from "styled-components"
+import ConnectButton from "../stability-pool/ConnectButton"
+import TermsButton from "../stability-pool/TermsButton"
 
 const Jumbotron = styled.div`
   box-sizing: border-box;
@@ -44,7 +46,7 @@ const Title = styled.div`
   line-height: 1.33;
 
   @media screen and (min-width: 300px){
-    font-size: 40px;
+    font-size: 35px;
   }
 
   @media screen and (min-width: 700px){
@@ -75,7 +77,7 @@ const SubTitle = styled.div`
   letter-spacing: 0.73px;
   color: rgb(23, 17, 30);
   @media screen and (min-width: 300px){
-    font-size: 35px;
+    font-size: 30px;
   }
   @media screen and (min-width: 700px){
     font-size: 30px;
@@ -89,6 +91,8 @@ const SubTitle = styled.div`
 `
 
 const Body = styled.div`
+  color: rgb(23, 17, 30)!important;
+  background-color: white;
   box-sizing: border-box;
   margin: 0px;
   min-width: 0px;
@@ -100,7 +104,6 @@ const Body = styled.div`
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: rgb(41, 49, 71);
   @media screen and (min-width: 300px){
     flex-direction: column;
     padding: 28px;
@@ -198,18 +201,56 @@ const GiText = styled.div`
 
 `
 
+const ConnectContainer = styled.div`
+  line-height: 1.5;
+  font-weight: 400;
+  height: 100%;
+  box-sizing: border-box;
+  min-width: 0px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  max-width: 200px;
+  margin: -30px 0px 0px;
+  
+  @media screen and (min-width: 300px){
+    margin-left: calc(50% - 100px);
+  }
+  @media screen and (min-width: 700px){
+    margin-left: 85px;
+  }
+  @media screen and (min-width: 1000px){
+    margin-left: 95px;
+  }
+  @media screen and (min-width: 1200px){
+    margin-left: 105px;
+  }
+  #connect-button{
+    background-color: var(--contrast-inverse);
+  }
+`
 
 class VestaInfoPage extends Component {
+
   render() {
+    const image1 = require(`../../assets/vesta/icon-a-1.svg`)
+    const image2 = require(`../../assets/vesta/icon-a-2.svg`)
+    const image3 = require(`../../assets/vesta/icon-a-3.svg`)
     return(
-      <div>
+      <div style={{backgroundColor: "white"}}>
         <Jumbotron>
           <Title>Automated Rebalancing for Vesta Stability Pool</Title>
           <SubTitle>Powered by B.Protocol v2</SubTitle>
         </Jumbotron>
+        <ConnectContainer>
+          <ConnectButton/>
+          <TermsButton/>
+        </ConnectContainer>
         <Body>
             <GridItem>
-              <Image src={require("../../assets/icon-a-1.svg")}/>
+              <Image src={image1}/>
               <GiTitle>
                 Stabilize <br/>
                 Vesta Protocol
@@ -219,7 +260,7 @@ class VestaInfoPage extends Component {
               </GiText>
             </GridItem>
             <GridItem>
-              <Image src={require("../../assets/icon-a-2.svg")}/>
+              <Image src={image2}/>
               <GiTitle>
                 Get Passive <br/>
                 Yield on Your VST
@@ -229,7 +270,7 @@ class VestaInfoPage extends Component {
               </GiText>
             </GridItem>
             <GridItem>
-              <Image src={require("../../assets/icon-a-3.svg")}/>
+              <Image src={image3}/>
               <GiTitle>
                 Using <br/>
                 B.Protocl V2
