@@ -1,16 +1,13 @@
-
-
 import React, { Component } from "react";
-import logo from "../assets/compound-full-logo.svg";
-import Header3 from "../components/Header3";
 import {observer} from "mobx-react"
 import styled from "styled-components"
-import Flex, {FlexItem} from "styled-flex-component";
 import {device} from "../screenSizes";
 import routerStore from "../stores/router.store"
 import SpActionBox from "../components/stability-pool/SpActionBox"
 import Navbar from "../components/stability-pool/Navbar"
 import hundredStore from "../stores/hundred.store"
+import VestaInfoPage from "../components/vesta/VestaInfoPage"
+import userStore from "../stores/user.store"
 
 class Hundred extends Component {
 
@@ -40,10 +37,13 @@ class Hundred extends Component {
     ]
     return (
       <div className="content">
-        <Navbar/>
-        <div className="container">
-          {hundredStore.stabilityPools.map((sp, i)=> <SpActionBox key={i} store={sp}/>)}
-        </div>
+        {userStore.loggedIn && <div>
+          <Navbar/>
+          <div className="container">
+            {hundredStore.stabilityPools.map((sp, i)=> <SpActionBox key={i} store={sp}/>)}
+          </div>
+        </div>}
+        {!userStore.loggedIn && <VestaInfoPage/>}
       </div>
     );
   }

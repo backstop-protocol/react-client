@@ -77,7 +77,7 @@ const SpFooterContent = observer((props) => {
         <h2>{action}</h2>
         <div>
           <div>
-            <p>How much <strong>{asset}</strong> would you like to {action}?</p>
+            <p>How much <strong>{action === "Deposit" ? asset : ""}</strong> would you like to {action}?</p>
             <Flex wrap>
               <input value={val} onChange={onInputChange} style={{width: "50%", minWidth: "300px", marginRight: "var(--grid-spacing-horizontal)"}}type="number" step="0.01" placeholder={`Amount in ${asset}`} aria-invalid={inputIsInvalid} required/> 
               <div style={{width: "25%", minWidth: "180px"}}>
@@ -97,15 +97,15 @@ const SpFooterContent = observer((props) => {
             </div>
           </div>}
         {action == "Withdraw" && <div>
-          <div style={{paddingTop: "var(--spacing)"}}>Current Withdraw Values</div>
+          <div style={{padding: "var(--spacing) 0"}}>Current Withdraw Values</div>
           <div className="grid">
             <p>
-              <small> {usdPercnet}% </small> <br/>
-              <ANS val={withdrawValues.usd} decimals={4}/> <strong>{asset}</strong> 
+              <small> {usdPercnet}% in <strong>{asset}</strong></small> <br/>
+              $<ANS val={withdrawValues.usd} decimals={4}/>
             </p>
             <p>
               <small> {collPercnet}% in collateral ({collaterals.map(coll => <strong>{coll.symbol} </strong>)})</small> <br/>
-              <ANS val={withdrawValues.coll} decimals={4}/> <strong>{asset}</strong> <br/>
+              $<ANS val={withdrawValues.coll} decimals={4}/><br/>
             </p>
           </div>
         </div>}
@@ -232,7 +232,10 @@ class SpActionBox extends Component {
       <Flex justifyBetween alignCenter wrap column={false}>
           <Flex alignCenter>
             <PlatformIcon src={require("../../assets/platforms/" + config.platform.name + ".svg")} />
+            <Flex column>
             <strong>{asset}</strong>
+            <small>ETH stability pool</small>
+            </Flex>
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
             <div>$<ANS val={userShareInUsd} decimals={2}/></div>
@@ -243,13 +246,21 @@ class SpActionBox extends Component {
             <small>APY</small>
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
+            <div>
+              <ANS val={reward ? reward.unclaimed : "0"} decimals={2}/> <strong>{reward ? reward.symbol : ""}</strong>
+            </div>
+            <small>
+              {reward && <a onClick={()=>openFooter("Claim")}>Claim</a>}
+              {!reward && <span>Reward</span>}
+            </small>
+          </Flex>
+          <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
             <div>$<ANS val={tvl} decimals={2}/></div>
             <small>TVL</small>
           </Flex>
           <Flex column alignCenter justifyCenter style={{padding: "0 var(--spacing)", minHeight: "calc(var(--font-size) * 4.5)"}}>
             <a onClick={()=>openFooter("Deposit")}>Deposit</a>
             <a onClick={()=>openFooter("Withdraw")}>Withdraw</a>
-            {reward && <a onClick={()=>openFooter("Claim")}>Claim</a>}
           </Flex>
       </Flex>
       <SpFooter store={this.props.store}/>
