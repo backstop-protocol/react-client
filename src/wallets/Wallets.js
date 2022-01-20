@@ -41,6 +41,7 @@ export const getMetaMask = async () => {
       } else {
           EventBus.$emit("app-error", err.message);
       }
+      throw err
     }
   }
 

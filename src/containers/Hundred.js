@@ -35,7 +35,7 @@ class Hundred extends Component {
       },
 
     ]
-    const showInfoPage = !userStore.loggedIn && !userStore.connecting
+    const showInfoPage = !userStore.loggedIn
     return (
       <div className="content">
         {!showInfoPage && <div>
