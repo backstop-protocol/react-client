@@ -11,11 +11,22 @@ import XIcon from "../../assets/red-x-icon.svg";
 import ANS from "../style-components/AnimateNumericalString"
 import {Close} from "../style-components/Buttons"
 
-const PlatformIcon = styled.img`
+const PlatformIcon = styled.div`
   height: 60px;
   width: 60px;
   border-radius: 50%;
   margin-right: var(--spacing);
+  background: url("${({src}) => src}");
+`
+
+const SubIcon = styled.div`
+  margin-top: 55%;
+  margin-Left: 55%;
+  height: 50%;
+  width: 50%;
+  border-radius: 50%;
+  background: url("${({src}) => src}") white;
+  background-size: contain;
 `
 
 const AnimatedContent = styled.div`
@@ -186,6 +197,18 @@ const SpTx = observer((props)=> {
   )
 })
 
+const getCoinIcon = symbol => {
+  try{
+    try{
+      return require(`../../assets/coin-icons/${symbol}.svg`)
+    } catch(e){
+      return require(`../../assets/coin-icons/${symbol}.png`)
+    }
+  }catch(e){
+    return require(`../../assets/coin-icons/COMP.png`)
+  }
+}
+
 const SpFooter = observer((props)=> {
   const [height, setHeight] = useState(0)
   const ref = useRef(null)
@@ -226,15 +249,18 @@ class SpActionBox extends Component {
   }
 
   render() {
-    const {asset, userShareInUsd, apy, walletBalance, tvl, footerIsOpen, action, openFooter, closeFooter, reward, config} = this.props.store
+    const {asset, userShareInUsd, apy, walletBalance, tvl, footerIsOpen, action, openFooter, closeFooter, reward, config, collaterals} = this.props.store
+    const collateral = collaterals[0]
     return (
     <article>
       <Flex justifyBetween alignCenter wrap column={false}>
           <Flex alignCenter>
-            <PlatformIcon src={require("../../assets/platforms/" + config.platform.name + ".svg")} />
+            <PlatformIcon src={require("../../assets/platforms/" + config.platform.name + ".svg")}>
+              {collateral && <SubIcon src={getCoinIcon(collateral.symbol)}/>}
+            </PlatformIcon>
             <Flex column>
             <strong>{asset}</strong>
-            <small>ETH stability pool</small>
+            {collateral && <small>{collateral.symbol} stability pool</small>}
             </Flex>
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
