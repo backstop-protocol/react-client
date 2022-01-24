@@ -179,8 +179,8 @@ class FarmInfo extends Component {
     const params = qs.parse(search, { ignoreQueryPrefix: true })
     const { tvlNumeric: compTvl } = mainCompStore
     const { tvlUsdNumeric: makerTvl } = mainStore
-    const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
-    const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
+    const { liquityTvlNumeric: liquityTvl } = liquityStore
+    const tvl = parseInt((compTvl + makerTvl + liquityTvl) / 1000000)
     const instaAccounts = instaStore.accounts
 
     if(params.inIframe){
