@@ -125,11 +125,6 @@ class Sidebar extends Component {
               <div className="ln group">
                 <small>Backstop</small>
               </div>
-              <div className="product">
-                <a href="https://hundred.finance" target="_blank">
-                  <img src={HundredLogo} />
-                </a>
-              </div>
               <div 
                 className={`product link-accesible ${
                   pathname === "/liquity" &&
@@ -138,6 +133,11 @@ class Sidebar extends Component {
                 onClick={() => this.handleItemSelect("liquity")}>
                 <img src={LiquityLogo} />
                 {false && <small>(Testnet)</small>}
+              </div>
+              <div className="product">
+                <a href="https://hundred.finance" target="_blank">
+                  <img src={HundredLogo} />
+                </a>
               </div>
               <div className="ln group">
                 <small>Legacy</small>
