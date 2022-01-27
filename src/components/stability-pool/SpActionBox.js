@@ -12,12 +12,13 @@ import ANS from "../style-components/AnimateNumericalString"
 import {Close} from "../style-components/Buttons"
 import {isMobile} from "../../screenSizes";
 
-const PlatformIcon = styled.div`
+const MainAssetIcon = styled.div`
   height: 60px;
   width: 60px;
   border-radius: 50%;
   margin-right: var(--spacing);
   background: url("${({src}) => src}");
+  background-size: contain;
 `
 
 const SubIcon = styled.div`
@@ -257,9 +258,9 @@ class SpActionBox extends Component {
     <article>
       <Flex justifyBetween alignCenter wrap column={onMobile}>
           <Flex alignCenter justifyStart={onMobile} full={onMobile}>
-            {platformName && <PlatformIcon src={require("../../assets/platforms/" + platformName + ".svg")}>
+            <MainAssetIcon src={getCoinIcon(asset)}>
               {collateralName && <SubIcon src={getCoinIcon(collateralName)}/>}
-            </PlatformIcon>}
+            </MainAssetIcon>
             <Flex column>
             <strong>{asset}</strong>
             {collateralName && <small>{collateralName} stability pool</small>}
