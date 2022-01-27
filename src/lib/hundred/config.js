@@ -11,16 +11,35 @@ const poolsByChain = {
   ],
   "Arbitrum Testnet": [
     {
-      poolAddress: "0xf73940bCE9b8999b222fBa3a03FbF91D16DCF9d4",
-      tokenAddress: "0x38C9919E5f6349bA43681fE566031d9ee0Ea3932",
+      poolAddress: "0x3151125128786D12B900A9837bFDEDB15972d7C5",
+      tokenAddress: "0x2258166a9f374549DB078BFECDe7b001eD838d26",
       tokenName: "VST",
+      collateralName: "ETH",
+      platformName: "Vesta",
       decimals: 18,
       lensAddress: "0x3131ef0f8c63418322009235526206745fF01552",
-      rewardAddress: "0xa2f0cc74dfb91c57a21d65bfdde344f21037a532",
-      platform: {
-        name: "Vesta"
-      }
-    }
+      rewardAddress: "0x6270de3971F48808c88b8c438FF5E48056A36Edc",
+    },
+    {
+      poolAddress: "0x21F546846BD25526707Ff47D3e15c3f01ab0fC2b",
+      tokenAddress: "0x2258166a9f374549DB078BFECDe7b001eD838d26",
+      tokenName: "VST",
+      collateralName: "gOHM",
+      platformName: "Vesta",
+      decimals: 18,
+      lensAddress: "0x3131ef0f8c63418322009235526206745fF01552",
+      rewardAddress: "0x6270de3971F48808c88b8c438FF5E48056A36Edc",
+    },
+    {
+      poolAddress: "0xE3C3650f4Ce160082C5280Dd368803d0f759eBd0",
+      tokenAddress: "0x2258166a9f374549DB078BFECDe7b001eD838d26",
+      tokenName: "VST",
+      collateralName: "renBTC",
+      platformName: "Vesta",
+      decimals: 18,
+      lensAddress: "0x3131ef0f8c63418322009235526206745fF01552",
+      rewardAddress: "0x6270de3971F48808c88b8c438FF5E48056A36Edc",
+    },
   ],
   "fantom": [
     {

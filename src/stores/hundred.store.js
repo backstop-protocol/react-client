@@ -137,7 +137,8 @@ class PoolStore {
         this.allowanceInProgress = true
       })
       const {web3, user} = userStore
-      const tx = Interface.grantAllowance(this.context)
+      const context = this.getContext()
+      const tx = Interface.grantAllowance(context)
       await ApiAction(tx, user, web3, 0, ()=>{})
       await this.fetchData()
     } catch(err) {
@@ -156,7 +157,8 @@ class PoolStore {
         this.txInProgress = true
       })
       const {web3, user} = userStore
-      const tx = Interface.deposit(this.context, amount)
+      const context = this.getContext()
+      const tx = Interface.deposit(context, amount)
       await ApiAction(tx, user, web3, 0, this.onHash)
       runInAction(()=> {
         this.success = true
@@ -167,8 +169,11 @@ class PoolStore {
         this.err = err
       })
     }finally{
-      await wait(5)
-      this.fetchData()
+      const [updateUi,] = await Promise.all([
+        this.fetchData(true),
+        wait(5)
+      ])
+      updateUi()
       this.reset()
     }
   }
@@ -182,8 +187,9 @@ class PoolStore {
         this.txInProgress = true
       })
       const {web3, user} = userStore
-      const amountInShare = await Interface.usdToShare(this.context, amount)
-      const tx = Interface.withdraw(this.context, amountInShare)
+      const context = this.getContext()
+      const amountInShare = await Interface.usdToShare(context, amount)
+      const tx = Interface.withdraw(context, amountInShare)
       await ApiAction(tx, user, web3, 0, this.onHash)
       runInAction(()=> {
         this.success = true
@@ -194,8 +200,11 @@ class PoolStore {
         this.err = err
       })
     }finally{
-      await wait(5)
-      this.fetchData()
+      const [updateUi,] = await Promise.all([
+        this.fetchData(true),
+        wait(5)
+      ])
+      updateUi()
       this.reset()
     }
   }
@@ -207,7 +216,8 @@ class PoolStore {
       })
       const {web3, user} = userStore
       const amountInShare = "0"
-      const tx = Interface.withdraw(this.context, amountInShare)
+      const context = this.getContext()
+      const tx = Interface.withdraw(context, amountInShare)
       await ApiAction(tx, user, web3, 0, this.onHash)
       runInAction(()=> {
         this.success = true
@@ -218,8 +228,11 @@ class PoolStore {
         this.err = err
       })
     }finally{
-      await wait(5)
-      this.fetchData()
+      const [updateUi,] = await Promise.all([
+        this.fetchData(true),
+        wait(5)
+      ])
+      updateUi()
       this.reset()
     }
   }
@@ -231,23 +244,24 @@ class PoolStore {
     this.fetchData()
   }
 
-  get context(){
+  getContext = () => {
     const {web3, user, chain} = userStore
     return {
       web3, user, chain, ...this.config
     }
   }
 
-  fetchData = async () => {
+  fetchData = async (updateFn) => {
     try{
-      this.decimals = await Interface.getDecimals(this.context)
-      const tvlPromise = Interface.getTvl(this.context)
-      const walletBalancePromise = Interface.getWalletBallance(this.context)
-      const poolBalancePromise = Interface.getPoolBallance(this.context)
-      const allowancePromise = Interface.getAllowance(this.context)
-      const userShareInUsdPromise = Interface.getUserShareInUsd(this.context)
-      const collateralsPromise = Interface.getCollaterals(this.context)
-      const rewardPromise = Interface.getReward(this.context)
+      const context = this.getContext()
+      this.decimals = this.config.decimals
+      const tvlPromise = Interface.getTvl(context)
+      const walletBalancePromise = Interface.getWalletBallance(context)
+      const poolBalancePromise = Interface.getPoolBallance(context)
+      const allowancePromise = Interface.getAllowance(context)
+      const userShareInUsdPromise = Interface.getUserShareInUsd(context)
+      const collateralsPromise = Interface.getCollaterals(context)
+      const rewardPromise = Interface.getReward(context)
       // fetching in  parallel
       const [walletBalance, { eth, token }, {tvl, usdRatio, collRatio}, allowance, userShareInUsd, collaterals, reward] = await Promise.all([
         walletBalancePromise, 
@@ -258,17 +272,23 @@ class PoolStore {
         collateralsPromise,
         rewardPromise
       ])
-
-      runInAction(()=> {
-        this.walletBalance = Interface.normlize(walletBalance, this.decimals)
-        this.tvl = Interface.normlize(tvl, this.decimals)
-        this.allowance = allowance
-        this.userShareInUsd = Interface.normlize(userShareInUsd, this.decimals)
-        this.collateralRatio = collRatio
-        this.usdRatio = usdRatio
-        this.collaterals.replace(collaterals)
-        this.reward = reward
-      })
+      
+      const uiUpdate = () => {
+        runInAction(()=> {
+          this.walletBalance = Interface.normlize(walletBalance, this.decimals)
+          this.tvl = Interface.normlize(tvl, this.decimals)
+          this.allowance = allowance
+          this.userShareInUsd = Interface.normlize(userShareInUsd, this.decimals)
+          this.collateralRatio = collRatio
+          this.usdRatio = usdRatio
+          this.collaterals.replace(collaterals)
+          this.reward = reward
+        })
+      }
+      if (updateFn === true){
+        return uiUpdate
+      }
+      uiUpdate()
     }catch (err) {
       console.error(`fetchData: ${err.message} @: ${err.stack}`)
     }
@@ -285,7 +305,6 @@ class HundredStore {
 
   onUserConnect = () =>{
     const {chain} = userStore
-    debugger
     const pools = getPools(chain).map(pool => new PoolStore(pool))
     this.stabilityPools.replace(pools)
   }

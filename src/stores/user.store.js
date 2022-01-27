@@ -125,7 +125,6 @@ class UserStore {
         // save connection data to local storage
         window.localStorage.setItem("walletType", this.walletType)
         const networkType = await this.web3.eth.net.getId()
-        debugger
         if (!chainIdMap[networkType]) {
             EventBus.$emit("app-error", `chain id ${networkType} is not supported`);
             return false;

@@ -114,7 +114,6 @@ export const getPoolBallance = async ({web3, tokenAddress, poolAddress}) => {
 }
 
 export const deposit = ({web3, poolAddress, decimals}, amount) => {
-  debugger
   const { Contract } = web3.eth
   const bamm = new Contract(abi.bamm, poolAddress)
   const depositAmount = denormlize(amount, decimals)
@@ -138,11 +137,9 @@ export const getTvl = async(context) => {
   if(true){
     tokenValuePromise = getLensUserInfo(context)
     .then(({lusdTotal})=> {
-      debugger
       return lusdTotal
     })
     .catch(err => {
-      debugger
       console.error(err)
     })
   } else {
@@ -253,7 +250,6 @@ export const getAssetDistrobution = async({web3, poolAddress, user}, assetAddres
 }
 
 export const getCollaterals = async(context) => {
-  debugger
   const { web3, poolAddress } = context
   const { Contract } = web3.eth
   const bamm = new Contract(abi.bamm, poolAddress)
@@ -265,8 +261,7 @@ export const getCollaterals = async(context) => {
     promises.push(promise)
   }
   const collaterals = (await Promise.all(promises))
-  .filter(x=> x && x.poolBalance != "0")
-  
+  .filter(x=> x)
   return collaterals
 }
 
@@ -284,7 +279,6 @@ export const getReward = async({web3, user, lensAddress, poolAddress, rewardAddr
     getDecimals({web3, tokenAddress: rewardAddress}),
     erc20.methods.balanceOf(user).call()
   ])
-  debugger
 
   return {
     unclaimed: normlize(reward, decimal), 

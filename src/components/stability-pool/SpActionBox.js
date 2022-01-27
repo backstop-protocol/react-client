@@ -10,6 +10,7 @@ import VIcon from "../../assets/v-icon.svg";
 import XIcon from "../../assets/red-x-icon.svg";
 import ANS from "../style-components/AnimateNumericalString"
 import {Close} from "../style-components/Buttons"
+import {isMobile} from "../../screenSizes";
 
 const PlatformIcon = styled.div`
   height: 60px;
@@ -250,17 +251,18 @@ class SpActionBox extends Component {
 
   render() {
     const {asset, userShareInUsd, apy, walletBalance, tvl, footerIsOpen, action, openFooter, closeFooter, reward, config, collaterals} = this.props.store
-    const collateral = collaterals[0]
+    const { collateralName, platformName } = config
+    const onMobile = isMobile()
     return (
     <article>
-      <Flex justifyBetween alignCenter wrap column={false}>
-          <Flex alignCenter>
-            <PlatformIcon src={require("../../assets/platforms/" + config.platform.name + ".svg")}>
-              {collateral && <SubIcon src={getCoinIcon(collateral.symbol)}/>}
-            </PlatformIcon>
+      <Flex justifyBetween alignCenter wrap column={onMobile}>
+          <Flex alignCenter justifyStart={onMobile} full={onMobile}>
+            {platformName && <PlatformIcon src={require("../../assets/platforms/" + platformName + ".svg")}>
+              {collateralName && <SubIcon src={getCoinIcon(collateralName)}/>}
+            </PlatformIcon>}
             <Flex column>
             <strong>{asset}</strong>
-            {collateral && <small>{collateral.symbol} stability pool</small>}
+            {collateralName && <small>{collateralName} stability pool</small>}
             </Flex>
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
