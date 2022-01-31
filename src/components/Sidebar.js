@@ -167,7 +167,7 @@ class Sidebar extends Component {
                 }`}
                 onClick={() => this.handleItemSelect("liquity-leagacy")}>
                 <img src={LiquityLogo} />
-                {false && <small>(Testnet)</small>}
+                <small>(Deprecated)</small>
               </div>
             </div>
             <div className="ln"> </div>
