@@ -18,6 +18,13 @@ const chainIdMap = {
     421611: "Arbitrum Testnet"
 }
 
+const supportedChainsMap = {
+    // 1: "mainnet",
+    // 42: "kovan",
+    // 250: "fantom",
+    421611: "Arbitrum Testnet"
+}
+
 const networkScannerMap = {
     "mainnet": "etherscan.io",
     "kovan": "kovan.etherscan.io",
@@ -125,8 +132,14 @@ class UserStore {
         // save connection data to local storage
         window.localStorage.setItem("walletType", this.walletType)
         const networkType = await this.web3.eth.net.getId()
-        if (!chainIdMap[networkType]) {
-            EventBus.$emit("app-error", `chain id ${networkType} is not supported`);
+        if (!supportedChainsMap[networkType]) {
+            const supported = Object.values(supportedChainsMap).map((n, i, arr)=> {
+                if(arr.length > 1 && arr.length -1 == i) {
+                    return "or " + n
+                }
+                return n + " "
+            })
+            EventBus.$emit("app-error", `${chainIdMap[networkType]} network is not supported, please switch to ${supported}`);
             return false;
         }
         runInAction(()=> {
