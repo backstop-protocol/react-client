@@ -257,14 +257,15 @@ class SpActionBox extends Component {
     return (
     <article>
       <Flex justifyBetween alignCenter wrap column={onMobile}>
-          <Flex alignCenter justifyStart={onMobile} full={onMobile}>
+          <Flex alignCenter justifyBetween={onMobile} full={onMobile}>
             <MainAssetIcon src={getCoinIcon(asset)}>
               {collateralName && <SubIcon src={getCoinIcon(collateralName)}/>}
             </MainAssetIcon>
-            <Flex column>
+            <Flex column alignCenter={onMobile}>
             <strong>{asset}</strong>
             {collateralName && <small>{collateralName} stability pool</small>}
             </Flex>
+            {onMobile &&  <div style={{width: "76px"}}></div>}
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
             <div>$<ANS val={userShareInUsd} decimals={2}/></div>

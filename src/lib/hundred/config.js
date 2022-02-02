@@ -1,14 +1,14 @@
 // TODO add support for platform name, link, docs,
 
 const poolsByChain = {
-  "kovan": [
-    {
-      poolAddress: "0xEcF1b3903D8596b3B78AD624e88C65829D78b7a4", 
-      tokenAddress: "0x6FA3b05777dae34e95FaFd4852FF5D89c0cECF18", 
-      tokenName: "LUSD",
-      decimals: 7
-    }
-  ],
+  // "kovan": [
+  //   {
+  //     poolAddress: "0xEcF1b3903D8596b3B78AD624e88C65829D78b7a4", 
+  //     tokenAddress: "0x6FA3b05777dae34e95FaFd4852FF5D89c0cECF18", 
+  //     tokenName: "LUSD",
+  //     decimals: 7
+  //   }
+  // ],
   "Arbitrum Testnet": [
     {
       poolAddress: "0x3151125128786D12B900A9837bFDEDB15972d7C5",
@@ -41,20 +41,20 @@ const poolsByChain = {
       rewardAddress: "0x6270de3971F48808c88b8c438FF5E48056A36Edc",
     },
   ],
-  "fantom": [
-    {
-      poolAddress: "0xEDC7905a491fF335685e2F2F1552541705138A3D", 
-      tokenAddress: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75", 
-      tokenName: "USDC",
-      decimals: 6
-    },
-    {
-      poolAddress: "0x6d62d6Af9b82CDfA3A7d16601DDbCF8970634d22", 
-      tokenAddress: "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e", 
-      tokenName: "DAI",
-      decimals: 18
-    }
-  ]
+  // "fantom": [
+  //   {
+  //     poolAddress: "0xEDC7905a491fF335685e2F2F1552541705138A3D", 
+  //     tokenAddress: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75", 
+  //     tokenName: "USDC",
+  //     decimals: 6
+  //   },
+  //   {
+  //     poolAddress: "0x6d62d6Af9b82CDfA3A7d16601DDbCF8970634d22", 
+  //     tokenAddress: "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e", 
+  //     tokenName: "DAI",
+  //     decimals: 18
+  //   }
+  // ]
 }
 
 export const getPools = (chain) => {
