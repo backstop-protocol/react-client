@@ -19,6 +19,7 @@ routerStore.setRouteProps(browserHistory)
 const Dashboard = React.lazy(() => import("./containers/Dashboard"));
 const Compound = React.lazy(() => import("./containers/Compound"));
 const Liquity = React.lazy(() => import("./containers/Liquity"));
+const LiquityLegacy = React.lazy(() => import("./containers/LiquityLegacy"));
 const Risk = React.lazy(() => import("./containers/Risk"));
 const TermsOfUse = React.lazy(() => import("./containers/Terms"));
 const FAQ = React.lazy(() => import("./containers/FAQ"));
@@ -53,6 +54,7 @@ const App = observer(() => {
             <Route exact path="/maker" render={props =>(renderPage(props, Dashboard))} />
             <Route exact path="/compound" render={props =>(renderPage(props, Compound))} />
             <Route exact path="/liquity" render={props =>(renderPage(props, Liquity))} />
+            <Route exact path="/liquity-leagacy" render={props =>(renderPage(props, LiquityLegacy))} />
             <Route exact path="/faq" render={props =>(renderPage(props, FAQ))} />
             <Route exact path="/terms" render={props =>(renderPage(props, TermsOfUse))} />
             <Route exact path="/risk" render={props =>(renderPage(props, Risk))} />

@@ -11,7 +11,6 @@ const { fromWei} = Web3.utils
 class MainLiquityStore {
 
     liquityTvlNumeric = 0
-    othersTvlNumeric = 0
 
     constructor (){
         makeAutoObservable(this)
@@ -34,8 +33,7 @@ class MainLiquityStore {
             return parseFloat(fromWei(lusd))
         }))
         runInAction(()=>{
-            this.liquityTvlNumeric = bammsTvls.shift() || 0
-            this.othersTvlNumeric = bammsTvls.reduce((x, y)=> x + y) 
+            this.liquityTvlNumeric = bammsTvls.reduce((x, y)=> x + y) 
         })
     }
 }

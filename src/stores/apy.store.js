@@ -10,6 +10,7 @@ import {BP_API} from "../common/constants"
 import { getUserLiquityTvl } from "../lib/liquity.interface"
 import userStore from "../stores/user.store"
 import liquityStore from "../stores/main.liquity.store"
+import mainHundredStore from "../stores/main.hundred.store"
 
 const {toBN, fromWei, toWei} = Web3.utils
 const _1e18 = toBN("10").pow(toBN("18"))
@@ -85,7 +86,7 @@ export class ApyStore {
     const liquityColl = await getUserLiquityTvl(userStore.web3, userStore.networkType, userStore.user)
     this.liquityUserCollateral = fromWei(liquityColl)
     await liquityStore.dataPromise
-    this.liquityTotalCollateral = liquityStore.liquityTvlNumeric + liquityStore.othersTvlNumeric
+    this.liquityTotalCollateral = liquityStore.liquityTvlNumeric
   }
 
   getUserCollateral = async () => {

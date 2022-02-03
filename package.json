@@ -57,6 +57,8 @@
     ]
   },
   "devDependencies": {
+    "@synthetixio/synpress": "https://github.com/backstop-protocol/synpress.git#4d45c96e1e8ef67a2d8c5016ec4b2d4a80557b74",
+    "eslint": "^6.6.0",
     "eslint-plugin-react": "^7.22.0",
     "http-server": "^13.0.0",
     "node-sass": "^4.14.1",

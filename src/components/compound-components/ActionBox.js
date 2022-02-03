@@ -220,7 +220,7 @@ class ActionBox extends Component {
         const [symbol] = coin.symbol.split(" ")
         const showSetMax = this.showSetMax()
         return (
-            <Container ref={this.boxRef} open={isOpen} tx={transactionInProgress}>
+            <Container id={`${action}-${coin.symbol}-action-box`} ref={this.boxRef} open={isOpen} tx={transactionInProgress}>
                     <AnimatedContent open={isOpen && transactionInProgress && !err && !success}>
                         <Loading hash={hash} actioning={actioning} value={val} currency={coin.symbol} completed={success} failed={err} />
                     </AnimatedContent>

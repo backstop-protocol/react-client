@@ -33,7 +33,7 @@ export default class Loading extends Component {
                     {completed || failed && <img className="result" src={icon} />}
                     {(!completed && !failed) && <FragLoader />}
 
-                    <span>{actioning} {value} {currency} {resultText}</span></h3>
+                    <span className={`loader-text`}>{actioning} {value} {currency} {resultText}</span></h3>
                 {(!failed && hash) && <div className="view-button">
                     <a href={'https://' + (kovan ? 'kovan.' : '') + 'etherscan.io/tx/' + hash} target="_blank">
                         <span>View</span>
