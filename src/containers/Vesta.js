@@ -15,7 +15,7 @@ class Vesta extends Component {
   render() {
     return (
       <iframe 
-        src="https://react-client-v2.bprotocol.workers.dev/"
+        src="/vesta-app/"
         width="100%"
         height="100%"
         frameBorder="0"
