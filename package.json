@@ -32,6 +32,7 @@
     "start": "react-scripts start",
     "build": "npm version patch && react-scripts build && ./generate-static.sh && node ./scripts/remove-iframe-deny.js",
     "build:farm-info": "npm version patch && PUBLIC_URL=/farm-info react-scripts build && ./generate-farm-info.sh && node ./scripts/remove-iframe-deny.js",
+    "build:vesta": "npm version patch && PUBLIC_URL=/vesta-app react-scripts build && ./generate-farm-info.sh && node ./scripts/remove-iframe-deny.js",
     "test": "react-scripts test",
     "test:e2e": "SECRET_WORDS=$(grep SECRET_WORDS .env | cut -d '=' -f2) NETWORK_NAME=localhost synpress run",
     "hardhat:proxy": "http-server --proxy $(grep RPC_URL .env | cut -d '=' -f2) --port 8545",
