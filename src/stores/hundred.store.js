@@ -141,6 +141,7 @@ class PoolStore {
       const tx = Interface.grantAllowance(context)
       await ApiAction(tx, user, web3, 0, ()=>{})
       await this.fetchData()
+      this.validateInput(this.val)
     } catch(err) {
       console.error(err)
     } finally {
@@ -241,7 +242,10 @@ class PoolStore {
     this.config = config
     this.asset = config.tokenName
     makeAutoObservable(this)
-    this.fetchData()
+  }
+
+  init = () => {
+    return this.fetchData()
   }
 
   getContext = () => {
@@ -303,10 +307,17 @@ class HundredStore {
     makeAutoObservable(this)
   }
 
-  onUserConnect = () =>{
+  onUserConnect = async () => {
     const {chain} = userStore
-    const pools = getPools(chain).map(pool => new PoolStore(pool))
-    this.stabilityPools.replace(pools)
+    const pools = []
+    for (const pool of getPools(chain)){
+      const store = new PoolStore(pool)
+      await store.init()
+      pools.push(store)
+      runInAction(()=> {
+        this.stabilityPools.replace(pools)
+      })
+    }
   }
 }
 

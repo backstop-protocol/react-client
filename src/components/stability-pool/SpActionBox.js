@@ -272,7 +272,7 @@ class SpActionBox extends Component {
             <small>Balance</small>
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
-            <div>{apy}%</div>
+            <div>{"TBD"}%</div>
             <small>APY</small>
           </Flex>
           <Flex column alignCenter justifyBetween style={{padding: "0 --spacing"}}>
