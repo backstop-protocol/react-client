@@ -666,18 +666,19 @@ contract('B Interface', function (accounts) {
 
     console.log("taking 1 wei from locked urn to unlocked urn")
     //console.log({userInfo})
-    const minusOne = web3.utils.toTwosComplement('-1')
-    txObject = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, minusOne)
+    const oneWei = web3.utils.toWei("1")
+    const minusOne = web3.utils.toTwosComplement('-' + oneWei)
+
+    txObject = B.frob(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, minusOne, "0")
     gasConsumption = increaseABit(await txObject.estimateGas({value:0,from:user}))
     console.log({gasConsumption})
-    await txObject.send({gas:gasConsumption,value:0,from:user})
     await mineBlock()
 
     userInfo = await B.getUserInfo(web3,networkId,user,ilk)
-    assert.equal(userInfo.bCdpInfo.unlockedEth.toString(10),"1", "unlockedEth should be 1")
-
+    assert.equal(userInfo.bCdpInfo.unlockedEth.toString(10), oneWei, "unlockedEth should be " + oneWei)
+    const userEthBalanceBefore = userInfo.userWalletInfo.ethBalance
     console.log("taking 1 wei from unlocked urn to locked urn")
-    txObject = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, "1")
+    txObject = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, oneWei, ilk)
     gasConsumption = increaseABit(await txObject.estimateGas({value:0,from:user}))
     console.log({gasConsumption})
     await txObject.send({gas:gasConsumption,value:0,from:user})
@@ -685,6 +686,10 @@ contract('B Interface', function (accounts) {
 
     userInfo = await B.getUserInfo(web3,networkId,user,ilk)
     assert.equal(userInfo.bCdpInfo.unlockedEth.toString(10),"0", "unlockedEth should be 0")
+    const userEthBalanceAfter = userInfo.userWalletInfo.ethBalance
+
+    const {toBN} = web3.utils
+    assert.isTrue(toBN(userEthBalanceBefore).lt(toBN(userEthBalanceAfter)), "user should have 1 more ETH than before minus the gas")
   })
 })
 

@@ -22,15 +22,6 @@
   }
 }
 
-.ln {
-  background-color: #979797;
-  display: block;
-  height: 2px;
-
-  &.light {
-    background-color: transparentize(#0b0412, 1-0.2);
-  }
-}
 
 #root {
   display: flex;

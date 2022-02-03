@@ -91,10 +91,10 @@ export function checkForUnlockedEth() {
 
 export async function claimUnlockedEth() {
     try {
-        const {userInfo, originalUserInfo, getUserInfo} = makerStoreManager.getMakerStore()
+        const {userInfo, originalUserInfo, getUserInfo, ilk} = makerStoreManager.getMakerStore()
         const {web3, networkType: networkId, user} = userStore
         EventBus.$emit('app-alert', 'claim unlocked ETH pending')
-        const action = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, originalUserInfo.bCdpInfo.unlockedEth)
+        const action = B.claimUnlockedCollateral(web3, networkId, userInfo.proxyInfo.userProxy, userInfo.bCdpInfo.cdp, originalUserInfo.bCdpInfo.unlockedEth, ilk)
         await ApiAction(action, user, web3, 0)
         getUserInfo()
     } catch (err) {

@@ -133,11 +133,18 @@ export class BproStore {
   }
 
   init = async () => {
-    const web3 = new Web3(BP_API)
-    // todo fetch data
-    const {contentHash} = await getBproDistribution(web3, this.bproType)
-    const res = await fetch("https://cloudflare-ipfs.com/ipfs/" + contentHash)
-    this.smartContractScore = await res.json()
+    let url
+    try{
+      const web3 = new Web3(BP_API)
+      // todo fetch data
+      const {contentHash} = await getBproDistribution(web3, this.bproType)
+      url = "https://cloudflare-ipfs.com/ipfs/" + contentHash
+      const res = await fetch(url)
+      this.smartContractScore = await res.json()
+    } catch (err) {
+      console.error("failed to fetch score data from: ", url)
+      console.error(err)
+    }
   }
 
   iAgree = () => {
