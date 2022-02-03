@@ -41,6 +41,7 @@ const App = observer(() => {
         <Router history={browserHistory}>
           {/* Default route */}
             <Route exact path="/" render={props =>(renderPage(props, Hundred))} />
+            <Route exact path="/vesta-app" render={props =>(renderPage(props, Hundred))} />
             <Route exact path="/terms" render={props =>(renderPage(props, TermsOfUse))} />
 
         </Router>
