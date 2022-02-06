@@ -15,6 +15,13 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import {walletTypes, getMetaMask, getWalletConnect} from "../wallets/Wallets"
 import WalletSelectionModal from "../components/modals/WalletSelectionModal"
 
+const supportedNetworks = {
+    "1": "Mainnet",
+    "42": "Kovan",
+    "421611": "Arbitrum Testnet",
+    "1137": "Hardhat"
+}
+
 class UserStore {
 
     loggedIn = false
@@ -100,7 +107,8 @@ class UserStore {
         // save connection data to local storage
         window.localStorage.setItem("walletType", this.walletType)
         const networkType = await this.web3.eth.net.getId()
-        if (parseInt(networkType) !== parseInt(0x2a) && parseInt(networkType) !== parseInt(0x1) && parseInt(networkType) !== 1337) {
+        debugger
+        if (!supportedNetworks[networkType.toString()]) {
             EventBus.$emit("app-error", "Only Mainnet and Kovan testnet are supported");
             return false;
         }
@@ -134,6 +142,10 @@ class UserStore {
 
     connectionWarning = () => {
         this.loggedIn = false
+        if(window.location.pathname != "/compound"){
+            this.removeConnectionWarning()
+            return
+        }
         EventBus.$emit('app-alert', "something went wrong please try to reconnect", "reconnect", this.connect)
     }
 
