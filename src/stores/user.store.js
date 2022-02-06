@@ -33,9 +33,14 @@ class UserStore {
     walletType = null
     provider
     connecting = false
+    userAgreesToTerms = false
 
     constructor (){
         makeAutoObservable(this)
+    }
+
+    iAgree = () => {
+        this.userAgreesToTerms = true
     }
 
     selectWallet = async () => {
