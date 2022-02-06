@@ -77,8 +77,9 @@ class Sidebar extends Component {
               ? 
                 <div >
                   <MakerMigration>
-                    <div className="ln"> </div>
                     { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
+                      <React.Fragment>
+                      <div className="ln"> </div>
                       <div>
                         <div className="cdp-convert">
                           {makerStoreNames.map(makerCollType => <MakerMigrationButton key={makerCollType} makerCollType={makerCollType}/>)}
@@ -102,6 +103,7 @@ class Sidebar extends Component {
                           </div>
                         </div>
                       </div>
+                      </React.Fragment>
                     )}
                     {params.export && 
                       <div className="container">
@@ -133,7 +135,7 @@ class Sidebar extends Component {
                 }`}
                 onClick={() => this.handleItemSelect("liquity")}>
                 <img src={LiquityLogo} />
-                {false && <small>(Testnet)</small>}
+                {false && <small>(Arbitrum)</small>}
               </div>
               <div 
                 className={`product link-accesible ${
