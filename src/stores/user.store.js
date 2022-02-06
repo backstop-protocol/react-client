@@ -114,7 +114,9 @@ class UserStore {
         const networkType = await this.web3.eth.net.getId()
         debugger
         if (!supportedNetworks[networkType.toString()]) {
-            EventBus.$emit("app-error", "Only Mainnet and Kovan testnet are supported");
+            if(window.location.pathname == "/compound" || window.location.pathname == "/maker" || window.location.pathname == "/app"){
+                EventBus.$emit("app-error", "Only Mainnet and Kovan testnet are supported");
+            }
             return false;
         }
         runInAction(()=> { 
