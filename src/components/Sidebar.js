@@ -135,7 +135,7 @@ class Sidebar extends Component {
                 }`}
                 onClick={() => this.handleItemSelect("liquity")}>
                 <img src={LiquityLogo} />
-                {false && <small>(Arbitrum)</small>}
+                {false && <small>(test)</small>}
               </div>
               <div 
                 className={`product link-accesible ${
@@ -144,7 +144,7 @@ class Sidebar extends Component {
                 }`}
                 onClick={() => this.handleItemSelect("vesta")}>
                 <img src={VestaLogo} />
-                <small>Testnet</small>
+                <small>Arbitrum</small>
               </div>
               <div className="product">
                 <a href="https://hundred.finance" target="_blank">
