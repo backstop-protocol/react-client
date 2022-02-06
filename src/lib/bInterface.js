@@ -236,14 +236,30 @@ export const repayAllDai = function(web3, networkId, userProxy, cdp) {
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
 }
 
-// claim unclaimed collateral - e.g., after makerdao external liquidation
-export const claimUnlockedCollateral = function(web3, networkId, userProxy, cdp, wad) {
+/**
+ * just for tests
+ */
+export const frob = function(web3, networkId, userProxy, cdp, wad, art) {
   const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
 
   const data = actionProxyContract.methods.frob(getAddress("BCDP_MANGER",networkId),
                                                 cdp,
                                                 wad,
-                                                "0").encodeABI()
+                                                art).encodeABI()
+
+  const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
+  return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
+}
+
+// claim unclaimed collateral - e.g., after makerdao external liquidation
+export const claimUnlockedCollateral = function(web3, networkId, userProxy, cdp, wad, ilk) {
+  const actionProxyContract = new web3.eth.Contract(actionProxyAbi,getAddress("ACTION_PROXY_ADDRESS",networkId))
+  
+  const ethJoin = getJoinAddress(ilk, networkId)
+  const data = actionProxyContract.methods.exitETH(getAddress("BCDP_MANGER",networkId),
+                                                ethJoin,
+                                                cdp,
+                                                wad).encodeABI()
 
   const proxyContract = new web3.eth.Contract(proxyAbi,userProxy)
   return proxyContract.methods['execute(address,bytes)'](getAddress("ACTION_PROXY_ADDRESS",networkId),data)
