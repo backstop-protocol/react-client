@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {observer} from "mobx-react"
 import routerStore from "../stores/router.store"
 
-class Liquity extends Component {
+class LiquityLegacy extends Component {
 
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ class Liquity extends Component {
   render() {
     return (
       <iframe 
-        src="/liquity-app-v2/"
+        src="/liquity-app/"
         width="100%"
         height="100%"
         frameBorder="0"
@@ -24,4 +24,4 @@ class Liquity extends Component {
   }
 }
 
-export default observer(Liquity)
+export default observer(LiquityLegacy)

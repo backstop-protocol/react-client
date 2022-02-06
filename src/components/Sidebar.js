@@ -7,6 +7,7 @@ import Discord from "../assets/discord.svg";
 import AAVELogo from "../assets/aav-ewhite-logo.svg";
 import CompoundLogo from "../assets/compound-logo.svg";
 import LiquityLogo from "../assets/liquity-logo.svg";
+import VestaLogo from "../assets/vesta-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
 import HundredLogo from "../assets/hundred-logo.svg";
 import MigrationModal from "./modals/MigrationModal";
@@ -134,14 +135,22 @@ class Sidebar extends Component {
                 <img src={LiquityLogo} />
                 {false && <small>(Testnet)</small>}
               </div>
-
+              <div 
+                className={`product link-accesible ${
+                  pathname === "/vesta" &&
+                  "selected"
+                }`}
+                onClick={() => this.handleItemSelect("vesta")}>
+                <img src={VestaLogo} />
+                <small>Testnet</small>
+              </div>
               <div className="product">
                 <a href="https://hundred.finance" target="_blank">
                   <img src={HundredLogo} />
                 </a>
               </div>
               <div className="ln group">
-                <small>Lending</small>
+                <small>Legacy</small>
               </div>
               <div
                 className={`product link-accesible ${
@@ -159,6 +168,16 @@ class Sidebar extends Component {
                 }`}
                 onClick={() => this.handleItemSelect("compound")}>
                 <img src={CompoundLogo} />
+              </div>
+
+              <div 
+                className={`product link-accesible ${
+                  pathname === "/liquity-leagacy" &&
+                  "selected"
+                }`}
+                onClick={() => this.handleItemSelect("liquity-leagacy")}>
+                <img src={LiquityLogo} />
+                <small>(Deprecated)</small>
               </div>
             </div>
             <div className="ln"> </div>
