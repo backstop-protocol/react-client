@@ -18,7 +18,6 @@ import WalletSelectionModal from "../components/modals/WalletSelectionModal"
 const supportedNetworks = {
     "1": "Mainnet",
     "42": "Kovan",
-    "421611": "Arbitrum Testnet",
     "1137": "Hardhat"
 }
 
@@ -112,9 +111,9 @@ class UserStore {
         // save connection data to local storage
         window.localStorage.setItem("walletType", this.walletType)
         const networkType = await this.web3.eth.net.getId()
-        debugger
         if (!supportedNetworks[networkType.toString()]) {
-            if(window.location.pathname == "/compound" || window.location.pathname == "/maker" || window.location.pathname == "/app"){
+            const path = window.location.pathname
+            if(path == "/compound" || path == "/maker" || path == "/app"){
                 EventBus.$emit("app-error", "Only Mainnet and Kovan testnet are supported");
             }
             return false;

@@ -30,7 +30,6 @@ class MainHundredStore {
         try{
             const {data} = await axios.get('https://api.llama.fi/protocol/b.protocol')
             const {currentChainTvls} = data
-            debugger
             this.hundredTvlArbitrum = currentChainTvls.Arbitrum
             this.hundredTvlFantom = currentChainTvls.Fantom
         } catch (err) {
