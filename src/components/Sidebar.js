@@ -7,7 +7,9 @@ import Discord from "../assets/discord.svg";
 import AAVELogo from "../assets/aav-ewhite-logo.svg";
 import CompoundLogo from "../assets/compound-logo.svg";
 import LiquityLogo from "../assets/liquity-logo.svg";
+import VestaLogo from "../assets/vesta-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
+import HundredLogo from "../assets/hundred-logo.svg";
 import MigrationModal from "./modals/MigrationModal";
 import { numm } from "../lib/Utils";
 import MakerMigrationButton from "./action-panels/MigrationButton";
@@ -68,148 +70,174 @@ class Sidebar extends Component {
             </div>
           </div>
         </div>
-        <img className="logo" alt="Logo" src={Logo} />
-        <div className="ln"> </div>
-        <div className="sidebar-content">
-
-          {pathState == "maker" 
-            ? 
-              <div >
-                <MakerMigration>
-                  { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
-                    <div>
-                      <div className="cdp-convert">
-                        {makerStoreNames.map(makerCollType => <MakerMigrationButton key={makerCollType} makerCollType={makerCollType}/>)}
-                        <div>
-                          <p>
-                            Import your Vault 
-                            <br />
-                            from MakerDAO system <br />
-                            to B.Protocol
-                          </p>
-                          <div className="even">
-                            <div>
-                              <small><b><u>{symbol}</u></b></small>
-                              <p>{numm(userInfo.makerDaoDeposited, 4)} {symbol}</p>
-                            </div>
-                            <div>
-                              <small><b><u>DAI Debt</u></b></small>
-                              <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
+        <div className="scroll-box">
+          <img className="logo" alt="Logo" src={Logo} />
+          <div className="sidebar-content">
+            {pathState == "maker" 
+              ? 
+                <div >
+                  <MakerMigration>
+                    <div className="ln"> </div>
+                    { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
+                      <div>
+                        <div className="cdp-convert">
+                          {makerStoreNames.map(makerCollType => <MakerMigrationButton key={makerCollType} makerCollType={makerCollType}/>)}
+                          <div>
+                            <p>
+                              Import your Vault 
+                              <br />
+                              from MakerDAO system <br />
+                              to B.Protocol
+                            </p>
+                            <div className="even">
+                              <div>
+                                <small><b><u>{symbol}</u></b></small>
+                                <p>{numm(userInfo.makerDaoDeposited, 4)} {symbol}</p>
+                              </div>
+                              <div>
+                                <small><b><u>DAI Debt</u></b></small>
+                                <p>{numm(userInfo.makerdaoCdpInfo.daiDebt, 2)} DAI</p>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="ln"> </div>
-                    </div>
-                  )}
-                  {params.export && 
-                    <div className="container">
-                      <LeavUs show={params.export} userInfo={userInfo} showConnect={showConnect} />
-                    </div>
-                  }
-                </MakerMigration>
-              </div>
-              
-            : pathState == "compound" ?
-              <div >
-                <MigrateFromCompound/>
-              </div>
-            :
-              <div>
-                {/* AAVE */}
-                <div></div>
-              </div>
-          }
+                    )}
+                    {params.export && 
+                      <div className="container">
+                        <LeavUs show={params.export} userInfo={userInfo} showConnect={showConnect} />
+                      </div>
+                    }
+                  </MakerMigration>
+                </div>
+                
+              : pathState == "compound" ?
+                <div >
+                  <MigrateFromCompound/>
+                </div>
+              :
+                <div>
+                  {/* AAVE */}
+                  <div></div>
+                </div>
+            }
 
-          <div className="products">
+            <div className="products">
+              <div className="ln group">
+                <small>Backstop</small>
+              </div>
+              <div 
+                className={`product link-accesible ${
+                  pathname === "/liquity" &&
+                  "selected"
+                }`}
+                onClick={() => this.handleItemSelect("liquity")}>
+                <img src={LiquityLogo} />
+                {false && <small>(Testnet)</small>}
+              </div>
+              <div 
+                className={`product link-accesible ${
+                  pathname === "/vesta" &&
+                  "selected"
+                }`}
+                onClick={() => this.handleItemSelect("vesta")}>
+                <img src={VestaLogo} />
+                <small>Testnet</small>
+              </div>
+              <div className="product">
+                <a href="https://hundred.finance" target="_blank">
+                  <img src={HundredLogo} />
+                </a>
+              </div>
+              <div className="ln group">
+                <small>Legacy</small>
+              </div>
+              <div
+                className={`product link-accesible ${
+                  (pathname === "/maker" || pathname === "/app") &&
+                  "selected"
+                }`}
+                onClick={() => this.handleItemSelect("maker")}
+              >
+                <img src={MakerLogo} />
+              </div>
+              <div 
+                className={`product link-accesible ${
+                  pathname === "/compound" &&
+                  "selected"
+                }`}
+                onClick={() => this.handleItemSelect("compound")}>
+                <img src={CompoundLogo} />
+              </div>
+
+              <div 
+                className={`product link-accesible ${
+                  pathname === "/liquity-leagacy" &&
+                  "selected"
+                }`}
+                onClick={() => this.handleItemSelect("liquity-leagacy")}>
+                <img src={LiquityLogo} />
+                <small>(Deprecated)</small>
+              </div>
+            </div>
+            <div className="ln"> </div>
             <div
               className={`product link-accesible ${
-                (pathname === "/maker" || pathname === "/app") &&
+                pathname === "/farm-info" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("maker")}
+              onClick={() => this.handleItemSelect("farm-info")}
             >
-              <img src={MakerLogo} />
+              <p className="menu-item">Farm Info</p>
+              <small>(Beta)</small>
             </div>
-            <div 
+            <div className="ln"> </div>
+            <div
               className={`product link-accesible ${
-                pathname === "/compound" &&
+                pathname === "/faq" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("compound")}>
-              <img src={CompoundLogo} />
+              onClick={() => this.handleItemSelect("faq")}
+            >
+              <p className="menu-item">FAQ</p>
             </div>
-            <div 
+            <div
               className={`product link-accesible ${
-                pathname === "/liquity" &&
+                pathname === "/risk" &&
                 "selected"
               }`}
-              onClick={() => this.handleItemSelect("liquity")}>
-              <img src={LiquityLogo} />
-              {false && <small>(Testnet)</small>}
+              onClick={() => this.handleItemSelect("risk")}
+            >
+              <p className="menu-item">Risks</p>
             </div>
-            <div className="product">
-              <img src={AAVELogo} />
-              <small>(Coming soon)</small>
+            <div
+              className={`product link-accesible ${
+                pathname === "/terms" &&
+                "selected"
+              }`}
+              onClick={() => this.handleItemSelect("terms")}
+            >
+              <p className="menu-item">Terms of Use</p>
             </div>
           </div>
-          <div className="ln"> </div>
-          <div
-            className={`product link-accesible ${
-              pathname === "/farm-info" &&
-              "selected"
-            }`}
-            onClick={() => this.handleItemSelect("farm-info")}
-          >
-            <p className="menu-item">Farm Info</p>
-            <small>(Beta)</small>
+          <div className="sidebar-footer">
+            <h3>B.Protocol community</h3>
+            <div className="social-icons">
+              <a href="https://github.com/backstop-protocol" target="_blank">
+                <img src={Github} />
+              </a>
+              <a href="https://twitter.com/bprotocoleth" target="_blank">
+                <img src={Twitter} />
+              </a>
+              <a href="https://medium.com/b-protocol" target="_blank">
+                <img src={require("../assets/medium-icon.svg")} />
+              </a>
+              <a href="https://discord.com/invite/bJ4guuw" target="_blank">
+                <img src={Discord} />
+              </a>
+            </div>
+            <p className="credits">&copy; 2020 Smart Future Labs</p>
           </div>
-          <div className="ln"> </div>
-          <div
-            className={`product link-accesible ${
-              pathname === "/faq" &&
-              "selected"
-            }`}
-            onClick={() => this.handleItemSelect("faq")}
-          >
-            <p className="menu-item">FAQ</p>
-          </div>
-          <div
-            className={`product link-accesible ${
-              pathname === "/risk" &&
-              "selected"
-            }`}
-            onClick={() => this.handleItemSelect("risk")}
-          >
-            <p className="menu-item">Risks</p>
-          </div>
-          <div
-            className={`product link-accesible ${
-              pathname === "/terms" &&
-              "selected"
-            }`}
-            onClick={() => this.handleItemSelect("terms")}
-          >
-            <p className="menu-item">Terms of Use</p>
-          </div>
-        </div>
-        <div className="sidebar-footer">
-          <h3>B.Protocol community</h3>
-          <div className="social-icons">
-            <a href="https://github.com/backstop-protocol" target="_blank">
-              <img src={Github} />
-            </a>
-            <a href="https://twitter.com/bprotocoleth" target="_blank">
-              <img src={Twitter} />
-            </a>
-            <a href="https://medium.com/b-protocol" target="_blank">
-              <img src={require("../assets/medium-icon.svg")} />
-            </a>
-            <a href="https://discord.com/invite/bJ4guuw" target="_blank">
-              <img src={Discord} />
-            </a>
-          </div>
-          <p className="credits">&copy; 2020 Smart Future Labs</p>
         </div>
       </div>
     );

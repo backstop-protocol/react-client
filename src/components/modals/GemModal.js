@@ -119,7 +119,7 @@ const GreenStripe = styled.div`
 
 const Step = (props) => {
   return (
-    <StepContainer active={props.active}>
+    <StepContainer id={`step-${props.num}`} active={props.active}>
       <Flex alignCenter full>
         <GreenStripe active={props.active}/>
         <BigNum active={props.active}>{props.num}</BigNum>
@@ -185,7 +185,7 @@ class GemModal extends Component {
           <ExplainerText>
              After completing the steps, click Deposit to complete the process
           </ExplainerText>
-            <ModalButton className={!hasProxy || !hasAllowance ? "disabled" : ""} onClick={()=> this.depositGem()}>
+            <ModalButton id="modal-btn" className={!hasProxy || !hasAllowance ? "disabled" : ""} onClick={()=> this.depositGem()}>
               {!this.state.depositStatus && <span>Deposit</span>}
               {this.state.depositStatus == "depositing" && <BpLoader color="white"/>}
               {this.state.depositStatus == "done" && 

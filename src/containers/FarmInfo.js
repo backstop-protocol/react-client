@@ -13,6 +13,7 @@ import bproStore, {uBproStore} from "../stores/bpro.store"
 import mainStore from "../stores/main.store"
 import mainCompStore from "../stores/main.comp.store"
 import liquityStore from "../stores/main.liquity.store"
+import mainHundredStore from "../stores/main.hundred.store"
 import userStore from "../stores/user.store"
 import instaStore from "../stores/insta.store"
 import BproClaimModal from "../components/modals/BproClaimModal"
@@ -179,8 +180,10 @@ class FarmInfo extends Component {
     const params = qs.parse(search, { ignoreQueryPrefix: true })
     const { tvlNumeric: compTvl } = mainCompStore
     const { tvlUsdNumeric: makerTvl } = mainStore
-    const { liquityTvlNumeric: liquityTvl, othersTvlNumeric } = liquityStore
-    const tvl = parseInt((compTvl + makerTvl + liquityTvl + othersTvlNumeric) / 1000000)
+
+    const { liquityTvlNumeric: liquityTvl } = liquityStore
+    const tvl = parseInt((compTvl + makerTvl + liquityTvl + mainHundredStore.TVL) / 1000000)
+    const instaAccounts = instaStore.accounts
 
     if(params.inIframe){
       return (
