@@ -80,8 +80,8 @@ class BorrowLimit extends Component {
             <Container>
                 <Flex column justifyEnd full>
                     <Flex justifyBetween>
-                        <div>$<AnimateNumberChange val={displayNum(borrowed, 2)}/></div>
-                        <div>$<AnimateNumberChange val={displayNum(borrowLimit, 2)}/></div>
+                        <div className="calculated-borrowed">$<AnimateNumberChange val={displayNum(borrowed, 2)}/></div>
+                        <div className="calculated-borrow-limit">$<AnimateNumberChange val={displayNum(borrowLimit, 2)}/></div>
                     </Flex>
                     <ProgressBar precent={precent}/>
                     <Label precent={precent}><AnimateNumberChange val={precent}/>%</Label>

@@ -10,7 +10,7 @@ import {device} from "../../screenSizes"
 import LoadingRing from "../LoadingRing"
 import BpLoader from "../../components/style-components/BpLoader"
 import VIcon from "../../assets/v-icon.svg"
-import bproStore, {uBproStore} from "../../stores/bpro.store"
+import userStore from "../../stores/user.store"
 import TermsAndConditionsContent from "./TermsAndConditionContent"
 import BproClaimModal from "./BproClaimModal"
 
@@ -102,9 +102,7 @@ class TermsAndConditionsModal extends Component {
   }
 
   iAgree = () => {
-    // todo: 
-    bproStore.iAgree()
-    uBproStore.iAgree()
+    userStore.iAgree()
     const noWrapper = true
     EventBus.$emit('show-modal', <BproClaimModal {...this.props}/>, noWrapper);
   }

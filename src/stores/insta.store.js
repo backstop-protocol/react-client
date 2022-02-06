@@ -7,10 +7,8 @@ import userStore from "./user.store"
 import { BproStore } from './bpro.store'
 import { ApyStore } from './apy.store'
 
-export const bproInstaStores = {}
-
 class InstaStore {
-  accounts = []
+  bproInstaStores = {}
 
   constructor (){
     makeAutoObservable(this)
@@ -28,14 +26,12 @@ class InstaStore {
     const { web3, networkType, user } = userStore
     const accounts = await getAccounts(web3, networkType, user)
     accounts.forEach(account => {
-      bproInstaStores[account] = new BproStore('uBPRO-BIP4', account)
-      bproInstaStores[account].onUserConnect()
-    })
-    runInAction(()=> {
-      this.accounts = accounts
+      const store = new BproStore('uBPRO-BIP4', account)
+      store.onUserConnect()
+      this.bproInstaStores[account] = store
     })
   }
-    
-}
+} 
+
 
 export default new InstaStore()

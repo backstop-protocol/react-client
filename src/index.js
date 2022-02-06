@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { configure as mobxConfiguration} from "mobx"
+
+mobxConfiguration({
+    enforceActions: "never", // silence mobx action warnings
+})
 
 // last resort global exception catchers
 window.onError = function(message, source, lineno, colno, error) {

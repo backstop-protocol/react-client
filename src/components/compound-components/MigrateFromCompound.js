@@ -55,8 +55,9 @@ class MigrateFromCompound extends Component {
                 enter={{ opacity: 1 , height: "auto", zIndex: 1}}
                 leave={{ opacity: 0, height: 0, zIndex: -10}}>
                 {show => show && (props => <div style={props}>
+                    <div className="ln"> </div>
                         <div className="cdp-convert">
-                            <div className={`migrate-btn ${btnContainerCls}`} onClick={this.showMigratePopup}>
+                            <div id="open-compound-migration-modal" className={`migrate-btn ${btnContainerCls}`} onClick={this.showMigratePopup}>
                                 <div className={`centered ${extraClass}`}>
                                     <h3>
                                         {icon && <img className="result" src={icon} />}
@@ -83,7 +84,6 @@ class MigrateFromCompound extends Component {
                                 }
                             </p>
                         </div>
-                        <div className="ln"> </div>
                 </div>)}
             </Transition>
         )

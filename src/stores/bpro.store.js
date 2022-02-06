@@ -17,7 +17,6 @@ const {toBN, toWei, fromWei} = Web3.utils
 
 export class BproStore {
 
-  userAgreesToTerms = false
   smartContractScore = null
   claimed = "0"
   claimable = "0"
@@ -41,12 +40,11 @@ export class BproStore {
     this.bproType = type
     this.instaUser = instaUser
     makeAutoObservable(this)
-    this.init()
   }
 
   onUserConnect = async () => {
     try{
-      await !this.smartContractScore ? this.init() : Promise.resolve(this.smartContractScore)
+      await this.init()
       await Promise.all([
         this.getClaimableAmount(),
         this.getUnclaimableAmount(),
@@ -80,7 +78,7 @@ export class BproStore {
       let {user, web3} = userStore
       user = this.instaUser || user
       const claimed = await getClaimedAmount(web3, user, this.bproType)
-      
+
       console.log(claimed)
       const {amount} = this.smartContractScore.userData[user.toLowerCase()] || {}
       if(amount){
@@ -128,20 +126,27 @@ export class BproStore {
     user = this.instaUser || user
     const {cycle, index, amount, proof} = this.smartContractScore.userData[user.toLowerCase()]
     const tx = claimBpro(web3, user, cycle, index.toString(), amount, proof, this.bproType)
-    await ApiAction(tx, user, web3, 0)
+    await ApiAction(tx, userStore.user, web3, 0)
     await this.onUserConnect() // refresh state
   }
 
   init = async () => {
-    const web3 = new Web3(BP_API)
-    // todo fetch data
-    const {contentHash} = await getBproDistribution(web3, this.bproType)
-    const res = await fetch("https://cloudflare-ipfs.com/ipfs/" + contentHash)
-    this.smartContractScore = await res.json()
-  }
-
-  iAgree = () => {
-    this.userAgreesToTerms = true
+    let url
+    try{
+      if(this.smartContractScore && this.smartContractScore.userData){
+        return Promise.resolve(this.smartContractScore)
+      }
+      const web3 = new Web3(BP_API)
+      // todo fetch data
+      const {contentHash} = await getBproDistribution(web3, this.bproType)
+      url = "https://cloudflare-ipfs.com/ipfs/" + contentHash
+      const res = await fetch(url)
+      this.smartContractScore = await res.json()
+      return this.smartContractScore
+    } catch (err) {
+      console.error("failed to fetch score data from: ", url)
+      console.error(err)
+    }
   }
 
   showClaimBproPopup = () => {
