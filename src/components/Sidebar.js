@@ -7,6 +7,7 @@ import Discord from "../assets/discord.svg";
 import AAVELogo from "../assets/aav-ewhite-logo.svg";
 import CompoundLogo from "../assets/compound-logo.svg";
 import LiquityLogo from "../assets/liquity-logo.svg";
+import VestaLogo from "../assets/vesta-logo.svg";
 import MakerLogo from "../assets/logo-maker-white.svg";
 import HundredLogo from "../assets/hundred-logo.svg";
 import MigrationModal from "./modals/MigrationModal";
@@ -76,8 +77,9 @@ class Sidebar extends Component {
               ? 
                 <div >
                   <MakerMigration>
-                    <div className="ln"> </div>
                     { !params.export && userInfo && userInfo.makerdaoCdpInfo.hasCdp && (
+                      <React.Fragment>
+                      <div className="ln"> </div>
                       <div>
                         <div className="cdp-convert">
                           {makerStoreNames.map(makerCollType => <MakerMigrationButton key={makerCollType} makerCollType={makerCollType}/>)}
@@ -101,6 +103,7 @@ class Sidebar extends Component {
                           </div>
                         </div>
                       </div>
+                      </React.Fragment>
                     )}
                     {params.export && 
                       <div className="container">
@@ -132,7 +135,16 @@ class Sidebar extends Component {
                 }`}
                 onClick={() => this.handleItemSelect("liquity")}>
                 <img src={LiquityLogo} />
-                {false && <small>(Testnet)</small>}
+                {false && <small>(test)</small>}
+              </div>
+              <div 
+                className={`product link-accesible ${
+                  pathname === "/vesta" &&
+                  "selected"
+                }`}
+                onClick={() => this.handleItemSelect("vesta")}>
+                <img src={VestaLogo} />
+                <small>Arbitrum</small>
               </div>
               <div className="product">
                 <a href="https://hundred.finance" target="_blank">

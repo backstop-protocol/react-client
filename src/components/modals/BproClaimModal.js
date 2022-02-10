@@ -14,6 +14,7 @@ import XIcon from "../../assets/red-x-icon.svg"
 import TermsAndConditionsModal from "./TermsAndConditionsModal"
 import AnimateNumericalString from "../../components/style-components/AnimateNumericalString"
 import {stringToFixed} from '../../lib/Utils'
+import userStore from "../../stores/user.store"
 
 
 const Container = styled.div`
@@ -177,7 +178,7 @@ class BproClaimModal extends Component {
     const {actionState} = this.state
     const claimed = actionState == "done"
     const balance = stringToFixed(totalBproNotInWallet, 9)
-    const agreed = bproStore.userAgreesToTerms
+    const agreed = userStore.userAgreesToTerms
     const disabled = claimable == "0"
     return (
       <Container>
